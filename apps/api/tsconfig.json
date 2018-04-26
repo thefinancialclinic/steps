@@ -1,0 +1,14 @@
+{
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"],
+  "compilerOptions": {
+    "lib": ["es6"],
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "../../.build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true
+  }
+}

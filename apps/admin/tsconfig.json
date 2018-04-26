@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "React",
+    "lib": ["dom", "es2015", "es2016"],
+    "module": "es2015",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "target": "es5",
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["*"]
+    },
+    "typeRoots": [
+      "./node_modules/@types/",
+      "./index.d.ts"
+    ]
+  },
+  "exclude": ["node_modules", "**/*.test.ts*"],
+  "awesomeTypescriptLoaderOptions": {
+    "useBabel": true,
+    "useCache": true,
+    "errorsAsWarnings": true
+  }
+}
