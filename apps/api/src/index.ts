@@ -5,6 +5,8 @@ import * as bodyParser from "body-parser";
 import { Request, Response } from "express";
 import { Routes } from "./routes";
 import { User } from "./entity/User";
+import { Task } from "./entity/Task";
+
 
 createConnection()
   .then(async connection => {
@@ -57,6 +59,13 @@ createConnection()
         age: 24
       })
     );
+    await connection.manager.save(
+      connection.manager.create(Task, {
+        steps: { cat: 'yes' },
+        content: "This is text",
+      } as any)
+    )
+
 
     console.log(
       "Express server has started on port 3000. Open http://localhost:3000/users to see results"

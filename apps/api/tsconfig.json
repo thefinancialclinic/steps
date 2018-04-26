@@ -3,12 +3,13 @@
   "exclude": ["node_modules", "**/*.spec.ts"],
   "compilerOptions": {
     "lib": ["es6"],
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "../../.build",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true
   }
 }

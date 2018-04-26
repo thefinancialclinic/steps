@@ -1,23 +1,23 @@
 import { getRepository } from "typeorm";
 import { NextFunction, Request, Response } from "express";
-import { User } from "../entity/User";
+import { Task } from "../entity/Task";
 
-export class UserController {
-  private userRepository = getRepository(User);
+export class TaskController {
+  private taskRepository = getRepository(Task);
 
   async all(request: Request, response: Response, next: NextFunction) {
-    return this.userRepository.find();
+    return this.taskRepository.find();
   }
 
   async one(request: Request, response: Response, next: NextFunction) {
-    return this.userRepository.findOne(request.params.id);
+    return this.taskRepository.findOne(request.params.id);
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
-    return this.userRepository.save(request.body);
+    return this.taskRepository.save(request.body);
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {
-    await this.userRepository.delete(request.params.id);
+    await this.taskRepository.delete(request.params.id);
   }
 }
