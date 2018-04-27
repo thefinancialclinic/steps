@@ -1,8 +1,13 @@
 import React from 'react';
 import { injectGlobal } from 'styled-components';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Home from './Home';
+import Tasks from './Tasks';
+import Clients from './Clients/Clients';
+import Client from './Clients/Client';
+import NewClient from './Clients/NewClient';
+import NewTask from './Tasks/NewTask';
 
 injectGlobal`
   html, body {
@@ -18,9 +23,16 @@ injectGlobal`
 `;
 
 const Layout = () => (
-  <div>
+  <Switch>
     <Route exact path="/" component={Home} />
-  </div>
+    <Switch>
+      <Route exact path="/clients" component={Clients} />
+      <Route exact path="/clients/new" component={NewClient} />
+      <Route exact path="/clients/:id" component={Client} />
+      <Route exact path="/clients/:id/tasks" component={Tasks} />
+      <Route exact path="/clients/:id/tasks/new" component={NewTask} />
+    </Switch>
+  </Switch>
 );
 
 export default Layout;
