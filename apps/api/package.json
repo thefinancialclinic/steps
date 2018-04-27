@@ -3,10 +3,17 @@
    "version": "0.0.1",
    "description": "Awesome project developed with TypeORM.",
    "devDependencies": {
+      "@types/jest": "^22.2.3",
       "@types/node": "^8.0.29",
+      "babel-jest": "^22.4.3",
+      "babel-preset-env": "^1.6.1",
+      "babel-preset-react": "^6.24.1",
+      "babel-preset-stage-2": "^6.24.1",
       "cors": "^2.8.4",
+      "jest": "^22.4.3",
       "nodemon": "^1.17.3",
       "prettier": "^1.12.1",
+      "ts-jest": "^22.4.4",
       "ts-node": "3.3.0",
       "typescript": "^2.8.3"
    },
@@ -20,6 +27,7 @@
    "scripts": {
       "start": "$(npm bin)/nodemon",
       "build": "tsc -p tsconfig.json",
-      "prettier": "$(npm bin)/prettier src/**/*.ts --write"
+      "prettier": "$(npm bin)/prettier src/**/*.ts --write",
+      "test": "jest --watch"
    }
 }

@@ -1,6 +1,9 @@
 {
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"],
+  "include": [
+    "src/**/*.ts",
+    "node_modules/@types"
+  ],
+  "exclude": ["node_modules", "**/*.test.ts"],
   "compilerOptions": {
     "lib": ["es6"],
     "target": "es5",
@@ -10,6 +13,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ]
   }
 }

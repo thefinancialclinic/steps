@@ -1,25 +1,48 @@
-{
-   "type": "postgres",
-   "host": "localhost",
-   "port": 5432,
-   "username": "postgres",
-   "password": "",
-   "database": "steps_admin_test",
-   "synchronize": true,
-   "logging": false,
-   "entities": [
+[
+  {
+    "name": "development",
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "",
+    "database": "steps_admin_dev",
+    "synchronize": true,
+    "logging": true,
+    "entities": [
+      "!src/entity/**/*.spec.ts",
       "src/entity/**/*.ts"
-   ],
-   "migrations": [
-      "src/migration/**/*.ts"
-   ],
-   "migrationsTableName": "migrations",
-   "subscribers": [
-      "src/subscriber/**/*.ts"
-   ],
-   "cli": {
+    ],
+    "migrations": ["src/migration/**/*.ts"],
+    "migrationsTableName": "migrations",
+    "subscribers": ["src/subscriber/**/*.ts"],
+    "cli": {
       "entitiesDir": "src/entity",
       "migrationsDir": "src/migration",
       "subscribersDir": "src/subscriber"
-   }
-}
+    }
+  },
+  {
+    "name": "test",
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "",
+    "database": "steps_admin_test",
+    "synchronize": true,
+    "logging": false,
+    "entities": [
+      "!src/entity/**/*.spec.ts",
+      "src/entity/**/*.ts"
+    ],
+    "migrations": ["src/migration/**/*.ts"],
+    "migrationsTableName": "migrations",
+    "subscribers": ["src/subscriber/**/*.ts"],
+    "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration",
+      "subscribersDir": "src/subscriber"
+    }
+  }
+]
