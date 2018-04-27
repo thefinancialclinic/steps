@@ -1,6 +1,9 @@
 {
-	"devDependencies": {},
-	"dependencies": {
-		"lerna": "^2.11.0"
-	}
+  "scripts": {
+    "start": "$(npm bin)/lerna run start --parallel"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "lerna": "^2.11.0"
+  }
 }
