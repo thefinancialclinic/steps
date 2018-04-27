@@ -22,7 +22,7 @@ injectGlobal`
 
 const Layout = () => (
   <div>
-    <Link to='/' component={Home}>Home</Link>
+    <Link to='/'>Home</Link>
     <Switch>
       <Route exact path="/" component={Home} />
       <Switch>

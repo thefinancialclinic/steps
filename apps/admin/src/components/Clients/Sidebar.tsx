@@ -1,21 +1,23 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface Props {
   className?: string;
-  clientName?: string;
+  client: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    age: number;
+  };
 }
 
 class Sidebar extends React.Component<Props, {}> {
-  static defaultProps = {
-    clientName: 'Janice Page',
-  };
-
   render () {
     return (
       <div className={this.props.className}>
-        <h1>{this.props.clientName}</h1>
+        <Link to='/clients'>&larr; My Clients</Link>
+        <h1>{this.props.client.firstName} {this.props.client.lastName}</h1>
         <div className='navigation'>
           <NavLink to="/clients/1/tasks">Tasks</NavLink>
           <NavLink to="/clients/1/goals">Goals</NavLink>
