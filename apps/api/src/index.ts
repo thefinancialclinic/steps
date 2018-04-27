@@ -7,6 +7,7 @@ import { Routes } from "./routes";
 import { User } from "./entity/User";
 import { Task } from "./entity/Task";
 
+const PORT = '3001';
 
 createConnection()
   .then(async connection => {
@@ -42,7 +43,7 @@ createConnection()
     // ...
 
     // start express server
-    app.listen(3000);
+    app.listen(PORT);
 
     // insert new users for test
     await connection.manager.save(
@@ -68,7 +69,7 @@ createConnection()
 
 
     console.log(
-      "Express server has started on port 3000. Open http://localhost:3000/users to see results"
+      `Express server has started on port ${PORT}. Open http://localhost:${PORT}/users to see results`
     );
   })
   .catch(error => console.log(error));
