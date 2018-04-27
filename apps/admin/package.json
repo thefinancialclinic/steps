@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "$(npm bin)/webpack-dev-server",
     "build": "$(npm bin)/webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@types/node": "^10.0.0",
+    "@types/react": "^16.3.13",
     "awesome-typescript-loader": "^5.0.0",
     "babel-loader": "^7.1.4",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",

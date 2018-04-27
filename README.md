@@ -3,4 +3,4 @@
 ```
 npm install
 $(npm bin)/lerna bootstrap
-``
+```
