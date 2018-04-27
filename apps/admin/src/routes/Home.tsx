@@ -6,8 +6,8 @@ export default class Home extends React.Component {
     return (
       <div>
         <h2>Home</h2>
-        <Link to="/tasks">Tasks</Link>
         <Link to="/clients">My Clients</Link>
+        <Link to="/clients/new">New Client</Link>
       </div>
     );
   }

@@ -1,14 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect, Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
 
-export default class Client extends React.Component {
+import Sidebar from 'components/Clients/Sidebar';
+import Tasks from 'components/Clients/Tasks';
+import NewTask from 'routes/Tasks/NewTask';
+
+interface Props {
+  className?: string;
+}
+
+class Client extends React.Component<Props, {}> {
   render () {
     return (
-      <div>
-        <h2>Client</h2>
-        <Link to="/">Home</Link>
-        <Link to="/clients/1/tasks/new">New Task</Link>
+      <div className={this.props.className}>
+        <Sidebar />
+        <Switch>
+          <Route path="/clients/:id/tasks/new" component={NewTask} />
+
+          <Route path="/clients/:id" component={Tasks} />
+        </Switch>
       </div>
     );
   }
 }
+const StyledClient = styled(Client)`
+display: flex;
+`;
+
+export default StyledClient;

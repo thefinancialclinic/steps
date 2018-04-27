@@ -6,7 +6,6 @@ export default class NewTask extends React.Component {
     return (
       <div>
         <h2>New Task</h2>
-        <Link to="/">Home</Link>
       </div>
     );
   }
