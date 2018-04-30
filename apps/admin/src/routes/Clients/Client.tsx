@@ -9,7 +9,6 @@ import Sidebar from 'components/Clients/Sidebar';
 import Tasks from 'components/Clients/Tasks';
 import NewTask from 'routes/Tasks/NewTask';
 
-
 interface Props {
   className?: string;
   actions: any;
