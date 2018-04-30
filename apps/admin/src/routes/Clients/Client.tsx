@@ -9,6 +9,7 @@ import Sidebar from 'components/Clients/Sidebar';
 import Tasks from 'components/Clients/Tasks';
 import NewTask from 'routes/Tasks/NewTask';
 
+
 interface Props {
   className?: string;
   actions: any;
@@ -21,7 +22,7 @@ class Client extends React.Component<Props, {}> {
   }
 
   render () {
-    if (!this.props.client) return;
+    if (!this.props.client) return null;
 
     return (
       <div className={this.props.className}>
@@ -29,7 +30,6 @@ class Client extends React.Component<Props, {}> {
         <div>
           <Switch>
             <Route path="/clients/:id/tasks/new" component={NewTask} />
-
             <Route path="/clients/:id" component={Tasks} />
           </Switch>
         </div>
