@@ -1,3 +1,5 @@
+const isProduction = process.env.NODE_ENV === 'production';
+
 const baseOptions = {
   type: 'postgres',
   synchronize: false,
@@ -13,23 +15,32 @@ const baseOptions = {
   }
 };
 
-const productionOptions = {
-  host: process.env.DATABASE_URL || 'localhost',
-  entities: [".build/entity/**/*.js"],
-  migrations: [".build/migration/**/*.js"],
-  subscribers: [".build/subscriber/**/*.js"]
-};
+const productionOptions = () => {
+  const PostgressConnectionStringParser = require('pg-connection-string');
+  const connectionOptions = PostgressConnectionStringParser.parse(process.env.DATABASE_URL);
 
-const developmentOptions = {
+  return {
+    host: connectionOptions.host,
+    port: connectionOptions.port || 5432,
+    username: connectionOptions.user,
+    password: connectionOptions.password,
+    database: connectionOptions.database,
+    entities: [".build/entity/**/*.js"],
+    migrations: [".build/migration/**/*.js"],
+    subscribers: [".build/subscriber/**/*.js"]
+  };
+}
+
+const developmentOptions = () => ({
   host: 'localhost',
   port: 5432,
   username: 'postgres',
   password: '',
   database: 'steps_admin_test',
-}
+});
 
 module.exports = Object.assign({},
   baseOptions,
-  process.env.NODE_ENV === 'production' && productionOptions,
-  process.env.NODE_ENV !== 'production' && developmentOptions,
+  isProduction && productionOptions(),
+  !isProduction && developmentOptions(),
 );
