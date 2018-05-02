@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "$(npm bin)/lerna run start --parallel",
-    "start:prod": "(cd apps/api && node ../../.build/index.js)",
+    "start:prod": "(cd apps/api && node .build/index.js)",
     "heroku-postbuild": "$(npm bin)/lerna bootstrap && $(npm bin)/lerna run build --parallel"
   },
   "devDependencies": {},
