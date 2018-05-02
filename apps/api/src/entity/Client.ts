@@ -3,21 +3,26 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
   Column, 
-  JoinTable
+  JoinTable,
+  OneToMany,
+  ManyToOne
 } from "typeorm";
 import { Task } from './Task';
-import { JoinAttribute } from "typeorm/query-builder/JoinAttribute";
+import { Message } from './Message';
+import { Org } from './Org';
 
-@Entity()
+
+@Entity('client')
 export class Client {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToMany(type => Task, task => task.clients)
-  @JoinTable({
-    name: 'client_task',
-    joinColumns: [ { name: 'client_id' }],
-    inverseJoinColumns: [ { name: 'task_id' }]
-  })
+  @OneToMany(type => Task, task => task.client)
   tasks: Task[];
+
+  @OneToMany(type => Message, message => message.client)
+  messages: Message[];
+
+  @ManyToOne(type => Org, org => org.clients)
+  org: Org;
 }
