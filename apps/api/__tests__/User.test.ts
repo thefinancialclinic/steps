@@ -6,7 +6,7 @@ import {
   ConnectionManager,
   Connection
 } from "typeorm";
-import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
+import { getTestConnection } from './db_helper';
 
 let activeConn;
 
@@ -15,11 +15,8 @@ describe('User entity operations', () => {
 
   // Create 1 known user
   beforeAll(async () => {
-    activeConn = await createConnection('test');
+    activeConn = await getTestConnection();
     const newUser = new User();
-    newUser.firstName = 'bill'
-    newUser.lastName = 'shakespeare'
-    newUser.age = 454
     const savedUser = await activeConn.manager.save(newUser);
     userId = savedUser.id;
   }); // end beforeAll
@@ -40,9 +37,6 @@ describe('User entity operations', () => {
 
   it('create a user', async () => {
     const newUser = new User();
-    newUser.firstName = 'bobby'
-    newUser.lastName = 'tables'
-    newUser.age = 9
     const expected = await activeConn.manager.save(newUser);
     const actual = await activeConn.manager.findOne(User, expected.id);
 
