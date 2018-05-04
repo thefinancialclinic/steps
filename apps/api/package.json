@@ -31,6 +31,6 @@
     "start:prod": "NODE_ENV=production node .build/index.js",
     "build": "NODE_ENV=production tsc -p tsconfig.json",
     "prettier": "$(npm bin)/prettier src/**/*.ts --write",
-    "test": "echo \"No test specified\""
+    "test": "$(npm bin)/jest test"
   }
 }
