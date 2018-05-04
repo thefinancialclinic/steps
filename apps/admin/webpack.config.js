@@ -9,7 +9,7 @@ const SimpleProgressPlugin = require('simple-progress-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const SRC = path.resolve(__dirname, 'src');
-const BUILD = path.resolve(__dirname, '..', '..', '.build', 'public');
+const BUILD = path.resolve(__dirname, '.build');
 
 const env = [
 ].reduce((result, v) => {

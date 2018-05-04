@@ -1,14 +1,40 @@
 {
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"],
+  "include": [
+<<<<<<< HEAD
+    "src",
+    "node_modules/@types"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
+  ],
+=======
+    "src/**/*.ts",
+    "node_modules/@types"
+  ],
+  "exclude": ["node_modules", "**/*.test.ts"],
+>>>>>>> @{-1}
   "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "lib": ["es6"],
-    "target": "es6",
     "module": "commonjs",
+    "sourceMap": false,
+    "target": "es5",
+    "noImplicitAny": false,
     "moduleResolution": "node",
+<<<<<<< HEAD
+    "declaration": true,
+    "outDir": ".build",
+    "types" : ["node"]
+=======
     "outDir": "../../.build",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+>>>>>>> @{-1}
   }
 }

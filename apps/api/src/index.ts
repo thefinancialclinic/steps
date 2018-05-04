@@ -1,16 +1,20 @@
-import "reflect-metadata";
-import { createConnection } from "typeorm";
-import * as express from "express";
-import * as bodyParser from "body-parser";
-import { Request, Response } from "express";
-import { Routes } from "./routes";
-import { User } from "./entity/User";
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
+import express = require('express');
+import { resolve } from 'path';
+import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
+import { Request, Response } from 'express';
+import { Routes } from './routes';
+import { User } from './entity/User';
+import { Task } from './entity/Task';
 
-createConnection()
+const PORT = process.env.PORT || '3001';
+
+createConnection('default')
   .then(async connection => {
     // create express app
     const app = express();
-    app.use(bodyParser.json());
 
     // register express routes from defined application routes
     Routes.forEach(route => {
@@ -38,28 +42,20 @@ createConnection()
 
     // setup express app here
     // ...
+    app.use(bodyParser.json());
+    if (process.env.NODE_ENV !== 'production') app.use(cors());
+    else {
+      app.use(express.static(resolve(__dirname, '..', '..', 'admin', '.build')));
+    }
 
     // start express server
-    app.listen(3000);
+    app.listen(PORT);
 
-    // insert new users for test
-    await connection.manager.save(
-      connection.manager.create(User, {
-        firstName: "Timber",
-        lastName: "Saw",
-        age: 27
-      })
-    );
-    await connection.manager.save(
-      connection.manager.create(User, {
-        firstName: "Phantom",
-        lastName: "Assassin",
-        age: 24
-      })
-    );
+    // insert new user for test
+    await connection.manager.save(connection.manager.create(User));
 
     console.log(
-      "Express server has started on port 3000. Open http://localhost:3000/users to see results"
+      `Express server has started on port ${PORT}. Open http://localhost:${PORT}/users to see results`
     );
   })
   .catch(error => console.log(error));

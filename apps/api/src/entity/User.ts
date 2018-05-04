@@ -1,12 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ColumnOptions } from "typeorm";
 
-@Entity()
+const nullable : ColumnOptions = { nullable: true }
+
+@Entity('user')
 export class User {
   @PrimaryGeneratedColumn() id: number;
 
-  @Column() firstName: string;
+  @Column(nullable) admin_id: number;
 
-  @Column() lastName: string;
+  @Column(nullable) coach_id: number;
 
-  @Column() age: number;
+  @Column(nullable) client_id: number;
+
+  @Column(nullable) auth_token: number;
 }

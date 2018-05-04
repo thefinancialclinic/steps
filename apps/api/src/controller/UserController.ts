@@ -18,6 +18,6 @@ export class UserController {
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {
-    await this.userRepository.remove(request.params.id);
+    await this.userRepository.delete(request.params.id);
   }
 }
