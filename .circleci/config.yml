@@ -28,6 +28,16 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
+      - save_cache:
+          paths:
+            - apps/api/node_modules
+          key: v1-api-dependencies-{{ checksum "apps/api/package.json" }}
+
+      - save_cache:
+          paths:
+            - apps/admin/node_modules
+          key: v1-admin-dependencies-{{ checksum "apps/admin/package.json" }}
+
       - run:
           name: test
           command: npm test
