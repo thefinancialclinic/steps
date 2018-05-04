@@ -11,7 +11,7 @@ import { Task } from './entity/Task';
 
 const PORT = process.env.PORT || '3001';
 
-createConnection()
+createConnection('default')
   .then(async connection => {
     // create express app
     const app = express();
@@ -51,27 +51,8 @@ createConnection()
     // start express server
     app.listen(PORT);
 
-    // insert new users for test
-    await connection.manager.save(
-      connection.manager.create(User, {
-        firstName: 'Timber',
-        lastName: 'Saw',
-        age: 27
-      })
-    );
-    await connection.manager.save(
-      connection.manager.create(User, {
-        firstName: 'Phantom',
-        lastName: 'Assassin',
-        age: 24
-      })
-    );
-    await connection.manager.save(
-      connection.manager.create(Task, {
-        steps: { cat: 'yes' },
-        content: 'This is text'
-      } as any)
-    );
+    // insert new user for test
+    await connection.manager.save(connection.manager.create(User));
 
     console.log(
       `Express server has started on port ${PORT}. Open http://localhost:${PORT}/users to see results`

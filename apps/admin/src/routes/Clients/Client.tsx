@@ -22,7 +22,7 @@ class Client extends React.Component<Props, {}> {
   }
 
   render () {
-    if (!this.props.client) return;
+    if (!this.props.client) return null;
 
     return (
       <div className={this.props.className}>
@@ -30,7 +30,6 @@ class Client extends React.Component<Props, {}> {
         <div>
           <Switch>
             <Route path="/clients/:id/tasks/new" component={NewTask} />
-
             <Route path="/clients/:id" component={Tasks} />
           </Switch>
         </div>
