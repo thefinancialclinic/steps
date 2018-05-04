@@ -12,8 +12,12 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
+            - v1-api-dependencies-{{ checksum "apps/api/package.json" }}
+            - v1-admin-dependencies-{{ checksum "apps/admin/package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
+            - v1-api-dependencies-
+            - v1-admin-dependencies-
 
       - run:
           name: npm install
