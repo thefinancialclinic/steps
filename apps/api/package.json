@@ -1,33 +1,36 @@
 {
-   "name": "steps-api",
-   "version": "0.0.1",
-   "description": "Awesome project developed with TypeORM.",
-   "devDependencies": {
-      "@types/jest": "^22.2.3",
-      "@types/node": "^8.0.29",
-      "babel-jest": "^22.4.3",
-      "babel-preset-env": "^1.6.1",
-      "babel-preset-react": "^6.24.1",
-      "babel-preset-stage-2": "^6.24.1",
-      "cors": "^2.8.4",
-      "jest": "^22.4.3",
-      "nodemon": "^1.17.3",
-      "prettier": "^1.12.1",
-      "ts-jest": "^22.4.4",
-      "ts-node": "3.3.0",
-      "typescript": "^2.8.3"
-   },
-   "dependencies": {
-      "body-parser": "^1.18.1",
-      "express": "^4.15.4",
-      "pg": "^7.3.0",
-      "reflect-metadata": "^0.1.10",
-      "typeorm": "0.2.3"
-   },
-   "scripts": {
-      "start": "$(npm bin)/nodemon",
-      "build": "tsc -p tsconfig.json",
-      "prettier": "$(npm bin)/prettier src/**/*.ts --write",
-      "test": "jest --watch"
-   }
+  "name": "steps-api",
+  "version": "0.0.1",
+  "description": "Awesome project developed with TypeORM.",
+  "devDependencies": {
+    "@types/body-parser": "^1.17.0",
+    "@types/express": "^4.11.1",
+    "@types/jest": "^22.2.3",
+    "@types/node": "^8.0.29",
+    "babel-jest": "^22.4.3",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "cors": "^2.8.4",
+    "nodemon": "^1.17.3",
+    "prettier": "^1.12.1",
+    "ts-jest": "^22.4.4",
+    "ts-node": "3.3.0",
+    "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "express": "^4.15.4",
+    "pg": "^7.3.0",
+    "pg-connection-string": "^2.0.0",
+    "reflect-metadata": "^0.1.12",
+    "typeorm": "0.2.3"
+  },
+  "scripts": {
+    "start": "$(npm bin)/nodemon",
+    "start:prod": "NODE_ENV=production node .build/index.js",
+    "build": "NODE_ENV=production tsc -p tsconfig.json",
+    "prettier": "$(npm bin)/prettier src/**/*.ts --write",
+    "test": "echo \"No test specified\""
+  }
 }
