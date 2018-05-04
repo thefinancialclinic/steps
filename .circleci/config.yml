@@ -29,8 +29,8 @@ jobs:
           command: npm install
 
       - run:
-          name: Bootstrap
-          command: $(npm bin)/lerna bootstrap
+          name: npm install:all
+          command: npm run install:all
 
       - save_cache:
           paths:
