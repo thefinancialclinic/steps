@@ -6,7 +6,7 @@ import { getClients } from 'actions/clients';
 import styled from 'styled-components';
 
 import Sidebar from 'components/Clients/Sidebar';
-import Tasks from 'components/Clients/Tasks';
+import TaskList from 'components/Tasks/TaskList';
 import NewTask from 'routes/Tasks/NewTask';
 
 
@@ -30,7 +30,7 @@ class Client extends React.Component<Props, {}> {
         <div>
           <Switch>
             <Route path="/clients/:id/tasks/new" component={NewTask} />
-            <Route path="/clients/:id" component={Tasks} />
+            <Route path="/clients/:id" component={TaskList} />
           </Switch>
         </div>
       </div>
