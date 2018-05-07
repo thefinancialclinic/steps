@@ -35,7 +35,7 @@ const baseConfig = {
       {
         test: /\.tsx?$/,
         use: ['babel-loader', 'awesome-typescript-loader'],
-        exclude: ['node_modules', '__tests__'],
+        exclude: ['node_modules', '__tests__', /\.story\.tsx?$/],
       },
       {
         test: /\.(ttf|otf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
@@ -75,7 +75,6 @@ const baseConfig = {
       }
     }),
     new webpack.NamedModulesPlugin(),
-    new SimpleProgressPlugin({ format: 'compact' })
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
@@ -118,7 +117,10 @@ const devConfig = merge.smart(baseConfig, {
     inline: true,
     port: 3000,
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new SimpleProgressPlugin({ format: 'compact' })
+  ],
   watch: true,
 });
 
@@ -130,6 +132,9 @@ const productionConfig = merge.smart(baseConfig, {
     filename: '[name].[hash].bundle.js',
     path: BUILD,
   },
+  plugins: [
+    new SimpleProgressPlugin({ format: 'expanded' })
+  ]
 });
 
 module.exports = isProduction
