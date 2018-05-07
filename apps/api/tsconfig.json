@@ -12,7 +12,7 @@
     "experimentalDecorators": true,
     "lib": ["es6"],
     "module": "commonjs",
-    "sourceMap": false,
+    "sourceMap": true,
     "target": "es5",
     "noImplicitAny": false,
     "moduleResolution": "node",

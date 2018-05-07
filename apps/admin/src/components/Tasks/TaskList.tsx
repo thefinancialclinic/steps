@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getTasks, setTasks } from 'actions/tasks';
 import styled from 'styled-components';
-import Task from './Task';
+import Task from './TaskListItem';
 
 interface Props {
   className?: string;
@@ -23,7 +23,7 @@ const SortableList = SortableContainer(({ items }) => {
   );
 });
 
-class Tasks extends React.Component<Props, {}> {
+class TaskList extends React.Component<Props, {}> {
   componentWillMount () {
     this.props.actions.getTasks();
   }
@@ -45,7 +45,7 @@ class Tasks extends React.Component<Props, {}> {
   }
 }
 
-const StyledTasks = styled(Tasks)`
+const StyledTaskList = styled(TaskList)`
 display: flex;
 `;
 
@@ -57,4 +57,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ getTasks, setTasks }, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledTasks);
+export default connect(mapStateToProps, mapDispatchToProps)(StyledTaskList);
