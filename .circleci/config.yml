@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Initialize database
           command: |
-            $(npm bin)/ts-node $(npm bin)/typeorm migration:run -c test
+            ./apps/api/node_modules/.bin/ts-node ./apps/api/node_modules/.bin/typeorm migration:run -c test
 
       - save_cache:
           paths:
