@@ -15,10 +15,14 @@ export class CoachController {
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
-    return this.repo.saveByType(request.body, 'Coach');
+    const coach = new User(request.body);
+    response.status(201); // created
+    const coachId = await this.repo.saveByType(request.body, 'Coach');
+    return { id: coachId };
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {
-    await this.repo.deleteByType(request.params.id, 'Coach');
+    const num = await this.repo.deleteByType(request.params.id, 'Coach');
+    return { deleted: num };
   }
 }

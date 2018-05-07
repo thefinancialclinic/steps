@@ -1,5 +1,5 @@
 {
-  "watch": ["src"],
+  "watch": ["src", "swagger.yaml"],
   "ext": "ts",
   "exec": "ts-node ./src/index.ts -p tsconfig.json"
 }

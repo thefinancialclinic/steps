@@ -15,10 +15,13 @@ export class OrgController {
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
-    return this.repo.save(request.body);
+    const id = await this.repo.save(request.body);
+    response.status(201); // created
+    return { id };
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {
-    await this.repo.delete(request.params.id);
+    const num = await this.repo.delete(request.params.id);
+    return { deleted: num }
   }
 }

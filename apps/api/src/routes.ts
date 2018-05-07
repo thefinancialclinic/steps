@@ -25,7 +25,7 @@ export const Routes = [
   },
   {
     method: "delete",
-    route: "/clients",
+    route: "/clients/:id",
     controller: UserController,
     action: "remove"
   },
@@ -49,7 +49,7 @@ export const Routes = [
   },
   {
     method: "delete",
-    route: "/coaches",
+    route: "/coaches/:id",
     controller: CoachController,
     action: "remove"
   },
@@ -73,7 +73,7 @@ export const Routes = [
   },
   {
     method: "delete",
-    route: "/orgs",
+    route: "/orgs/:id",
     controller: OrgController,
     action: "remove"
   },
@@ -97,8 +97,8 @@ export const Routes = [
   },
   {
     method: "delete",
-    route: "/users",
+    route: "/users/:id",
     controller: UserController,
     action: "remove"
-  },
+  }
 ];
