@@ -39,6 +39,11 @@ jobs:
           name: npm install:all
           command: npm run install:all
 
+      - run:
+          name: Initialize database
+          command: |
+            $(npm bin)/ts-node $(npm bin)/typeorm migration:run -c test
+
       - save_cache:
           paths:
             - node_modules
