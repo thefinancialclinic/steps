@@ -47,11 +47,11 @@ const Components = storiesOf('Styles', module)
 
 Components
   .add('Colors', () => {
-    return map(colors, (color, name, i) => (
-      <ColorSquare color={color} key={i}>
+    return map(colors, (color, name) => (
+      <ColorSquare color={color} key={name}>
         <div className='name'>{name}</div>
         <div className='color' />
-        <input value={color} />
+        <input defaultValue={color} />
       </ColorSquare>
     ));
   })
