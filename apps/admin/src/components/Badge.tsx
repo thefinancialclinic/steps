@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { badgeColors } from '../styles/colors';
+import { white, badgeColors } from '../styles/colors';
 
 interface Props {
   className?: string;
@@ -32,7 +32,15 @@ const getColor = (text: string): string => {
 };
 
 const StyledLabel = styled(Badge)`
-  background-color: ${props => getColor(props.text)};
+  background-color: ${props => getColor(props.text.toUpperCase())};
+  border-radius: 3px;
+  color: ${white};
+  display: inline-block;
+  padding-bottom: 0.325em;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  padding-top: 0.325em;
+  text-transform: uppercase;
 `;
 
 export default StyledLabel;
