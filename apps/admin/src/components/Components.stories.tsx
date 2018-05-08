@@ -8,6 +8,7 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 
 
 import Badge from './Badge';
+import NavGroup from './NavGroup/NavGroup';
 
 const Components = storiesOf('Components', module)
   .addDecorator(withKnobs)
@@ -17,5 +18,13 @@ const Components = storiesOf('Components', module)
 
 Components
   .add('Badge', () => <Badge text={text('Text', 'hello')} /> )
+  .add('NavGroup', () => (
+    <NavGroup
+      links={[
+        { text: 'first', to: '/first' },
+        { text: 'second', to: '/second' }
+      ]}
+    />
+  ))
 
 export default Components;
