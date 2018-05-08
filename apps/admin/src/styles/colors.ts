@@ -26,10 +26,11 @@ export default {
   yellow,
 };
 
-export const badgeColors = {
-  blue,
-  brown,
-  green,
-  pink,
-  yellow,
+export const colorFromString = (text: string, colors: string[]): string => {
+  let n = 0;
+  for (var i = 0; i < text.length; ++i) {
+    n = (n + text.charCodeAt(i)) % colors.length;
+  }
+
+  return colors[n];
 };

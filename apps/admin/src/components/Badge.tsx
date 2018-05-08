@@ -1,7 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { white, badgeColors } from '../styles/colors';
+import {
+  blue,
+  brown,
+  green,
+  pink,
+  yellow,
+  white,
+  colorFromString
+} from '../styles/colors';
+
+const badgeColors = [blue, brown, green, pink, yellow];
 
 interface Props {
   className?: string;
@@ -9,30 +19,15 @@ interface Props {
 }
 
 class Badge extends React.Component<Props, {}> {
-  render () {
+  render() {
     const { className, text } = this.props;
 
-    return (
-      <div className={className}>
-        {text}
-      </div>
-    );
+    return <div className={className}>{text}</div>;
   }
 }
 
-const getColor = (text: string): string => {
-  const colors = Object.values(badgeColors);
-
-  let n = 0;
-  for (var i = 0; i < text.length; ++i) {
-    n = (n + text.charCodeAt(i)) % colors.length;
-  }
-
-  return colors[n];
-};
-
 const StyledLabel = styled(Badge)`
-  background-color: ${props => getColor(props.text.toUpperCase())};
+  background-color: ${props => colorFromString(props.text.toUpperCase(), badgeColors)};
   border-radius: 3px;
   color: ${white};
   display: inline-block;
