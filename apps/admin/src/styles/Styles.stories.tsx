@@ -7,7 +7,10 @@ import { storiesOf } from '@storybook/react';
 import colors from './colors';
 
 const ColorSquare: any = styled.div`
+  color: ${colors.black};
   display: inline-block;
+  font-family: monospace;
+  margin-bottom: 1em;
   margin-right: 1em;
   position: relative;
   text-align: center;
@@ -15,15 +18,28 @@ const ColorSquare: any = styled.div`
 
   &, > * { box-sizing: border-box; }
 
+  .name {
+    margin-bottom: 0.25em;
+  }
+
   input {
+    border: none;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px ${colors.mediumBlue};
+    color: ${colors.black};
+    font-family: monospace;
+    font-size: 1.25em;
+    padding-bottom: 0.25em;
+    padding-top: 0.25em;
     text-align: center;
     width: 100%;
   }
 
   .color {
     background-color: ${props => props.color};
-    width: 100px;
     height: 100px;
+    margin-bottom: 0.25em;
+    width: 100px;
   }
 `;
 
@@ -33,7 +49,7 @@ Components
   .add('Colors', () => {
     return map(colors, (color, name, i) => (
       <ColorSquare color={color} key={i}>
-        <div>{name}</div>
+        <div className='name'>{name}</div>
         <div className='color' />
         <input value={color} />
       </ColorSquare>
