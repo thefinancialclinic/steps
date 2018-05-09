@@ -10,6 +10,7 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import Badge from './Badge';
 import Button from './Button/Button';
 import NavGroup from './NavGroup/NavGroup';
+import Sidebar from './Sidebar/Sidebar';
 
 const Components = storiesOf('Components', module)
   .addDecorator(withKnobs)
@@ -29,6 +30,9 @@ Components
   ))
   .add('Button', () => (
     <Button white={boolean('white', false)}>{text('Button Text', 'Proceed to Ride')}</Button>
+  ))
+  .add('Sidebar', () => (
+    <Sidebar />
   ))
 
 export default Components;
