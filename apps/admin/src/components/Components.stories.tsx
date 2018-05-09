@@ -8,6 +8,7 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 
 
 import Badge from './Badge';
+import Button from './Button/Button';
 import NavGroup from './NavGroup/NavGroup';
 
 const Components = storiesOf('Components', module)
@@ -25,6 +26,9 @@ Components
         { text: 'second', to: '/second' }
       ]}
     />
+  ))
+  .add('Button', () => (
+    <Button white={boolean('white', false)}>{text('Button Text', 'Proceed to Ride')}</Button>
   ))
 
 export default Components;
