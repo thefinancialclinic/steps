@@ -1,8 +1,23 @@
-import { configure } from '@storybook/react';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { addDecorator, configure } from '@storybook/react';
+import { withKnobs } from '@storybook/addon-knobs/react';
+import backgrounds from '@storybook/addon-backgrounds';
+
+import { lightBlue, white } from 'styles/colors';
 
 const req = require.context('../src', true, /.stories.tsx$/);
 function loadStories() {
-  req.keys().forEach(req);
+  return req.keys().forEach(req);
 }
 
-configure(loadStories, module);
+addDecorator(story => <BrowserRouter>{story()}</BrowserRouter>)
+addDecorator(withKnobs)
+addDecorator(
+  backgrounds([
+    { name: 'lightBlue', value: lightBlue, default: true },
+    { name: 'white', value: white }
+  ])
+)
+
+configure(loadStories, module)

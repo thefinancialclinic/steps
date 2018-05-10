@@ -1,24 +1,11 @@
 import React from 'react';
-import { injectGlobal } from 'styled-components';
 import { Link, Route, Switch } from 'react-router-dom';
 
+import 'styles/global';
 import Home from './Home';
 import Clients from './Clients/Clients';
 import Client from './Clients/Client';
 import NewClient from './Clients/NewClient';
-
-injectGlobal`
-  html, body {
-    margin: 0;
-    height: 100%;
-  }
-
-  body {
-    background-color: #e8f5f9;
-    color: #464646;
-    font-family: sans-serif;
-  }
-`;
 
 const Layout = () => (
   <div>
