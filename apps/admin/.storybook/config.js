@@ -11,7 +11,7 @@ function loadStories() {
   return req.keys().forEach(req);
 }
 
-addDecorator(story => <BrowserRouter>{story()}</BrowserRouter>)
+addDecorator(story => <BrowserRouter><div>{story()}</div></BrowserRouter>)
 addDecorator(withKnobs)
 addDecorator(
   backgrounds([
