@@ -21,7 +21,7 @@ class Filter extends React.Component<Props, {}> {
       <BaseFilter>
         <span>Filter</span>
         {categories && categories.map((cat, key) => (
-          <Badge text={cat.name} key={key} active={cat.active} color={cat.color} />
+          <Badge text={cat.name} key={key} color={!cat.active ? grey : cat.color} />
         ))}
       </BaseFilter>
     );

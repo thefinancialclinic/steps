@@ -15,7 +15,6 @@ import {
 const badgeColors = [blue, brown, green, pink, yellow];
 
 interface Props {
-  active?: boolean;
   className?: string;
   color?: string;
   text: string;
@@ -30,8 +29,7 @@ class Badge extends React.Component<Props, {}> {
 }
 
 const StyledBadge = styled(Badge)`
-  background-color: ${({ active, color, text }) => {
-    if (!active) return grey;
+  background-color: ${({ color, text }) => {
     if (color) return color;
     return colorFromString(text.toUpperCase(), badgeColors)
   }};
