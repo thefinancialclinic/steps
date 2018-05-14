@@ -1,173 +1,181 @@
-import { UserController } from "./controller/UserController";
+import { AdminController } from "./controller/AdminController";
+import { ClientController } from "./controller/ClientController";
+import { CoachController } from "./controller/CoachController";
+import { ContentController } from "./controller/ContentController";
+import { FileController } from "./controller/FileController";
+import { MessageController } from "./controller/MessageController";
+import { OrgController } from "./controller/OrgController";
 import { TaskController } from "./controller/TaskController";
+import { TaskTemplateController } from "./controller/TaskTemplateController";
+import { UserController } from "./controller/UserController";
 
 export const Routes = [
-      {
-            method: "get",
-            route: "/admins",
-            controller: TaskController,
-            action: "all"
-      },
-      {
-            method: "get",
-            route: "/admins/:id",
-            controller: TaskController,
-            action: "one"
-      },
-      {
-            method: "post",
-            route: "/admins",
-            controller: TaskController,
-            action: "save"
-      },
-      {
-            method: "delete",
-            route: "/admins",
-            controller: TaskController,
-            action: "remove"
-      },
-      {
-            method: "get",
-            route: "/clients",
-            controller: TaskController,
-            action: "all"
-      },
-      {
-            method: "get",
-            route: "/clients/:id",
-            controller: TaskController,
-            action: "one"
-      },
-      {
-            method: "post",
-            route: "/clients",
-            controller: TaskController,
-            action: "save"
-      },
-      {
-            method: "delete",
-            route: "/clients",
-            controller: TaskController,
-            action: "remove"
-      },
-      {
-            method: "get",
-            route: "/coaches",
-            controller: TaskController,
-            action: "all"
-      },
-      {
-            method: "get",
-            route: "/coaches/:id",
-            controller: TaskController,
-            action: "one"
-      },
-      {
-            method: "post",
-            route: "/coaches",
-            controller: TaskController,
-            action: "save"
-      },
-      {
-            method: "delete",
-            route: "/coaches",
-            controller: TaskController,
-            action: "remove"
-      },
+  {
+    method: "get",
+    route: "/admins",
+    controller: AdminController,
+    action: "all"
+  },
+  {
+    method: "get",
+    route: "/admins/:id",
+    controller: AdminController,
+    action: "one"
+  },
+  {
+    method: "post",
+    route: "/admins",
+    controller: AdminController,
+    action: "save"
+  },
+  {
+    method: "delete",
+    route: "/admins",
+    controller: AdminController,
+    action: "remove"
+  },
+  {
+    method: "get",
+    route: "/clients",
+    controller: ClientController,
+    action: "all"
+  },
+  {
+    method: "get",
+    route: "/clients/:id",
+    controller: ClientController,
+    action: "one"
+  },
+  {
+    method: "post",
+    route: "/clients",
+    controller: ClientController,
+    action: "save"
+  },
+  {
+    method: "delete",
+    route: "/clients",
+    controller: ClientController,
+    action: "remove"
+  },
+  {
+    method: "get",
+    route: "/coaches",
+    controller: CoachController,
+    action: "all"
+  },
+  {
+    method: "get",
+    route: "/coaches/:id",
+    controller: CoachController,
+    action: "one"
+  },
+  {
+    method: "post",
+    route: "/coaches",
+    controller: CoachController,
+    action: "save"
+  },
+  {
+    method: "delete",
+    route: "/coaches",
+    controller: CoachController,
+    action: "remove"
+  },
   {
     method: "get",
     route: "/contents",
-    controller: TaskController,
+    controller: ContentController,
     action: "all"
   },
   {
     method: "get",
     route: "/contents/:id",
-    controller: TaskController,
+    controller: ContentController,
     action: "one"
   },
   {
     method: "post",
     route: "/contents",
-    controller: TaskController,
+    controller: ContentController,
     action: "save"
   },
   {
     method: "delete",
     route: "/contents",
-    controller: TaskController,
+    controller: ContentController,
     action: "remove"
   },
   {
     method: "get",
     route: "/files",
-    controller: TaskController,
+    controller: FileController,
     action: "all"
   },
   {
     method: "get",
     route: "/files/:id",
-    controller: TaskController,
+    controller: FileController,
     action: "one"
   },
   {
     method: "post",
     route: "/files",
-    controller: TaskController,
+    controller: FileController,
     action: "save"
   },
   {
     method: "delete",
     route: "/files",
-    controller: TaskController,
+    controller: FileController,
     action: "remove"
   },
   {
     method: "get",
     route: "/messages",
-    controller: TaskController,
+    controller: MessageController,
     action: "all"
   },
   {
     method: "get",
     route: "/messages/:id",
-    controller: TaskController,
+    controller: MessageController,
     action: "one"
   },
   {
     method: "post",
     route: "/messages",
-    controller: TaskController,
+    controller: MessageController,
     action: "save"
   },
   {
     method: "delete",
     route: "/messages",
-    controller: TaskController,
+    controller: MessageController,
     action: "remove"
   },
   {
     method: "get",
     route: "/orgs",
-    controller: TaskController,
+    controller: OrgController,
     action: "all"
   },
   {
     method: "get",
     route: "/orgs/:id",
-    controller: TaskController,
+    controller: OrgController,
     action: "one"
   },
   {
     method: "post",
     route: "/orgs",
-    controller: TaskController,
+    controller: OrgController,
     action: "save"
   },
   {
     method: "delete",
     route: "/orgs",
-    controller: TaskController,
+    controller: OrgController,
     action: "remove"
   },
   {
@@ -197,25 +205,25 @@ export const Routes = [
   {
     method: "get",
     route: "/task_templates",
-    controller: TaskController,
+    controller: TaskTemplateController,
     action: "all"
   },
   {
     method: "get",
     route: "/task_templates/:id",
-    controller: TaskController,
+    controller: TaskTemplateController,
     action: "one"
   },
   {
     method: "post",
     route: "/task_templates",
-    controller: TaskController,
+    controller: TaskTemplateController,
     action: "save"
   },
   {
     method: "delete",
     route: "/task_templates",
-    controller: TaskController,
+    controller: TaskTemplateController,
     action: "remove"
   },
   {
