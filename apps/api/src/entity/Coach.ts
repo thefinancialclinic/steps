@@ -2,10 +2,10 @@ import {
   Entity,
   ManyToMany,
   PrimaryGeneratedColumn,
-  Column, 
-  JoinTable,
+  Column,
   OneToMany,
-  ManyToOne
+  ManyToOne,
+  JoinColumn
 } from "typeorm";
 import { Org } from './Org';
 import { Message } from './Message';
@@ -19,5 +19,6 @@ export class Coach {
   messages: Message[];
 
   @ManyToOne(type => Org, org => org.coaches)
+  @JoinColumn({ name: 'org_id' })
   org: Org;
 }
