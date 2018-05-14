@@ -18,6 +18,12 @@ export class Task {
   @Column({ type: "text", nullable: true })
   content: string;
 
+  @Column({ type: "date", nullable: false })
+  dateCreated: Date;
+
+  @Column({ type: "date", nullable: true })
+  dateCompleted: Date;
+
   @ManyToOne(type => Client, client => client.tasks)
   client: Client;
 
