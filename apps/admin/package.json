@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "$(npm bin)/webpack-dev-server",
-    "build": "NODE_ENV=production $(npm bin)/webpack",
+    "build": "$(npm bin)/webpack",
     "test": "echo \"No test specified\"",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"

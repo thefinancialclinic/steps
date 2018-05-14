@@ -9,6 +9,7 @@
     "experimentalDecorators": true,
     "lib": ["es6"],
     "module": "commonjs",
+    "outDir": "./.build/",
     "sourceMap": true,
     "target": "es5",
     "noImplicitAny": false,
