@@ -2,22 +2,18 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
+import { boolean } from '@storybook/addon-knobs/react';
+import backgrounds from '@storybook/addon-backgrounds';
+import { withKnobs } from '@storybook/addon-knobs/react';
 
-
-import Badge from './Badge';
 import NavGroup from './NavGroup/NavGroup';
+import Sidebar from './Sidebar/Sidebar';
+import Panel from './Panels/Panel';
 
-const Components = storiesOf('Components', module)
-  .addDecorator(withKnobs)
-  .addDecorator(story => (
-    <BrowserRouter>{story()}</BrowserRouter>
-  ));
+import { lightBlue, white } from 'styles/colors';
+import 'styles/global';
 
-Components
-  .add('Badge', () => <Badge text={text('Text', 'hello')} /> )
+export const Components = storiesOf('Components', module)
   .add('NavGroup', () => (
     <NavGroup
       links={[
@@ -25,6 +21,10 @@ Components
         { text: 'second', to: '/second' }
       ]}
     />
+  ))
+  .add('Sidebar', () => <Sidebar />)
+  .add('Panel', () => (
+    <Panel shadow={boolean('with shadow', false)}>This is a panel</Panel>
   ))
 
 export default Components;
