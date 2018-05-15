@@ -1,11 +1,7 @@
 import {
   Entity,
-  ManyToMany,
   PrimaryGeneratedColumn,
-  Column,
   JoinColumn,
-  JoinTable,
-  OneToMany,
   ManyToOne
 } from "typeorm";
 import { Org } from './Org';

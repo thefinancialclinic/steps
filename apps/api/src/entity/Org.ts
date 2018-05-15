@@ -1,9 +1,7 @@
 import {
   Entity,
-  ManyToMany,
   PrimaryGeneratedColumn,
   Column, 
-  JoinTable,
   OneToMany
 } from "typeorm";
 import { Admin } from './Admin';

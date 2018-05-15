@@ -129,10 +129,10 @@ export class init1524770985930 implements MigrationInterface {
         name: "user",
         columns: [
           { name: "id", type: "serial", isPrimary: true },
-          { name: "admin_id", type: "int" },
-          { name: "coach_id", type: "int" },
-          { name: "client_id", type: "int" },
-          { name: "auth_token", type: "text" },
+          { name: "admin_id", type: "int", isNullable: true},
+          { name: "coach_id", type: "int", isNullable: true },
+          { name: "client_id", type: "int", isNullable: true },
+          { name: "auth_token", type: "text", isNullable: true },
           // email, phone number maintained by external auth service
         ]
       }),

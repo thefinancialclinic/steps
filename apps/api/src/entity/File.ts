@@ -1,10 +1,7 @@
 import {
   Entity,
-  ManyToMany,
   PrimaryGeneratedColumn,
-  Column, 
-  JoinTable,
-  OneToMany,
+  JoinColumn,
   ManyToOne,
   OneToOne
 } from "typeorm";
@@ -22,5 +19,6 @@ export class File {
   content: Content;
 
   @ManyToOne(type => Org, org => org.files)
+  @JoinColumn({ name: 'org_id' })
   org: Org;
 }

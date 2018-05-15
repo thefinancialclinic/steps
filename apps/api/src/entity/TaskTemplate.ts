@@ -1,11 +1,8 @@
 import {
   Entity,
-  ManyToMany,
   PrimaryGeneratedColumn,
-  Column, 
-  JoinTable,
-  OneToMany,
-  ManyToOne
+  ManyToOne,
+  JoinColumn
 } from "typeorm";
 import { Org } from './Org';
 import { Admin } from './Admin';
@@ -16,8 +13,10 @@ export class TaskTemplate {
   id: number;
 
   @ManyToOne(type => Org, org => org.taskTemplates)
+  @JoinColumn({ name: 'org_id' })
   org: Org;
 
   @ManyToOne(type => Admin, admin => admin.taskTemplates)
+  @JoinColumn({ name: 'admin_id' })
   admin: Admin;
 }

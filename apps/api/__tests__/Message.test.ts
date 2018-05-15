@@ -6,7 +6,7 @@ import {
   ConnectionManager,
   Connection
 } from "typeorm";
-import { getTestConnection } from './db_helper';
+import { getTestConnection, fixtures } from './db_helper';
 import { Coach } from '../src/entity/Coach';
 import { Org } from '../src/entity/Org';
 import { Client } from '../src/entity/Client';
@@ -19,30 +19,13 @@ describe('Message entity operations', () => {
   // create a test Message
   beforeAll(async () => {
     try {
-      activeConn = await getTestConnection();
-
-      // create Org
-      let org = new Org();
-      org.botPhone = 'FAKE';
-      org.name = 'ORG';
-      org = await activeConn.manager.save(org);
-
-      // create Coach
-      let coach = new Coach();
-      coach.org = org;
-      coach = await activeConn.manager.save(coach);
-
-      let client = new Client();
-      client.org = org;
-      client.fullName = 'FULL NAME';
-      client.coach = coach;
-      client = await activeConn.manager.save(client);
+      activeConn = await getTestConnection({ createFixtures: true });
 
       // create Message w/ relations
       const message = new Message();
-      message.coach = coach;
-      message.org = org;
-      message.client = client;
+      message.coach = fixtures.coach;
+      message.org = fixtures.org;
+      message.client = fixtures.client;
       const savedMessage = await activeConn.manager.save(message);
       messageId = savedMessage.id;
     } catch (error) {
