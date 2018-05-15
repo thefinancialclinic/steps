@@ -6,9 +6,12 @@ import { boolean, text } from '@storybook/addon-knobs/react';
 import backgrounds from '@storybook/addon-backgrounds';
 import { withKnobs } from '@storybook/addon-knobs/react';
 
+import InputRow from './Forms/InputRow';
 import NameCard from './Clients/NameCard';
 import NavGroup from './NavGroup/NavGroup';
 import Sidebar from './Sidebar/Sidebar';
+import StaffList from './StaffList/StaffList';
+import StaffListItem from './StaffList/StaffListItem';
 
 import { lightBlue, white } from 'styles/colors';
 import 'styles/global';
@@ -26,5 +29,13 @@ export const Components = storiesOf('Components', module)
     />
   ))
   .add('Sidebar', () => <Sidebar />)
+  .add('Input Row', () => (
+    <InputRow
+      label='Bob'
+      name='name'
+    />
+  ))
+  .add('Staff List', () => <StaffList />)
+  .add('Staff List Item', () => <StaffListItem />)
 
 export default Components;
