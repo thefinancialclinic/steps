@@ -1,10 +1,7 @@
 import {
   Entity,
-  ManyToMany,
   PrimaryGeneratedColumn,
-  Column, 
-  JoinTable,
-  OneToMany,
+  JoinColumn,
   ManyToOne
 } from "typeorm";
 import { Org } from './Org';
@@ -17,11 +14,14 @@ export class Message {
   id: number;
 
   @ManyToOne(type => Org, org => org.admins)
+  @JoinColumn({ name: 'org_id' })
   org: Org;
 
   @ManyToOne(type => Coach, coach => coach.messages)
+  @JoinColumn({ name: 'coach_id' })
   coach: Coach;
 
   @ManyToOne(type => Client, client => client.messages)
+  @JoinColumn({ name: 'client_id' })
   client: Client;
 }

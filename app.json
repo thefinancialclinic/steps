@@ -1,8 +1,0 @@
-{
-  "env": { },
-  "environments": {
-    "test": {
-      "env": { }
-    }
-  }
-}

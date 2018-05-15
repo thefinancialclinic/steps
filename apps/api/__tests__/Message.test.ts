@@ -6,7 +6,10 @@ import {
   ConnectionManager,
   Connection
 } from "typeorm";
-import { getTestConnection } from './db_helper';
+import { getTestConnection, fixtures } from './db_helper';
+import { Coach } from '../src/entity/Coach';
+import { Org } from '../src/entity/Org';
+import { Client } from '../src/entity/Client';
 
 let activeConn: Connection;
 
@@ -15,10 +18,19 @@ describe('Message entity operations', () => {
 
   // create a test Message
   beforeAll(async () => {
-    activeConn = await getTestConnection();
-    const message = new Message();
-    const savedMessage = await activeConn.manager.save(message);
-    messageId = savedMessage.id;
+    try {
+      activeConn = await getTestConnection({ createFixtures: true });
+
+      // create Message w/ relations
+      const message = new Message();
+      message.coach = fixtures.coach;
+      message.org = fixtures.org;
+      message.client = fixtures.client;
+      const savedMessage = await activeConn.manager.save(message);
+      messageId = savedMessage.id;
+    } catch (error) {
+      console.log(error);
+    }
   }); // end beforeAll
 
   // Clean up any test data from table

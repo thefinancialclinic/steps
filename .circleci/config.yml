@@ -1,0 +1,65 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:9.11.1
+
+      # Service container image available at `host: localhost`
+      - image: circleci/postgres:9.6.2-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: steps_admin_test
+
+    environment:
+      NODE_ENV: test
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - restore_cache:
+          keys:
+            - v1-api-dependencies-{{ checksum "apps/api/package.json" }}
+            - v1-api-dependencies-
+      - restore_cache:
+          keys:
+            - v1-admin-dependencies-{{ checksum "apps/admin/package.json" }}
+            - v1-admin-dependencies-
+
+      - run:
+          name: npm install
+          command: npm install
+
+      - run:
+          name: npm install:all
+          command: npm run install:all
+
+      - run:
+          name: Initialize database
+          command: |
+            cd apps/api
+            $(npm bin)/ts-node $(npm bin)/typeorm migration:run -c test
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - save_cache:
+          paths:
+            - apps/api/node_modules
+          key: v1-api-dependencies-{{ checksum "apps/api/package.json" }}
+
+      - save_cache:
+          paths:
+            - apps/admin/node_modules
+          key: v1-admin-dependencies-{{ checksum "apps/admin/package.json" }}
+
+      - run:
+          name: test
+          command: npm test

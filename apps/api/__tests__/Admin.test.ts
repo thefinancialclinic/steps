@@ -6,7 +6,7 @@ import {
   ConnectionManager,
   Connection
 } from "typeorm";
-import { getTestConnection } from './db_helper';
+import { getTestConnection, fixtures } from './db_helper';
 
 let activeConn: Connection;
 
@@ -15,8 +15,9 @@ describe('Admin entity operations', async () => {
 
   // create a test Admin
   beforeAll(async () => {
-    activeConn = await getTestConnection();
+    activeConn = await getTestConnection({ createFixtures: true });
     const admin = new Admin();
+    admin.org = fixtures.org;
     const savedAdmin = await activeConn.manager.save(admin);
     adminId = savedAdmin.id;
   }); // end beforeAll

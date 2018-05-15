@@ -1,9 +1,7 @@
 import {
   Entity,
-  ManyToMany,
   PrimaryGeneratedColumn,
   Column, 
-  JoinTable,
   OneToMany
 } from "typeorm";
 import { Admin } from './Admin';
@@ -21,6 +19,9 @@ export class Org {
 
   @Column()
   botPhone: string;
+
+  @Column()
+  name: string;
 
   @OneToMany(type => Admin, admin => admin.org, { onDelete: 'CASCADE' })
   admins: Admin[];
