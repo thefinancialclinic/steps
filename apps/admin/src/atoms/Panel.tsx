@@ -7,14 +7,15 @@ import { darkBlue, white } from 'styles/colors';
 interface Props {
   children: any;
   shadow?: boolean;
+  fill?: boolean;
 }
 
 class Panel extends React.Component<Props, {}> {
-  static defaultProps = { shadow: false };
-
   render() {
-    const { children, shadow } = this.props;
-    const PanelEl = shadow ? ShadowedPanel : BasePanel;
+    const { children, fill, shadow } = this.props;
+    let PanelEl = shadow ? ShadowedPanel : BasePanel;
+
+    if (fill) PanelEl = PanelEl.extend`${FillPanelCss}`;
 
     return (
       <PanelEl>
@@ -34,6 +35,10 @@ const BasePanel = styled.div`
 
 const ShadowedPanel = BasePanel.extend`
   box-shadow: 0 0 4px ${Color(darkBlue).fade(0.75).rgb().string()};
+`;
+
+const FillPanelCss = `
+height: 100%;
 `;
 
 export default Panel;
