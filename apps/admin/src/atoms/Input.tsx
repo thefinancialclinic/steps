@@ -28,6 +28,7 @@ const BaseInput = styled.div`
   background-color: ${white};
   box-shadow: 0 0 0 1px ${mediumBlue};
   border: none;
+  border-radius: 4px;
   color: ${black};
   display: inline-block;
   font-size: 0.825em;

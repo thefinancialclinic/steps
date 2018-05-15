@@ -18,6 +18,7 @@ interface Props {
   className?: string;
   color?: string;
   text: string;
+  rounded?: boolean;
 }
 
 class Badge extends React.Component<Props, {}> {
@@ -33,7 +34,7 @@ const StyledBadge = styled(Badge)`
     if (color) return color;
     return colorFromString(text.toUpperCase(), badgeColors)
   }};
-  border-radius: 4px;
+  border-radius: ${props => props.rounded ? 1000 : 4}px;
   color: ${white};
   display: inline-block;
   font-size: 0.825rem;
