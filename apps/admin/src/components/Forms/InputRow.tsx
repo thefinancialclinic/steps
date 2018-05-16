@@ -5,7 +5,7 @@ import { blue, green, lightBlue, mediumBlue, white } from 'styles/colors';
 
 interface Props {
   label: string;
-  name: string;
+  name?: string;
 }
 
 class InputRow extends React.Component<Props, {}> {
@@ -14,7 +14,7 @@ class InputRow extends React.Component<Props, {}> {
     return (
       <BaseInputRow>
         <label>{label}</label>
-        <input name={name} />
+        <input name={name || label.replace(' ', '-')} />
       </BaseInputRow>
     );
   }
