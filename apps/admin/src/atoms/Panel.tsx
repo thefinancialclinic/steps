@@ -6,19 +6,20 @@ import { darkBlue, white } from 'styles/colors';
 
 interface Props {
   children: any;
+  className?: string;
   shadow?: boolean;
   fill?: boolean;
 }
 
 class Panel extends React.Component<Props, {}> {
   render() {
-    const { children, fill, shadow } = this.props;
+    const { children, className, fill, shadow } = this.props;
     let PanelEl = shadow ? ShadowedPanel : BasePanel;
 
     if (fill) PanelEl = PanelEl.extend`${FillPanelCss}`;
 
     return (
-      <PanelEl>
+      <PanelEl className={className}>
         {children}
       </PanelEl>
     );
