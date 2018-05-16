@@ -28,7 +28,7 @@ export const Components = storiesOf('Components', module)
       ]}
     />
   ))
-  .add('Sidebar', () => <Sidebar />)
+  .add('Sidebar', () => <Sidebar links={[{to: '', text: ''}]}/>)
   .add('Input Row', () => (
     <InputRow
       label='Bob'

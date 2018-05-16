@@ -16,7 +16,8 @@ class SidebarItem extends React.Component<Props, {}> {
 
     return (
       <NavLink to={to} className={className} activeClassName="active">
-        {children}
+        <span>{children}</span>
+        <div className='bar' />
       </NavLink>
     );
   }
@@ -24,23 +25,21 @@ class SidebarItem extends React.Component<Props, {}> {
 
 const StyledSidebarItem = styled(SidebarItem)`
   color: ${blue};
-  display: block;
+  display: flex;
   font-size: 1.25em;
+  align-items: center;
+  justify-content: stretch;
   margin-bottom: 1.5em;
   margin-left: 2em;
-  position: relative;
   text-decoration: none;
 
   &.active {
     color: ${green};
 
-    &:after {
+    .bar {
       background-color: ${green};
-      content: '';
-      position: absolute;
-      right: 0;
-      top: 0.5em;
-      left: 100px;
+      flex: 2;
+      margin-left: 20px;
       height: 2px;
     }
   }
