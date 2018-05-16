@@ -1,10 +1,9 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Link, Route, Switch } from 'react-router-dom';
-
 import 'styles/global';
 
 import TopBar from 'components/TopBar';
-
 import Home from './Home';
 import Clients from './Clients/Clients';
 import Client from './Clients/Client';
@@ -12,8 +11,8 @@ import NewClient from './Clients/NewClient';
 import Admin from './Admin';
 
 const Layout = () => (
-  <div>
-    <TopBar title='boop' />
+  <Wrapper>
+    <TopBar />
     <Switch>
       <Route exact path="/" component={Home} />
       <Switch>
@@ -25,7 +24,13 @@ const Layout = () => (
         <Route exact path='/admin/:route' component={Admin} />
       </Switch>
     </Switch>
-  </div>
+  </Wrapper>
 );
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+`;
 
 export default Layout;
