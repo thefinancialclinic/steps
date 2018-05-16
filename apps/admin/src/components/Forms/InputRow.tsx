@@ -11,10 +11,11 @@ interface Props {
 class InputRow extends React.Component<Props, {}> {
   render() {
     const { label, name } = this.props;
+    const inputName = name || label.toLowerCase().replace(' ', '-');
     return (
       <BaseInputRow>
         <label>{label}</label>
-        <input name={name || label.replace(' ', '-')} />
+        <input name={inputName} />
       </BaseInputRow>
     );
   }
@@ -28,6 +29,7 @@ const BaseInputRow = styled.div`
 
   label {
     display: inline-block;
+    text-transform: uppercase;
     width: 20%;
   }
 `;
