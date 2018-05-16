@@ -4,6 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 
 import Root from './Root';
 import configureStore from './store';
+import styleGlobals from 'styles/global';
 
 const store = configureStore();
 const rootEl = document.getElementById('root');
@@ -11,6 +12,8 @@ const rootEl = document.getElementById('root');
 declare var module;
 
 const render = (Component) => {
+  styleGlobals();
+
   ReactDOM.render(
     <AppContainer>
       <Component store={store} />

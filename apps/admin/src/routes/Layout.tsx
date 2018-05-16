@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link, Route, Switch } from 'react-router-dom';
-import 'styles/global';
 
 import TopBar from 'components/TopBar';
 import Home from './Home';
