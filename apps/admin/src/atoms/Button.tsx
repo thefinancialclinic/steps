@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { remCalc } from 'styles/type';
 import {
   darken,
   green,
@@ -32,10 +33,10 @@ const BaseButton = styled.button`
   display: inline-block;
   font-size: 0.825em;
   min-width: 180px;
-  padding-bottom: 1.5em;
-  padding-left: 2.25em;
-  padding-right: 2.25em;
-  padding-top: 1.5em;
+  padding-bottom: ${remCalc(20)};
+  padding-left: ${remCalc(30)};
+  padding-right: ${remCalc(30)};
+  padding-top: ${remCalc(20)};
   text-transform: uppercase;
 `;
 

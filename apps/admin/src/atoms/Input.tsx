@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { remCalc } from 'styles/type';
 import {
   black,
   mediumBlue,
@@ -31,18 +32,18 @@ const BaseInput = styled.div`
   border-radius: 4px;
   color: ${black};
   display: inline-block;
-  font-size: 0.825em;
   min-width: 180px;
-  margin: 20px;
 
   input {
     border: none;
     background: none;
     box-shadow: none;
-    padding-bottom: 1.5em;
-    padding-left: 2.25em;
-    padding-right: 2.25em;
-    padding-top: 1.5em;
+    font-size: ${remCalc(18)};
+    padding-bottom: ${remCalc(21)};
+    padding-left: ${remCalc(20)};
+    padding-right: ${remCalc(20)};
+    padding-top: ${remCalc(21)};
+    width: 100%;
   }
 `;
 
