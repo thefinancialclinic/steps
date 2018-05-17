@@ -9,6 +9,8 @@ import {
 import { Client } from "./Client";
 import { Org } from "./Org";
 import { Step } from "./Step"
+import { Media } from "./Media";
+
 
 @Entity('task')
 export class Task {
@@ -33,4 +35,7 @@ export class Task {
 
   @OneToMany(type => Step, step => step.task)
   steps: Step[];
+
+  @OneToMany(type => Media, media => media.task)
+  media: Media[];
 }
