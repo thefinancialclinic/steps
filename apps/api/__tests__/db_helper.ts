@@ -115,23 +115,23 @@ const getTestConnection = async (options?: { createFixtures: boolean }) => {
         .getOne();
     }
 
-        // UPSERT File
-        let file: File = await activeConn
+    // UPSERT File
+    let file: File = await activeConn
+      .getRepository(File)
+      .createQueryBuilder()
+      .getOne();
+    if (!file) {
+      await activeConn
+        .createQueryBuilder()
+        .insert()
+        .into(File)
+        .values({ org })
+        .execute();
+      file = await activeConn
         .getRepository(File)
         .createQueryBuilder()
         .getOne();
-      if (!file) {
-        await activeConn
-          .createQueryBuilder()
-          .insert()
-          .into(File)
-          .values({ org })
-          .execute();
-        file = await activeConn
-          .getRepository(File)
-          .createQueryBuilder()
-          .getOne();
-      }
+    }
 
     // UPSERT Request
     let request: Request = await activeConn

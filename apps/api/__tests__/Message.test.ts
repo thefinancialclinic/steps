@@ -1,4 +1,4 @@
-import { Message } from '../src/entity/Message';
+import { Message } from "../src/entity/Message";
 import {
   createConnection,
   getConnectionManager,
@@ -6,14 +6,14 @@ import {
   ConnectionManager,
   Connection
 } from "typeorm";
-import { getTestConnection, fixtures } from './db_helper';
-import { Coach } from '../src/entity/Coach';
-import { Org } from '../src/entity/Org';
-import { Client } from '../src/entity/Client';
+import { getTestConnection, fixtures } from "./db_helper";
+import { Coach } from "../src/entity/Coach";
+import { Org } from "../src/entity/Org";
+import { Client } from "../src/entity/Client";
 
 let activeConn: Connection;
 
-describe('Message entity operations', () => {
+describe("Message entity operations", () => {
   let messageId: number;
 
   // create a test Message
@@ -36,16 +36,16 @@ describe('Message entity operations', () => {
 
   // Clean up any test data from table
   afterAll(async () => {
-    activeConn.createQueryBuilder()
+    activeConn
+      .createQueryBuilder()
       .delete()
       .from(Message)
-      .where('true')
+      .where("true")
       .execute();
   }); // end afterAll
 
-  it('find a Message', async () => {
+  it("find a Message", async () => {
     const actual = await activeConn.getRepository(Message).findOne(messageId);
     expect(actual.id).toBe(messageId);
   }); // end test
-
 }); // end describe
