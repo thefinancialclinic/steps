@@ -6,7 +6,7 @@ import {
   ConnectionManager,
   Connection
 } from "typeorm";
-import { getTestConnection } from './db_helper';
+import { getTestConnection, fixtures } from './db_helper';
 
 let activeConn: Connection;
 
@@ -15,8 +15,9 @@ describe('File entity operations', () => {
 
   // create a test File
   beforeAll(async () => {
-    activeConn = await getTestConnection();
+    activeConn = await getTestConnection({ createFixtures: true });
     const file = new File();
+    file.org = fixtures.org;
     const savedFile = await activeConn.manager.save(file);
     fileId = savedFile.id;
   }); // end beforeAll

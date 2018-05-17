@@ -6,7 +6,7 @@ import {
   ConnectionManager,
   Connection
 } from "typeorm";
-import { getTestConnection } from './db_helper';
+import { getTestConnection, fixtures } from './db_helper';
 
 let activeConn: Connection;
 
@@ -15,8 +15,11 @@ describe('Client entity operations', () => {
 
   // create a test Client
   beforeAll(async () => {
-    activeConn = await getTestConnection();
+    activeConn = await getTestConnection({ createFixtures: true });
     const client = new Client();
+    client.org = fixtures.org;
+    client.coach = fixtures.coach;
+    client.fullName = 'SOME CLIENT';
     const savedClient = await activeConn.manager.save(client);
     clientId = savedClient.id;
   }); // end beforeAll

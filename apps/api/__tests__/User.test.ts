@@ -6,7 +6,7 @@ import {
   ConnectionManager,
   Connection
 } from "typeorm";
-import { getTestConnection } from './db_helper';
+import { getTestConnection, fixtures } from './db_helper';
 
 let activeConn;
 
@@ -15,7 +15,7 @@ describe('User entity operations', () => {
 
   // Create 1 known user
   beforeAll(async () => {
-    activeConn = await getTestConnection();
+    activeConn = await getTestConnection({ createFixtures: true });
     const newUser = new User();
     const savedUser = await activeConn.manager.save(newUser);
     userId = savedUser.id;

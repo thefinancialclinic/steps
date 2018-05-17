@@ -15,9 +15,10 @@ describe('Org entity operations', () => {
 
   // create a test Org
   beforeAll(async () => {
-    activeConn = await getTestConnection();
+    activeConn = await getTestConnection({ createFixtures: true });
     const org = new Org();
     org.botPhone = '1-800-555-2368'
+    org.name = 'ORG NAME'
     const savedOrg = await activeConn.manager.save(org);
     orgId = savedOrg.id;
   }); // end beforeAll

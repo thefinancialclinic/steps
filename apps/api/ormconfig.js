@@ -48,7 +48,7 @@ const testOptions = () => ({
   username: "postgres",
   password: "",
   database: "steps_admin_test",
-  synchronize: true,
+  synchronize: false,
   logging: false,
 });
 

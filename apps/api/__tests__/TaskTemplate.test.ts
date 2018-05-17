@@ -6,7 +6,7 @@ import {
   ConnectionManager,
   Connection
 } from "typeorm";
-import { getTestConnection } from './db_helper';
+import { getTestConnection, fixtures } from './db_helper';
 
 let activeConn: Connection;
 
@@ -15,8 +15,10 @@ describe('TaskTemplate entity operations', () => {
 
   // create a test TaskTemplate
   beforeAll(async () => {
-    activeConn = await getTestConnection();
+    activeConn = await getTestConnection({ createFixtures: true });
     const taskTemplate = new TaskTemplate();
+    taskTemplate.admin = fixtures.admin;
+    taskTemplate.org = fixtures.org;
     const savedTaskTemplate = await activeConn.manager.save(taskTemplate);
     taskTemplateId = savedTaskTemplate.id;
   }); // end beforeAll

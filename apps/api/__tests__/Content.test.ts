@@ -7,7 +7,7 @@ import {
   Connection,
   getConnection
 } from "typeorm";
-import { getTestConnection } from './db_helper';
+import { getTestConnection, fixtures } from './db_helper';
 
 let activeConn: Connection;
 
@@ -16,8 +16,12 @@ describe('Content entity operations', () => {
 
   // create a test Content
   beforeAll(async () => {
-    activeConn = await getTestConnection();
+    activeConn = await getTestConnection({ createFixtures: true });
     const content = new Content();
+    content.org = fixtures.org;
+    content.admin = fixtures.admin;
+    content.taskTemplate = fixtures.taskTemplate;
+    content.file = fixtures.file;
     const savedContent = await activeConn.manager.save(content);
     contentId = savedContent.id;
   }); // end beforeAll

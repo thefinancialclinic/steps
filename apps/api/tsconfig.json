@@ -3,7 +3,10 @@
     "src/**/*.ts",
     "node_modules/@types"
   ],
-  "exclude": ["node_modules", "**/*.test.ts"],
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts"
+  ],
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -13,6 +16,9 @@
     "target": "es5",
     "noImplicitAny": false,
     "moduleResolution": "node",
+    "declaration": true,
+    "types" : ["node"],
+    "outDir": ".build",
     "allowSyntheticDefaultImports": true,
     "typeRoots": [
       "node_modules/@types"

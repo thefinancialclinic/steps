@@ -6,7 +6,7 @@ import {
   ConnectionManager,
   Connection
 } from "typeorm";
-import { getTestConnection } from './db_helper';
+import { getTestConnection, fixtures } from './db_helper';
 
 let activeConn: Connection;
 
@@ -15,10 +15,13 @@ describe('Task entity operations', () => {
 
   // Create 1 known task
   beforeAll(async () => {
-    activeConn = await getTestConnection();
+    activeConn = await getTestConnection({ createFixtures: true });
     const task = new Task();
     task.content = 'some content';
     task.steps = { 'some': 'json' }
+    task.client = fixtures.client;
+    task.org = fixtures.org;
+    task.dateCreated = new Date();
     const savedTask = await activeConn.manager.save(task);
     taskId = savedTask.id;
   }); // end beforeAll
