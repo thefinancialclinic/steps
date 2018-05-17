@@ -7,6 +7,7 @@ import {
 import { Org } from './Org';
 import { Coach } from './Coach';
 import { Client } from './Client';
+import { Request } from "./Request";
 
 @Entity('message')
 export class Message {
@@ -24,4 +25,8 @@ export class Message {
   @ManyToOne(type => Client, client => client.messages)
   @JoinColumn({ name: 'client_id' })
   client: Client;
+
+  @ManyToOne(type => Request, request => request.messages)
+  @JoinColumn({ name: "request_id" })
+  request: Request;
 }

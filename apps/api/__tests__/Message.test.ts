@@ -26,6 +26,7 @@ describe('Message entity operations', () => {
       message.coach = fixtures.coach;
       message.org = fixtures.org;
       message.client = fixtures.client;
+      message.request = fixtures.request;
       const savedMessage = await activeConn.manager.save(message);
       messageId = savedMessage.id;
     } catch (error) {
