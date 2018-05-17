@@ -5,6 +5,7 @@ import { Client } from "../src/entity/Client";
 import { Admin } from "../src/entity/Admin";
 import { TaskTemplate } from "../src/entity/TaskTemplate";
 import { File } from "../src/entity/File";
+import { Task } from "../src/entity/Task";
 
 let activeConn: Connection;
 let fixtures: {
@@ -14,6 +15,7 @@ let fixtures: {
   client: Client;
   taskTemplate: TaskTemplate;
   file: File;
+  task: Task;
 };
 
 const getTestConnection = async (options?: { createFixtures: boolean }) => {
@@ -113,23 +115,46 @@ const getTestConnection = async (options?: { createFixtures: boolean }) => {
         .getOne();
     }
 
-        // UPSERT File
-        let file: File = await activeConn
+    // UPSERT File
+    let file: File = await activeConn
+      .getRepository(File)
+      .createQueryBuilder()
+      .getOne();
+    if (!file) {
+      await activeConn
+        .createQueryBuilder()
+        .insert()
+        .into(File)
+        .values({ org })
+        .execute();
+      file = await activeConn
         .getRepository(File)
         .createQueryBuilder()
         .getOne();
-      if (!file) {
-        await activeConn
-          .createQueryBuilder()
-          .insert()
-          .into(File)
-          .values({ org })
-          .execute();
-        file = await activeConn
-          .getRepository(File)
-          .createQueryBuilder()
-          .getOne();
-      }
+    }
+
+    // UPSERT Task
+    let task: Task = await activeConn
+      .getRepository(Task)
+      .createQueryBuilder()
+      .getOne();
+    if (!task) {
+      await activeConn
+        .createQueryBuilder()
+        .insert()
+        .into(Task)
+        .values({
+          content: "CONTENT",
+          client: client,
+          org: org,
+          dateCreated: new Date(),
+        })
+        .execute();
+      task = await activeConn
+        .getRepository(Task)
+        .createQueryBuilder()
+        .getOne();
+    }
 
     // export created fixtures
     fixtures = {
@@ -139,8 +164,9 @@ const getTestConnection = async (options?: { createFixtures: boolean }) => {
       client,
       taskTemplate,
       file,
+      task,
     };
-  }
+  } // end if(options.createFixtures)
 
   return activeConn;
 };

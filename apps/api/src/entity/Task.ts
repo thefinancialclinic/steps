@@ -3,17 +3,16 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  JoinColumn
+  JoinColumn,
+  OneToMany
 } from "typeorm";
 import { Client } from "./Client";
 import { Org } from "./Org";
+import { Step } from "./Step"
 
 @Entity('task')
 export class Task {
   @PrimaryGeneratedColumn() id: number;
-
-  @Column({ type: "jsonb", nullable: true })
-  steps: any;
 
   @Column({ type: "text", nullable: true })
   content: string;
@@ -31,4 +30,7 @@ export class Task {
   @ManyToOne(type => Org, org => org.tasks)
   @JoinColumn({ name: 'org_id' })
   org: Org;
+
+  @OneToMany(type => Step, step => step.task)
+  steps: Step[];
 }
