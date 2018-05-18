@@ -6,6 +6,7 @@ import { Admin } from "../src/entity/Admin";
 import { TaskTemplate } from "../src/entity/TaskTemplate";
 import { File } from "../src/entity/File";
 import { Request } from "../src/entity/Request";
+import { Task } from "../src/entity/Task";
 
 let activeConn: Connection;
 let fixtures: {
@@ -16,6 +17,7 @@ let fixtures: {
   taskTemplate: TaskTemplate;
   file: File;
   request: Request;
+  task: Task;
 };
 
 const getTestConnection = async (options?: { createFixtures: boolean }) => {
@@ -151,6 +153,29 @@ const getTestConnection = async (options?: { createFixtures: boolean }) => {
         .getOne();
     }
 
+    // UPSERT Task
+    let task: Task = await activeConn
+      .getRepository(Task)
+      .createQueryBuilder()
+      .getOne();
+    if (!task) {
+      await activeConn
+        .createQueryBuilder()
+        .insert()
+        .into(Task)
+        .values({
+          content: "CONTENT",
+          client: client,
+          org: org,
+          dateCreated: new Date(),
+        })
+        .execute();
+      task = await activeConn
+        .getRepository(Task)
+        .createQueryBuilder()
+        .getOne();
+    }
+
     // export created fixtures
     fixtures = {
       admin,
@@ -159,9 +184,10 @@ const getTestConnection = async (options?: { createFixtures: boolean }) => {
       client,
       taskTemplate,
       file,
-      request
+      request,
+      task,
     };
-  }
+  } // end if(options.createFixtures)
 
   return activeConn;
 };

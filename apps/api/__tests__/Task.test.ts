@@ -18,7 +18,6 @@ describe('Task entity operations', () => {
     activeConn = await getTestConnection({ createFixtures: true });
     const task = new Task();
     task.content = 'some content';
-    task.steps = { 'some': 'json' }
     task.client = fixtures.client;
     task.org = fixtures.org;
     task.dateCreated = new Date();
