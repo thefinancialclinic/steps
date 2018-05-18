@@ -7,6 +7,7 @@ import { TaskTemplate } from "../src/entity/TaskTemplate";
 import { File } from "../src/entity/File";
 import { Request } from "../src/entity/Request";
 import { Task } from "../src/entity/Task";
+import { Step } from "../src/entity/Step";
 
 let activeConn: Connection;
 let fixtures: {
@@ -18,6 +19,7 @@ let fixtures: {
   file: File;
   request: Request;
   task: Task;
+  step: Step;
 };
 
 const getTestConnection = async (options?: { createFixtures: boolean }) => {
@@ -135,6 +137,7 @@ const getTestConnection = async (options?: { createFixtures: boolean }) => {
         .getOne();
     }
 
+
     // UPSERT Request
     let request: Request = await activeConn
       .getRepository(Request)
@@ -164,7 +167,7 @@ const getTestConnection = async (options?: { createFixtures: boolean }) => {
         .insert()
         .into(Task)
         .values({
-          content: "CONTENT",
+          content: 'CONTENT',
           client: client,
           org: org,
           dateCreated: new Date(),
@@ -172,6 +175,28 @@ const getTestConnection = async (options?: { createFixtures: boolean }) => {
         .execute();
       task = await activeConn
         .getRepository(Task)
+        .createQueryBuilder()
+        .getOne();
+    }
+
+    // UPSERT Step
+    let step: Step = await activeConn
+      .getRepository(Step)
+      .createQueryBuilder()
+      .getOne();
+    if (!step) {
+      await activeConn
+        .createQueryBuilder()
+        .insert()
+        .into(Step)
+        .values({
+          text: 'TEXT',
+          task: task,
+          note: 'NOTE',
+        })
+        .execute();
+      step = await activeConn
+        .getRepository(Step)
         .createQueryBuilder()
         .getOne();
     }
@@ -186,6 +211,7 @@ const getTestConnection = async (options?: { createFixtures: boolean }) => {
       file,
       request,
       task,
+      step
     };
   } // end if(options.createFixtures)
 
