@@ -40,7 +40,7 @@ export const Components = storiesOf('Components', module)
   .add('Staff List Item', () => <StaffListItem />)
   .add('Modal', () => (
     <Modal>
-      <div>This is a child in a pane.</div>
+      <div>This is a child in a panel.</div>
     </Modal>
   ));
 

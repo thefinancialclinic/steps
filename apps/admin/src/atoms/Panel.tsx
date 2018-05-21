@@ -9,20 +9,14 @@ interface Props {
   className?: string;
   shadow?: boolean;
   fill?: boolean;
-  modal?: boolean;
 }
 
 class Panel extends React.Component<Props, {}> {
   render() {
-    const { children, className, fill, shadow, modal } = this.props;
+    const { children, className, fill, shadow } = this.props;
     let PanelEl = shadow ? ShadowedPanel : BasePanel;
 
     if (fill) PanelEl = PanelEl.extend`${FillPanelCss}`;
-
-    if (modal)
-      PanelEl = PanelEl.extend`
-        ${ModalPanelCss};
-      `;
 
     return <PanelEl className={className}>{children}</PanelEl>;
   }
@@ -45,17 +39,7 @@ const ShadowedPanel = BasePanel.extend`
 `;
 
 const FillPanelCss = `
-height: 100%;
-`;
-
-const ModalPanelCss = `
-  position: absolute;
-  background-color: ${white};
-  top: 10%;
-  right: 10%;
-  bottom: 10%;
-  left: 10%;
-  z-index: 2;
+  height: 100%;
 `;
 
 export default Panel;

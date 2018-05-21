@@ -1,37 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
-import Overlay from 'atoms/Overlay';
 import Panel from 'atoms/Panel';
-import { white } from 'styles/colors';
+import { black } from 'styles/colors';
 
 interface Props {
-  title?: string;
   children?: any;
+  className?: string;
 }
 
 class Modal extends React.Component<Props, {}> {
   render() {
-    const { title, children } = this.props;
-
+    const { children, className } = this.props;
     return (
-      <div>
-        <Panel modal>{children}</Panel>
-        <Overlay />
+      <div className={className}>
+        <Panel>{children}</Panel>
       </div>
     );
   }
 }
 
 const StyledModal = styled(Modal)`
-  Panel {
+    background: ${black}50;
+    bottom: 0;
+    left: 0;
+    padding: 1em;
     position: absolute;
-    z-index: 2;
-    background-color: white;
-    top: 10%;
-    right: 10%;
-    left: 10%;
-    bottom: 10%;
-  }
+    right: 0;
+    top: 0;
+    z-index: 1;
 `;
 
-export default Modal;
+export default StyledModal;
