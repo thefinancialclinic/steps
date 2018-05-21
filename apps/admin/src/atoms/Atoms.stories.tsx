@@ -11,6 +11,7 @@ import Button from './Button';
 import Filter from './Filter';
 import Input from './Input';
 import Panel from './Panel';
+import Overlay from './Overlay';
 
 import { blue, brown, green, lightBlue, pink, white } from 'styles/colors';
 
@@ -37,5 +38,6 @@ const Stories = storiesOf('Atoms', module)
   .add('Panel', () => (
     <Panel shadow={boolean('with shadow', false)}>This is a panel</Panel>
   ))
+  .add('Overlay', () => <Overlay />);
 
 export default Stories;
