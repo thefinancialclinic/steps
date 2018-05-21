@@ -22,7 +22,7 @@ class Button extends React.Component<Props, {}> {
 
     const ButtonEl = white ? WhiteButton : GreenButton;
 
-    return <ButtonEl>{children}</ButtonEl>;
+    return <ButtonEl className={className}>{children}</ButtonEl>;
   }
 }
 
