@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Flex, Box } from 'grid-styled';
 import { getClients } from 'actions/clients';
 import styled from 'styled-components';
 
@@ -26,9 +27,14 @@ class Clients extends React.Component<Props, {}> {
     const ClientsList =
       clients.length > 0 ? (
         clients.map((client, key) => (
-          <Link to={`/clients/${client.id}`} key={key}>
-            <NameCard title={`${client.firstName} ${client.lastName}`} />
-          </Link>
+          <Box width={[1, 1 / 3, 1 / 5]}>
+            <Link to={`/clients/${client.id}`} key={key}>
+              <NameCard
+                title={`${client.firstName} ${client.lastName}`}
+                subtitle=""
+              />
+            </Link>
+          </Box>
         ))
       ) : (
         <Panel>
@@ -39,12 +45,20 @@ class Clients extends React.Component<Props, {}> {
 
     return (
       <div className={this.props.className}>
-        <Link to="/">&larr; Back</Link>
-        <div className="header">
-          <h2>My Clients</h2>
-          <ButtonLink to="/clients/new">Add New Client</ButtonLink>
-        </div>
-        <div className="clients">{ClientsList}</div>
+        <Box width={1}>
+          <Link to="/">&larr; Back</Link>
+        </Box>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Box>
+            <h2>My Clients</h2>
+          </Box>
+          <Box>
+            <ButtonLink to="/clients/new">Add New Client</ButtonLink>
+          </Box>
+        </Flex>
+        <Flex className="clients" flexWrap="wrap">
+          {ClientsList}
+        </Flex>
       </div>
     );
   }
@@ -58,23 +72,6 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ getClients }, dispatch)
 });
 
-const StyledClients = styled(Clients)`
-  .header {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .clients {
-    display: flex;
-    flex-wrap: wrap;
-
-    a {
-      display: block;
-      background: #fafafa;
-      margin: 0.5em;
-    }
-  }
-`;
+const StyledClients = styled(Clients)``;
 
 export default connect(mapStateToProps, mapDispatchToProps)(StyledClients);
