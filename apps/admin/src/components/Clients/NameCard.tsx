@@ -38,7 +38,6 @@ const BaseNameCard = styled.div`
   border-radius: 4px;
   height: 180px;
   text-align: center;
-  width: 303px;
   padding: 10px;
 
   .title {

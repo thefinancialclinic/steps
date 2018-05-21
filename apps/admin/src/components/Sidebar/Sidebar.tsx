@@ -15,6 +15,7 @@ class Sidebar extends React.Component<Props, {}> {
   render() {
     return (
       <StyledSidebar>
+        {this.props.children}
         {this.props.links.map((link, i) => <SidebarItem to={link.to} key={i}>{link.text}</SidebarItem>)}
       </StyledSidebar>
     );
