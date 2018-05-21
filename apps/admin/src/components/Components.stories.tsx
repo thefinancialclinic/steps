@@ -12,6 +12,7 @@ import NavGroup from './NavGroup/NavGroup';
 import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
+import Modal from './Modal';
 
 import { lightBlue, white } from 'styles/colors';
 import 'styles/global';
@@ -37,5 +38,10 @@ export const Components = storiesOf('Components', module)
   ))
   .add('Staff List', () => <StaffList />)
   .add('Staff List Item', () => <StaffListItem />)
+  .add('Modal', () => (
+    <Modal>
+      <div>This is a child in a pane.</div>
+    </Modal>
+  ));
 
 export default Components;
