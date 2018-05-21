@@ -6,6 +6,7 @@ import { getClients } from 'actions/clients';
 import styled from 'styled-components';
 
 import ButtonLink from 'atoms/ButtonLink';
+import Panel from 'atoms/Panel';
 import NameCard from 'components/Clients/NameCard';
 
 interface Props {
@@ -15,23 +16,35 @@ interface Props {
 }
 
 class Clients extends React.Component<Props, {}> {
-  componentWillMount () {
+  componentWillMount() {
     this.props.actions.getClients();
   }
 
   render() {
+    const { clients } = this.props;
+
+    const ClientsList =
+      clients.length > 0 ? (
+        clients.map((client, key) => (
+          <Link to={`/clients/${client.id}`} key={key}>
+            <NameCard title={`${client.firstName} ${client.lastName}`} />
+          </Link>
+        ))
+      ) : (
+        <Panel>
+          Looks like you don’t have any clients using this program. At your next
+          client session, invite them to join.
+        </Panel>
+      );
+
     return (
       <div className={this.props.className}>
         <Link to="/">&larr; Back</Link>
-        <div className='header'>
+        <div className="header">
           <h2>My Clients</h2>
-          <ButtonLink to='/clients/new'>Add New Client</ButtonLink>
+          <ButtonLink to="/clients/new">Add New Client</ButtonLink>
         </div>
-        <div className='clients'>
-          {this.props.clients.map((client, key) => (
-            <Link to={`/clients/${client.id}`} key={key}><NameCard title={`${client.firstName} ${client.lastName}`} /></Link>
-          ))}
-        </div>
+        <div className="clients">{ClientsList}</div>
       </div>
     );
   }
@@ -46,22 +59,22 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const StyledClients = styled(Clients)`
-.header {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-}
-
-.clients {
-  display: flex;
-  flex-wrap: wrap;
-
-  a {
-    display: block;
-    background: #fafafa;
-    margin: 0.5em;
+  .header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
   }
-}
+
+  .clients {
+    display: flex;
+    flex-wrap: wrap;
+
+    a {
+      display: block;
+      background: #fafafa;
+      margin: 0.5em;
+    }
+  }
 `;
 
 export default connect(mapStateToProps, mapDispatchToProps)(StyledClients);

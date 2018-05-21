@@ -4,8 +4,12 @@ type DispatchFn = (any) => any;
 
 const GET_CLIENTS = 'GET_CLIENTS';
 export const getClients = (): DispatchFn => async dispatch => {
-  const clients = await axios.get('http://localhost:3001/users');
-  return dispatch(setClients(clients.data));
+  try {
+    const clients = await axios.get('http://localhost:3001/clients');
+    return dispatch(setClients(clients.data));
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const SET_CLIENTS = 'SET_CLIENTS';
