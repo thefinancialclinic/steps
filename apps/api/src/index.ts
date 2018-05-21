@@ -13,8 +13,13 @@ const PORT = process.env.PORT || '3001';
 
 createConnection('default')
   .then(async connection => {
-    // create express app
     const app = express();
+
+    app.use(bodyParser.json());
+    if (process.env.NODE_ENV !== 'production') app.use(cors());
+    else {
+      app.use(express.static(resolve(__dirname, '..', '..', 'admin', '.build')));
+    }
 
     // register express routes from defined application routes
     Routes.forEach(route => {
@@ -39,14 +44,6 @@ createConnection('default')
         }
       );
     });
-
-    // setup express app here
-    // ...
-    app.use(bodyParser.json());
-    if (process.env.NODE_ENV !== 'production') app.use(cors());
-    else {
-      app.use(express.static(resolve(__dirname, '..', '..', 'admin', '.build')));
-    }
 
     // start express server
     app.listen(PORT);
