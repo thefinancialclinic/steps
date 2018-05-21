@@ -3,6 +3,17 @@ import { NavLink, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Panel from 'atoms/Panel';
 
+import {
+  blue,
+  brown,
+  green,
+  grey,
+  pink,
+  yellow,
+  white,
+  colorFromString
+} from 'styles/colors';
+
 interface Props {
   title: string;
   subtitle?: string;
@@ -20,8 +31,10 @@ class NameCard extends React.Component<Props, {}> {
   }
 }
 
+const badgeColors = [blue, brown, green, pink, yellow];
+
 const BaseNameCard = styled.div`
-  background-color: red;
+  background-color: ${({ title }) => colorFromString(title.toUpperCase(), badgeColors)};
   border-radius: 4px;
   height: 180px;
   text-align: center;

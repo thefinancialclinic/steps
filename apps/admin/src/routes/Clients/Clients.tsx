@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import { getClients } from 'actions/clients';
 import styled from 'styled-components';
 
+import NameCard from 'components/Clients/NameCard';
+
 interface Props {
   className?: string;
   actions: any;
@@ -23,7 +25,7 @@ class Clients extends React.Component<Props, {}> {
         <Link to="/">Home</Link>
         <div className='clients'>
           {this.props.clients.map((client, key) => (
-            <Link to={`/clients/${client.id}`} key={key}>{client.firstName} {client.lastName}</Link>
+            <Link to={`/clients/${client.id}`} key={key}><NameCard title={`${client.firstName} ${client.lastName}`} /></Link>
           ))}
         </div>
       </div>
@@ -47,7 +49,6 @@ const StyledClients = styled(Clients)`
   a {
     display: block;
     background: #fafafa;
-    padding: 1em;
     margin: 0.5em;
   }
 }
