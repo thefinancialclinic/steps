@@ -27,7 +27,7 @@ class Client extends React.Component<Props, {}> {
 
     return (
       <Flex className={this.props.className}>
-        <Box>
+        <Box width={1/3}>
           <Sidebar
             links={[
               { text: 'Tasks', to: `/clients/${client.id}/tasks` },
@@ -36,20 +36,15 @@ class Client extends React.Component<Props, {}> {
             ]}
           >
             <Link to="/clients">&larr; Back</Link>
-            {client.firstName} {client.lastName}
+            <h2>{client.firstName} {client.lastName}</h2>
           </Sidebar>
         </Box>
-        <Box>
+        <Box width={2/3}>
           <Switch>
             <Route path="/clients/:id/tasks/new" component={NewTask} />
             <Route path="/clients/:id/tasks" component={TaskList} />
             <Route path="/clients/:id/goals" component={TaskList} />
             <Route path="/clients/:id/chat" component={TaskList} />
-            <Redirect
-              exact
-              from="/clients/:id"
-              to={`/clients/${client.id}/tasks`}
-            />
           </Switch>
         </Box>
       </Flex>
