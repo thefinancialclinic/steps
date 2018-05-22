@@ -10,6 +10,7 @@ import {
 
 interface Props {
   rounded?: boolean;
+  type?: string;
 }
 
 class Input extends React.Component<Props, {}> {
@@ -17,9 +18,10 @@ class Input extends React.Component<Props, {}> {
 
   render() {
     const InputEl = this.props.rounded ? RoundInput : BaseInput;
+    const type = this.props.type;
     return (
       <InputEl>
-        <input />
+        <input type={type} />
       </InputEl>
     );
   }
