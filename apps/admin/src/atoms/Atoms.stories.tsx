@@ -10,6 +10,7 @@ import Badge from './Badge';
 import Button from './Button';
 import Filter from './Filter';
 import Input from './Input';
+import LabeledInput from './LabeledInput';
 import Panel from './Panel';
 
 import { blue, brown, green, lightBlue, pink, white } from 'styles/colors';
@@ -23,6 +24,9 @@ const Stories = storiesOf('Atoms', module)
   ))
   .add('Input', () => (
     <Input rounded={boolean('Rounded', false)} />
+  ))
+  .add('Labeled Input', () => (
+    <LabeledInput text='Email' type='email' />
   ))
   .add('Filter', () => (
     <Filter
