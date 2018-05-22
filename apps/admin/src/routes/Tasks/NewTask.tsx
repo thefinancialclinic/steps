@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createTask } from 'actions/tasks';
+import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
+import Button from 'atoms/Button';
+import Panel from 'atoms/Panel';
+import StackedInputRow from 'components/Forms/StackedInputRow';
 
 interface Props {
   className?: string;
@@ -23,13 +27,22 @@ class NewTask extends React.Component<Props, {}> {
 
   render () {
     return (
-      <div>
-        <h2>New Task</h2>
-        <form onSubmit={this.newTask}>
-          <input type='text' ref='content' />
-          <button type='submit'>Do it</button>
-        </form>
-      </div>
+        <Box width={1}>
+          <h2>Create New Task</h2>
+          <p>
+            Create a personalized task for your client after you've talked with them
+            to understand their financial goal(s). In the rationale, explain how the task is
+            connected to their goal(s). List the individual steps they will need to take
+            to achieve their task, and include any references or referrals available to help.
+          </p>
+          <Panel>
+            <form onSubmit={this.newTask}>
+              <StackedInputRow type='text' label='Task'/>
+              <StackedInputRow type='text' label='Why This Matters'/>
+              <Button>SAVE TO WORKPLAN</Button>
+            </form>
+          </Panel>
+        </Box>
     );
   }
 }
