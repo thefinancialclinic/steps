@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Flex, Box } from 'grid-styled';
 import Button from 'atoms/Button';
-import LabeledInput from 'atoms/LabeledInput';
+import StackedInputRow from 'components/Forms/StackedInputRow';
 import Panel from 'atoms/Panel';
 
 const Content = styled.div`
@@ -35,10 +35,10 @@ class NewClient extends React.Component {
             <Content>
               <h2>Add New Client</h2>
               <Flex flexWrap='wrap'>
-                <Box width={[1, 1/2]} px={2}><LabeledInput text='First' type='text' /></Box>
-                <Box width={[1, 1/2]} px={2}><LabeledInput text='Last' type='text' /></Box>
-                <Box w={1} px={2}><LabeledInput text='Email' type='email' /></Box>
-                <Box px={2}><LabeledInput text='Phone Number' type='tel' /></Box>
+                <Box width={[1, 1/2]} px={2}><StackedInputRow label='First' type='text' /></Box>
+                <Box width={[1, 1/2]} px={2}><StackedInputRow label='Last' type='text' /></Box>
+                <Box w={1} px={2}><StackedInputRow label='Email' type='email' /></Box>
+                <Box px={2}><StackedInputRow label='Phone Number' type='tel' /></Box>
               </Flex>
               <Button>Save</Button>
             </Content>

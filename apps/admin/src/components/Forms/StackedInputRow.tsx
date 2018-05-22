@@ -9,15 +9,16 @@ import { blue, green, lightBlue, mediumBlue, white } from 'styles/colors';
 interface Props {
   label: string;
   name?: string;
+  type?: string;
 }
 
 class InputRow extends React.Component<Props, {}> {
   render() {
-    const { label, name } = this.props;
+    const { label, name, type } = this.props;
     return (
       <BaseInputRow>
         <label>{label}</label>
-        <Input />
+        <Input type={type} />
       </BaseInputRow>
     );
   }
