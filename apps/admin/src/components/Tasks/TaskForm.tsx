@@ -6,16 +6,18 @@ import Badge from 'atoms/Badge';
 import Button from 'atoms/Button'
 import Panel from 'atoms/Panel';
 import StackedInputRow from 'components/Forms/StackedInputRow';
+import TaskStep from 'components/Tasks/TaskStep';
 
 interface Props {
   className?: string;
   badgeText: string;
+  children: any;
 }
 
 class TaskForm extends React.Component<Props, {}> {
 
   render() {
-    const { className, badgeText } = this.props;
+    const { className, badgeText, children } = this.props;
 
     return (
       <div className={className}>
@@ -26,6 +28,7 @@ class TaskForm extends React.Component<Props, {}> {
             <StackedInputRow type='text' label='Why This Matters'/>
             <Flex justifyContent='center'><Button>SAVE TO WORKPLAN</Button></Flex>
           </form>
+          {children}
         </Panel>
       </div>
     );

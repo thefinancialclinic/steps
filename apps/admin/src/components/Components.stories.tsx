@@ -43,6 +43,7 @@ export const Components = storiesOf('Components', module)
     <Modal>
       <div>This is a child in a panel.</div>
     </Modal>
-  ));
+  ))
+  .add('Task Form', () => <TaskForm badgeText="boo">child</TaskForm>);
 
 export default Components;
