@@ -14,6 +14,7 @@ import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
 import Modal from './Modal';
 import TaskForm from './Tasks/TaskForm';
+import TaskStep from './Tasks/TaskStep';
 
 import { lightBlue, white } from 'styles/colors';
 import 'styles/global';

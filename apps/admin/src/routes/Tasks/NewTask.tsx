@@ -9,6 +9,7 @@ import Button from 'atoms/Button';
 import Panel from 'atoms/Panel';
 import StackedInputRow from 'components/Forms/StackedInputRow';
 import TaskForm from 'components/Tasks/TaskForm';
+import TaskStep from 'components/Tasks/TaskStep';
 
 interface Props {
   className?: string;
