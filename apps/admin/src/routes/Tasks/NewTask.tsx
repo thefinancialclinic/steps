@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Button from 'atoms/Button';
 import Panel from 'atoms/Panel';
 import StackedInputRow from 'components/Forms/StackedInputRow';
+import TaskForm from 'components/Tasks/TaskForm';
 
 interface Props {
   className?: string;
@@ -35,13 +36,7 @@ class NewTask extends React.Component<Props, {}> {
             connected to their goal(s). List the individual steps they will need to take
             to achieve their task, and include any references or referrals available to help.
           </p>
-          <Panel>
-            <form onSubmit={this.newTask}>
-              <StackedInputRow type='text' label='Task'/>
-              <StackedInputRow type='text' label='Why This Matters'/>
-              <Button>SAVE TO WORKPLAN</Button>
-            </form>
-          </Panel>
+          <TaskForm badgeText='custom'></TaskForm>
         </Box>
     );
   }

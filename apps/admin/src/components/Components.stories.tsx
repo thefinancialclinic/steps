@@ -13,6 +13,7 @@ import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
 import Modal from './Modal';
+import TaskForm from './Tasks/TaskForm';
 
 import { lightBlue, white } from 'styles/colors';
 import 'styles/global';
