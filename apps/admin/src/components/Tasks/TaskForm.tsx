@@ -7,6 +7,7 @@ import Button from 'atoms/Button'
 import { Link } from 'react-router-dom';
 import Panel from 'atoms/Panel';
 import StackedInputRow from 'components/Forms/StackedInputRow';
+import TaskStep from 'components/Tasks/TaskStep';
 
 
 interface Props {
