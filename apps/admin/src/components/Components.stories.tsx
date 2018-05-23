@@ -15,6 +15,7 @@ import StaffListItem from './StaffList/StaffListItem';
 import Modal from './Modal';
 import TaskForm from './Tasks/TaskForm';
 import TaskStep from './Tasks/TaskStep';
+import TaskTemplate from './Tasks/TaskTemplate';
 
 import { lightBlue, white } from 'styles/colors';
 import 'styles/global';
@@ -45,6 +46,8 @@ export const Components = storiesOf('Components', module)
       <div>This is a child in a panel.</div>
     </Modal>
   ))
-  .add('Task Form', () => <TaskForm badgeText="boo">child</TaskForm>);
+  .add('Task Form', () => <TaskForm badgeText="boo">child</TaskForm>)
+  .add('Task Step', () => <TaskStep count={1} />)
+  .add('Task Template', () => <TaskTemplate category='boo' description='Do this thing'>);
 
 export default Components;
