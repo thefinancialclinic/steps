@@ -1,23 +1,24 @@
-import { getRepository } from "typeorm";
 import { NextFunction, Request, Response } from "express";
-import { Client } from "../entity/Client";
+import { UserRepository, User, UserType } from "../repository/UserRepository";
+import { pool } from "../index";
 
 export class ClientController {
-  private taskRepository = getRepository(Client);
+  private repo = new UserRepository(pool);
 
   async all(request: Request, response: Response, next: NextFunction) {
-    return this.taskRepository.find();
+    return this.repo.getAllByType('Client');
   }
 
   async one(request: Request, response: Response, next: NextFunction) {
-    return this.taskRepository.findOne(request.params.id);
+    return this.repo.getOneByType(request.params.id, 'Client');
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
-    return this.taskRepository.save(request.body);
+    const client = new User(request.body);
+    return this.repo.saveByType(client, 'Client');
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {
-    await this.taskRepository.delete(request.params.id);
+    await this.repo.deleteByType(request.params.id, 'Client');
   }
 }

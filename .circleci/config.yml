@@ -40,10 +40,12 @@ jobs:
           command: npm run install:all
 
       - run:
-          name: Initialize database
+          name: Database migrations
           command: |
+            sudo apt-get --yes --quiet install sqitch
+            sudo apt-get --yes --quiet install libdbd-pg-perl postgresql-client
             cd apps/api
-            $(npm bin)/ts-node $(npm bin)/typeorm migration:run -c test
+            sqitch deploy --target pg://postgres@localhost/steps_admin_test
 
       - save_cache:
           paths:

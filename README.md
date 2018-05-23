@@ -16,15 +16,18 @@ $(npm bin)/lerna bootstrap
 
 ## API Setup
 
-We're using typeorm to manage the database.
+We're using sqitch to manage the database migrations.
 You will need postgres along with its command line tools (part of normal install).
 The provided config assumes a postgres user `postgres` with a blank password.
 
 ### Test/Dev Config
 
 ```
+cd apps/api
+brew tap theory/sqitch
+brew install sqitch_pg
 createdb steps_admin_test
-NODE_ENV=test $(npm bin)/ts-node $(npm bin)/typeorm migration:run -c test
+sqitch deploy
 ```
 
 You should see many lines of DB output ending with something containing the word `COMMIT`.

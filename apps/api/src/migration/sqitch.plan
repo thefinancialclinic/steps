@@ -1,0 +1,4 @@
+%syntax-version=1.0.0
+%project=steps
+
+appschema 2018-05-23T18:55:40Z Chris Wilson <chris@adorable.io> # Add base schema

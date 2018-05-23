@@ -1,23 +1,24 @@
-import { getRepository } from "typeorm";
 import { NextFunction, Request, Response } from "express";
-import { Coach } from "../entity/Coach";
+import { UserRepository, UserType, User } from "../repository/UserRepository";
+import { pool } from "../index";
+
 
 export class CoachController {
-  private taskRepository = getRepository(Coach);
+  private repo = new UserRepository(pool);
 
   async all(request: Request, response: Response, next: NextFunction) {
-    return this.taskRepository.find();
+    return this.repo.getAllByType('Coach');
   }
 
   async one(request: Request, response: Response, next: NextFunction) {
-    return this.taskRepository.findOne(request.params.id);
+    return this.repo.getOneByType(request.params.id, 'Coach');
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
-    return this.taskRepository.save(request.body);
+    return this.repo.saveByType(request.body, 'Coach');
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {
-    await this.taskRepository.delete(request.params.id);
+    await this.repo.deleteByType(request.params.id, 'Coach');
   }
 }

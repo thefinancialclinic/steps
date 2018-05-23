@@ -1,0 +1,58 @@
+import { Repository } from "./Repository";
+import { Pool, Client } from "pg";
+
+export type OrgId = number;
+
+export type OrgOpts = {
+  id?: OrgId;
+  name: string;
+  sms_number: string;
+  logo?: string;
+};
+
+export class Org {
+  id?: number;
+  name: string;
+  sms_number: string;
+  logo?: string;
+
+  constructor(opts: OrgOpts) {
+    this.id = opts.id;
+    this.name = opts.name;
+    this.sms_number = opts.sms_number;
+    this.logo = opts.logo;
+  }
+}
+
+export class OrgRepository implements Repository<OrgId, Org> {
+  constructor(public pool: Pool) { }
+
+  async getOne(oid: OrgId) {
+    const res = await this.pool.query(`SELECT * FROM org WHERE id = $1`, [
+      oid
+    ]);
+    return new Org(res.rows[0]);
+  }
+
+  async getAll() {
+    const res = await this.pool.query(`SELECT * FROM org`);
+    return res.rows.map(row => new Org(row));
+  }
+
+  async save(org: Org) {
+    const res = await this.pool.query(
+      `
+      INSERT INTO org (name, sms_number, logo)
+      VALUES ($1, $2, $3)
+      RETURNING id
+    `,
+      [org.name, org.sms_number, org.logo]
+    );
+    return res.rows[0].id as OrgId;
+  }
+
+  async delete(oid: OrgId) {
+    const res = await this.pool.query(`DELETE FROM org WHERE id = $1`, [oid]);
+    return res.rowCount;
+  }
+}
