@@ -40,6 +40,6 @@ const Stories = storiesOf('Atoms', module)
   ))
   .add('Panel', () => (
     <Panel shadow={boolean('with shadow', false)}>This is a panel</Panel>
-  ))
+  ));
 
 export default Stories;

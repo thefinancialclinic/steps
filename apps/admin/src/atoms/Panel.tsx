@@ -18,11 +18,7 @@ class Panel extends React.Component<Props, {}> {
 
     if (fill) PanelEl = PanelEl.extend`${FillPanelCss}`;
 
-    return (
-      <PanelEl className={className}>
-        {children}
-      </PanelEl>
-    );
+    return <PanelEl className={className}>{children}</PanelEl>;
   }
 }
 
@@ -35,11 +31,15 @@ const BasePanel = styled.div`
 `;
 
 const ShadowedPanel = BasePanel.extend`
-  box-shadow: 0 0 4px ${Color(darkBlue).fade(0.75).rgb().string()};
+  box-shadow: 0 0 4px
+    ${Color(darkBlue)
+      .fade(0.75)
+      .rgb()
+      .string()};
 `;
 
 const FillPanelCss = `
-height: 100%;
+  height: 100%;
 `;
 
 export default Panel;
