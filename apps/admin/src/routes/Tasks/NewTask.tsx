@@ -8,11 +8,8 @@ import styled from 'styled-components';
 import Button from 'atoms/Button';
 import Panel from 'atoms/Panel';
 import StackedInputRow from 'components/Forms/StackedInputRow';
-<<<<<<< HEAD
 import TaskForm from 'components/Tasks/TaskForm';
 import TaskStep from 'components/Tasks/TaskStep';
-=======
->>>>>>> Start new task page
 
 interface Props {
   className?: string;
@@ -40,21 +37,11 @@ class NewTask extends React.Component<Props, {}> {
             connected to their goal(s). List the individual steps they will need to take
             to achieve their task, and include any references or referrals available to help.
           </p>
-<<<<<<< HEAD
           <TaskForm badgeText='custom'>
             <Box>STEPS</Box>
             {/* TODO: iterate over steps and make the count equal the index */}
             <TaskStep count={1}></TaskStep>
           </TaskForm>
-=======
-          <Panel>
-            <form onSubmit={this.newTask}>
-              <StackedInputRow type='text' label='Task'/>
-              <StackedInputRow type='text' label='Why This Matters'/>
-              <Button>SAVE TO WORKPLAN</Button>
-            </form>
-          </Panel>
->>>>>>> Start new task page
         </Box>
     );
   }

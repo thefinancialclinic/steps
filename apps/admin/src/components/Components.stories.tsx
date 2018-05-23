@@ -48,6 +48,6 @@ export const Components = storiesOf('Components', module)
   ))
   .add('Task Form', () => <TaskForm badgeText="boo">child</TaskForm>)
   .add('Task Step', () => <TaskStep count={1} />)
-  .add('Task Template', () => <TaskTemplate category='boo' description='Do this thing'>);
+  .add('Task Template', () => <TaskTemplate category='boo' description='Do this thing' />);
 
 export default Components;
