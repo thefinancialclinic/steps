@@ -40,7 +40,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ createTask }, dispatch)
 });
 
-const StyledNewTask = styled(EditTask)`
+const StyledEditTask = styled(EditTask)`
 `;
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledNewTask);
+export default connect(mapStateToProps, mapDispatchToProps)(StyledEditTask);

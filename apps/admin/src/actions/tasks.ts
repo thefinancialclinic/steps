@@ -10,7 +10,12 @@ export const createTask = async (data): Promise<any> => {
 
 const GET_TASKS = 'GET_TASKS';
 export const getTasks = (): DispatchFn => async dispatch => {
-  const tasks = await axios.get('http://localhost:3001/tasks');
+  // const tasks = await axios.get('http://localhost:3001/tasks');
+  const tasks = {
+    data: [
+      { id: 100, description: 'Do a thing', content: 'Do a thing', category: 'Foo' },
+      { id: 101, description: 'Do another thing', content: 'Do another thing', category: 'Bar' }
+    ]}
   return dispatch(setTasks(tasks.data));
 };
 
