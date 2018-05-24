@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { SortableElement } from 'react-sortable-hoc';
+import { green } from 'styles/colors';
+import Panel from 'atoms/Panel';
+import { Link } from 'react-router-dom';
 
-export default SortableElement(task => <li>{task.value}</li>);
+const StyledLink = styled(Link)`
+  color: ${green};
+  font-size: .8em;
+  margin-top: .5em;
+  text-decoration: none;
+  text-transform: uppercase;
+`;
 
+export default SortableElement(task => <Panel shadow>{task.value}<StyledLink to='/'>View Steps</StyledLink></Panel>);

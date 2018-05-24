@@ -27,8 +27,10 @@ const StyledSidebar = styled.div`
   box-shadow: -30px 0 0 0 ${green};
   display: flex;
   flex-direction: column;
+  height: 100%;
   min-width: 370px;
   margin-left: 30px;
+  padding-left: 1.5em;
 `;
 
 export default Sidebar;
