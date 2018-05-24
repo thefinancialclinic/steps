@@ -5,11 +5,7 @@ type DispatchFn = (any) => any;
 const GET_CLIENTS = 'GET_CLIENTS';
 export const getClients = (): DispatchFn => async dispatch => {
   try {
-    // const clients = await axios.get('http://localhost:3001/clients');
-    const clients = { data: [
-      { id: 100, firstName: 'Fred', lastName: 'Flinstone' },
-      { id: 101, firstName: 'Barney', lastName: 'Rubble' }
-    ]}
+    const clients = await axios.get('http://localhost:3001/clients');
     return dispatch(setClients(clients.data));
   } catch (error) {
     console.error(error);
