@@ -9,9 +9,13 @@ import styled from 'styled-components';
 import Sidebar from 'components/Sidebar/Sidebar';
 import TaskList from 'components/Tasks/TaskList';
 import NewTask from 'routes/Tasks/NewTask';
+<<<<<<< HEAD
 import GoalList from 'components/Goals/GoalList';
 import EditTask from 'routes/Tasks/EditTask';
 import AddTask from 'routes/Tasks/AddTask';
+=======
+import ChatList from 'components/Chat/ChatList';
+>>>>>>> Create NoChat component
 
 interface Props {
   className?: string;
@@ -48,8 +52,13 @@ class Client extends React.Component<Props, {}> {
             <Route path="/clients/:id/tasks/edit" component={EditTask} />
             <Route path="/clients/:id/tasks/new" component={NewTask} />
             <Route path="/clients/:id/tasks" component={TaskList} />
+<<<<<<< HEAD
             <Route path="/clients/:id/goals" component={GoalList} />
             <Route path="/clients/:id/chat" component={TaskList} />
+=======
+            <Route path="/clients/:id/goals" component={TaskList} />
+            <Route path="/clients/:id/chat" component={ChatList} />
+>>>>>>> Create NoChat component
           </Switch>
         </Box>
       </Flex>
