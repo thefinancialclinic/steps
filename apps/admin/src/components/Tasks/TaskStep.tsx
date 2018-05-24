@@ -24,10 +24,10 @@ class TaskStep extends React.Component<Props, {}> {
             <Box width={1} mb={1}>
               <div className='circle'>{count}</div>
             </Box>
-            <Box width={1} mt={1}>X</Box>
+            <Box width={1} mt={1}>&nbsp;X</Box>
           </Flex>
         </Box>
-        <Box width={7/8}>
+        <Box width={7/8} className='step-text'>
           <Input type='text' />
         </Box>
       </Flex>
@@ -37,15 +37,14 @@ class TaskStep extends React.Component<Props, {}> {
 
 const StyledTaskStep = styled(TaskStep)`
   padding: 1em;
+  background: ${white};
+
 
   .step-actions {
     align-items: center;
     flex-direction: column;
     height: 100%;
-
-    > div {
-      flex: 1;
-    }
+  
   }
   .circle {
     background-color: ${green};
@@ -56,6 +55,11 @@ const StyledTaskStep = styled(TaskStep)`
     text-align: center;
     vertical-align: middle;
     width: 24px;
+  }
+  .step-text {
+    > div {
+      width: 100%;
+    }
   }
 `;
 
