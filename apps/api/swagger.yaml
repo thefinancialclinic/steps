@@ -1,0 +1,271 @@
+openapi: 3.0.0
+info:
+  title: STEPS API
+  description: API endpoints for STEPS bot
+
+servers:
+  - url: http://localhost:3001
+
+components:
+  schemas:
+    Org:
+      properties:
+        name:
+          type: string
+        sms_number:
+          type: string
+          format: phone
+        logo:
+          type: string
+          format: uri
+          nullable: true
+    User:
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+          format: phone
+          nullable: true
+        coach_id:
+          type: integer
+          nullable: true
+        org_id:
+          type: integer
+        color:
+          type: string
+        goals:
+          type: array
+          items:
+            type: string
+          nullable: true
+        status:
+          type: string
+          enum: [AWAITING_HELP, WORKING, NON_RESPONSIVE]
+        updated:
+          type: string
+          format: date-time
+          nullable: true
+        platform:
+          type: string
+          enum: [SMS, FBOOK]
+          nullable: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+        follow_up_date:
+          type: string
+          format: date-time
+          nullable: true
+
+
+paths:
+  /clients:
+    get:
+      summary: Return a list of Clients
+      tags: [users]
+      responses:
+        '200':
+          description: A JSON array of User objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/User'
+    post:
+      summary: Create a new client
+      tags: [users]
+      requestBody:
+        description: New Client to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+  /clients/{id}:
+    get:
+      summary: Return a single Client by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [users]
+      responses:
+        '200':
+          description: A JSON object representing a single Client (user)
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/User'
+    delete:
+      summary: Delete a Client by the given id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id to be deleted
+      tags: [users]
+      responses:
+        '200':
+          description: The number of Clients deleted (should be 1 or 0)
+          content:
+            application/json:
+              type: integer
+
+  /coaches:
+    get:
+      summary: Return a list of Coaches
+      tags: [users]
+      responses:
+        '200':
+          description: A JSON array of Coach objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/User'
+    post:
+      summary: Create a new Coach
+      tags: [users]
+      requestBody:
+        description: New Coach to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+  /coaches/{id}:
+    get:
+      summary: Return a single Coach by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [users]
+      responses:
+        '200':
+          description: A JSON object representing a single Coach (user)
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/User'
+    delete:
+      summary: Delete a Coach by the given id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id to be deleted
+      tags: [users]
+      responses:
+        '200':
+          description: The number of Coach deleted (should be 1 or 0)
+          content:
+            application/json:
+              type: integer
+
+  /orgs:
+    get:
+      summary: Return a list of Orgs
+      tags: [orgs]
+      responses:
+        '200':
+          description: A JSON array of Org objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Org'
+    post:
+      summary: Create a new Org
+      tags: [orgs]
+      requestBody:
+        description: New Org to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Org'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+  /orgs/{id}:
+    get:
+      summary: Return a single Org by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [orgs]
+      responses:
+        '200':
+          description: A JSON object representing a single Org
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Org'
+    delete:
+      summary: Delete an Org by the given id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id to be deleted
+      tags: [orgs]
+      responses:
+        '200':
+          description: The number of Orgs deleted (should be 1 or 0)
+          content:
+            application/json:
+              type: integer

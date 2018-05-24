@@ -15,10 +15,13 @@ export class ClientController {
 
   async save(request: Request, response: Response, next: NextFunction) {
     const client = new User(request.body);
-    return this.repo.saveByType(client, 'Client');
+    response.status(201); // created
+    const clientId = await this.repo.saveByType(client, 'Client');
+    return { id: clientId };
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {
-    await this.repo.deleteByType(request.params.id, 'Client');
+    const num = await this.repo.deleteByType(request.params.id, 'Client');
+    return { deleted: num };
   }
 }
