@@ -10,6 +10,7 @@ import Sidebar from 'components/Sidebar/Sidebar';
 import TaskList from 'components/Tasks/TaskList';
 import NewTask from 'routes/Tasks/NewTask';
 import EditTask from 'routes/Tasks/EditTask';
+import AddTask from 'routes/Tasks/AddTask';
 
 interface Props {
   className?: string;
@@ -42,6 +43,7 @@ class Client extends React.Component<Props, {}> {
         </Box>
         <Box width={[1, 2/3]} m={4}>
           <Switch>
+            <Route path="/clients/:id/tasks/add" component={AddTask} />
             <Route path="/clients/:id/tasks/edit" component={EditTask} />
             <Route path="/clients/:id/tasks/new" component={NewTask} />
             <Route path="/clients/:id/tasks" component={TaskList} />
