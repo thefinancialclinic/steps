@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import Sidebar from 'components/Sidebar/Sidebar';
 import TaskList from 'components/Tasks/TaskList';
 import NewTask from 'routes/Tasks/NewTask';
+import GoalList from 'components/Goals/GoalList';
 
 interface Props {
   className?: string;
@@ -43,7 +44,7 @@ class Client extends React.Component<Props, {}> {
           <Switch>
             <Route path="/clients/:id/tasks/new" component={NewTask} />
             <Route path="/clients/:id/tasks" component={TaskList} />
-            <Route path="/clients/:id/goals" component={TaskList} />
+            <Route path="/clients/:id/goals" component={GoalList} />
             <Route path="/clients/:id/chat" component={TaskList} />
           </Switch>
         </Box>
