@@ -7,8 +7,7 @@ import { bindActionCreators } from 'redux';
 import { getTasks, setTasks } from 'actions/tasks';
 import styled from 'styled-components';
 import Task from './TaskListItem';
-import Panel from 'atoms/Panel';
-import ButtonLink from 'atoms/ButtonLink';
+import NoTasks from './NoTasks';
 
 interface Props {
   className?: string;
@@ -68,13 +67,7 @@ class TaskList extends React.Component<Props, {}> {
           <SortableList items={this.props.tasks} onSortEnd={this.onSortEnd} />
         </Box>
     ) : (
-        <Box width={1} p={4}>
-          <Panel fill>
-            Profile created!
-            Now let's add some tasks.
-            <Box m={2}><ButtonLink to='/clients/1/tasks/new'>Add New Task</ButtonLink></Box>
-          </Panel>
-        </Box>
+        <NoTasks></NoTasks>
       );
 
     return (
@@ -86,7 +79,7 @@ class TaskList extends React.Component<Props, {}> {
 }
 
 const StyledTaskList = styled(TaskList)`
-display: flex;
+  display: flex;
 `;
 
 const mapStateToProps = (state, props) => ({
