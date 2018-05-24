@@ -1,221 +1,169 @@
-import { Connection, createConnection } from "typeorm";
-import { Coach } from "../src/entity/Coach";
-import { Org } from "../src/entity/Org";
-import { Client } from "../src/entity/Client";
-import { Admin } from "../src/entity/Admin";
-import { TaskTemplate } from "../src/entity/TaskTemplate";
-import { File } from "../src/entity/File";
-import { Request } from "../src/entity/Request";
-import { Task } from "../src/entity/Task";
-import { Step } from "../src/entity/Step";
+import {
+  MediaId,
+  MediaRepository,
+  Media
+} from "../src/repository/MediaRepository";
+import { Org, OrgId, OrgRepository } from "../src/repository/OrgRepository";
+import { Pool } from "pg";
+import {
+  RequestRepository,
+  RequestId,
+  Request
+} from "../src/repository/RequestRepository";
+import { StepId, StepRepository, Step } from "../src/repository/StepRepository";
+import { TaskId, TaskRepository, Task } from "../src/repository/TaskRepository";
+import { UserId, UserRepository, User } from "../src/repository/UserRepository";
 
-let activeConn: Connection;
+let pool: Pool;
+
 let fixtures: {
-  admin: Admin;
-  org: Org;
-  coach: Coach;
-  client: Client;
-  taskTemplate: TaskTemplate;
-  file: File;
-  request: Request;
-  task: Task;
-  step: Step;
+  media: MediaId;
+  org: OrgId;
+  request: RequestId;
+  task: TaskId;
+  step: StepId;
+  user: UserId;
 };
 
-const getTestConnection = async (options?: { createFixtures: boolean }) => {
-  if (!activeConn) {
-    activeConn = await createConnection("test");
+const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
+  if (!pool) {
+    pool = new Pool({
+      user: "postgres",
+      host: "localhost",
+      database: "steps_admin_test",
+      password: "",
+      port: 5432
+    });
   }
 
   // create DB fixtures if requested
   if (options.createFixtures) {
-    // UPSERT Org
-    let org: Org = await activeConn
-      .getRepository(Org)
-      .createQueryBuilder()
-      .getOne();
-    if (!org) {
-      await activeConn
-        .createQueryBuilder()
-        .insert()
-        .into(Org)
-        .values({ name: "ORG", botPhone: "FAKE" })
-        .execute();
-      org = await activeConn
-        .getRepository(Org)
-        .createQueryBuilder()
-        .getOne();
-    }
+    let media;
+    let org;
+    let request;
+    let task;
+    let step;
+    let user;
 
-    // UPSERT Admin
-    let admin: Admin = await activeConn
-      .getRepository(Admin)
-      .createQueryBuilder()
-      .getOne();
-    if (!admin) {
-      await activeConn
-        .createQueryBuilder()
-        .insert()
-        .into(Admin)
-        .values({ org })
-        .execute();
-      admin = await activeConn
-        .getRepository(Admin)
-        .createQueryBuilder()
-        .getOne();
-    }
+    let res: any;
 
-    // UPSERT Coach
-    let coach: Coach = await activeConn
-      .getRepository(Coach)
-      .createQueryBuilder()
-      .getOne();
-    if (!coach) {
-      await activeConn
-        .createQueryBuilder()
-        .insert()
-        .into(Coach)
-        .values({ org })
-        .execute();
-      coach = await activeConn
-        .getRepository(Coach)
-        .createQueryBuilder()
-        .getOne();
-    }
-
-    // UPSERT Client
-    let client: Client = await activeConn
-      .getRepository(Client)
-      .createQueryBuilder()
-      .getOne();
-    if (!client) {
-      await activeConn
-        .createQueryBuilder()
-        .insert()
-        .into(Client)
-        .values({ org, coach, fullName: "FULL NAME" })
-        .execute();
-      client = await activeConn
-        .getRepository(Client)
-        .createQueryBuilder()
-        .getOne();
-    }
-
-    // UPSERT TaskTemplate
-    let taskTemplate: TaskTemplate = await activeConn
-      .getRepository(TaskTemplate)
-      .createQueryBuilder()
-      .getOne();
-    if (!taskTemplate) {
-      await activeConn
-        .createQueryBuilder()
-        .insert()
-        .into(TaskTemplate)
-        .values({ org, admin })
-        .execute();
-      taskTemplate = await activeConn
-        .getRepository(TaskTemplate)
-        .createQueryBuilder()
-        .getOne();
-    }
-
-    // UPSERT File
-    let file: File = await activeConn
-      .getRepository(File)
-      .createQueryBuilder()
-      .getOne();
-    if (!file) {
-      await activeConn
-        .createQueryBuilder()
-        .insert()
-        .into(File)
-        .values({ org })
-        .execute();
-      file = await activeConn
-        .getRepository(File)
-        .createQueryBuilder()
-        .getOne();
-    }
-
-
-    // UPSERT Request
-    let request: Request = await activeConn
-      .getRepository(Request)
-      .createQueryBuilder()
-      .getOne();
-    if (!request) {
-      await activeConn
-        .createQueryBuilder()
-        .insert()
-        .into(Request)
-        .values({ status: "NEEDS_ASSISTANCE" })
-        .execute();
-      request = await activeConn
-        .getRepository(Request)
-        .createQueryBuilder()
-        .getOne();
-    }
-
-    // UPSERT Task
-    let task: Task = await activeConn
-      .getRepository(Task)
-      .createQueryBuilder()
-      .getOne();
-    if (!task) {
-      await activeConn
-        .createQueryBuilder()
-        .insert()
-        .into(Task)
-        .values({
-          content: 'CONTENT',
-          client: client,
-          org: org,
-          dateCreated: new Date(),
+    // Org
+    res = (await new OrgRepository(pool).getAll())[0];
+    if (res) {
+      org = res.id;
+    } else {
+      org = await new OrgRepository(pool).save(
+        new Org({
+          name: "NAME",
+          sms_number: "SMS_NUMBER",
+          logo: "LOGO"
         })
-        .execute();
-      task = await activeConn
-        .getRepository(Task)
-        .createQueryBuilder()
-        .getOne();
+      );
     }
 
-    // UPSERT Step
-    let step: Step = await activeConn
-      .getRepository(Step)
-      .createQueryBuilder()
-      .getOne();
-    if (!step) {
-      await activeConn
-        .createQueryBuilder()
-        .insert()
-        .into(Step)
-        .values({
-          text: 'TEXT',
-          task: task,
-          note: 'NOTE',
+    // User
+    res = (await new UserRepository(pool).getAll())[0];
+    if (res) {
+      user = res.id;
+    } else {
+      user = await new UserRepository(pool).save(
+        new User({
+          first_name: "FIRST",
+          last_name: "LAST",
+          email: "EMAIL",
+          phone: "PHONE",
+          org_id: org,
+          color: "COLOR",
+          goals: ["walk", "run"],
+          status: "AWAITING_HELP",
+          type: "Client",
+          updated: new Date(),
+          platform: "SMS",
+          follow_up_date: new Date()
         })
-        .execute();
-      step = await activeConn
-        .getRepository(Step)
-        .createQueryBuilder()
-        .getOne();
+      );
+    }
+
+    // Task
+    res = (await new TaskRepository(pool).getAll())[0];
+    if (res) {
+      task = res.id;
+    } else {
+      task = await new TaskRepository(pool).save(
+        new Task({
+          title: "TITLE",
+          category: "CATEGORY",
+          description: "DESCRIPTION",
+          status: "ACTIVE",
+          created_by: org,
+          user_id: user,
+          difficulty: "EASY",
+          date_created: new Date(),
+          date_completed: new Date()
+        })
+      );
+    }
+
+    // Request
+    res = (await new RequestRepository(pool).getAll())[0];
+    if (res) {
+      request = res.id;
+    } else {
+      request = await new RequestRepository(pool).save(
+        new Request({
+          status: "NEEDS_ASSISTANCE",
+          user_id: user,
+          task_id: task
+        })
+      );
+    }
+
+    // Step
+    res = (await new StepRepository(pool).getAll())[0];
+    if (res) {
+      step = res.id;
+    } else {
+      step = await new StepRepository(pool).save(
+        new Step({
+          text: "TEXT",
+          note: "NOTE",
+          task_id: task
+        })
+      );
+    }
+
+    // Media
+    res = (await new MediaRepository(pool).getAll())[0];
+    if (res) {
+      media = res.id;
+    } else {
+      media = await new MediaRepository(pool).save(
+        new Media({
+          step_id: step,
+          task_id: task,
+          title: "TITLE",
+          category: "CATEGORY",
+          description: "DESCRIPTION",
+          url: "URL",
+          image: "IMAGE",
+          published_by: org,
+          type: "GENERAL_EDUCATION"
+        })
+      );
     }
 
     // export created fixtures
     fixtures = {
-      admin,
+      media,
       org,
-      coach,
-      client,
-      taskTemplate,
-      file,
       request,
       task,
-      step
+      step,
+      user
     };
   } // end if(options.createFixtures)
 
-  return activeConn;
+  return pool;
 };
 
-export { getTestConnection, fixtures };
+export { getTestConnectionPool, fixtures };
