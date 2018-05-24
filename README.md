@@ -30,8 +30,14 @@ createdb steps_admin_test
 sqitch deploy
 ```
 
-You should see many lines of DB output ending with something containing the word `COMMIT`.
-If you see the commit message, it means migrations have run.
+You should see something similar to:
+
+```
+Deploying changes to steps
+  + appschema .. ok
+```
+
+If you see that the DB is ready to rock.
 
 # Running
 
