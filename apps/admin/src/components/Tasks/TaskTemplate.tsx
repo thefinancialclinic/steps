@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import { green, white } from 'styles/colors';
@@ -22,9 +23,10 @@ class TaskTemplate extends React.Component<Props, {}> {
     return (
       <Panel className={className}>
         <Box><Badge text={category} /></Box>
-        <Flex alignItems='center' className='edit-link'>
+        <Flex alignItems='center' className='task-row'>
           <Box width={5/6}><h3>{description}</h3></Box>
-          <Box width={1/6}><div className='circle'>Edit</div></Box>
+          {/* TODO: circle should link to edit page */}
+          <Box className='edit-link' width={1/6}><Link to='/'><div className='circle'>Edit</div></Link></Box>
         </Flex>
       </Panel>
     );
@@ -32,8 +34,14 @@ class TaskTemplate extends React.Component<Props, {}> {
 }
 
 const StyledTaskTemplate = styled(TaskTemplate)`
-  .edit-link {
+  .task-row {
     height: 100%;
+  }
+  .edit-link {
+    a {
+      color: ${white};
+      text-decoration: none;
+    }
   }
   .circle {
     background-color: ${green};
