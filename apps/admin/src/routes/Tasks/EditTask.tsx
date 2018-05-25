@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createTask } from 'actions/tasks';
 import styled from 'styled-components';
+import TaskForm from 'components/Tasks/TaskForm';
+import TaskStep from 'components/Tasks/TaskStep';
 
 interface Props {
   className?: string;
@@ -24,11 +26,11 @@ class EditTask extends React.Component<Props, {}> {
   render () {
     return (
       <div>
-        <h2>New Task</h2>
-        <form onSubmit={this.newTask}>
-          <input type='text' ref='content' />
-          <button type='submit'>Do it</button>
-        </form>
+        <h2>Edit Task</h2>
+        <p>Personalize this task better for your client by editing, adding, or deleting steps.</p>
+        <TaskForm badgeText='passmein'>
+          <TaskStep count={1} />
+        </TaskForm>
       </div>
     );
   }
