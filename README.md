@@ -23,7 +23,6 @@ The provided config assumes a postgres user `postgres` with a blank password.
 ### Test/Dev Config
 
 ```
-cd apps/api
 brew tap theory/sqitch
 brew install sqitch_pg
 createdb steps_admin_test
