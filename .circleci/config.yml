@@ -44,8 +44,7 @@ jobs:
           command: |
             sudo apt-get --yes --quiet install sqitch
             sudo apt-get --yes --quiet install libdbd-pg-perl postgresql-client
-            cd apps/api
-            sqitch deploy --target pg://postgres@localhost/steps_admin_test
+            sqitch deploy
 
       - save_cache:
           paths:
