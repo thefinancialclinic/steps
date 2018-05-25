@@ -5,20 +5,30 @@ import Panel from 'atoms/Panel';
 
 interface Props {
   className?: string;
+  type: string;
 }
 
 class NoChat extends React.Component<Props, {}> {
 
   render() {
-    const { className } = this.props;
+    const { className, type} = this.props;
+    let message: string = '';
+
+    if(type === 'log') {
+      message = "Chatting hasn't started. Come back later."
+    } else {
+      message = "Looks like your client hasn't messaged you yet."
+    }
 
     return (
+
       <Box width={1} p={4} className={className}>
         <Panel>
           <div>[Image Here]</div>
-          <div>Chatting hasn't started. Come back later.</div>
+          <div>{message}</div>
         </Panel>
       </Box>
+
     );
   }
 }

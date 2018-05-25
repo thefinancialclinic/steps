@@ -18,21 +18,13 @@ class ChatList extends React.Component<Props, {}> {
         </Box>
     ) : (
         <Box width={1}>
-          <NoChat></NoChat>
+          <NoChat type='log'></NoChat>
         </Box>
       );
 
     return (
       <div>
-        <Box m={4} mb={0}>
-          <NavGroup
-            links={[
-              { text: 'log', to: '/log' },
-              { text: 'help', to: '/help' }
-            ]}
-          />  </Box>
         {chatDisplay}
-
       </div>
     );
   }
