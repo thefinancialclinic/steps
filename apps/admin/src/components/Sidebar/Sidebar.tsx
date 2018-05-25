@@ -28,7 +28,6 @@ const StyledSidebar = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-width: 370px;
   margin-left: 30px;
   padding-left: 1.5em;
 `;
