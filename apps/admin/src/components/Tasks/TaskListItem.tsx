@@ -13,4 +13,11 @@ const StyledLink = styled(Link)`
   text-transform: uppercase;
 `;
 
-export default SortableElement(task => <Panel shadow>{task.value}<StyledLink to='/'>View Steps</StyledLink></Panel>);
+export default SortableElement(task => {
+  return (
+    <Panel shadow>
+      {task.value}
+      <StyledLink to={{ pathname: `/clients/6/tasks/${task.id}` }}>View Details</StyledLink>
+    </Panel>
+  )
+});
