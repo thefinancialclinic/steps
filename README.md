@@ -36,7 +36,7 @@ Deploying changes to steps
   + appschema .. ok
 ```
 
-If you see that the DB is ready to rock.
+If you see that, then the DB is ready to rock.
 
 # Running
 
