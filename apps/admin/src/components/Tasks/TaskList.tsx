@@ -62,13 +62,13 @@ class TaskList extends React.Component<Props, {}> {
   render () {
     const tasks = this.props.tasks;
     const taskDisplay = tasks.length > 0 ? (
-        <Box width={1} p={4}>
+        <Box width={1}>
           <h2>Tasks</h2>
           <Link to="/clients/1/tasks/new">New Task</Link>
           <SortableList items={this.props.tasks} onSortEnd={this.onSortEnd} />
         </Box>
     ) : (
-        <Box width={1} p={4}>
+        <Box width={1}>
           <Panel fill>
             Profile created!
             Now let's add some tasks.

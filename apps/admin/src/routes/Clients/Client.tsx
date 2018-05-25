@@ -28,7 +28,7 @@ class Client extends React.Component<Props, {}> {
 
     return (
       <Flex className={this.props.className}>
-        <Box width={1/3}>
+        <Box width={[1, 1/3]}>
           <Sidebar
             links={[
               { text: 'Tasks', to: `/clients/${client.id}/tasks` },
@@ -40,8 +40,10 @@ class Client extends React.Component<Props, {}> {
             <h2>{client.first_name} {client.last_name}</h2>
           </Sidebar>
         </Box>
-        <Box width={2/3}>
+        <Box width={[1, 2/3]} m={4}>
           <Switch>
+            <Route path="/clients/:id/tasks/add" component={AddTask} />
+            <Route path="/clients/:id/tasks/edit" component={EditTask} />
             <Route path="/clients/:id/tasks/new" component={NewTask} />
             <Route path="/clients/:id/tasks" component={TaskList} />
             <Route path="/clients/:id/goals" component={GoalList} />
