@@ -10,6 +10,8 @@ import Sidebar from 'components/Sidebar/Sidebar';
 import TaskList from 'components/Tasks/TaskList';
 import NewTask from 'routes/Tasks/NewTask';
 import GoalList from 'components/Goals/GoalList';
+import EditTask from 'routes/Tasks/EditTask';
+import AddTask from 'routes/Tasks/AddTask';
 
 interface Props {
   className?: string;
