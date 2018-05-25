@@ -12,6 +12,7 @@ import NewTask from 'routes/Tasks/NewTask';
 import GoalList from 'components/Goals/GoalList';
 import EditTask from 'routes/Tasks/EditTask';
 import AddTask from 'routes/Tasks/AddTask';
+import Chat from 'components/Chat/Chat';
 
 interface Props {
   className?: string;
@@ -49,7 +50,7 @@ class Client extends React.Component<Props, {}> {
             <Route path="/clients/:id/tasks/new" component={NewTask} />
             <Route path="/clients/:id/tasks" component={TaskList} />
             <Route path="/clients/:id/goals" component={GoalList} />
-            <Route path="/clients/:id/chat" component={TaskList} />
+            <Route path="/clients/:id/chat" component={Chat} />
           </Switch>
         </Box>
       </Flex>
