@@ -49,7 +49,7 @@ class Client extends React.Component<Props, {}> {
             <Route path="/clients/:id/tasks/edit" component={EditTask} />
             <Route path="/clients/:id/tasks/new" component={NewTask} />
             <Route path="/clients/:id/tasks" component={TaskList} />
-            <Route path="/clients/:id/goals" component={TaskList} />
+            <Route path="/clients/:id/goals" component={GoalList} />
             <Route path="/clients/:id/chat" component={Chat} />
           </Switch>
         </Box>
