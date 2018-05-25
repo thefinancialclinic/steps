@@ -35,10 +35,10 @@ class NewClient extends React.Component {
             <Content>
               <h2>Add New Client</h2>
               <Flex flexWrap='wrap'>
-                <Box width={[1, 1/2]} px={2}><StackedInputRow label='First' type='text' /></Box>
-                <Box width={[1, 1/2]} px={2}><StackedInputRow label='Last' type='text' /></Box>
-                <Box w={1} px={2}><StackedInputRow label='Email' type='email' /></Box>
-                <Box px={2}><StackedInputRow label='Phone Number' type='tel' /></Box>
+                <Box width={[1, 1/2]} px={2}><StackedInputRow label='First' type='text' name='first_name'/></Box>
+                <Box width={[1, 1/2]} px={2}><StackedInputRow label='Last' type='text' name='last_name' /></Box>
+                <Box w={1} px={2}><StackedInputRow label='Email' type='email' name='email' /></Box>
+                <Box px={2}><StackedInputRow label='Phone Number' type='tel' name='phone' /></Box>
               </Flex>
               <Button>Save</Button>
             </Content>
