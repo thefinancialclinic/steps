@@ -30,7 +30,7 @@ class Clients extends React.Component<Props, {}> {
           <Box width={[1, 1 / 3, 1 / 5]}>
             <Link to={`/clients/${client.id}`} key={key}>
               <NameCard
-                title={`${client.firstName} ${client.lastName}`}
+                title={`${client.first_name} ${client.last_name}`}
                 subtitle=""
               />
             </Link>

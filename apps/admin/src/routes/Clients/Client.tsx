@@ -36,7 +36,7 @@ class Client extends React.Component<Props, {}> {
             ]}
           >
             <Link to="/clients">&larr; Back</Link>
-            <h2>{client.firstName} {client.lastName}</h2>
+            <h2>{client.first_name} {client.last_name}</h2>
           </Sidebar>
         </Box>
         <Box width={2/3}>
