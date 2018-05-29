@@ -16,8 +16,8 @@ const StyledLink = styled(Link)`
 export default props => {
 
   const toggleTaskStatus = (e) => {
-
-  }
+    //TODO: this should update task status
+  };
 
   return (
     <Panel shadow>
@@ -32,5 +32,4 @@ export default props => {
       </Flex>
     </Panel>
   )
-
 };

@@ -47,7 +47,7 @@ const SortableList = SortableContainer(({ items }) => {
       {items.map((task, index) => (
         <TaskContainer>
           <div className='number'>{index + 1}</div>
-          <SortableTask key={`item-${index}`} index={index} value={task.title} id={task.id} />
+          <SortableTask key={`item-${index}`} index={index} value={task.title} status={task.status} id={task.id} />
         </TaskContainer>
       ))}
     </Box>
