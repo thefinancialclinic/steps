@@ -19,3 +19,13 @@ export const setClients = clients => {
     clients
   };
 };
+
+export const CREATE_CLIENT = 'CREATE_CLIENT';
+export const createClient = (clientData) : DispatchFn => async dispatch => {
+  try {
+    const clients = await axios.post('http://localhost:3001/clients', clientData);
+    return dispatch(getClients());
+  } catch (error) {
+    console.error(error);
+  }
+}
