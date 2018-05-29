@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import Color from 'color';
+import React from "react";
+import styled from "styled-components";
+import Color from "color";
 
-import Panel from './Panel';
-import { darkBlue, white } from 'styles/colors';
+import Panel from "./Panel";
+import { darkBlue, white } from "styles/colors";
 
 interface Props {
   className?: string;
@@ -15,12 +15,11 @@ interface State {
 }
 
 export class Dropdown extends React.Component<Props, State> {
-
   constructor(props) {
     super(props);
     this.state = {
       open: false
-    }
+    };
     this.toggle = this.toggle.bind(this);
   }
 
@@ -41,9 +40,9 @@ export class Dropdown extends React.Component<Props, State> {
   renderDropdownItems() {
     if (this.state.open) {
       return (
-        <div className='dropdown'>
-          <div className='arrow-up' />
-          <StyledPanel className='dropdown-content'>
+        <div className="dropdown">
+          <div className="arrow-up" />
+          <StyledPanel className="dropdown-content">
             {this.props.children}
           </StyledPanel>
         </div>
@@ -53,26 +52,26 @@ export class Dropdown extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className={this.props.className} >
-        <div className='dropdown-toggle' onClick={this.toggle}>
+      <div className={this.props.className}>
+        <div className="dropdown-toggle" onClick={this.toggle}>
           {this.title()}
-          <div className='arrow-down' />
+          <div className="arrow-down" />
         </div>
         {this.renderDropdownItems()}
       </div>
-    )
+    );
   }
 }
 
-const StyledPanel = styled(Panel) `
+const StyledPanel = styled(Panel)`
   box-shadow: 0 4px 4px
     ${Color(darkBlue)
-    .fade(0.75)
-    .rgb()
-    .string()};
+      .fade(0.75)
+      .rgb()
+      .string()};
 `;
 
-const StyledDropdown = styled(Dropdown) `
+const StyledDropdown = styled(Dropdown)`
   .dropdown {
     position: absolute;
     z-index: 1;
