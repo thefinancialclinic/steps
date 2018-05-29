@@ -1,10 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { createClient  } from 'actions/clients';
 import { Link } from 'react-router-dom';
 import { Flex, Box } from 'grid-styled';
+import { remCalc } from 'styles/type';
 import Button from 'atoms/Button';
 import StackedInputRow from 'components/Forms/StackedInputRow';
 import Panel from 'atoms/Panel';
+import NewClientForm from './NewClientForm';
 
 const Content = styled.div`
   position: relative;
@@ -19,7 +24,17 @@ const Content = styled.div`
   }
 `;
 
-class NewClient extends React.Component {
+interface Props {
+  className?: string;
+  actions: any;
+}
+
+class NewClient extends React.Component<Props>{
+
+  createClient = clientData => {
+    this.props.actions.createClient(clientData);
+  };
+
   render () {
     return (
       <div className='new-client'>
@@ -27,20 +42,13 @@ class NewClient extends React.Component {
           <Box width={[1, 1/2]} px={2}>
             <Content>
               <h2>Title</h2>
-              <Box>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Box>
+              <Box>Learn how this digital helper can help you achieve your dreams. It's a text message based program and will reach out to you once a day with reminders, content, and encouragement.</Box>
               <Button>Play Video</Button>
             </Content>
           </Box>
           <Box width={[1, 1/2]} px={2}>
             <Content>
-              <h2>Add New Client</h2>
-              <Flex flexWrap='wrap'>
-                <Box width={[1, 1/2]} px={2}><StackedInputRow label='First' type='text' name='first_name'/></Box>
-                <Box width={[1, 1/2]} px={2}><StackedInputRow label='Last' type='text' name='last_name' /></Box>
-                <Box w={1} px={2}><StackedInputRow label='Email' type='email' name='email' /></Box>
-                <Box px={2}><StackedInputRow label='Phone Number' type='tel' name='phone' /></Box>
-              </Flex>
-              <Button>Save</Button>
+              <NewClientForm onSubmit={this.createClient}></NewClientForm>
             </Content>
           </Box>
         </Flex>
@@ -50,4 +58,8 @@ class NewClient extends React.Component {
   }
 }
 
-export default NewClient;
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ createClient }, dispatch)
+});
+
+export default connect(null, mapDispatchToProps)(NewClient);
