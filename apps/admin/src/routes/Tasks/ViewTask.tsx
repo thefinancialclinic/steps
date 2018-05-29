@@ -30,7 +30,7 @@ class ViewTask extends React.Component<Props, {}> {
         <p>{task.description}</p>
         <div className='action-link'>Steps</div>
         {task.steps.map((step, index) => (
-          <p>{step.text}</p>
+          <p key={`step-${index}`}>{step.text}</p>
         ))}
       </Panel>
     );
