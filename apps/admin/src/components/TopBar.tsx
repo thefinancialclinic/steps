@@ -1,12 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-import NavDropdown from 'components/NavDropdown/NavDropdown';
-import {
-  darkBlue,
-  white,
-} from 'styles/colors';
+import NavDropdown from "components/NavDropdown/NavDropdown";
+import { darkBlue, white } from "styles/colors";
 
 interface Props {
   className?: string;
@@ -15,18 +12,17 @@ interface Props {
 }
 
 class TopBar extends React.Component<Props, {}> {
-
   render() {
     const { className, title } = this.props;
 
     return (
       <div className={className}>
-        <Link to='/'>{title}</Link>
+        <Link to="/">{title}</Link>
         <NavDropdown
           title="Coach Name"
           links={[
-            { to: '/clients', text: 'My Clients' },
-            { to: '/clients/new', text: 'Add New Client' }
+            { to: "/clients", text: "My Clients" },
+            { to: "/clients/new", text: "Add New Client" }
           ]}
         />
       </div>
@@ -34,7 +30,7 @@ class TopBar extends React.Component<Props, {}> {
   }
 }
 
-const StyledTopBar = styled(TopBar) `
+const StyledTopBar = styled(TopBar)`
   background-color: ${props => props.color};
   color: ${white};
   display: flex;
@@ -48,7 +44,7 @@ const StyledTopBar = styled(TopBar) `
 
   a {
     color: ${white};
-    font-family: 'Tiempos', serif;
+    font-family: "Tiempos", serif;
     font-size: 20px;
     font-weight: 600;
     text-decoration: none;
@@ -57,7 +53,7 @@ const StyledTopBar = styled(TopBar) `
 
 StyledTopBar.defaultProps = {
   color: darkBlue,
-  title: 'Some Organization Name'
-}
+  title: "Some Organization Name"
+};
 
 export default StyledTopBar;

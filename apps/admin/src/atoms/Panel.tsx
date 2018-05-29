@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import Color from 'color';
+import React from "react";
+import styled from "styled-components";
+import Color from "color";
 
-import { darkBlue, white } from 'styles/colors';
+import { darkBlue, white } from "styles/colors";
 
 interface Props {
   children: any;
@@ -16,7 +16,10 @@ class Panel extends React.Component<Props, {}> {
     const { children, className, fill, shadow } = this.props;
     let PanelEl = shadow ? ShadowedPanel : BasePanel;
 
-    if (fill) PanelEl = PanelEl.extend`${FillPanelCss}`;
+    if (fill)
+      PanelEl = PanelEl.extend`
+        ${FillPanelCss};
+      `;
 
     return <PanelEl className={className}>{children}</PanelEl>;
   }
