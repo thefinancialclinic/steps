@@ -23,6 +23,7 @@ export type UserOpts = {
   platform?: UserPlatform;
   image?: string;
   follow_up_date?: Date;
+  checkin_times?: object[];
 };
 
 export class User {
@@ -30,17 +31,18 @@ export class User {
   first_name: string;
   last_name: string;
   email: string;
-  phone: string | null;
-  coach_id: number | null;
+  phone?: string;
+  coach_id?: number;
   org_id: number;
   color: string;
-  goals: string[] | null;
+  goals?: string[];
   status: string;
   type: string;
-  updated: Date;
-  platform: UserPlatform;
-  image: string | null;
-  follow_up_date: Date;
+  updated?: Date;
+  platform?: UserPlatform;
+  image?: string | null;
+  follow_up_date?: Date;
+  checkin_times?: object[];
 
   constructor(opts: UserOpts) {
     this.id = opts.id;
@@ -58,6 +60,7 @@ export class User {
     this.platform = opts.platform;
     this.image = opts.image;
     this.follow_up_date = opts.follow_up_date;
+    this.checkin_times = opts.checkin_times;
   }
 }
 
@@ -93,8 +96,9 @@ export class UserRepository implements Repository<UserId, User> {
         updated,
         platform,
         image,
-        follow_up_date
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+        follow_up_date,
+        checkin_times
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
       RETURNING id
     `,
       [
@@ -111,7 +115,8 @@ export class UserRepository implements Repository<UserId, User> {
         user.updated,
         user.platform,
         user.image,
-        user.follow_up_date
+        user.follow_up_date,
+        user.checkin_times,
       ]
     );
     return res.rows[0].id as UserId;

@@ -79,7 +79,8 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
           type: "Client",
           updated: new Date(),
           platform: "SMS",
-          follow_up_date: new Date()
+          follow_up_date: new Date(),
+          checkin_times: [],
         })
       );
     }

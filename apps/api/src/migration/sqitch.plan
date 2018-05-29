@@ -2,3 +2,4 @@
 %project=steps
 
 appschema 2018-05-23T18:55:40Z Chris Wilson <chris@adorable.io> # Add base schema
+user_checkin_times [appschema] 2018-05-29T20:52:54Z Chris Wilson <chris@adorable.io> # User should have a "checkinTimes" attribute

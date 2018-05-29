@@ -63,6 +63,19 @@ components:
           type: string
           format: date-time
           nullable: true
+        checkin_times:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              topic:
+                type: string
+              message:
+                type: string
+              time:
+                type: string
+                format: date-time
 
 
 paths:
