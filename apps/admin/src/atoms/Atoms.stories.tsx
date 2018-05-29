@@ -8,6 +8,7 @@ import { withKnobs } from '@storybook/addon-knobs/react';
 
 import Badge from './Badge';
 import Button from './Button';
+import Dropdown from './Dropdown';
 import Filter from './Filter';
 import Input from './Input';
 import Panel from './Panel';
@@ -36,6 +37,11 @@ const Stories = storiesOf('Atoms', module)
   ))
   .add('Panel', () => (
     <Panel shadow={boolean('with shadow', false)}>This is a panel</Panel>
+  ))
+  .add('Dropdown', () => (
+    <Dropdown title='Dropdown'>
+      <p>Dropdown content. Click title to hide.</p>
+    </Dropdown>
   ));
 
 export default Stories;

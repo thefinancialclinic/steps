@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import * as Color from 'color';
+import Color from 'color';
 
 import { darkBlue, white } from 'styles/colors';
 

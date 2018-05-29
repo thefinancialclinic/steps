@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import NavDropdown from 'components/NavDropdown/NavDropdown';
 import {
   darkBlue,
   white,
@@ -21,13 +22,19 @@ class TopBar extends React.Component<Props, {}> {
     return (
       <div className={className}>
         <Link to='/'>{title}</Link>
-        <div className='profile-dropdown'>User Dropdown</div>
+        <NavDropdown
+          title="Coach Name"
+          links={[
+            { to: '/clients', text: 'My Clients' },
+            { to: '/clients/new', text: 'Add New Client' }
+          ]}
+        />
       </div>
     );
   }
 }
 
-const StyledTopBar = styled(TopBar)`
+const StyledTopBar = styled(TopBar) `
   background-color: ${props => props.color};
   color: ${white};
   display: flex;
@@ -45,13 +52,6 @@ const StyledTopBar = styled(TopBar)`
     font-size: 20px;
     font-weight: 600;
     text-decoration: none;
-  }
-
-  .profile-dropdown {
-    font-size: 16px;
-    font-weight: 500;
-    text-align: right;
-    text-transform: uppercase;
   }
 `;
 
