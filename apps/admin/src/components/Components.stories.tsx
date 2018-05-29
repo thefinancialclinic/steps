@@ -8,6 +8,7 @@ import { withKnobs } from '@storybook/addon-knobs/react';
 
 import InputRow from './Forms/InputRow';
 import NameCard from './Clients/NameCard';
+import NavDropdown from './NavDropdown/NavDropdown';
 import NavGroup from './NavGroup/NavGroup';
 import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
@@ -24,6 +25,15 @@ export const Components = storiesOf('Components', module)
   .add('NameCard', () => (
     <NameCard title={text('Title', 'Matthew Epler')} />
   ))
+  .add('NavDropdown', () => (
+    <NavDropdown
+      title="Coach Name"
+      links={[
+        { text: 'My Clients', to: '#' },
+        { text: 'Add New Client', to: '#' }
+      ]}
+    />
+  ))
   .add('NavGroup', () => (
     <NavGroup
       links={[
@@ -32,7 +42,7 @@ export const Components = storiesOf('Components', module)
       ]}
     />
   ))
-  .add('Sidebar', () => <Sidebar links={[{to: '', text: ''}]}/>)
+  .add('Sidebar', () => <Sidebar links={[{ to: '', text: '' }]} />)
   .add('Input Row', () => (
     <InputRow
       label='Bob'
