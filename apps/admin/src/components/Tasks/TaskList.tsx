@@ -60,14 +60,20 @@ class TaskList extends React.Component<Props, {}> {
     );
   };
 
+  shouldCancelStart = (e) => {
+    if(e.target.tagName.toLowerCase() === 'a') {
+      return true;
+    }
+  }
+
   render () {
-    const tasks = this.props.tasks;
+    const {className, tasks} = this.props;
 
     const taskDisplay = tasks.length > 0 ? (
         <Box width={1}>
           <h2>Tasks</h2>
-          <SortableList items={this.props.tasks} onSortEnd={this.onSortEnd} />
-          <Flex justifyContent='center'>
+          <SortableList items={tasks} onSortEnd={this.onSortEnd} shouldCancelStart={this.shouldCancelStart} />
+          <Flex justifyContent='center' >
             <ButtonLink to="/clients/6/tasks/add">Add New Task</ButtonLink>
           </Flex>
         </Box>
