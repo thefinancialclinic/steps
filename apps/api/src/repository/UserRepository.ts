@@ -23,6 +23,7 @@ export type UserOpts = {
   platform?: UserPlatform;
   image?: string;
   follow_up_date?: Date;
+  plan_url?: string;
 };
 
 export class User {
@@ -41,6 +42,7 @@ export class User {
   platform: UserPlatform;
   image: string | null;
   follow_up_date: Date;
+  plan_url?: string;
 
   constructor(opts: UserOpts) {
     this.id = opts.id;
@@ -58,6 +60,7 @@ export class User {
     this.platform = opts.platform;
     this.image = opts.image;
     this.follow_up_date = opts.follow_up_date;
+    this.plan_url = opts.plan_url;
   }
 }
 
@@ -93,8 +96,9 @@ export class UserRepository implements Repository<UserId, User> {
         updated,
         platform,
         image,
-        follow_up_date
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+        follow_up_date,
+        plan_url
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
       RETURNING id
     `,
       [
@@ -111,7 +115,8 @@ export class UserRepository implements Repository<UserId, User> {
         user.updated,
         user.platform,
         user.image,
-        user.follow_up_date
+        user.follow_up_date,
+        user.plan_url,
       ]
     );
     return res.rows[0].id as UserId;
