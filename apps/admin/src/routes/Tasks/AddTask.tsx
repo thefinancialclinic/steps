@@ -23,6 +23,14 @@ const StyledLink = styled.span`
 class AddTask extends React.Component<Props, {}> {
 
   render () {
+
+    const task = {
+      id: 3,
+      title: 'A title',
+      description: 'This is a preexisting task',
+      category: 'Boop'
+    };
+
     return (
         <Box width={1}>
           <h2>Add New Task</h2>
@@ -32,7 +40,7 @@ class AddTask extends React.Component<Props, {}> {
           <Flex alignItems='center'>
             <h3>Task</h3> <StyledLink><Link  to='/'>Sort by last used</Link></StyledLink>
           </Flex>
-          <TaskTemplate category='boop' description='This is a preexisting task.'></TaskTemplate>
+          <TaskTemplate task={task}></TaskTemplate>
         </Box>
     );
   }

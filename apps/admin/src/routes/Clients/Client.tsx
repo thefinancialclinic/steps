@@ -7,11 +7,8 @@ import { getClients } from 'actions/clients';
 import styled from 'styled-components';
 
 import Sidebar from 'components/Sidebar/Sidebar';
-import TaskList from 'components/Tasks/TaskList';
-import NewTask from 'routes/Tasks/NewTask';
+import Tasks from 'routes/Tasks/Tasks';
 import GoalList from 'components/Goals/GoalList';
-import EditTask from 'routes/Tasks/EditTask';
-import AddTask from 'routes/Tasks/AddTask';
 import Chat from 'components/Chat/Chat';
 
 interface Props {
@@ -45,12 +42,14 @@ class Client extends React.Component<Props, {}> {
         </Box>
         <Box width={[1, 2/3]} m={4}>
           <Switch>
-            <Route path="/clients/:id/tasks/add" component={AddTask} />
-            <Route path="/clients/:id/tasks/edit" component={EditTask} />
-            <Route path="/clients/:id/tasks/new" component={NewTask} />
-            <Route path="/clients/:id/tasks" component={TaskList} />
+            <Route path="/clients/:id/tasks" component={Tasks} />
             <Route path="/clients/:id/goals" component={GoalList} />
             <Route path="/clients/:id/chat" component={Chat} />
+            <Redirect
+              exact
+              from="/clients/:id"
+              to={`/clients/${client.id}/tasks`}
+            />
           </Switch>
         </Box>
       </Flex>
