@@ -7,15 +7,19 @@ import { Pool } from "pg";
 import express = require("express");
 import { writeFileSync, writeFile } from "fs";
 import YAML = require("yamljs");
+import * as url from "url";
 
 const PORT = process.env.PORT || "3001";
 
+const localConnString = "postgres://postgres@localhost:5432/steps_admin_test";
+const connUrl = url.parse(process.env.DATABASE_URL || localConnString);
+
 export const pool = new Pool({
-  user: process.env.PGUSER || "postgres",
-  host: process.env.PGHOST || "localhost",
-  database: process.env.PGDATABASE || "steps_admin_test",
-  password: process.env.PGPASSWORD || "",
-  port: parseInt(process.env.PGPORT) || 5432
+  user: connUrl.auth.split(":")[0],
+  password: connUrl.auth.split(":")[1],
+  host: connUrl.hostname,
+  database: connUrl.pathname.slice(1), // drop leading slash
+  port: parseInt(connUrl.port),
 });
 
 const app = express();
