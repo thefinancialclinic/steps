@@ -37,13 +37,17 @@ const TaskContainer = styled.div`
   }
 `;
 
+const SortableTask = SortableElement(props =>
+  <Task {...props} />
+);
+
 const SortableList = SortableContainer(({ items }) => {
   return (
     <Box>
       {items.map((task, index) => (
         <TaskContainer>
           <div className='number'>{index + 1}</div>
-          <Task key={`item-${index}`} index={index} value={task.title} id={task.id} />
+          <SortableTask key={`item-${index}`} index={index} value={task.title} id={task.id} />
         </TaskContainer>
       ))}
     </Box>
@@ -62,7 +66,7 @@ class TaskList extends React.Component<Props, {}> {
   };
 
   shouldCancelStart = (e) => {
-    if(e.target.tagName.toLowerCase() === 'a') {
+    if(e.target.tagName.toLowerCase() === 'a' || e.target.tagName.toLowerCase() === 'input') {
       return true;
     }
   }

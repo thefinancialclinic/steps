@@ -11,7 +11,6 @@ import StackedInputRow from 'components/Forms/StackedInputRow';
 
 interface Task {
   id: number;
-  title: string;
   category: string;
   description: string;
 }
@@ -31,7 +30,6 @@ class TaskTemplate extends React.Component<Props, {}> {
         <Box><Badge text={task.category} /></Box>
         <Flex alignItems='center' className='task-row'>
           <Box width={5/6}><h3>{task.description}</h3></Box>
-          {/* TODO: circle should link to edit page */}
           <Box className='edit-link' width={1/6}>
             <Link to={{pathname: `/clients/6/tasks/${task.id}/edit`}}><div className='circle'>Edit</div></Link>
           </Box>
