@@ -3,6 +3,8 @@ import { ClientController } from "./controller/ClientController";
 import { CoachController } from "./controller/CoachController";
 import { OrgController } from "./controller/OrgController";
 import { UserController } from "./controller/UserController";
+import { TaskController } from "./controller/TaskController";
+import { StepController } from "./controller/StepController";
 
 export const Routes = [
   {
@@ -100,5 +102,53 @@ export const Routes = [
     route: "/users/:id",
     controller: UserController,
     action: "remove"
-  }
+  },
+  {
+    method: "get",
+    route: "/tasks",
+    controller: TaskController,
+    action: "all"
+  },
+  {
+    method: "get",
+    route: "/tasks/:id",
+    controller: TaskController,
+    action: "one"
+  },
+  {
+    method: "post",
+    route: "/tasks",
+    controller: TaskController,
+    action: "save"
+  },
+  {
+    method: "delete",
+    route: "/tasks/:id",
+    controller: TaskController,
+    action: "remove"
+  },
+  {
+    method: "get",
+    route: "/steps",
+    controller: StepController,
+    action: "all"
+  },
+  {
+    method: "get",
+    route: "/steps/:id",
+    controller: StepController,
+    action: "one"
+  },
+  {
+    method: "post",
+    route: "/steps",
+    controller: StepController,
+    action: "save"
+  },
+  {
+    method: "delete",
+    route: "/steps/:id",
+    controller: StepController,
+    action: "remove"
+  },
 ];
