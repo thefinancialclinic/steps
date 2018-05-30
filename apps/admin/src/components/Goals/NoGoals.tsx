@@ -17,7 +17,7 @@ class NoGoals extends React.Component<Props, {}> {
     return (
       <Box width={1} p={4} className={className}>
         <Panel>
-          <div className='star'>★</div>
+          <div><i className='material-icons'>star</i></div>
           <div>Create your first goal.</div>
           <Box m={2}><ButtonLink to='/clients/:id/goals/new'>Add Goal</ButtonLink></Box>
         </Panel>
@@ -34,9 +34,9 @@ const StyledNoGoals = styled(NoGoals)`
   button {
     margin-top: 1em;
   }
-  .star {
+  i {
     color: ${yellow};
-    font-size: 5em;
+    font-size: 6em;
   }
 `;
 
