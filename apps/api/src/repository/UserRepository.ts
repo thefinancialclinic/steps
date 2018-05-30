@@ -25,6 +25,7 @@ export type UserOpts = {
   follow_up_date?: Date;
   plan_url?: string;
   checkin_times?: object[];
+  topic?: string;
 };
 
 export class User {
@@ -45,6 +46,7 @@ export class User {
   follow_up_date?: Date;
   plan_url?: string;
   checkin_times?: object[];
+  topic?: string;
 
   constructor(opts: UserOpts) {
     this.id = opts.id;
@@ -64,6 +66,7 @@ export class User {
     this.follow_up_date = opts.follow_up_date;
     this.plan_url = opts.plan_url;
     this.checkin_times = opts.checkin_times;
+    this.topic = opts.topic;
   }
 }
 
