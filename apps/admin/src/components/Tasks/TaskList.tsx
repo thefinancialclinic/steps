@@ -1,10 +1,11 @@
 import React from 'react';
 import { Flex, Box } from 'grid-styled';
 import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { grey, white } from 'styles/colors';
 import { getTasks, setTasks } from 'actions/tasks';
+import ButtonLink from 'atoms/ButtonLink';
 import styled from 'styled-components';
 import Task from './TaskListItem';
 import NoTasks from './NoTasks';
@@ -16,13 +17,14 @@ interface Props {
 }
 
 const TaskContainer = styled.div`
-  border: 1px solid blue;
+  border: 1px solid ${grey};
   margin: 1em 0;
   padding-left: 10%;
   position: relative;
 
   .number {
-    border-right: 1px solid blue;
+    background-color: ${white};
+    border-right: 1px solid ${grey};
     bottom: 0;
     font-size: 2em;
     left: 0;
@@ -40,7 +42,7 @@ const SortableList = SortableContainer(({ items }) => {
       {items.map((task, index) => (
         <TaskContainer>
           <div className='number'>{index + 1}</div>
-          <Task key={`item-${index}`} index={index} value={task.content} />
+          <Task key={`item-${index}`} index={index} value={task.title} id={task.id} />
         </TaskContainer>
       ))}
     </Box>
@@ -58,22 +60,29 @@ class TaskList extends React.Component<Props, {}> {
     );
   };
 
+  shouldCancelStart = (e) => {
+    if(e.target.tagName.toLowerCase() === 'a') {
+      return true;
+    }
+  }
+
   render () {
-    const tasks = this.props.tasks;
+    const {className, tasks} = this.props;
+
     const taskDisplay = tasks.length > 0 ? (
         <Box width={1}>
           <h2>Tasks</h2>
-          <Link to="/clients/1/tasks/new">New Task</Link>
-          <SortableList items={this.props.tasks} onSortEnd={this.onSortEnd} />
+          <SortableList items={tasks} onSortEnd={this.onSortEnd} shouldCancelStart={this.shouldCancelStart} />
+          <Flex justifyContent='center' >
+            <ButtonLink to="/clients/6/tasks/add">Add New Task</ButtonLink>
+          </Flex>
         </Box>
     ) : (
         <NoTasks></NoTasks>
       );
 
     return (
-      <div>
-        {taskDisplay}
-      </div>
+      <div>{taskDisplay}</div>
     );
   }
 }

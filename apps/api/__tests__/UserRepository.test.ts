@@ -23,6 +23,14 @@ describe('User entity operations', () => {
       updated: new Date(),
       platform: "SMS",
       follow_up_date: new Date(),
+      plan_url: "http://plan.example.com",
+      checkin_times: [
+        {
+          topic: 'TOPIC',
+          message: 'MESSAGE',
+          time: new Date(),
+        }
+      ],
     }));
   });
 
@@ -33,6 +41,7 @@ describe('User entity operations', () => {
   it('find a user', async () => {
     let actual = await repo.getOne(userId);
     expect(actual.id).toBe(userId);
+    expect(actual.checkin_times[0].topic).toBe('TOPIC');
   });
 
   it('gets all users', async () => {
