@@ -14,6 +14,7 @@ interface Props {
   className?: string;
   actions: any;
   tasks: any;
+  client: any;
 }
 
 const TaskContainer = styled.div`
@@ -67,18 +68,18 @@ class TaskList extends React.Component<Props, {}> {
   }
 
   render () {
-    const {className, tasks} = this.props;
+    const {className, tasks, client} = this.props;
 
     const taskDisplay = tasks.length > 0 ? (
         <Box width={1}>
           <h2>Tasks</h2>
           <SortableList items={tasks} onSortEnd={this.onSortEnd} shouldCancelStart={this.shouldCancelStart} />
           <Flex justifyContent='center' >
-            <ButtonLink to="/clients/6/tasks/add">Add New Task</ButtonLink>
+            <ButtonLink to="/clients/{client.id}/tasks/add">Add New Task</ButtonLink>
           </Flex>
         </Box>
     ) : (
-        <NoTasks></NoTasks>
+        <NoTasks client={client}></NoTasks>
       );
 
     return (
@@ -93,6 +94,7 @@ const StyledTaskList = styled(TaskList)`
 
 const mapStateToProps = (state, props) => ({
   tasks: state.tasks.tasks,
+  client: state.clients.clients.find(c => c.id == props.match.params.id)
 });
 
 const mapDispatchToProps = dispatch => ({
