@@ -23,7 +23,7 @@ export default props => {
     <Panel shadow>
       <Flex alignItems='flex-start'>
         <Box pr={3}>
-          <input type='checkbox' value={props.status} onClick={toggleTaskStatus} />
+          <input type='checkbox' value={props.status} checked={props.status === 'COMPLETED'} onClick={toggleTaskStatus} />
         </Box>
         <Box>
           <div>{props.value}</div>

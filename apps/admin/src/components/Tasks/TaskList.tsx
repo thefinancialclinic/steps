@@ -3,7 +3,7 @@ import { Flex, Box } from 'grid-styled';
 import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { grey, white } from 'styles/colors';
+import { grey, mediumBlue, white } from 'styles/colors';
 import { getTasks, setTasks } from 'actions/tasks';
 import ButtonLink from 'atoms/ButtonLink';
 import styled from 'styled-components';
@@ -35,6 +35,12 @@ const TaskContainer = styled.div`
     top: 0;
     width: 10%;
   }
+
+  &.completed {
+    div {
+      background-color: ${mediumBlue};
+    }
+  }
 `;
 
 const SortableTask = SortableElement(props =>
@@ -42,10 +48,13 @@ const SortableTask = SortableElement(props =>
 );
 
 const SortableList = SortableContainer(({ items }) => {
+  let taskClass = status => {
+    return status === 'COMPLETED' ? 'compelted' : 'active';
+  }
   return (
     <Box>
       {items.map((task, index) => (
-        <TaskContainer>
+        <TaskContainer className={taskClass(task.status)}>
           <div className='number'>{index + 1}</div>
           <SortableTask key={`item-${index}`} index={index} value={task.title} status={task.status} id={task.id} />
         </TaskContainer>
