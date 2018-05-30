@@ -1,5 +1,6 @@
 import { Repository } from "./Repository";
 import { Pool, Client } from "pg";
+import { Step } from "./StepRepository";
 
 export type TaskId = number;
 export type TaskStatus = "ACTIVE" | "COMPLETED" | "ARCHIVED";
@@ -17,6 +18,7 @@ export type TaskOpts = {
   date_created: Date,
   date_completed?: Date,
   recurring?: object,
+  steps?: Step[],
 };
 
 export class Task {
@@ -31,6 +33,7 @@ export class Task {
   date_created: Date;
   date_completed?: Date;
   recurring?: object;
+  steps?: Step[];
 
   constructor(opts: TaskOpts) {
     this.id = opts.id;
@@ -44,6 +47,7 @@ export class Task {
     this.date_created = opts.date_created;
     this.date_completed = opts.date_completed;
     this.recurring = opts.recurring;
+    this.steps = opts.steps;
   }
 }
 
@@ -51,9 +55,34 @@ export class TaskRepository implements Repository<TaskId, Task> {
   constructor(public pool: Pool) { }
 
   async getOne(id: TaskId) {
-    const res = await this.pool.query(`SELECT * FROM task WHERE id = $1`, [
-      id
-    ]);
+    // Return a single Task along with the all the steps that belong to it.
+    const res = await this.pool.query(`
+      SELECT
+        t.id,
+        t.title,
+        t.category,
+        t.description,
+        t.status,
+        t.created_by,
+        t.user_id,
+        t.difficulty,
+        t.date_created,
+        t.date_completed,
+        t.recurring,
+        ARRAY(
+          SELECT json_build_object(
+            'id', s.id,
+            'text', s.text,
+            'note', s.note,
+            'task_id', s.task_id)
+          FROM step s
+          WHERE s.task_id = $1
+        ) as "steps"
+      FROM task t
+      WHERE id = $1;
+      `,
+      [id]
+    );
     return new Task(res.rows[0]);
   }
 

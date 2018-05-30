@@ -9,8 +9,8 @@ import { writeFileSync, writeFile } from "fs";
 import YAML = require("yamljs");
 import * as url from "url";
 
+const isProduction = process.env.NODE_ENV === "production";
 const PORT = process.env.PORT || "3001";
-
 const localConnString = "postgres://postgres@localhost:5432/steps_admin_test";
 const connUrl = url.parse(process.env.DATABASE_URL || localConnString);
 
@@ -25,7 +25,10 @@ export const pool = new Pool({
 const app = express();
 
 app.use(bodyParser.json());
-if (process.env.NODE_ENV !== "production") {
+
+if (isProduction) {
+  app.use(express.static(resolve(__dirname, "..", "..", "admin", ".build")));
+} else {
   app.use(cors());
 
   // when not running in production, expose an API documentation route
@@ -34,33 +37,40 @@ if (process.env.NODE_ENV !== "production") {
   const swaggerDocument = YAML.load("./swagger.yaml");
 
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-} else {
-  app.use(express.static(resolve(__dirname, "..", "..", "admin", ".build")));
 }
 
 // register express routes from defined application routes
 Routes.forEach(route => {
   (app as any)[route.method](
     route.route,
-    (req: Request, res: Response, next: Function) => {
-      const result = new (route.controller as any)()[route.action](
-        req,
-        res,
-        next
-      );
-      if (result instanceof Promise) {
-        result.then(
-          result =>
-            result !== null && result !== undefined
-              ? res.send(result)
-              : undefined
-        );
-      } else if (result !== null && result !== undefined) {
-        res.json(result);
+    async (req: Request, res: Response, next: Function) => {
+      const controller = (new route.controller() as any);
+      try {
+        const result = await controller[route.action](req, res, next);
+        res.send(result);
+      } catch (error) {
+        if (isProduction) {
+          res.status(500);
+          res.send({ error: 'A server error has occurred.' });
+        } else {
+          res.status(500);
+          res.send({ error: error });
+        }
       }
-    }
-  );
+    })
 });
+
+// Error handling
+if (process.env.NODE_ENV !== "production") {
+  app.use((err, req, res, next) => {
+    res.status(500);
+    res.render('error', { error: err });
+  });
+} else {
+  app.use((err, req, res, next) => {
+    res.status(500).send({ error: 'Server error' });
+  });
+}
 
 // start express server
 app.listen(PORT);
