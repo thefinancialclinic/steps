@@ -125,6 +125,9 @@ components:
               time:
                 type: string
                 format: date-time
+        topic:
+          type: string
+          nullable: true
 
 
 paths:
