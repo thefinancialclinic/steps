@@ -34,10 +34,7 @@ let NewClientForm = props => {
   return (
     <form onSubmit={ handleSubmit(onSubmit) }>
       <h2>Add New Client</h2>
-      <Field component='input' type='text' name='org_id' value='1' />
-      <Field component='input' type='text' name='coach_id' value='1' />
-      <Field component='input' type='text' name='color' value='blue' />
-      <Field component='input' type='text' name='status' value='AWAITING_HELP' />
+
       <Flex flexWrap='wrap'>
         <Box width={[1, 1/2]} px={2}>
           <BaseInputRow>

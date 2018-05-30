@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createClient  } from 'actions/clients';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Flex, Box } from 'grid-styled';
 import { remCalc } from 'styles/type';
 import Button from 'atoms/Button';
@@ -31,13 +31,33 @@ interface Props {
 
 class NewClient extends React.Component<Props>{
 
+  state = {
+    shouldRedirect: false
+  }
+  setRedirect = () => {
+    this.setState({
+      shouldRedirect: true
+    })
+  }
+  renderRedirect = () => {
+    if (this.state.shouldRedirect) {
+      return <Redirect to='/clients' from='/clients/new' />
+    }
+  }
+
   createClient = clientData => {
-    this.props.actions.createClient(clientData);
+    this.props.actions.createClient(clientData)
+      .then(res => {
+        this.setRedirect();
+        this.renderRedirect();
+      }).catch(error => this.setState({ shouldRedirect: false, errorMessage: error }))
   };
 
   render () {
     return (
+
       <div className='new-client'>
+        {this.renderRedirect()}
         <Flex flexWrap='wrap'>
           <Box width={[1, 1/2]} px={2}>
             <Content>

@@ -23,6 +23,11 @@ export const setClients = clients => {
 export const CREATE_CLIENT = 'CREATE_CLIENT';
 export const createClient = (clientData) : DispatchFn => async dispatch => {
   try {
+    clientData.org_id = 1;
+    clientData.coach_id = 6;
+    clientData.color = 'blue';
+    clientData.status = 'AWAITING_HELP';
+
     const clients = await axios.post('http://localhost:3001/clients', clientData);
     return dispatch(getClients());
   } catch (error) {
