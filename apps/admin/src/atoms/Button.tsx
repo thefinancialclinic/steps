@@ -2,15 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { remCalc } from 'styles/type';
-import {
-  darken,
-  green,
-  white,
-} from 'styles/colors';
+import { darken, green, white } from 'styles/colors';
 
 interface Props {
   className?: string;
-  children: any;
   white?: boolean;
 }
 

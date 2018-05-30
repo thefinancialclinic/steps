@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 import {
   blue,
@@ -10,7 +10,7 @@ import {
   yellow,
   white,
   colorFromString
-} from "styles/colors";
+} from 'styles/colors';
 
 const backgroundColors = [blue, brown, green, pink, yellow];
 
@@ -57,12 +57,12 @@ const Container = styled.div`
   .media {
     background-color: ${({ url }) => colorFromString(url, backgroundColors)};
     padding: 30px 20px;
-    background-image: ${({ image }) => (image ? `url("${image}")` : "none")};
+    background-image: ${({ image }) => (image ? `url("${image}")` : 'none')};
     background-size: cover;
 
     .title {
       color: ${white};
-      font-family: "Tiempos", serif;
+      font-family: 'Tiempos', serif;
       font-size: 26px;
       font-weight: 600;
       max-width: 50%;
@@ -70,7 +70,7 @@ const Container = styled.div`
   }
 
   .domain {
-    font-family: "Calibre", sans-serif;
+    font-family: 'Calibre', sans-serif;
     font-size: 14px;
     color: ${grey};
     background-color: ${white};

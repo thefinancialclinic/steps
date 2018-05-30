@@ -1,11 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import Color from "color";
+import React from 'react';
+import styled from 'styled-components';
+import Color from 'color';
 
-import { darkBlue, white } from "styles/colors";
+import { darkBlue, white } from 'styles/colors';
 
 interface Props {
-  children: any;
   className?: string;
   shadow?: boolean;
   fill?: boolean;

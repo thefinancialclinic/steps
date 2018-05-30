@@ -20,9 +20,14 @@ class Filter extends React.Component<Props, {}> {
     return (
       <BaseFilter>
         <span>Filter</span>
-        {categories && categories.map((cat, key) => (
-          <Badge text={cat.name} key={key} color={!cat.active ? grey : cat.color} />
-        ))}
+        {categories &&
+          categories.map((cat, key) => (
+            <Badge
+              text={cat.name}
+              key={key}
+              color={!cat.active ? grey : cat.color}
+            />
+          ))}
       </BaseFilter>
     );
   }
