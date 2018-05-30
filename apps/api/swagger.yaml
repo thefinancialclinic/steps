@@ -19,6 +19,55 @@ components:
           type: string
           format: uri
           nullable: true
+    Step:
+      properties:
+        text:
+          type: string
+        note:
+          type: string
+          nullable: true
+        task_id:
+          type: number
+    Task:
+      properties:
+        title:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [ACTIVE, COMPLETED, ARCHIVED]
+          nullable: true
+        created_by:
+          type: integer
+          nullable: true
+          format: org-id
+        user_id:
+          type: integer
+          nullable: true
+        difficulty:
+          type: string
+          enum: [EASY, MODERATE, DIFFICULT]
+          nullable: true
+        date_created:
+          type: string
+          format: date-time
+        date_completed:
+          type: string
+          format: date-time
+          nullable: true
+        recurring:
+          nullable: true
+          type: object
+        steps:
+          nullable: true
+          type: array
+          items:
+            type:
+              $ref: '#components/schemas/Step'
     User:
       properties:
         first_name:
@@ -279,6 +328,168 @@ paths:
       responses:
         '200':
           description: The number of Orgs deleted (should be 1 or 0)
+          content:
+            application/json:
+              type: integer
+              
+  /tasks:
+    get:
+      summary: Return a list of Tasks
+      tags: [tasks]
+      responses:
+        '200':
+          description: A JSON array of Task objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Task'
+    post:
+      summary: Create a new Task
+      tags: [tasks]
+      requestBody:
+        description: New Task to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '500':
+          description: Server error (more detailed errors in development/test)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+  /tasks/{id}:
+    get:
+      summary: Return a single Task by ID
+      description: >
+        Please note! I'm playing a little fast and loose with the
+        schema for Task. As an optimization, when you GET a single
+        task by ID, you'll also receive the associated steps. This is
+        for the (common I hope) use case where you'd like to display a
+        Task along with it's associated steps. When getting a list of
+        Tasks, you'll not receive the associated Steps.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [tasks]
+      responses:
+        '200':
+          description: A JSON object representing a single Task
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Task'
+    delete:
+      summary: Delete an Task by the given id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id to be deleted
+      tags: [tasks]
+      responses:
+        '200':
+          description: The number of Tasks deleted (should be 1 or 0)
+          content:
+            application/json:
+              type: integer
+
+
+  /steps:
+    get:
+      summary: Return a list of Steps
+      tags: [steps]
+      responses:
+        '200':
+          description: A JSON array of Step objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Step'
+    post:
+      summary: Create a new Step
+      tags: [steps]
+      requestBody:
+        description: New Step to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Step'
+      responses:
+        '500':
+          description: Server error (more detailed errors in development/test)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+  /steps/{id}:
+    get:
+      summary: Return a single Step by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [steps]
+      responses:
+        '200':
+          description: A JSON object representing a single Step
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Step'
+    delete:
+      summary: Delete an Step by the given id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id to be deleted
+      tags: [steps]
+      responses:
+        '200':
+          description: The number of Steps deleted (should be 1 or 0)
           content:
             application/json:
               type: integer
