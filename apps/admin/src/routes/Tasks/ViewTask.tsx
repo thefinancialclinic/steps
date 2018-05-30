@@ -5,7 +5,10 @@ import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import { grey} from 'styles/colors';
 import Badge from 'atoms/Badge';
+import Button from 'atoms/Button';
+import ButtonLink from 'atoms/ButtonLink';
 import Panel from 'atoms/Panel';
+import DeleteTask from 'components/Tasks/DeleteTask';
 
 interface Props {
   className?: string;
@@ -15,24 +18,47 @@ interface Props {
 
 class ViewTask extends React.Component<Props, {}> {
 
+  state = {
+    showModal: false
+  }
+
+  setModal = () => {
+    this.setState({
+      showModal: !this.state.showModal
+    })
+  }
+
+  renderModal = (client) => {
+    if (this.state.showModal) {
+      return <DeleteTask client={client} />
+    }
+  }
+
   render () {
     const { className, client, task } = this.props;
 
+    const toggleModal = () => {
+      this.setModal();
+    }
+
     return (
-      <Panel className={className}>
-        <Flex alignItems='center' justifyContent='space-between'>
-          <Box><Badge text={'income'} /></Box>
-          <Box>
-            <Link className='action-link' to={{pathname: `/clients/${client.id}/tasks/${task.id}/edit`}}>Edit</Link>
-            <Link className='action-link' to=''>Delete</Link></Box>
-        </Flex>
-        <h3>{task.title}</h3>
-        <p>{task.description}</p>
-        <div className='action-link'>Steps</div>
-        {task.steps.map((step, index) => (
-          <p key={`step-${index}`}>{step.text}</p>
-        ))}
-      </Panel>
+      <div>
+        {this.renderModal(client)}
+        <Panel className={className}>
+          <Flex alignItems='center' justifyContent='space-between'>
+            <Box><Badge text={'income'} /></Box>
+            <Box>
+              <Link className='action-link' to={{pathname: `/clients/${client.id}/tasks/${task.id}/edit`}}>Edit</Link>
+              <span className='action-link' onClick={toggleModal}>Delete</span></Box>
+          </Flex>
+          <h3>{task.title}</h3>
+          <p>{task.description}</p>
+          <div className='action-link'>Steps</div>
+          {task.steps.map((step, index) => (
+            <p key={`step-${index}`}>{step.text}</p>
+          ))}
+        </Panel>
+      </div>
     );
   }
 }
