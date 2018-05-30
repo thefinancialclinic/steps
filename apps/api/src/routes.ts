@@ -8,25 +8,25 @@ export const Routes = [
   {
     method: "get",
     route: "/clients",
-    controller: UserController,
+    controller: ClientController,
     action: "all"
   },
   {
     method: "get",
     route: "/clients/:id",
-    controller: UserController,
+    controller: ClientController,
     action: "one"
   },
   {
     method: "post",
     route: "/clients",
-    controller: UserController,
+    controller: ClientController,
     action: "save"
   },
   {
     method: "delete",
     route: "/clients/:id",
-    controller: UserController,
+    controller: ClientController,
     action: "remove"
   },
   {
