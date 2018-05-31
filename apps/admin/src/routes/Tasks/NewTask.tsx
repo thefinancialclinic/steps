@@ -37,11 +37,10 @@ class NewTask extends React.Component<Props, {}> {
             connected to their goal(s). List the individual steps they will need to take
             to achieve their task, and include any references or referrals available to help.
           </p>
-          <TaskForm badgeText='custom'>
+          {/* TODO: Task form needs client */}
+          {/* <TaskForm>
             <Box>STEPS</Box>
-            {/* TODO: iterate over steps and make the count equal the index */}
-            <TaskStep count={1}></TaskStep>
-          </TaskForm>
+          </TaskForm> */}
         </Box>
     );
   }
