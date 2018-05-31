@@ -9,145 +9,145 @@ import { StepController } from "./controller/StepController";
 export const Routes = [
   {
     method: "get",
-    route: "/clients",
+    route: "/api/clients",
     controller: ClientController,
     action: "all"
   },
   {
     method: "get",
-    route: "/clients/:id",
+    route: "/api/clients/:id",
     controller: ClientController,
     action: "one"
   },
   {
     method: "post",
-    route: "/clients",
+    route: "/api/clients",
     controller: ClientController,
     action: "save"
   },
   {
     method: "delete",
-    route: "/clients/:id",
+    route: "/api/clients/:id",
     controller: ClientController,
     action: "remove"
   },
   {
     method: "get",
-    route: "/coaches",
+    route: "/api/coaches",
     controller: CoachController,
     action: "all"
   },
   {
     method: "get",
-    route: "/coaches/:id",
+    route: "/api/coaches/:id",
     controller: CoachController,
     action: "one"
   },
   {
     method: "post",
-    route: "/coaches",
+    route: "/api/coaches",
     controller: CoachController,
     action: "save"
   },
   {
     method: "delete",
-    route: "/coaches/:id",
+    route: "/api/coaches/:id",
     controller: CoachController,
     action: "remove"
   },
   {
     method: "get",
-    route: "/orgs",
+    route: "/api/orgs",
     controller: OrgController,
     action: "all"
   },
   {
     method: "get",
-    route: "/orgs/:id",
+    route: "/api/orgs/:id",
     controller: OrgController,
     action: "one"
   },
   {
     method: "post",
-    route: "/orgs",
+    route: "/api/orgs",
     controller: OrgController,
     action: "save"
   },
   {
     method: "delete",
-    route: "/orgs/:id",
+    route: "/api/orgs/:id",
     controller: OrgController,
     action: "remove"
   },
   {
     method: "get",
-    route: "/users",
+    route: "/api/users",
     controller: UserController,
     action: "all"
   },
   {
     method: "get",
-    route: "/users/:id",
+    route: "/api/users/:id",
     controller: UserController,
     action: "one"
   },
   {
     method: "post",
-    route: "/users",
+    route: "/api/users",
     controller: UserController,
     action: "save"
   },
   {
     method: "delete",
-    route: "/users/:id",
+    route: "/api/users/:id",
     controller: UserController,
     action: "remove"
   },
   {
     method: "get",
-    route: "/tasks",
+    route: "/api/tasks",
     controller: TaskController,
     action: "all"
   },
   {
     method: "get",
-    route: "/tasks/:id",
+    route: "/api/tasks/:id",
     controller: TaskController,
     action: "one"
   },
   {
     method: "post",
-    route: "/tasks",
+    route: "/api/tasks",
     controller: TaskController,
     action: "save"
   },
   {
     method: "delete",
-    route: "/tasks/:id",
+    route: "/api/tasks/:id",
     controller: TaskController,
     action: "remove"
   },
   {
     method: "get",
-    route: "/steps",
+    route: "/api/steps",
     controller: StepController,
     action: "all"
   },
   {
     method: "get",
-    route: "/steps/:id",
+    route: "/api/steps/:id",
     controller: StepController,
     action: "one"
   },
   {
     method: "post",
-    route: "/steps",
+    route: "/api/steps",
     controller: StepController,
     action: "save"
   },
   {
     method: "delete",
-    route: "/steps/:id",
+    route: "/api/steps/:id",
     controller: StepController,
     action: "remove"
   },
