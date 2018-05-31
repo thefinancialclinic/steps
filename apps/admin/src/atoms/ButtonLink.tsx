@@ -6,7 +6,6 @@ import { remCalc } from 'styles/type';
 
 interface Props {
   className?: string;
-  children: any;
   to: string;
   white?: boolean;
 }
@@ -17,7 +16,11 @@ class ButtonLink extends React.Component<Props, {}> {
   render() {
     const { className, children, to, white } = this.props;
 
-    return <Link to={to}><Button {...this.props}>{children}</Button></Link>;
+    return (
+      <Link to={to}>
+        <Button {...this.props}>{children}</Button>
+      </Link>
+    );
   }
 }
 

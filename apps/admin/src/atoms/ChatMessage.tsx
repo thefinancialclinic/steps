@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import Panel from "./Panel";
-import { white, mediumBlue } from "styles/colors";
+import Panel from './Panel';
+import { white, mediumBlue } from 'styles/colors';
 
-enum ChatMessageType {
-    sent = 'sent',
-    received = 'received'
+export enum ChatMessageType {
+  sent = 'sent',
+  received = 'received'
 }
 
 interface Props {
@@ -25,10 +25,14 @@ class ChatMessage extends React.Component<Props, {}> {
   renderChatElements() {
     const { type, text, from } = this.props;
     const chatElements = [
-      <Message {...this.props}>{text}</Message>,
-      <From {...this.props}>{from}</From>
+      <Message {...this.props} key={1}>
+        {text}
+      </Message>,
+      <From {...this.props} key={2}>
+        {from}
+      </From>
     ];
-    if (type === "received") {
+    if (type === 'received') {
       return chatElements.reverse();
     }
     return chatElements;
@@ -39,19 +43,21 @@ class ChatMessage extends React.Component<Props, {}> {
 }
 
 const Container = styled.div`
-  font-family: "Tiempos", serif;
+  font-family: 'Tiempos', serif;
   font-size: 21px;
 `;
 
-const Message = styled(Panel)`
+// TODO: Panel props do not have type and color
+export const Message = styled(Panel)`
   background-color: ${({ type, color }) =>
-    type === "received" ? color : white};
+    type === 'received' ? color : white};
   display: inline-block;
   padding: 20px;
   line-height: 25px;
 `;
 
-const From = styled.div`
+// TODO: div props do not have type
+export const From = styled.div`
   display: inline-block;
   font-size: 28px;
   width: 65px;
@@ -59,7 +65,7 @@ const From = styled.div`
   border-radius: 65px;
   color: ${white};
   background-color: ${({ type, color }) =>
-    type === "received" ? color : mediumBlue};
+    type === 'received' ? color : mediumBlue};
   text-align: center;
   vertical-align: middle;
   line-height: 65px;

@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Badge.tsx renders correctly 1`] = `
+<Badge
+  className="my-class-name sc-bdVaJa iCCtii"
+  text="badge text"
+/>
+`;

@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import Color from "color";
+import React from 'react';
+import styled from 'styled-components';
+import Color from 'color';
 
-import Panel from "./Panel";
-import { darkBlue, white } from "styles/colors";
+import Panel from './Panel';
+import { darkBlue, white } from 'styles/colors';
 
 interface Props {
   className?: string;
