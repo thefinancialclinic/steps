@@ -172,5 +172,10 @@ export class UserRepository implements Repository<UserId, User> {
       VALUES (1, 'First', 'Last', 'coach@example.com', 1, 'blue', 'WORKING', 'Coach')
       ON CONFLICT (id) DO NOTHING;
     `);
+
+    // advance the auto-incrementing sequence by one. This avoids the
+    // problem that the next (very first!) User to be added will clash
+    // with the existing seeded value.
+    await this.pool.query(`SELECT nextval('user_id_seq');`);
   }
 }
