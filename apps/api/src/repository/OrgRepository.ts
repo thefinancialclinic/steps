@@ -55,4 +55,13 @@ export class OrgRepository implements Repository<OrgId, Org> {
     const res = await this.pool.query(`DELETE FROM org WHERE id = $1`, [oid]);
     return res.rowCount;
   }
+
+  // TEMPORARY: Seeding DB
+  async seed() {
+    await this.pool.query(`
+      INSERT INTO org (id, name, sms_number)
+      VALUES (1, 'Org', '555-5555')
+      ON CONFLICT (id) DO NOTHING;
+    `);
+  }
 }

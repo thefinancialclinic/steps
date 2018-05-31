@@ -8,6 +8,8 @@ import express = require("express");
 import { writeFileSync, writeFile } from "fs";
 import YAML = require("yamljs");
 import * as url from "url";
+import { OrgRepository } from "./repository/OrgRepository";
+import { UserRepository } from "./repository/UserRepository";
 
 const isProduction = process.env.NODE_ENV === "production";
 const PORT = process.env.PORT || "3001";
@@ -21,6 +23,10 @@ export const pool = new Pool({
   database: connUrl.pathname.slice(1), // drop leading slash
   port: parseInt(connUrl.port),
 });
+
+// TEMPORARY: Seed Org (id: 1) and Coach (id: 1) needed for Client creation
+new OrgRepository(pool).seed();
+new UserRepository(pool).seed();
 
 const app = express();
 
