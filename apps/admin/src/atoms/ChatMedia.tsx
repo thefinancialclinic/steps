@@ -47,7 +47,7 @@ class ChatMedia extends React.Component<Props, {}> {
   }
 }
 
-const Container = styled.div`
+const Container = styled<Props, 'div'>('div')`
   max-width: 266px;
 
   a {

@@ -47,8 +47,7 @@ const Container = styled.div`
   font-size: 21px;
 `;
 
-// TODO: Panel props do not have type and color
-export const Message = styled(Panel)`
+export const Message = styled(Panel).attrs<Props>({})`
   background-color: ${({ type, color }) =>
     type === 'received' ? color : white};
   display: inline-block;
@@ -56,8 +55,7 @@ export const Message = styled(Panel)`
   line-height: 25px;
 `;
 
-// TODO: div props do not have type
-export const From = styled.div`
+export const From = styled<Props, 'div'>('div')`
   display: inline-block;
   font-size: 28px;
   width: 65px;
