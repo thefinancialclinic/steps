@@ -7,23 +7,28 @@ import styled from 'styled-components';
 import Panel from 'atoms/Panel';
 import InputRow from 'components/Forms/InputRow';
 import Button from 'atoms/Button';
+import ButtonLink from 'atoms/ButtonLink';
+import AdminNewStaff from './NewStaff';
 
-interface Props {
-}
+interface Props {}
 
-class Staff extends React.Component<Props, {}> {
-  render () {
+export class Staff extends React.Component<Props, {}> {
+  render() {
     return (
       <BaseStaff>
-        <div className='header'>
+        <div className="header">
           <h1>Staff</h1>
-          <Button>Invite Staff</Button>
+          <ButtonLink to="/admin/staff/new">Invite Staff</ButtonLink>
         </div>
         <label>Name & Email</label>
         <Panel>
           <p>STUFF HERE</p>
           <Button>Edit</Button>
         </Panel>
+
+        <Switch>
+          <Route path="/admin/staff/new" component={AdminNewStaff} />
+        </Switch>
       </BaseStaff>
     );
   }
@@ -41,10 +46,8 @@ const BaseStaff = styled.div`
   }
 `;
 
-const mapStateToProps = (state, props) => ({
-});
+const mapStateToProps = (state, props) => ({});
 
-const mapDispatchToProps = dispatch => ({
-});
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Staff);

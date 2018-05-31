@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewStaff.tsx renders correctly 1`] = `
+<form>
+  <styled.div>
+    <label
+      htmlFor="emails"
+    >
+      Emails
+    </label>
+    <Field
+      cols={30}
+      component="textarea"
+      name="emails"
+      rows={10}
+    />
+  </styled.div>
+  <Button
+    white={false}
+  >
+    Save
+  </Button>
+</form>
+`;

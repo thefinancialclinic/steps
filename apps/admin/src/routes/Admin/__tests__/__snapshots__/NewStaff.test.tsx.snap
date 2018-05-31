@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewStaff.tsx renders correctly 1`] = `
+<Styled(Styled(Modal))>
+  <div>
+    <h1>
+      Invite Staff
+    </h1>
+    <p>
+      Enter the emails of the people you would like to invite, use commas to invite multiple people.
+    </p>
+    <ReduxForm
+      onSubmit={[Function]}
+    />
+  </div>
+</Styled(Styled(Modal))>
+`;
