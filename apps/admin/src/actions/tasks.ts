@@ -2,15 +2,17 @@ import axios from 'axios';
 
 type DispatchFn = (any) => any;
 
+const apiUrl = process.env.API_URL || 'http://localhost:3001/api';
+
 const CREATE_TASK = 'CREATE_TASK';
 export const createTask = async (data): Promise<any> => {
-  await axios.post('http://localhost:3001/tasks', data);
+  await axios.post(apiUrl + '/tasks', data);
   return { type: 'foo' };
 };
 
 const GET_TASKS = 'GET_TASKS';
 export const getTasks = (): DispatchFn => async dispatch => {
-  const tasks = await axios.get('http://localhost:3001/tasks');
+  const tasks = await axios.get(apiUrl + '/tasks');
   return dispatch(setTasks(tasks.data));
 };
 

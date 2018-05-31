@@ -4,7 +4,7 @@ info:
   description: API endpoints for STEPS bot
 
 servers:
-  - url: http://localhost:3001
+  - url: http://localhost:3001/api
 
 components:
   schemas:
