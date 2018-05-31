@@ -1,15 +1,16 @@
-import React from 'react';
-import { Flex, Box } from 'grid-styled';
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { getClients } from 'actions/clients';
-import styled from 'styled-components';
+import React from "react";
+import { Flex, Box } from "grid-styled";
+import { Link, Redirect, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { getClients } from "actions/clients";
+import styled from "styled-components";
 
-import Sidebar from 'components/Sidebar/Sidebar';
-import Tasks from 'routes/Tasks/Tasks';
-import GoalList from 'components/Goals/GoalList';
-import Chat from 'components/Chat/Chat';
+import Sidebar from "components/Sidebar/Sidebar";
+import Tasks from "routes/Tasks/Tasks";
+import GoalList from "components/Goals/GoalList";
+import Chat from "components/Chat/Chat";
+import Terms from "routes/Clients/Terms";
 
 interface Props {
   className?: string;
@@ -28,20 +29,25 @@ class Client extends React.Component<Props, {}> {
 
     return (
       <Flex className={this.props.className}>
-        <Box width={[1, 1/3]}>
+        <Box width={[1, 1 / 3]}>
           <Sidebar
             links={[
-              { text: 'Tasks', to: `/clients/${client.id}/tasks` },
-              { text: 'Goals', to: `/clients/${client.id}/goals` },
-              { text: 'Chat', to: `/clients/${client.id}/chat` }
+              { text: "Tasks", to: `/clients/${client.id}/tasks` },
+              { text: "Goals", to: `/clients/${client.id}/goals` },
+              { text: "Chat", to: `/clients/${client.id}/chat` }
             ]}
           >
             <Link to="/clients">&larr; Back</Link>
-            <h2>{client.first_name} {client.last_name}</h2>
+            <h2>
+              {client.first_name} {client.last_name}
+            </h2>
           </Sidebar>
         </Box>
-        <Box width={[1, 2/3]} m={4}>
+        <Box width={[1, 2 / 3]} m={4}>
           <Switch>
+            <Route path="/clients/:id/terms">
+              <Terms client={client} />
+            </Route>
             <Route path="/clients/:id/tasks" component={Tasks} />
             <Route path="/clients/:id/goals" component={GoalList} />
             <Route path="/clients/:id/chat" component={Chat} />

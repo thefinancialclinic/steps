@@ -1,4 +1,4 @@
-import * as Color from 'color';
+import Color from 'color';
 
 export const black = '#464646';
 export const blue = '#5AC4F9';
