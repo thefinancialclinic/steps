@@ -164,4 +164,13 @@ export class UserRepository implements Repository<UserId, User> {
     );
     return res.rowCount;
   }
+
+  // TEMPORARY: Seeding DB
+  async seed() {
+    await this.pool.query(`
+      INSERT INTO "user" (id, first_name, last_name, email, org_id, color, status, "type")
+      VALUES (1, 'First', 'Last', 'coach@example.com', 1, 'blue', 'WORKING', 'Coach')
+      ON CONFLICT (id) DO NOTHING;
+    `);
+  }
 }
