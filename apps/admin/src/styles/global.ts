@@ -1,8 +1,6 @@
-import styledNormalize from 'styled-normalize';
-import { injectGlobal } from 'styled-components';
-import { baseSize, remCalc } from './type';
-
-console.log(styledNormalize);
+import styledNormalize from "styled-normalize";
+import { injectGlobal } from "styled-components";
+import { baseSize, remCalc } from "./type";
 
 export default () => injectGlobal`
   ${styledNormalize}

@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import Color from "color";
+import React from 'react';
+import styled from 'styled-components';
+import Color from 'color';
 
-import Panel from "./Panel";
-import { darkBlue, white } from "styles/colors";
+import Panel from './Panel';
+import { darkBlue, white } from 'styles/colors';
 
 interface Props {
   className?: string;
@@ -71,7 +71,7 @@ const StyledPanel = styled(Panel)`
       .string()};
 `;
 
-const StyledDropdown = styled(Dropdown)`
+const StyledDropdown = styled<Props>(Dropdown)`
   .dropdown {
     position: absolute;
     z-index: 1;

@@ -32,9 +32,9 @@ class Badge extends React.Component<Props, {}> {
 const StyledBadge = styled(Badge)`
   background-color: ${({ color, text }) => {
     if (color) return color;
-    return colorFromString(text.toUpperCase(), badgeColors)
+    return colorFromString(text.toUpperCase(), badgeColors);
   }};
-  border-radius: ${props => props.rounded ? 1000 : 4}px;
+  border-radius: ${props => (props.rounded ? 1000 : 4)}px;
   color: ${white};
   display: inline-block;
   font-size: 0.825rem;

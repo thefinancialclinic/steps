@@ -1,4 +1,4 @@
-import * as Color from 'color';
+import Color from 'color';
 
 export const black = '#464646';
 export const blue = '#5AC4F9';
@@ -25,7 +25,7 @@ export default {
   mediumBlue,
   pink,
   white,
-  yellow,
+  yellow
 };
 
 export const colorFromString = (text: string, colors: string[]): string => {
@@ -38,5 +38,7 @@ export const colorFromString = (text: string, colors: string[]): string => {
 };
 
 export const darken = (color: string, value: number): string => {
-  return Color(color).darken(value).hex();
+  return Color(color)
+    .darken(value)
+    .hex();
 };

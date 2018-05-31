@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input.tsx renders correctly 1`] = `
+<styled.div>
+  <input
+    type="text"
+  />
+</styled.div>
+`;

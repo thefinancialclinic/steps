@@ -2,11 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { remCalc } from 'styles/type';
-import {
-  black,
-  mediumBlue,
-  white,
-} from 'styles/colors';
+import { black, mediumBlue, white } from 'styles/colors';
 
 interface Props {
   rounded?: boolean;
