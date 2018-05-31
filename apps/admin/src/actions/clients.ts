@@ -2,10 +2,12 @@ import axios from 'axios';
 
 type DispatchFn = (any) => any;
 
+const apiUrl = process.env.API_URL || 'http://localhost:3001/api';
+
 const GET_CLIENTS = 'GET_CLIENTS';
 export const getClients = (): DispatchFn => async dispatch => {
   try {
-    const clients = await axios.get('http://localhost:3001/clients');
+    const clients = await axios.get(apiUrl + '/clients');
     return dispatch(setClients(clients.data));
   } catch (error) {
     console.error(error);
@@ -28,7 +30,7 @@ export const createClient = (clientData) : DispatchFn => async dispatch => {
     clientData.color = 'blue';
     clientData.status = 'AWAITING_HELP';
 
-    const clients = await axios.post('http://localhost:3001/clients', clientData);
+    const clients = await axios.post(apiUrl + '/clients', clientData);
     return dispatch(getClients());
   } catch (error) {
     console.error(error);
