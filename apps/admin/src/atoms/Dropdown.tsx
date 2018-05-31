@@ -71,7 +71,7 @@ const StyledPanel = styled(Panel)`
       .string()};
 `;
 
-const StyledDropdown = styled(Dropdown)`
+const StyledDropdown = styled<Props>(Dropdown)`
   .dropdown {
     position: absolute;
     z-index: 1;
