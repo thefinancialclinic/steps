@@ -8,17 +8,11 @@ import Badge from 'atoms/Badge'
 import Button from 'atoms/Button'
 import Panel from 'atoms/Panel';
 import StackedInputRow from 'components/Forms/StackedInputRow';
-
-interface Task {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-}
+import Task from '../../reducers/tasks';
 
 interface Props {
   className?: string;
-  task: Task;
+  task: any;
 }
 
 class TaskTemplate extends React.Component<Props, {}> {

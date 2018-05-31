@@ -50,11 +50,27 @@ export const Components = storiesOf("Components", module)
       <div>This is a child in a panel.</div>
     </Modal>
   ))
+<<<<<<< HEAD
   .add("Task Form", () => <TaskForm badgeText="boo">child</TaskForm>)
   .add("Task Step", () => <TaskStep count={1} />)
   .add("Task Template", () => (
     <TaskTemplate category="boo" description="Do this thing" />
   ))
   .add("TermsModal", () => <TermsModal phoneNumber="+15558675309" link="#" />);
+=======
+  .add('Task Form', () => <TaskForm task={{
+    id: 1,
+    title: 'A task',
+    description: 'You should do this',
+    category: 'debt'
+  }} client={{id: 2}}/>)
+  .add('Task Step', () => <TaskStep count={1} />)
+  .add('Task Template', () => <TaskTemplate task={{
+    id: 1,
+    title: 'As sample task',
+    description: 'A sample description',
+    category: 'income'
+  }}/>);
+>>>>>>> Update task template
 
 export default Components;
