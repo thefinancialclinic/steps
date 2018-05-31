@@ -71,7 +71,7 @@ export class User {
 }
 
 export class UserRepository implements Repository<UserId, User> {
-  constructor(public pool: Pool) {}
+  constructor(public pool: Pool) { }
 
   async getOne(uid: UserId) {
     const res = await this.pool.query(`SELECT * FROM "user" WHERE id = $1`, [
