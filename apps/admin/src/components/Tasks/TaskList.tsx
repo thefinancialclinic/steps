@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Flex, Box } from 'grid-styled';
 import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { grey, white } from 'styles/colors';
 import { getTasks, setTasks } from 'actions/tasks';
-import ButtonLink from 'atoms/ButtonLink';
+import Button from 'atoms/Button';
 import styled from 'styled-components';
 import Task from './TaskListItem';
 import NoTasks from './NoTasks';
@@ -75,7 +76,7 @@ class TaskList extends React.Component<Props, {}> {
           <h2>Tasks</h2>
           <SortableList items={tasks} onSortEnd={this.onSortEnd} shouldCancelStart={this.shouldCancelStart} />
           <Flex justifyContent='center' >
-            <ButtonLink to="/clients/{client.id}/tasks/add">Add New Task</ButtonLink>
+            <Link to={{ pathname: `/clients/${client.id}/tasks/add` }}><Button>Add New Task</Button></Link>
           </Flex>
         </Box>
     ) : (
