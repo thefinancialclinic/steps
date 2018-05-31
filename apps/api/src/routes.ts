@@ -1,10 +1,10 @@
-
 import { ClientController } from "./controller/ClientController";
 import { CoachController } from "./controller/CoachController";
 import { OrgController } from "./controller/OrgController";
 import { UserController } from "./controller/UserController";
 import { TaskController } from "./controller/TaskController";
 import { StepController } from "./controller/StepController";
+import { MessageController } from "./controller/MessageController";
 
 export const Routes = [
   {
@@ -149,6 +149,30 @@ export const Routes = [
     method: "delete",
     route: "/api/steps/:id",
     controller: StepController,
+    action: "remove"
+  },
+  {
+    method: "get",
+    route: "/api/messages",
+    controller: MessageController,
+    action: "all"
+  },
+  {
+    method: "get",
+    route: "/api/messages/:id",
+    controller: MessageController,
+    action: "one"
+  },
+  {
+    method: "post",
+    route: "/api/messages",
+    controller: MessageController,
+    action: "save"
+  },
+  {
+    method: "delete",
+    route: "/api/messages/:id",
+    controller: MessageController,
     action: "remove"
   },
 ];

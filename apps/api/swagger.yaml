@@ -19,6 +19,25 @@ components:
           type: string
           format: uri
           nullable: true
+    Message:
+      properties:
+        text:
+          type: string
+        to_user:
+          type: integer
+        from_-user:
+          type: integer
+        media_id:
+          type: integer
+          nullable: true
+        request_id:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        responses:
+          type: object
+          nullable: true
     Step:
       properties:
         text:
@@ -493,6 +512,83 @@ paths:
       responses:
         '200':
           description: The number of Steps deleted (should be 1 or 0)
+          content:
+            application/json:
+              type: integer
+
+  /messages:
+    get:
+      summary: Return a list of Messages
+      tags: [messages]
+      responses:
+        '200':
+          description: A JSON array of Message objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Message'
+    post:
+      summary: Create a new Message
+      tags: [messages]
+      requestBody:
+        description: New Message to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '500':
+          description: Server error (more detailed errors in development/test)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+  /messages/{id}:
+    get:
+      summary: Return a single Message by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [messages]
+      responses:
+        '200':
+          description: A JSON object representing a single Message
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Message'
+    delete:
+      summary: Delete an Message by the given id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id to be deleted
+      tags: [messages]
+      responses:
+        '200':
+          description: The number of Messages deleted (should be 1 or 0)
           content:
             application/json:
               type: integer

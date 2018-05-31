@@ -22,10 +22,10 @@ export class Message {
   text: string;
   to_user: UserId;
   from_user: UserId;
-  media_id: MediaId;
+  media_id?: MediaId;
   request_id: RequestId;
   timestamp: Date;
-  responses: object;
+  responses?: object;
 
   constructor(opts: MessageOpts) {
     this.id = opts.id;
