@@ -63,5 +63,10 @@ export class OrgRepository implements Repository<OrgId, Org> {
       VALUES (1, 'Org', '555-5555')
       ON CONFLICT (id) DO NOTHING;
     `);
+
+    // advance the auto-incrementing sequence by one. This avoids the
+    // problem that the next (very first!) Org to be added will clash
+    // with the existing seeded value.
+    await this.pool.query(`SELECT nextval('org_id_seq');`);
   }
 }
