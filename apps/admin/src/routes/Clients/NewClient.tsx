@@ -32,7 +32,8 @@ interface Props {
 class NewClient extends React.Component<Props>{
 
   state = {
-    shouldRedirect: false
+    shouldRedirect: false,
+    errorMessage: ''
   }
   setRedirect = () => {
     this.setState({
@@ -48,14 +49,22 @@ class NewClient extends React.Component<Props>{
   createClient = clientData => {
     this.props.actions.createClient(clientData)
       .then(res => {
+        if(res.type === 'error') {
+          return this.setState({ shouldRedirect: false, errorMessage: res.error.message })
+        }
         this.setRedirect();
         this.renderRedirect();
-      }).catch(error => this.setState({ shouldRedirect: false, errorMessage: error }))
+      }).catch(error => {
+         this.setState({ shouldRedirect: false, errorMessage: error })
+      });
   };
 
   render () {
-    return (
+    const displayErrorMessage = () => {
+      return <div>{this.state.errorMessage}</div>;
+    }
 
+    return (
       <div className='new-client'>
         {this.renderRedirect()}
         <Flex flexWrap='wrap'>
@@ -69,6 +78,7 @@ class NewClient extends React.Component<Props>{
           <Box width={[1, 1/2]} px={2}>
             <Content>
               <NewClientForm onSubmit={this.createClient}></NewClientForm>
+              {displayErrorMessage()}
             </Content>
           </Box>
         </Flex>
