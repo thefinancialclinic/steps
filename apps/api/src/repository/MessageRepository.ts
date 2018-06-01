@@ -5,6 +5,7 @@ import { UserId } from "./UserRepository";
 import { RequestId } from "./RequestRepository";
 
 export type MessageId = number;
+export type Object = { [key: string]: any };
 
 export type MessageOpts = {
   id?: MessageId;
@@ -14,7 +15,7 @@ export type MessageOpts = {
   media_id?: MediaId;
   request_id: RequestId;
   timestamp: Date;
-  responses?: object;
+  responses?: Object;
 };
 
 export class Message {
@@ -25,7 +26,7 @@ export class Message {
   media_id?: MediaId;
   request_id: RequestId;
   timestamp: Date;
-  responses?: object;
+  responses?: Object;
 
   constructor(opts: MessageOpts) {
     this.id = opts.id;
