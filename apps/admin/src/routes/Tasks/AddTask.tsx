@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Flex, Box } from 'grid-styled';
-import { blue, brown, green, grey, pink} from 'styles/colors';
+import { blue, brown, green, grey, pink } from 'styles/colors';
 import styled from 'styled-components';
 import Filter from 'atoms/Filter';
 import TaskTemplate from 'components/Tasks/TaskTemplate';
@@ -13,7 +13,7 @@ interface Props {
 const StyledLink = styled.span`
   a {
     color: ${grey};
-    font-size: .8em;
+    font-size: 0.8em;
     margin-left: 1em;
     text-decoration: none;
     text-transform: uppercase;
@@ -21,9 +21,7 @@ const StyledLink = styled.span`
 `;
 
 class AddTask extends React.Component<Props, {}> {
-
-  render () {
-
+  render() {
     const task = {
       id: 3,
       title: 'A title',
@@ -32,16 +30,22 @@ class AddTask extends React.Component<Props, {}> {
     };
 
     return (
-        <Box width={1}>
-          <h2>Add New Task</h2>
-          <Filter
-            categories={[{name: 'debt', active: true}, {name: 'budget', active: false}]}
-          />
-          <Flex alignItems='center'>
-            <h3>Task</h3> <StyledLink><Link  to='/'>Sort by last used</Link></StyledLink>
-          </Flex>
-          <TaskTemplate task={task}></TaskTemplate>
-        </Box>
+      <Box width={1}>
+        <h2>Add New Task</h2>
+        <Filter
+          categories={[
+            { name: 'debt', active: true },
+            { name: 'budget', active: false }
+          ]}
+        />
+        <Flex alignItems="center">
+          <h3>Task</h3>{' '}
+          <StyledLink>
+            <Link to="/">Sort by last used</Link>
+          </StyledLink>
+        </Flex>
+        <TaskTemplate task={task} />
+      </Box>
     );
   }
 }
