@@ -257,7 +257,11 @@ paths:
           description: The number of Clients deleted (should be 1 or 0)
           content:
             application/json:
-              type: integer
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
 
   /coaches:
     get:
@@ -325,7 +329,11 @@ paths:
           description: The number of Coach deleted (should be 1 or 0)
           content:
             application/json:
-              type: integer
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
 
   /orgs:
     get:
@@ -393,7 +401,11 @@ paths:
           description: The number of Orgs deleted (should be 1 or 0)
           content:
             application/json:
-              type: integer
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
               
   /tasks:
     get:
@@ -477,7 +489,11 @@ paths:
           description: The number of Tasks deleted (should be 1 or 0)
           content:
             application/json:
-              type: integer
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
 
 
   /steps:
@@ -555,7 +571,11 @@ paths:
           description: The number of Steps deleted (should be 1 or 0)
           content:
             application/json:
-              type: integer
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
 
   /messages:
     get:
@@ -632,7 +652,11 @@ paths:
           description: The number of Messages deleted (should be 1 or 0)
           content:
             application/json:
-              type: integer
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
 
   /media:
     get:
@@ -700,7 +724,11 @@ paths:
           description: The number of Media objects deleted (should be 1 or 0)
           content:
             application/json:
-              type: integer
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
 
   /requests:
     get:
