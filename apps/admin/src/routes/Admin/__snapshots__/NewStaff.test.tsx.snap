@@ -9,7 +9,7 @@ exports[`NewStaff.tsx renders correctly 1`] = `
     <p>
       Enter the emails of the people you would like to invite, use commas to invite multiple people.
     </p>
-    <ReduxForm
+    <Component
       onSubmit={[Function]}
     />
   </div>

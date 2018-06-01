@@ -1,7 +1,7 @@
+import { shallow } from 'enzyme';
 import 'jest';
-import { Staff } from '../Staff';
-import { shallow, mount } from 'enzyme';
 import * as React from 'react';
+import { Staff } from './Staff';
 
 describe('Staff', () => {
   it('renders correctly', () => {

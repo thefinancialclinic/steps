@@ -1,16 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NewStaff.tsx renders correctly 1`] = `
-<form>
+<form
+  onSubmit={[MockFunction]}
+>
   <styled.div>
     <label
       htmlFor="emails"
     >
       Emails
     </label>
-    <Field
+    <textarea
       cols={30}
-      component="textarea"
       name="emails"
       rows={10}
     />

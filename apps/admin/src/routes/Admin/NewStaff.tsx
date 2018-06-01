@@ -3,24 +3,25 @@ import Modal from '../../components/Modal';
 import styled from 'styled-components';
 import ButtonLink from 'atoms/ButtonLink';
 import NewStaffForm from './NewStaffForm';
+import { AlertLevel } from 'components/Alert/types';
 
 interface Props {
-  actions: { createStaff: any };
+  actions: { createStaff; addAlert };
+  redirect(): void;
 }
 
 export class NewStaff extends React.Component<Props, {}> {
-  // createClient = clientData => {
-  //   this.props.actions.createClient(clientData)
-  //     .then(res => {
-  //       this.setRedirect();
-  //       this.renderRedirect();
-  //     }).catch(error => this.setState({ shouldRedirect: false, errorMessage: error }))
-  // };
-
-  public createStaff({ emails }) {
+  createStaff = ({ emails }) => {
     const splitEmails = emails.split(/,\s*/);
-    this.props.actions.createStaff(splitEmails);
-  }
+    this.props.actions
+      .createStaff(splitEmails)
+      .then(res => {
+        this.props.redirect();
+      })
+      .catch(err => {
+        this.props.actions.addAlert(err, AlertLevel.Error);
+      });
+  };
 
   render() {
     return (
