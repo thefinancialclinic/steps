@@ -7,6 +7,10 @@ export type UserType = "Client" | "Coach" | "Admin" | "Superadmin";
 export type UserPlatform = "SMS" | "FBOOK";
 export type UserStatus = "AWAITING_HELP" | "WORKING" | "NON_RESPONSIVE";
 
+export type ObjectType = {
+  [key: string]: string | number | boolean | ObjectType;
+}
+
 export type UserOpts = {
   id?: UserId;
   first_name: string;
@@ -24,7 +28,7 @@ export type UserOpts = {
   image?: string;
   follow_up_date?: Date;
   plan_url?: string;
-  checkin_times?: object[];
+  checkin_times?: ObjectType[];
   topic?: string;
 };
 
@@ -45,7 +49,7 @@ export class User {
   image?: string | null;
   follow_up_date?: Date;
   plan_url?: string;
-  checkin_times?: object[];
+  checkin_times?: ObjectType[];
   topic?: string;
 
   constructor(opts: UserOpts) {

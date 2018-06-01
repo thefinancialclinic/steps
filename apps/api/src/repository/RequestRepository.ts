@@ -13,7 +13,7 @@ export type RequestOpts = {
   task_id: TaskId;
 };
 
-export class Request {
+export class RequestItem {
   id?: RequestId;
   status?: RequestStatus;
   user_id: UserId;
@@ -27,22 +27,22 @@ export class Request {
   }
 }
 
-export class RequestRepository implements Repository<RequestId, Request> {
+export class RequestRepository implements Repository<RequestId, RequestItem> {
   constructor(public pool: Pool) { }
 
   async getOne(id: RequestId) {
     const res = await this.pool.query(`SELECT * FROM request WHERE id = $1`, [
       id
     ]);
-    return new Request(res.rows[0]);
+    return new RequestItem(res.rows[0]);
   }
 
   async getAll() {
     const res = await this.pool.query(`SELECT * FROM request`);
-    return res.rows.map(row => new Request(row));
+    return res.rows.map(row => new RequestItem(row));
   }
 
-  async save(request: Request) {
+  async save(request: RequestItem) {
     const res = await this.pool.query(
       `
       INSERT INTO request (status, user_id, task_id)

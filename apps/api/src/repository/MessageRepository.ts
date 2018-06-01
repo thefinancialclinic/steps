@@ -5,6 +5,9 @@ import { UserId } from "./UserRepository";
 import { RequestId } from "./RequestRepository";
 
 export type MessageId = number;
+export type ObjectType = {
+  [key: string]: string | number | boolean | ObjectType;
+}
 
 export type MessageOpts = {
   id?: MessageId;
@@ -14,7 +17,7 @@ export type MessageOpts = {
   media_id?: MediaId;
   request_id: RequestId;
   timestamp: Date;
-  responses?: object;
+  responses?: ObjectType;
 };
 
 export class Message {
@@ -22,10 +25,10 @@ export class Message {
   text: string;
   to_user: UserId;
   from_user: UserId;
-  media_id: MediaId;
+  media_id?: MediaId;
   request_id: RequestId;
   timestamp: Date;
-  responses: object;
+  responses?: ObjectType;
 
   constructor(opts: MessageOpts) {
     this.id = opts.id;

@@ -8,7 +8,7 @@ import { Pool } from "pg";
 import {
   RequestRepository,
   RequestId,
-  Request
+  RequestItem
 } from "../src/repository/RequestRepository";
 import { StepId, StepRepository, Step } from "../src/repository/StepRepository";
 import { TaskId, TaskRepository, Task } from "../src/repository/TaskRepository";
@@ -111,7 +111,7 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
       request = res.id;
     } else {
       request = await new RequestRepository(pool).save(
-        new Request({
+        new RequestItem({
           status: "NEEDS_ASSISTANCE",
           user_id: user,
           task_id: task
