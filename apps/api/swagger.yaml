@@ -69,6 +69,16 @@ components:
           nullable: true
           type: string
           enum: [TASK_CONTENT, TASK_RESOURCE, STORY, GENERAL_EDUCATION]
+    Request:
+      properties:
+        status:
+          nullable: true
+          type: string
+          enum: [NEEDS_ASSISTANCE, REPLIED, RESOLVED]
+        user_id:
+          type: integer
+        task_id:
+          type: integer
     Step:
       properties:
         text:
@@ -691,3 +701,84 @@ paths:
           content:
             application/json:
               type: integer
+
+  /requests:
+    get:
+      summary: Return a list of Requests
+      tags: [requests]
+      responses:
+        '200':
+          description: A JSON array of Request objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Request'
+    post:
+      summary: Create a new Request
+      tags: [requests]
+      requestBody:
+        description: New Request to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+      responses:
+        '500':
+          description: Server error (more detailed errors in development/test)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+  /requests/{id}:
+    get:
+      summary: Return a single Request by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [requests]
+      responses:
+        '200':
+          description: A JSON object representing a single Request
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Request'
+    delete:
+      summary: Delete an Request by the given id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id to be deleted
+      tags: [requests]
+      responses:
+        '200':
+          description: The number of Requests deleted (should be 1 or 0)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number

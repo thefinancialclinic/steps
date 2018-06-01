@@ -1,4 +1,4 @@
-import { RequestRepository, RequestId, Request } from '../src/repository/RequestRepository';
+import { RequestRepository, RequestId, RequestItem } from '../src/repository/RequestRepository';
 import { getTestConnectionPool, fixtures } from './db_helper';
 
 describe('media entity operations', () => {
@@ -8,7 +8,7 @@ describe('media entity operations', () => {
   beforeAll(async () => {
     const pool = await getTestConnectionPool({ createFixtures: true });
     repo = new RequestRepository(pool);
-    requestId = await repo.save(new Request({
+    requestId = await repo.save(new RequestItem({
       status: "NEEDS_ASSISTANCE",
       user_id: fixtures.user,
       task_id: fixtures.task,

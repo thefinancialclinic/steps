@@ -6,6 +6,7 @@ import { TaskController } from "./controller/TaskController";
 import { StepController } from "./controller/StepController";
 import { MessageController } from "./controller/MessageController";
 import { MediaController } from "./controller/MediaController";
+import { RequestController } from "./controller/RequestController";
 
 export const Routes = [
   {
@@ -198,6 +199,30 @@ export const Routes = [
     method: "delete",
     route: "/api/media/:id",
     controller: MediaController,
+    action: "remove"
+  },
+  {
+    method: "get",
+    route: "/api/requests",
+    controller: RequestController,
+    action: "all"
+  },
+  {
+    method: "get",
+    route: "/api/requests/:id",
+    controller: RequestController,
+    action: "one"
+  },
+  {
+    method: "post",
+    route: "/api/requests",
+    controller: RequestController,
+    action: "save"
+  },
+  {
+    method: "delete",
+    route: "/api/requests/:id",
+    controller: RequestController,
     action: "remove"
   },
 ];
