@@ -5,6 +5,7 @@ import { UserController } from "./controller/UserController";
 import { TaskController } from "./controller/TaskController";
 import { StepController } from "./controller/StepController";
 import { MessageController } from "./controller/MessageController";
+import { MediaController } from "./controller/MediaController";
 
 export const Routes = [
   {
@@ -173,6 +174,30 @@ export const Routes = [
     method: "delete",
     route: "/api/messages/:id",
     controller: MessageController,
+    action: "remove"
+  },
+  {
+    method: "get",
+    route: "/api/media",
+    controller: MediaController,
+    action: "all"
+  },
+  {
+    method: "get",
+    route: "/api/media/:id",
+    controller: MediaController,
+    action: "one"
+  },
+  {
+    method: "post",
+    route: "/api/media",
+    controller: MediaController,
+    action: "save"
+  },
+  {
+    method: "delete",
+    route: "/api/media/:id",
+    controller: MediaController,
     action: "remove"
   },
 ];
