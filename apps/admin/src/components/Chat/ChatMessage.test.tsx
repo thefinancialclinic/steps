@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import ChatMessage from '../ChatMessage';
+import ChatMessage from './ChatMessage';
 import * as React from 'react';
 
 describe('ChatMessage.tsx', () => {

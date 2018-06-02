@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Panel from './Panel';
+import Panel from 'atoms/Panel';
 import { white, mediumBlue } from 'styles/colors';
 
 type ChatMessageType = 'sent' | 'received';

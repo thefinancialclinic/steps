@@ -2,7 +2,7 @@ import React from 'react';
 import 'jest';
 import { shallow } from 'enzyme';
 
-import ChatMedia from '../ChatMedia';
+import ChatMedia from './ChatMedia';
 
 it('displays URL domain', () => {
   const chatMedia = shallow(
