@@ -1,4 +1,4 @@
-import { SET_TASKS, ADD_TASK } from 'actions/tasks';
+import { SET_TASKS, ADD_TASK, SET_TASK_STATUS } from 'actions/tasks';
 
 export type TaskStatus = 'ACTIVE' | 'COMPLETED' | 'ARCHIVED';
 export type TaskDifficulty = 'EASY' | 'MODERATE' | 'DIFFICULT';
@@ -60,10 +60,21 @@ export default (state = initialState, action) => {
       tasks: action.tasks
     };
   }
+
   if (action.type === ADD_TASK) {
     return {
       ...state,
       tasks: [...state.tasks, action.task]
+    };
+  }
+
+  if (action.type === SET_TASK_STATUS) {
+    return {
+      ...state,
+      tasks: state.tasks.map(task => {
+        if (task.id !== action.id) return task;
+        return { ...task, status: action.status };
+      })
     };
   }
 

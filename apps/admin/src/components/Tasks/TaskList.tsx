@@ -8,10 +8,10 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { grey, mediumBlue, white } from 'styles/colors';
-import { getTasks, setTasks } from 'actions/tasks';
+import { setTaskStatus, getTasks, setTasks } from 'actions/tasks';
 import ButtonLink from 'atoms/ButtonLink';
 import styled from 'styled-components';
-import Task from './TaskListItem';
+import TaskListItem from './TaskListItem';
 import NoTasks from './NoTasks';
 
 interface Props {
@@ -47,9 +47,7 @@ const TaskContainer = styled.div`
   }
 `;
 
-const SortableTask = SortableElement(props => <Task {...props} />);
-
-const SortableList = SortableContainer(({ items }) => {
+const SortableList = SortableContainer(({ items, setTaskStatus }) => {
   let taskClass = status => {
     return status === 'COMPLETED' ? 'compelted' : 'active';
   };
@@ -57,8 +55,16 @@ const SortableList = SortableContainer(({ items }) => {
     <Box>
       {items.map((task, index) => (
         <TaskContainer key={index} className={taskClass(task.status)}>
-          <div className='number'>{index + 1}</div>
-          <Task key={`item-${index}`} index={index} value={task.title} id={task.id} status={task.status} userId={task.user_id} />
+          <div className="number">{index + 1}</div>
+          <TaskListItem
+            key={`item-${index}`}
+            setTaskStatus={setTaskStatus}
+            index={index}
+            value={task.title}
+            id={task.id}
+            status={task.status}
+            userId={task.user_id}
+          />
         </TaskContainer>
       ))}
     </Box>
@@ -92,9 +98,16 @@ export class TaskList extends React.Component<Props, {}> {
       tasks.length > 0 ? (
         <Box width={1}>
           <h2>Tasks</h2>
-          <SortableList items={tasks} onSortEnd={this.onSortEnd} shouldCancelStart={this.shouldCancelStart} />
-          <Flex justifyContent='center' >
-            <ButtonLink to={ `/clients/${client.id}/tasks/add` }>Add New Task</ButtonLink>
+          <SortableList
+            items={tasks}
+            onSortEnd={this.onSortEnd}
+            shouldCancelStart={this.shouldCancelStart}
+            setTaskStatus={this.props.actions.setTaskStatus}
+          />
+          <Flex justifyContent="center">
+            <ButtonLink to={`/clients/${client.id}/tasks/add`}>
+              Add New Task
+            </ButtonLink>
           </Flex>
         </Box>
       ) : (
@@ -110,7 +123,7 @@ export const StyledTaskList = styled(TaskList)`
 `;
 
 export class ConnectedTaskList extends React.Component<Props, {}> {
-  componentWillMount () {
+  componentWillMount() {
     this.props.actions.getTasks();
   }
 
@@ -125,7 +138,10 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ getTasks, setTasks }, dispatch)
+  actions: bindActionCreators({ getTasks, setTasks, setTaskStatus }, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConnectedTaskList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ConnectedTaskList);

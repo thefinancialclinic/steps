@@ -16,7 +16,8 @@ const StyledLink = styled(Link)`
 export default task => {
 
   const toggleTaskStatus = (e) => {
-    //TODO: this should update task status
+    const status = task.status === 'COMPLETED' ? 'ACTIVE' : 'COMPLETED';
+    task.setTaskStatus(task.id, status);
   };
 
   return (
