@@ -18,6 +18,9 @@ import TaskForm from "./Tasks/TaskForm";
 import TaskStep from "./Tasks/TaskStep";
 import TaskTemplate from "./Tasks/TaskTemplate";
 import TermsModal from "./Clients/TermsModal";
+import { TaskList } from "./Tasks/TaskList";
+import TaskStep from "./Tasks/TaskStep";
+import TaskTemplate from "./Tasks/TaskTemplate";
 
 import { lightBlue, white } from "styles/colors";
 import "styles/global";
@@ -65,5 +68,22 @@ export const Components = storiesOf("Components", module)
   //   description: 'A sample description',
   //   category: 'income'
   // }}/>);
+  .add("Task List", () => (
+    <TaskList
+      tasks={[
+        {
+          id: 1,
+          title: "Task #1",
+          description: "A helpful description"
+        },
+        {
+          id: 2,
+          title: "Task #2",
+          description: "A helpful description"
+        }
+      ]}
+      client={{ id: 1 }}
+    />
+  ));
 
 export default Components;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Flex, Box } from 'grid-styled';
 import {
   SortableContainer,
@@ -10,14 +9,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { grey, white } from 'styles/colors';
 import { getTasks, setTasks } from 'actions/tasks';
-import Button from 'atoms/Button';
+import ButtonLink from 'atoms/ButtonLink';
 import styled from 'styled-components';
 import Task from './TaskListItem';
 import NoTasks from './NoTasks';
 
 interface Props {
   className?: string;
-  actions: any;
+  actions?: any;
   tasks: any;
   client: any;
 }
@@ -60,7 +59,7 @@ const SortableList = SortableContainer(({ items }) => {
   );
 });
 
-class TaskList extends React.Component<Props, {}> {
+export class TaskList extends React.Component<Props, {}> {
   componentWillMount() {
     this.props.actions.getTasks();
   }
@@ -84,15 +83,9 @@ class TaskList extends React.Component<Props, {}> {
       tasks.length > 0 ? (
         <Box width={1}>
           <h2>Tasks</h2>
-          <SortableList
-            items={tasks}
-            onSortEnd={this.onSortEnd}
-            shouldCancelStart={this.shouldCancelStart}
-          />
-          <Flex justifyContent="center">
-            <Link to={{ pathname: `/clients/${client.id}/tasks/add` }}>
-              <Button>Add New Task</Button>
-            </Link>
+          <SortableList items={tasks} onSortEnd={this.onSortEnd} shouldCancelStart={this.shouldCancelStart} />
+          <Flex justifyContent='center' >
+            <ButtonLink to={ `/clients/${ client.id }/tasks/add` }>Add New Task</ButtonLink>
           </Flex>
         </Box>
       ) : (
@@ -103,9 +96,19 @@ class TaskList extends React.Component<Props, {}> {
   }
 }
 
-const StyledTaskList = styled(TaskList)`
+export const StyledTaskList = styled(TaskList)`
   display: flex;
 `;
+
+export class ConnectedTaskList extends React.Component<Props, {}> {
+  componentWillMount () {
+    this.props.actions.getTasks();
+  }
+
+  render() {
+    return <TaskList {...this.props} />;
+  }
+}
 
 const mapStateToProps = (state, props) => ({
   tasks: state.tasks.tasks,
@@ -116,4 +119,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ getTasks, setTasks }, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledTaskList);
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectedTaskList);
