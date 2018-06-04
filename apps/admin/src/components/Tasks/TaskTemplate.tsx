@@ -31,9 +31,8 @@ class TaskTemplate extends React.Component<Props, {}> {
             <Box width={5 / 6}>
               <h3>{task.title}</h3>
             </Box>
-            {/* TODO: circle should link to edit page */}
             <Box className="edit-link" width={1 / 6}>
-              <Link to={{ pathname: `/clients/6/tasks/${task.id}/edit` }}>
+              <Link to={`/clients/6/tasks/${task.id}/edit`}>
                 <div className="circle">Edit</div>
               </Link>
             </Box>
