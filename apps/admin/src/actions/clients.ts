@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { addAlert } from './alerts';
+import { AlertLevel } from '../components/Alert/types';
 
 type DispatchFn = (any) => any;
 
@@ -33,6 +35,6 @@ export const createClient = (clientData): DispatchFn => async dispatch => {
     const clients = await axios.post(apiUrl + '/clients', clientData);
     return dispatch(getClients());
   } catch (error) {
-    return dispatch({ type: 'error', error });
+    return dispatch(addAlert('Unable to create client', AlertLevel.Error, '1'));
   }
 };
