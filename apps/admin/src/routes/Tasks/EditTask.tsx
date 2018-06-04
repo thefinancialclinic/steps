@@ -10,39 +10,32 @@ import TaskStep from 'components/Tasks/TaskStep';
 interface Props {
   className?: string;
   actions: any;
+  task: any;
+  client: any;
 }
 
 class EditTask extends React.Component<Props, {}> {
-  newTask = (e) => {
-    e.preventDefault();
-    const content: any = this.refs.content;
-
-    this.props.actions.createTask({
-      steps: { foo: 'bar' },
-      content: content.value,
-    });
-  }
 
   render () {
+    const { className, client, task } = this.props;
+
     return (
-      <div>
+      <div className={className}>
         <h2>Edit Task</h2>
         <p>Personalize this task better for your client by editing, adding, or deleting steps.</p>
-        <TaskForm badgeText='passmein'>
-          <TaskStep count={1} />
-        </TaskForm>
+        <TaskForm task={task} client={client} />
       </div>
     );
   }
 }
-const mapStateToProps = state => ({
-});
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ createTask }, dispatch)
-});
-
-const StyledNewTask = styled(EditTask)`
+const StyledEditTask = styled(EditTask)`
 `;
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledNewTask);
+// TODO: Need to request the specific task in order to get the steps
+const mapStateToProps = (state, props) => ({
+  task: state.tasks.tasks.find(t => t.id = props.match.params.taskId),
+  client: state.clients.clients.find(c => c.id = props.match.params.id)
+});
+
+export default connect(mapStateToProps)(StyledEditTask);

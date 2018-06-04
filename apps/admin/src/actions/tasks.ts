@@ -23,3 +23,18 @@ export const setTasks = tasks => {
     tasks
   };
 };
+
+export const DELETE_TASK = 'DELETE_TASK';
+export const deleteTask = (id): DispatchFn => async dispatch => {
+  const tasks = await axios.delete(`${apiUrl}/tasks/${id}`);
+  return { type: DELETE_TASK, tasks };
+};
+
+export const ADD_TASK = 'ADD_TASK';
+export const addTask = (task): DispatchFn => async dispatch => {
+  const tasks = await axios.post(apiUrl + '/tasks', task);
+  return {
+    type: ADD_TASK,
+    task
+  };
+};

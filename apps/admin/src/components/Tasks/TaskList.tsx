@@ -16,7 +16,7 @@ import NoTasks from './NoTasks';
 
 interface Props {
   className?: string;
-  actions: any;
+  actions?: any;
   tasks: any;
   client: any;
 }
@@ -56,22 +56,16 @@ const SortableList = SortableContainer(({ items }) => {
   return (
     <Box>
       {items.map((task, index) => (
-        <TaskContainer className={taskClass(task.status)}>
-          <div className="number">{index + 1}</div>
-          <SortableTask
-            key={`item-${index}`}
-            index={index}
-            value={task.title}
-            status={task.status}
-            id={task.id}
-          />
+        <TaskContainer key={index} className={taskClass(task.status)}>
+          <div className='number'>{index + 1}</div>
+          <Task key={`item-${index}`} index={index} value={task.title} id={task.id} status={task.status} userId={task.user_id} />
         </TaskContainer>
       ))}
     </Box>
   );
 });
 
-class TaskList extends React.Component<Props, {}> {
+export class TaskList extends React.Component<Props, {}> {
   componentWillMount() {
     this.props.actions.getTasks();
   }
@@ -98,15 +92,9 @@ class TaskList extends React.Component<Props, {}> {
       tasks.length > 0 ? (
         <Box width={1}>
           <h2>Tasks</h2>
-          <SortableList
-            items={tasks}
-            onSortEnd={this.onSortEnd}
-            shouldCancelStart={this.shouldCancelStart}
-          />
-          <Flex justifyContent="center">
-            <ButtonLink to="/clients/{client.id}/tasks/add">
-              Add New Task
-            </ButtonLink>
+          <SortableList items={tasks} onSortEnd={this.onSortEnd} shouldCancelStart={this.shouldCancelStart} />
+          <Flex justifyContent='center' >
+            <ButtonLink to={ `/clients/${client.id}/tasks/add` }>Add New Task</ButtonLink>
           </Flex>
         </Box>
       ) : (
@@ -117,12 +105,22 @@ class TaskList extends React.Component<Props, {}> {
   }
 }
 
-const StyledTaskList = styled(TaskList)`
+export const StyledTaskList = styled(TaskList)`
   display: flex;
 `;
 
+export class ConnectedTaskList extends React.Component<Props, {}> {
+  componentWillMount () {
+    this.props.actions.getTasks();
+  }
+
+  render() {
+    return <TaskList {...this.props} />;
+  }
+}
+
 const mapStateToProps = (state, props) => ({
-  tasks: state.tasks.tasks,
+  tasks: state.tasks.tasks.filter(t => t.user_id == props.match.params.id),
   client: state.clients.clients.find(c => c.id == props.match.params.id)
 });
 
@@ -130,4 +128,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ getTasks, setTasks }, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledTaskList);
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectedTaskList);

@@ -13,7 +13,7 @@ const StyledLink = styled(Link)`
   text-transform: uppercase;
 `;
 
-export default props => {
+export default task => {
 
   const toggleTaskStatus = (e) => {
     //TODO: this should update task status
@@ -23,11 +23,11 @@ export default props => {
     <Panel shadow>
       <Flex alignItems='flex-start'>
         <Box pr={3}>
-          <input type='checkbox' value={props.status} checked={props.status === 'COMPLETED'} onClick={toggleTaskStatus} />
+          <input type='checkbox' value={task.status} checked={task.status === 'COMPLETED'} onClick={toggleTaskStatus} />
         </Box>
         <Box>
-          <div>{props.value}</div>
-          <StyledLink to={{ pathname: `/clients/6/tasks/${props.id}` }}>View Details</StyledLink>
+          <div>{task.value}</div>
+          <StyledLink to={`/clients/${task.userId}/tasks/${task.id}`}>View Details</StyledLink>
         </Box>
       </Flex>
     </Panel>

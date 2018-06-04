@@ -27,8 +27,8 @@ class Clients extends React.Component<Props, {}> {
     const ClientsList =
       clients.length > 0 ? (
         clients.map((client, key) => (
-          <Box width={[1, 1 / 3, 1 / 5]}>
-            <Link to={`/clients/${client.id}`} key={key}>
+          <Box key={key} width={[1, 1 / 3, 1 / 5]}>
+            <Link to={`/clients/${client.id}`}>
               <NameCard
                 title={`${client.first_name} ${client.last_name}`}
                 subtitle=""

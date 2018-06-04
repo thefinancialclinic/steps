@@ -4,39 +4,48 @@ import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import { green, white } from 'styles/colors';
 import Input from 'atoms/Input';
-import Badge from 'atoms/Badge'
-import Button from 'atoms/Button'
+import Badge from 'atoms/Badge';
+import Button from 'atoms/Button';
 import Panel from 'atoms/Panel';
 import StackedInputRow from 'components/Forms/StackedInputRow';
-
-interface Task {
-  id: number;
-  category: string;
-  description: string;
-}
+import { Task } from '../../reducers/tasks';
 
 interface Props {
   className?: string;
   task: Task;
+  addTask(task: Task): void;
+  history: any;
 }
 
 class TaskTemplate extends React.Component<Props, {}> {
-
   render() {
     const { className, task } = this.props;
 
     return (
-      <Panel className={className}>
-        <Box><Badge text={task.category} /></Box>
-        <Flex alignItems='center' className='task-row'>
-          <Box width={5/6}><h3>{task.description}</h3></Box>
-          <Box className='edit-link' width={1/6}>
-            <Link to={{pathname: `/clients/6/tasks/${task.id}/edit`}}><div className='circle'>Edit</div></Link>
+      <div onClick={this.handleClick}>
+        <Panel className={className}>
+          <Box>
+            <Badge text={task.category} />
           </Box>
-        </Flex>
-      </Panel>
+          <Flex alignItems="center" className="task-row">
+            <Box width={5 / 6}>
+              <h3>{task.title}</h3>
+            </Box>
+            <Box className="edit-link" width={1 / 6}>
+              <Link to={`/clients/6/tasks/${task.id}/edit`}>
+                <div className="circle">Edit</div>
+              </Link>
+            </Box>
+          </Flex>
+        </Panel>
+      </div>
     );
   }
+
+  private handleClick = async event => {
+    await this.props.addTask(this.props.task);
+    this.props.history.push(`/clients/${this.props.task.user_id}/tasks`);
+  };
 }
 
 const StyledTaskTemplate = styled(TaskTemplate)`
