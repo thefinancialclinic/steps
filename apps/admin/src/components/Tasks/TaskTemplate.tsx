@@ -42,7 +42,7 @@ class TaskTemplate extends React.Component<Props, {}> {
     );
   }
 
-  private handleClick = _event => {
+  private handleClick = event => {
     this.props.addTask(this.props.task);
   };
 }

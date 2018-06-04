@@ -8,10 +8,12 @@ import TaskTemplate from 'components/Tasks/TaskTemplate';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Task } from 'reducers/tasks';
+import { Client } from 'reducers/clients';
 import { addTask } from 'actions/tasks';
 
 interface Props {
   className?: string;
+  client: Client;
   tasks: Task[];
   actions: { addTask };
 }
@@ -43,24 +45,33 @@ class AddTask extends React.Component<Props, {}> {
             <Link to="/">Sort by last used</Link>
           </StyledLink>
         </Flex>
-        {this.props.tasks.map((task, i) => (
-          <TaskTemplate
-            task={task}
-            key={i}
-            addTask={this.props.actions.addTask}
-          />
-        ))}
+        {this.props.tasks.map((task, i) => {
+          const userTask = { ...task, user_id: this.props.client.id };
+          delete userTask.steps;
+
+          return (
+            <TaskTemplate
+              task={userTask}
+              key={i}
+              addTask={this.props.actions.addTask}
+            />
+          );
+        })}
       </Box>
     );
   }
 }
 
 const mapStateToProps = (state, props) => ({
-  tasks: state.tasks.tasks
+  tasks: state.tasks.tasks,
+  client: state.clients.clients.find(c => c.id = props.match.params.id)
 });
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ addTask }, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddTask);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddTask);
