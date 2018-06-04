@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Flex, Box } from 'grid-styled';
 import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
 import { connect } from 'react-redux';
@@ -12,7 +13,7 @@ import NoTasks from './NoTasks';
 
 interface Props {
   className?: string;
-  actions: any;
+  actions?: any;
   tasks: any;
   client: any;
 }
@@ -50,10 +51,7 @@ const SortableList = SortableContainer(({ items }) => {
   );
 });
 
-class TaskList extends React.Component<Props, {}> {
-  componentWillMount () {
-    this.props.actions.getTasks();
-  }
+export class TaskList extends React.Component<Props, {}> {
 
   onSortEnd = ({oldIndex, newIndex}) => {
     this.props.actions.setTasks(
@@ -75,7 +73,7 @@ class TaskList extends React.Component<Props, {}> {
           <h2>Tasks</h2>
           <SortableList items={tasks} onSortEnd={this.onSortEnd} shouldCancelStart={this.shouldCancelStart} />
           <Flex justifyContent='center' >
-            <ButtonLink to="/clients/{client.id}/tasks/add">Add New Task</ButtonLink>
+            <ButtonLink to={ `/clients/${ client.id }/tasks/add` }>Add New Task</ButtonLink>
           </Flex>
         </Box>
     ) : (
@@ -88,9 +86,19 @@ class TaskList extends React.Component<Props, {}> {
   }
 }
 
-const StyledTaskList = styled(TaskList)`
+export const StyledTaskList = styled(TaskList)`
   display: flex;
 `;
+
+export class ConnectedTaskList extends React.Component<Props, {}> {
+  componentWillMount () {
+    this.props.actions.getTasks();
+  }
+
+  render() {
+    return <TaskList {...this.props} />;
+  }
+}
 
 const mapStateToProps = (state, props) => ({
   tasks: state.tasks.tasks,
@@ -101,4 +109,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ getTasks, setTasks }, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledTaskList);
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectedTaskList);

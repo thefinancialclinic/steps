@@ -13,6 +13,12 @@ interface Props {
   task: any;
 }
 
+const steps = (task) => {
+  return task.steps.map((step, index) => (
+    <p key={`step-${index}`}>{step.text}</p>
+  ));
+}
+
 class ViewTask extends React.Component<Props, {}> {
 
   render () {
@@ -29,9 +35,7 @@ class ViewTask extends React.Component<Props, {}> {
         <h3>{task.title}</h3>
         <p>{task.description}</p>
         <div className='action-link'>Steps</div>
-        {task.steps.map((step, index) => (
-          <p key={`step-${index}`}>{step.text}</p>
-        ))}
+        {task.steps ? steps(task): ''}
       </Panel>
     );
   }
