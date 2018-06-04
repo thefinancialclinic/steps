@@ -10,8 +10,4 @@ const mapStateToProps = ({ alerts }) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ addAlert }, dispatch)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Alerts);
+export default connect(mapStateToProps)(Alerts);

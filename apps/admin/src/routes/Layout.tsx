@@ -9,10 +9,12 @@ import Client from './Clients/Client';
 import NewClient from './Clients/NewClient';
 import AdminSignup from './Admin/Signup';
 import Admin from './Admin';
+import Alert from 'containers/Alert';
 
 const Layout = () => (
   <Wrapper>
     <TopBar />
+    <Alert />
     <Switch>
       <Route exact path="/" component={Home} />
       <Switch>
@@ -20,9 +22,9 @@ const Layout = () => (
         <Route exact path="/clients/new" component={NewClient} />
         <Route path="/clients/:id" component={Client} />
 
-        <Route exact path='/admin' component={AdminSignup} />
-        <Route exact path='/admin/signup' component={AdminSignup} />
-        <Route exact path='/admin/:route' component={Admin} />
+        <Route exact path="/admin" component={AdminSignup} />
+        <Route exact path="/admin/signup" component={AdminSignup} />
+        <Route exact path="/admin/:route" component={Admin} />
       </Switch>
     </Switch>
   </Wrapper>

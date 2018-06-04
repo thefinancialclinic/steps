@@ -12,3 +12,5 @@ export const Alert = ({ level, children }) => {
 
 // change style based on level
 const StyledAlert = styled<Props, 'div'>('div')``;
+
+export default Alert;

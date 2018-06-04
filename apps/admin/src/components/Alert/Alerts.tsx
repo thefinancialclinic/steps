@@ -22,3 +22,5 @@ export const Alerts = ({ alerts }: Props) => {
 };
 
 const StyledAlerts = styled.div``;
+
+export default Alerts;
