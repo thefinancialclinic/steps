@@ -14,7 +14,7 @@ interface Props {
   className?: string;
   task: Task;
   addTask(task: Task): void;
-  redirect(): void;
+  history: any;
 }
 
 class TaskTemplate extends React.Component<Props, {}> {
@@ -29,12 +29,11 @@ class TaskTemplate extends React.Component<Props, {}> {
           </Box>
           <Flex alignItems="center" className="task-row">
             <Box width={5 / 6}>
-              <h3>{task.description}</h3>
+              <h3>{task.title}</h3>
             </Box>
             {/* TODO: circle should link to edit page */}
             <Box className="edit-link" width={1 / 6}>
               <Link to={{ pathname: `/clients/6/tasks/${task.id}/edit` }}>
-                // TODO: Add current client from path
                 <div className="circle">Edit</div>
               </Link>
             </Box>
@@ -44,9 +43,9 @@ class TaskTemplate extends React.Component<Props, {}> {
     );
   }
 
-  private handleClick = event => {
-    this.props.addTask(this.props.task);
-    this.props.redirect();
+  private handleClick = async event => {
+    await this.props.addTask(this.props.task);
+    this.props.history.push(`/clients/${this.props.task.user_id}/tasks`);
   };
 }
 
