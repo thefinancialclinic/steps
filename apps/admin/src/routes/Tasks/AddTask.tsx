@@ -54,7 +54,9 @@ class AddTask extends React.Component<Props, {}> {
             task={userTask}
             key={i}
             addTask={this.props.actions.addTask}
-            redirect={() => this.props.history.push('/')}
+            redirect={() =>
+              this.props.history.push(`/clients/${this.props.client.id}/tasks`)
+            }
           />;
         })}
       </Box>
