@@ -106,7 +106,7 @@ export class ConnectedTaskList extends React.Component<Props, {}> {
 }
 
 const mapStateToProps = (state, props) => ({
-  tasks: state.tasks.tasks,
+  tasks: state.tasks.tasks.filter(t => t.user_id == props.match.params.id),
   client: state.clients.clients.find(c => c.id == props.match.params.id)
 });
 
