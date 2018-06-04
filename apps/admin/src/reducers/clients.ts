@@ -3,7 +3,8 @@ import { SET_CLIENTS } from 'actions/clients';
 export type UserPlatform = 'SMS' | 'FBOOK';
 export type UserStatus = 'AWAITING_HELP' | 'WORKING' | 'NON_RESPONSIVE';
 
-type Client = {
+export type Client = {
+  id: number;
   first_name: string;
   last_name: string;
   email: string;
@@ -21,26 +22,28 @@ type Client = {
   topic: string;
 };
 
-type CheckinTime = {
+export type CheckinTime = {
   topic: string;
   message: string;
   time: string;
 };
 
-type Org = {
+export type Org = {
+  id: number;
   name: string;
   sms_number: string;
   logo: string;
 };
 
-interface State {
+export interface ClientsState {
   clients: Client[];
   orgs: Org[];
 }
 
-const initialState = {
+const initialState: ClientsState = {
   clients: [
     {
+      id: 0,
       first_name: 'string',
       last_name: 'string',
       email: 'user@example.com',
@@ -66,6 +69,7 @@ const initialState = {
   ],
   orgs: [
     {
+      id: 0,
       name: 'string',
       sms_number: 'string',
       logo: 'string'

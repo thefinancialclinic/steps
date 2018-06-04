@@ -3,7 +3,8 @@ import { SET_TASKS } from 'actions/tasks';
 export type TaskStatus = 'ACTIVE' | 'COMPLETED' | 'ARCHIVED';
 export type TaskDifficulty = 'EASY' | 'MODERATE' | 'DIFFICULT';
 
-type Task = {
+export type Task = {
+  id: number;
   title: string;
   category: string;
   description: string;
@@ -17,19 +18,20 @@ type Task = {
   steps: Step[];
 };
 
-type Step = {
+export type Step = {
   text: string;
   note: string;
   task_id: number;
 };
 
-interface State {
+export interface TasksState {
   tasks: Task[];
 }
 
-const initialState = {
+const initialState: TasksState = {
   tasks: [
     {
+      id: 0,
       title: 'string',
       category: 'string',
       description: 'string',
