@@ -5,9 +5,15 @@ import { blue, brown, green, grey, pink } from 'styles/colors';
 import styled from 'styled-components';
 import Filter from 'atoms/Filter';
 import TaskTemplate from 'components/Tasks/TaskTemplate';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Task } from 'reducers/tasks';
+import { addTask } from 'actions/tasks';
 
 interface Props {
   className?: string;
+  tasks: Task[];
+  actions: { addTask };
 }
 
 const StyledLink = styled.span`
@@ -22,13 +28,6 @@ const StyledLink = styled.span`
 
 class AddTask extends React.Component<Props, {}> {
   render() {
-    const task = {
-      id: 3,
-      title: 'A title',
-      description: 'This is a preexisting task',
-      category: 'Boop'
-    };
-
     return (
       <Box width={1}>
         <h2>Add New Task</h2>
@@ -44,10 +43,24 @@ class AddTask extends React.Component<Props, {}> {
             <Link to="/">Sort by last used</Link>
           </StyledLink>
         </Flex>
-        <TaskTemplate task={task} />
+        {this.props.tasks.map((task, i) => (
+          <TaskTemplate
+            task={task}
+            key={i}
+            addTask={this.props.actions.addTask}
+          />
+        ))}
       </Box>
     );
   }
 }
 
-export default AddTask;
+const mapStateToProps = (state, props) => ({
+  tasks: state.tasks.tasks
+});
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ addTask }, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddTask);
