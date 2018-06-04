@@ -23,3 +23,12 @@ export const setTasks = tasks => {
     tasks
   };
 };
+
+export const ADD_TASK = 'ADD_TASK';
+export const addTask = (task): DispatchFn => async dispatch => {
+  const tasks = await axios.post(apiUrl + '/tasks', task);
+  return {
+    type: ADD_TASK,
+    task
+  };
+};

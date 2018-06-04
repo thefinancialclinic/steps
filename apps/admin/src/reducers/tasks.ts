@@ -1,4 +1,4 @@
-import { SET_TASKS } from 'actions/tasks';
+import { SET_TASKS, ADD_TASK } from 'actions/tasks';
 
 export type TaskStatus = 'ACTIVE' | 'COMPLETED' | 'ARCHIVED';
 export type TaskDifficulty = 'EASY' | 'MODERATE' | 'DIFFICULT';
@@ -58,6 +58,12 @@ export default (state = initialState, action) => {
     return {
       ...state,
       tasks: action.tasks
+    };
+  }
+  if (action.type === ADD_TASK) {
+    return {
+      ...state,
+      tasks: [...state.tasks, action.task]
     };
   }
 

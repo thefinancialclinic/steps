@@ -15,8 +15,6 @@ import StaffList from "./StaffList/StaffList";
 import StaffListItem from "./StaffList/StaffListItem";
 import Modal from "./Modal";
 import TaskForm from "./Tasks/TaskForm";
-import TaskStep from "./Tasks/TaskStep";
-import TaskTemplate from "./Tasks/TaskTemplate";
 import TermsModal from "./Clients/TermsModal";
 import { TaskList } from "./Tasks/TaskList";
 import TaskStep from "./Tasks/TaskStep";
@@ -53,12 +51,21 @@ export const Components = storiesOf("Components", module)
       <div>This is a child in a panel.</div>
     </Modal>
   ))
-  .add("Task Form", () => <TaskForm badgeText="boo">child</TaskForm>)
-  .add("Task Step", () => <TaskStep count={1} />)
-  .add("Task Template", () => (
-    <TaskTemplate category="boo" description="Do this thing" />
-  ))
   .add("TermsModal", () => <TermsModal phoneNumber="+15558675309" link="#" />)
+  .add('Task Form', () => <TaskForm task={{
+    id: 1,
+    title: 'A task',
+    description: 'You should do this',
+    category: 'debt'
+  }} client={{id: 2}}/>)
+  .add('Task Step', () => <TaskStep count={1} />)
+  // TODO: FIX LATER
+  // .add('Task Template', () => <TaskTemplate task={{
+  //   id: 1,
+  //   title: 'As sample task',
+  //   description: 'A sample description',
+  //   category: 'income'
+  // }}/>);
   .add("Task List", () => (
     <TaskList
       tasks={[
