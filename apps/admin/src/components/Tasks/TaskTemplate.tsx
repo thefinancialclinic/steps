@@ -12,8 +12,9 @@ import { Task } from '../../reducers/tasks';
 
 interface Props {
   className?: string;
-  task: any;
+  task: Task;
   addTask(task: Task): void;
+  redirect(): void;
 }
 
 class TaskTemplate extends React.Component<Props, {}> {
@@ -33,6 +34,7 @@ class TaskTemplate extends React.Component<Props, {}> {
             {/* TODO: circle should link to edit page */}
             <Box className="edit-link" width={1 / 6}>
               <Link to={{ pathname: `/clients/6/tasks/${task.id}/edit` }}>
+                // TODO: Add current client from path
                 <div className="circle">Edit</div>
               </Link>
             </Box>
@@ -44,6 +46,7 @@ class TaskTemplate extends React.Component<Props, {}> {
 
   private handleClick = event => {
     this.props.addTask(this.props.task);
+    this.props.redirect();
   };
 }
 
