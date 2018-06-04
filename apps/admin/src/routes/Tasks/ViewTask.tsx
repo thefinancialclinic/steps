@@ -19,6 +19,12 @@ interface Props {
   actions: { deleteTask };
 }
 
+const steps = (task) => {
+  return task.steps.map((step, index) => (
+    <p key={`step-${index}`}>{step.text}</p>
+  ));
+}
+
 class ViewTask extends React.Component<Props, {}> {
   state = {
     showModal: false

@@ -6,6 +6,11 @@ export type TaskId = number;
 export type TaskStatus = "ACTIVE" | "COMPLETED" | "ARCHIVED";
 export type TaskDifficulty = "EASY" | "MODERATE" | "DIFFICULT";
 
+// Collection of string key-value pairs
+export type ObjectType = {
+  [key: string]: string | number | boolean | ObjectType;
+}
+
 export type TaskOpts = {
   id?: number,
   title: string,
@@ -17,7 +22,7 @@ export type TaskOpts = {
   difficulty?: TaskDifficulty,
   date_created: Date,
   date_completed?: Date,
-  recurring?: object,
+  recurring?: ObjectType,
   steps?: Step[],
 };
 
@@ -32,7 +37,7 @@ export class Task {
   difficulty?: TaskDifficulty;
   date_created: Date;
   date_completed?: Date;
-  recurring?: object;
+  recurring?: ObjectType;
   steps?: Step[];
 
   constructor(opts: TaskOpts) {

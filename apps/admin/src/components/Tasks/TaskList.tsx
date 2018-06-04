@@ -1,6 +1,10 @@
 import React from 'react';
 import { Flex, Box } from 'grid-styled';
-import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
+import {
+  SortableContainer,
+  SortableElement,
+  arrayMove
+} from 'react-sortable-hoc';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { grey, white } from 'styles/colors';
@@ -12,7 +16,7 @@ import NoTasks from './NoTasks';
 
 interface Props {
   className?: string;
-  actions: any;
+  actions?: any;
   tasks: any;
   client: any;
 }
@@ -29,7 +33,7 @@ const TaskContainer = styled.div`
     bottom: 0;
     font-size: 2em;
     left: 0;
-    padding: .5em 0;
+    padding: 0.5em 0;
     position: absolute;
     text-align: center;
     top: 0;
@@ -50,47 +54,56 @@ const SortableList = SortableContainer(({ items }) => {
   );
 });
 
-class TaskList extends React.Component<Props, {}> {
-  componentWillMount () {
+export class TaskList extends React.Component<Props, {}> {
+  componentWillMount() {
     this.props.actions.getTasks();
   }
 
-  onSortEnd = ({oldIndex, newIndex}) => {
+  onSortEnd = ({ oldIndex, newIndex }) => {
     this.props.actions.setTasks(
-      arrayMove(this.props.tasks, oldIndex, newIndex),
+      arrayMove(this.props.tasks, oldIndex, newIndex)
     );
   };
 
-  shouldCancelStart = (e) => {
-    if(e.target.tagName.toLowerCase() === 'a') {
+  shouldCancelStart = e => {
+    if (e.target.tagName.toLowerCase() === 'a') {
       return true;
     }
-  }
+  };
 
-  render () {
-    const {className, tasks, client} = this.props;
+  render() {
+    const { className, tasks, client } = this.props;
 
-    const taskDisplay = tasks.length > 0 ? (
+    const taskDisplay =
+      tasks.length > 0 ? (
         <Box width={1}>
           <h2>Tasks</h2>
           <SortableList items={tasks} onSortEnd={this.onSortEnd} shouldCancelStart={this.shouldCancelStart} />
           <Flex justifyContent='center' >
-            <ButtonLink to="/clients/{client.id}/tasks/add">Add New Task</ButtonLink>
+            <ButtonLink to={ `/clients/${ client.id }/tasks/add` }>Add New Task</ButtonLink>
           </Flex>
         </Box>
-    ) : (
-        <NoTasks client={client}></NoTasks>
+      ) : (
+        <NoTasks client={client} />
       );
 
-    return (
-      <div>{taskDisplay}</div>
-    );
+    return <div>{taskDisplay}</div>;
   }
 }
 
-const StyledTaskList = styled(TaskList)`
+export const StyledTaskList = styled(TaskList)`
   display: flex;
 `;
+
+export class ConnectedTaskList extends React.Component<Props, {}> {
+  componentWillMount () {
+    this.props.actions.getTasks();
+  }
+
+  render() {
+    return <TaskList {...this.props} />;
+  }
+}
 
 const mapStateToProps = (state, props) => ({
   tasks: state.tasks.tasks,
@@ -101,4 +114,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ getTasks, setTasks }, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledTaskList);
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectedTaskList);

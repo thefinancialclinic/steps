@@ -19,6 +19,66 @@ components:
           type: string
           format: uri
           nullable: true
+    Message:
+      properties:
+        text:
+          type: string
+        to_user:
+          type: integer
+        from_-user:
+          type: integer
+        media_id:
+          type: integer
+          nullable: true
+        request_id:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        responses:
+          type: object
+          nullable: true
+    Media:
+      properties:
+        step_id:
+          type: integer
+          nullable: true
+        task_id:
+          type: integer
+          nullable: true
+        title:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+          nullable: true
+        url:
+          type: string
+          format: uri
+          nullable: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+        published_by:
+          type: integer
+          nullable: true
+          format: org-id
+        type:
+          nullable: true
+          type: string
+          enum: [TASK_CONTENT, TASK_RESOURCE, STORY, GENERAL_EDUCATION]
+    Request:
+      properties:
+        status:
+          nullable: true
+          type: string
+          enum: [NEEDS_ASSISTANCE, REPLIED, RESOLVED]
+        user_id:
+          type: integer
+        task_id:
+          type: integer
     Step:
       properties:
         text:
@@ -197,7 +257,11 @@ paths:
           description: The number of Clients deleted (should be 1 or 0)
           content:
             application/json:
-              type: integer
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
 
   /coaches:
     get:
@@ -265,7 +329,11 @@ paths:
           description: The number of Coach deleted (should be 1 or 0)
           content:
             application/json:
-              type: integer
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
 
   /orgs:
     get:
@@ -333,7 +401,11 @@ paths:
           description: The number of Orgs deleted (should be 1 or 0)
           content:
             application/json:
-              type: integer
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
               
   /tasks:
     get:
@@ -417,7 +489,11 @@ paths:
           description: The number of Tasks deleted (should be 1 or 0)
           content:
             application/json:
-              type: integer
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
 
 
   /steps:
@@ -495,4 +571,242 @@ paths:
           description: The number of Steps deleted (should be 1 or 0)
           content:
             application/json:
-              type: integer
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
+
+  /messages:
+    get:
+      summary: Return a list of Messages
+      tags: [messages]
+      responses:
+        '200':
+          description: A JSON array of Message objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Message'
+    post:
+      summary: Create a new Message
+      tags: [messages]
+      requestBody:
+        description: New Message to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '500':
+          description: Server error (more detailed errors in development/test)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+  /messages/{id}:
+    get:
+      summary: Return a single Message by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [messages]
+      responses:
+        '200':
+          description: A JSON object representing a single Message
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Message'
+    delete:
+      summary: Delete an Message by the given id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id to be deleted
+      tags: [messages]
+      responses:
+        '200':
+          description: The number of Messages deleted (should be 1 or 0)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
+
+  /media:
+    get:
+      summary: Return a list of Media
+      tags: [media]
+      responses:
+        '200':
+          description: A JSON array of Media objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Media'
+    post:
+      summary: Create a new media
+      tags: [media]
+      requestBody:
+        description: New Media to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Media'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+  /media/{id}:
+    get:
+      summary: Return a single Media by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [media]
+      responses:
+        '200':
+          description: A JSON object representing a single Media
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Media'
+    delete:
+      summary: Delete Media by the given id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id to be deleted
+      tags: [media]
+      responses:
+        '200':
+          description: The number of Media objects deleted (should be 1 or 0)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
+
+  /requests:
+    get:
+      summary: Return a list of Requests
+      tags: [requests]
+      responses:
+        '200':
+          description: A JSON array of Request objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Request'
+    post:
+      summary: Create a new Request
+      tags: [requests]
+      requestBody:
+        description: New Request to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+      responses:
+        '500':
+          description: Server error (more detailed errors in development/test)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+  /requests/{id}:
+    get:
+      summary: Return a single Request by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [requests]
+      responses:
+        '200':
+          description: A JSON object representing a single Request
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Request'
+    delete:
+      summary: Delete an Request by the given id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id to be deleted
+      tags: [requests]
+      responses:
+        '200':
+          description: The number of Requests deleted (should be 1 or 0)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: number
