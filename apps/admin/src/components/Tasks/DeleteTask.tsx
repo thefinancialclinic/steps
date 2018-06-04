@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import { green, white, yellow } from 'styles/colors';
@@ -22,8 +21,8 @@ class DeleteTask extends React.Component<Props, {}> {
         <h2>Task Deleted</h2>
         <Button white>UNDO</Button>
         <Flex className='actions' justifyContent='center'>
-          <Box><Link to={{pathname: `/clients/${client.id}/tasks/new`}} /><Button>Add New Task</Button></Box>
-          <Box><Link to={{pathname: `/clients/${client.id}`}} /><Button>Go To Workplan</Button></Box>
+          <Box><ButtonLink to={`/clients/${client.id}/tasks/new`}>Add New Task</ButtonLink></Box>
+          <Box><ButtonLink to={`/clients/${client.id}`}>Go To Workplan</ButtonLink></Box>
         </Flex>
       </Modal>
     );
