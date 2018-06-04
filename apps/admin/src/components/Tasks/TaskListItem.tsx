@@ -17,7 +17,7 @@ export default SortableElement(task => {
   return (
     <Panel shadow>
       {task.value}
-      <StyledLink to={{ pathname: `/clients/6/tasks/${task.id}` }}>View Details</StyledLink>
+      <StyledLink to={`/clients/${task.userId}/tasks/${task.id}`}>View Details</StyledLink>
     </Panel>
   )
 });
