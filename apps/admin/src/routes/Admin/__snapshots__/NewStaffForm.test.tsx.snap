@@ -1,25 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NewStaff.tsx renders correctly 1`] = `
-<form
+<ReactFinalForm
   onSubmit={[MockFunction]}
->
-  <styled.div>
-    <label
-      htmlFor="emails"
-    >
-      Emails
-    </label>
-    <textarea
-      cols={30}
-      name="emails"
-      rows={10}
-    />
-  </styled.div>
-  <Button
-    white={false}
-  >
-    Save
-  </Button>
-</form>
+  render={[Function]}
+/>
 `;

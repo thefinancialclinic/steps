@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { remCalc } from 'styles/type';
-import { reduxForm } from 'redux-form';
 import Button from 'atoms/Button';
+import { Form, Field } from 'react-final-form';
 
 const BaseInputRow = styled.div`
   display: flex;
@@ -30,13 +30,18 @@ interface Props {
 
 export const NewStaffForm = ({ onSubmit }: Props) => {
   return (
-    <form onSubmit={onSubmit}>
-      <BaseInputRow>
-        <label htmlFor="emails">Emails</label>
-        <textarea name="emails" cols={30} rows={10} />
-      </BaseInputRow>
-      <Button>Save</Button>
-    </form>
+    <Form
+      onSubmit={onSubmit}
+      render={({ handleSubmit, pristine, invalid }) => (
+        <form onSubmit={handleSubmit}>
+          <BaseInputRow>
+            <label htmlFor="emails">Emails</label>
+            <Field name="emails" component="textarea" />
+          </BaseInputRow>
+          <Button>Save</Button>
+        </form>
+      )}
+    />
   );
 };
 

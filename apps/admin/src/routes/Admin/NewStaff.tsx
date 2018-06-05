@@ -4,19 +4,25 @@ import styled from 'styled-components';
 import ButtonLink from 'atoms/ButtonLink';
 import NewStaffForm from './NewStaffForm';
 import { AlertLevel } from 'components/Alert/types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { addAlert } from 'actions/alerts';
+import { inviteStaff } from 'actions/staff';
+import { History } from 'react-router';
+import { withRouter } from 'react-router-dom';
 
 interface Props {
-  actions: { createStaff; addAlert };
-  redirect(): void;
+  actions: { inviteStaff; addAlert };
+  history: History;
 }
 
 export class NewStaff extends React.Component<Props, {}> {
   createStaff = ({ emails }) => {
     const splitEmails = emails.split(/,\s*/);
     this.props.actions
-      .createStaff(splitEmails)
+      .inviteStaff(splitEmails)
       .then(res => {
-        this.props.redirect();
+        this.props.history.push('/admin/staff');
       })
       .catch(err => {
         this.props.actions.addAlert(err, AlertLevel.Error);
@@ -49,4 +55,11 @@ const StyledModal = styled(Modal)`
   margin: auto;
 `;
 
-export default NewStaff;
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ inviteStaff, addAlert }, dispatch)
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withRouter(NewStaff));
