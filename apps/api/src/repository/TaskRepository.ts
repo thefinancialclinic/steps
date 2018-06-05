@@ -133,4 +133,39 @@ export class TaskRepository implements Repository<TaskId, Task> {
     const res = await this.pool.query(`DELETE FROM task WHERE id = $1`, [id]);
     return res.rowCount;
   }
+
+  async update(id: TaskId, task: Task): Promise<TaskId> {
+    const result = await this.pool.query(
+      `
+      UPDATE task SET (
+        title,
+        category,
+        description,
+        status,
+        created_by,
+        user_id,
+        difficulty,
+        date_created,
+        date_completed,
+        recurring
+      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      WHERE id = $11
+      RETURNING id;
+      `,
+      [
+        task.title,
+        task.category,
+        task.description,
+        task.status,
+        task.created_by,
+        task.user_id,
+        task.difficulty,
+        task.date_created,
+        task.date_completed,
+        task.recurring,
+        id,
+      ]
+    );
+    return result.rows[0].id as TaskId;
+  }
 }

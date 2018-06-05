@@ -35,5 +35,16 @@ describe('Task entity operations', () => {
   it('gets all tasks', async () => {
     let actual = await repo.getAll();
     expect(actual.filter(task => task.id == taskId).length).toBe(1);
-  })
+  });
+
+  it('updates the task', async () => {
+    const expectedTitle = "NEW TITLE";
+    let task = await repo.getOne(taskId);
+    delete task.id;
+    task.title = expectedTitle;
+    await repo.update(taskId, task);
+
+    let actual = await repo.getOne(taskId);
+    expect(actual.title).toBe(expectedTitle);
+  });
 });

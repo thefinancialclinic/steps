@@ -474,6 +474,40 @@ paths:
             application/json:
               schema:
                 $ref: '#components/schemas/Task'
+    put:
+      summary: Update a single task identified by the given id.
+      description: >
+        The updated task must have all fields provided. You could use the
+        result of a GET /tasks/{id} call to populate the body of this request.
+        The one caveat is related to GET on a single task. You'll need to delete
+        the 'steps', and 'id' keys from your JSON payload. 'steps' must be
+        deleted because it is a synthetic field obtained by joining with the
+        step resource. 'id' must be deleted because it is given as a url param.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The numeric id if the task to update.
+      tags: [tasks]
+      requestBody:
+        description: Task to be update. Remember: remove 'steps' key.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '200':
+          description: A JSON object giving the id of the task that was updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
     delete:
       summary: Delete an Task by the given id
       parameters:

@@ -130,6 +130,12 @@ export const Routes = [
     action: "remove"
   },
   {
+    method: "put",
+    route: "/api/tasks/:id",
+    controller: TaskController,
+    action: "update"
+  },
+  {
     method: "get",
     route: "/api/steps",
     controller: StepController,

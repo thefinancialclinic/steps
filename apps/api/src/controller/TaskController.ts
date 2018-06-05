@@ -24,4 +24,10 @@ export class TaskController {
     const num = await this.repo.delete(request.params.id);
     return { deleted: num }
   }
+
+  async update(request: Request, response: Response, next: NextFunction) {
+    const id = await this.repo.update(request.params.id, request.body);
+    response.status(200);
+    return {id: id};
+  }
 }
