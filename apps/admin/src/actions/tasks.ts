@@ -25,10 +25,12 @@ export const setTasks = tasks => {
 };
 
 export const SET_TASK_STATUS = 'SET_TASK_STATUS';
-export const setTaskStatus = (id, status) => {
-// export const setTaskStatus = (id): DispatchFn => async dispatch => {
-  // const tasks = await axios.post(apiUrl + '/tasks', { id, status: 'COMPLETED' });
-  return { type: SET_TASK_STATUS, id, status };
+export const setTaskStatus = (task, status): DispatchFn => async dispatch => {
+  const newTask = { ...task, status };
+  delete newTask.steps;
+
+  const tasks = await axios.put(`${apiUrl}/tasks/${task.id}`, newTask);
+  return dispatch({ type: SET_TASK_STATUS, id: task.id, status });
 }
 
 export const completeTask = (id) => {
