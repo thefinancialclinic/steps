@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { addAlert } from './alerts';
+import { AlertLevel } from '../components/Alert/types';
 
 type DispatchFn = (any) => any;
 
@@ -23,7 +25,7 @@ export const setClients = clients => {
 };
 
 export const CREATE_CLIENT = 'CREATE_CLIENT';
-export const createClient = (clientData) : DispatchFn => async dispatch => {
+export const createClient = (clientData): DispatchFn => async dispatch => {
   try {
     clientData.org_id = 1;
     clientData.coach_id = 6;
@@ -33,6 +35,6 @@ export const createClient = (clientData) : DispatchFn => async dispatch => {
     const clients = await axios.post(apiUrl + '/clients', clientData);
     return dispatch(getClients());
   } catch (error) {
-    console.error(error);
+    return dispatch(addAlert('Unable to create client', AlertLevel.Error, '1'));
   }
-}
+};
