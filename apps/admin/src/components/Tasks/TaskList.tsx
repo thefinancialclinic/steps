@@ -60,10 +60,7 @@ const SortableList = SortableContainer(({ items, setTaskStatus }) => {
             key={`item-${index}`}
             setTaskStatus={setTaskStatus}
             index={index}
-            value={task.title}
-            id={task.id}
-            status={task.status}
-            userId={task.user_id}
+            task={task}
           />
         </TaskContainer>
       ))}
