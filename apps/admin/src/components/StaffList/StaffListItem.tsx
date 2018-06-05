@@ -1,42 +1,73 @@
 import React from 'react';
 import styled from 'styled-components';
 import Panel from 'atoms/Panel';
+import { PendingInvite, User, Staff } from './types';
 
-interface Props {
-  className?: string;
-}
-
+type Props = (PendingInvite | Staff<User>) & { className?: string };
 
 class StaffListItem extends React.Component<Props, {}> {
-  render () {
+  render() {
     return (
       <div className={this.props.className}>
         <Panel>
-          <div className='list-wrapper'>
-            <div className='name-and-email'>bob@villa.com</div>
-            <div className='right'>
-              <div className='permissions'>dropdown here</div>
-              <div className='actions'>icon</div>
+          <ListWrapper>
+            <NameOrEmail {...this.props} />
+            <div className="right">
+              <Permissions {...this.props} />
             </div>
-          </div>
+          </ListWrapper>
         </Panel>
       </div>
     );
   }
 }
 
+const NameOrEmail = props => {
+  return props.pendingInvite ? (
+    <Email>{this.props.email}</Email>
+  ) : (
+    <Name>{this.props.name}</Name>
+  );
+};
+
+const Permissions = props => {
+  return props.pendingInvite ? (
+    <PermissionsDropdown>{props.permissions}</PermissionsDropdown>
+  ) : (
+    // TODO: Create clickable dropdown
+    <PendingInvite>
+      <span>Pending Invite</span>
+      <span>Resend</span>
+    </PendingInvite>
+  );
+};
+
+const PermissionsDropdown = styled.div`
+  text-transform: uppercase;
+`;
+
+const PendingInvite = styled.div`
+  text-transform: uppercase;
+`;
+
+const ListWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Name = styled.div``;
+
+const Email = styled.div`
+  font-style: italic;
+`;
+
 const StyledStaffListItem = styled(StaffListItem)`
-margin-bottom: 10px;
+  margin-bottom: 10px;
 
-.list-wrapper {
-  display: flex;
-  justify-content: space-between;;
-}
-
-.right {
-  display: flex;
-  justify-content: flex-end;
-}
+  .right {
+    display: flex;
+    justify-content: flex-end;
+  }
 `;
 
 export default StyledStaffListItem;
