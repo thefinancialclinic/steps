@@ -11,13 +11,7 @@ export default (state = [], action) => {
       ];
 
     case 'REMOVE_ALERT':
-      return state.filter(alert => {
-        if (alert.id === action.id) {
-          return false;
-        } else {
-          return true;
-        }
-      });
+      return state.filter(alert => alert.id !== action.id);
 
     default:
       return state;

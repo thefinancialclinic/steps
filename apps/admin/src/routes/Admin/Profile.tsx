@@ -13,14 +13,14 @@ interface Props {
 }
 
 class Profile extends React.Component<Props, {}> {
-  render () {
+  render() {
     return (
       <div className={this.props.className}>
         <Panel>
-          <InputRow label='profile picture' />
-          <InputRow label='name' />
-          <InputRow label='email' />
-          <InputRow label='password' />
+          <InputRow label="profile picture" />
+          <InputRow label="name" />
+          <InputRow label="email" />
+          <InputRow label="password" />
           <Button>Edit</Button>
         </Panel>
       </div>
@@ -33,10 +33,4 @@ const StyledProfile = styled(Profile)`
   margin-right: 100px;
 `;
 
-const mapStateToProps = (state, props) => ({
-});
-
-const mapDispatchToProps = dispatch => ({
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(StyledProfile);
+export default StyledProfile;

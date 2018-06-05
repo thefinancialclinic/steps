@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import TermsModal from "components/Clients/TermsModal";
+import TermsModal from 'components/Clients/TermsModal';
 
 interface Props {
   client: any;

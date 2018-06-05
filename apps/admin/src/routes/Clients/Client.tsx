@@ -1,16 +1,16 @@
-import React from "react";
-import { Flex, Box } from "grid-styled";
-import { Link, Redirect, Route, Switch } from "react-router-dom";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { getClients } from "actions/clients";
-import styled from "styled-components";
+import React from 'react';
+import { Flex, Box } from 'grid-styled';
+import { Link, Redirect, Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getClients } from 'actions/clients';
+import styled from 'styled-components';
 
-import Sidebar from "components/Sidebar/Sidebar";
-import Tasks from "routes/Tasks/Tasks";
-import GoalList from "components/Goals/GoalList";
-import Chat from "components/Chat/Chat";
-import Terms from "routes/Clients/Terms";
+import Sidebar from 'components/Sidebar/Sidebar';
+import Tasks from 'routes/Tasks/Tasks';
+import GoalList from 'components/Goals/GoalList';
+import Chat from 'components/Chat/Chat';
+import Terms from 'routes/Clients/Terms';
 
 interface Props {
   className?: string;
@@ -32,9 +32,9 @@ class Client extends React.Component<Props, {}> {
         <Box width={[1, 1 / 3]}>
           <Sidebar
             links={[
-              { text: "Tasks", to: `/clients/${client.id}/tasks` },
-              { text: "Goals", to: `/clients/${client.id}/goals` },
-              { text: "Chat", to: `/clients/${client.id}/chat` }
+              { text: 'Tasks', to: `/clients/${client.id}/tasks` },
+              { text: 'Goals', to: `/clients/${client.id}/goals` },
+              { text: 'Chat', to: `/clients/${client.id}/chat` }
             ]}
           >
             <Link to="/clients">&larr; Back</Link>
@@ -72,4 +72,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ getClients }, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledClient);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StyledClient);

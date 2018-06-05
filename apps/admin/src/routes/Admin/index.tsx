@@ -15,19 +15,21 @@ interface Props {
 }
 
 class Profile extends React.Component<Props, {}> {
-  render () {
+  render() {
     return (
       <StyledProfile>
-        <Sidebar links={[
-          {to: '/admin/profile', text: 'My Profile'},
-          {to: '/admin/organization', text: 'Organization Info'},
-          {to: '/admin/staff', text: 'Manage Staff'},
-        ]} />
+        <Sidebar
+          links={[
+            { to: '/admin/profile', text: 'My Profile' },
+            { to: '/admin/organization', text: 'Organization Info' },
+            { to: '/admin/staff', text: 'Manage Staff' }
+          ]}
+        />
         <Switch>
-          <Route path='/admin/signup' component={AdminSignup} />
-          <Route path='/admin/profile' component={AdminProfile} />
-          <Route path='/admin/organization' component={AdminOrganization} />
-          <Route path='/admin/staff' component={AdminStaff} />
+          <Route path="/admin/signup" component={AdminSignup} />
+          <Route path="/admin/profile" component={AdminProfile} />
+          <Route path="/admin/organization" component={AdminOrganization} />
+          <Route path="/admin/staff" component={AdminStaff} />
         </Switch>
       </StyledProfile>
     );
@@ -38,10 +40,11 @@ const StyledProfile = styled.div`
   flex-direction: row;
 `;
 
-const mapStateToProps = (state, props) => ({
-});
+const mapStateToProps = (state, props) => ({});
 
-const mapDispatchToProps = dispatch => ({
-});
+const mapDispatchToProps = dispatch => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Profile);
