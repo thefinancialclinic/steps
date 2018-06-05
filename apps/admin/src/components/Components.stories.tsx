@@ -2,9 +2,12 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { storiesOf } from '@storybook/react';
-import { boolean, text } from '@storybook/addon-knobs/react';
+import { boolean, select, text } from '@storybook/addon-knobs/react';
 import backgrounds from '@storybook/addon-backgrounds';
 import { withKnobs } from '@storybook/addon-knobs/react';
+
+import ChatMedia from './Chat/ChatMedia';
+import ChatMessage from './Chat/ChatMessage';
 
 import InputRow from './Forms/InputRow';
 import NameCard from './Clients/NameCard';
@@ -15,18 +18,43 @@ import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
 import Modal from './Modal';
 import TaskForm from './Tasks/TaskForm';
-import TermsModal from './Clients/TermsModal';
-import { TaskList } from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
 import TaskTemplate from './Tasks/TaskTemplate';
+import TermsModal from './Clients/TermsModal';
+import { TaskList } from './Tasks/TaskList';
 
-import { lightBlue, white } from 'styles/colors';
-import 'styles/global';
-import { Alerts } from 'components/Alert/Alerts';
+import { Alerts } from './Alert/Alerts';
 import { AlertLevel } from './Alert/types';
 import { Alert } from './Alert/Alert';
 
+import { pink, lightBlue, white } from 'styles/colors';
+import 'styles/global';
+
 export const Components = storiesOf('Components', module)
+  .add('ChatMedia', () => (
+    <ChatMedia
+      title={text('Title', "Tres & Tanya's Story")}
+      url={text(
+        'URL',
+        'https://soundcloud.com/bedstuyrestocorp/tres-tanyas-story'
+      )}
+      image={text(
+        'Image',
+        'https://i1.sndcdn.com/artworks-000311861322-omp1pm-t500x500.jpg'
+      )}
+    />
+  ))
+  .add('ChatMessage', () => (
+    <ChatMessage
+      type={select('Type', ['sent', 'received'], 'sent')}
+      text={text(
+        'Text',
+        "Hi hi! How's it going with finishing your task? Text DONE, HELP, or STILL WORKING"
+      )}
+      from={text('From', 'Roo')}
+      color={pink}
+    />
+  ))
   .add('NameCard', () => <NameCard title={text('Title', 'Matthew Epler')} />)
   .add('NavDropdown', () => (
     <NavDropdown
