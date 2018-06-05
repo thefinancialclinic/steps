@@ -220,10 +220,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+                ref: '#/components/schemas/User'
   /clients/{id}:
     get:
       summary: Return a single Client by ID
@@ -291,11 +288,7 @@ paths:
           description: Created
           content:
             application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+              $ref: '#/components/schemas/User'
   /coaches/{id}:
     get:
       summary: Return a single Coach by ID
@@ -364,10 +357,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+                $ref: '#/components/schemas/Org'
   /orgs/{id}:
     get:
       summary: Return a single Org by ID
@@ -445,10 +435,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+                $ref: '#/components/schemas/Task'
   /tasks/{id}:
     get:
       summary: Return a single Task by ID
@@ -500,14 +487,11 @@ paths:
               $ref: '#/components/schemas/Task'
       responses:
         '200':
-          description: A JSON object giving the id of the task that was updated
+          description: A JSON object of the task that was updated
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: number
+                $ref: '#/components/schemas/Task'
     delete:
       summary: Delete an Task by the given id
       parameters:
@@ -568,10 +552,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+                $ref: '#/components/schemas/Step'
   /steps/{id}:
     get:
       summary: Return a single Step by ID
@@ -649,10 +630,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+                $ref: '#/components/schemas/Message'
   /messages/{id}:
     get:
       summary: Return a single Message by ID
@@ -721,10 +699,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+                $ref: '#/components/schemas/Media'
   /media/{id}:
     get:
       summary: Return a single Media by ID
@@ -802,10 +777,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+                $ref: '#/components/schemas/Request'
   /requests/{id}:
     get:
       summary: Return a single Request by ID

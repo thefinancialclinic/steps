@@ -11,6 +11,12 @@ export type ObjectType = {
   [key: string]: string | number | boolean | ObjectType;
 }
 
+export type Checkin = {
+  topic: string;
+  message: string;
+  time: Date;
+}
+
 export type UserOpts = {
   id?: UserId;
   first_name: string;
@@ -28,7 +34,7 @@ export type UserOpts = {
   image?: string;
   follow_up_date?: Date;
   plan_url?: string;
-  checkin_times?: ObjectType[];
+  checkin_times?: Checkin[];
   topic?: string;
 };
 
@@ -49,7 +55,7 @@ export class User {
   image?: string | null;
   follow_up_date?: Date;
   plan_url?: string;
-  checkin_times?: ObjectType[];
+  checkin_times?: Checkin[];
   topic?: string;
 
   constructor(opts: UserOpts) {
@@ -89,7 +95,7 @@ export class UserRepository implements Repository<UserId, User> {
     return res.rows.map(row => new User(row));
   }
 
-  async save(user: User) {
+  async save(user: User): Promise<User> {
     const res = await this.pool.query(
       `
       INSERT INTO "user" (
@@ -110,7 +116,7 @@ export class UserRepository implements Repository<UserId, User> {
         plan_url,
         checkin_times
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
-      RETURNING id
+      RETURNING *
     `,
       [
         user.first_name,
@@ -131,10 +137,57 @@ export class UserRepository implements Repository<UserId, User> {
         user.checkin_times,
       ]
     );
-    return res.rows[0].id as UserId;
+    return new User(res.rows[0]);
   }
 
-  async delete(uid: UserId) {
+  async update(user: User): Promise<User> {
+    const res = await this.pool.query(
+      `
+      UPDATE "user" SET (
+        first_name,
+        last_name,
+        email,
+        phone,
+        coach_id,
+        org_id,
+        color,
+        goals,
+        status,
+        type,
+        updated,
+        platform,
+        image,
+        follow_up_date,
+        plan_url,
+        checkin_times
+      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+      WHERE id = $17
+      RETURNING *
+    `,
+      [
+        user.first_name,
+        user.last_name,
+        user.email,
+        user.phone,
+        user.coach_id,
+        user.org_id,
+        user.color,
+        user.goals,
+        user.status,
+        user.type,
+        user.updated,
+        user.platform,
+        user.image,
+        user.follow_up_date,
+        user.plan_url,
+        user.checkin_times,
+        user.id,
+      ]
+    );
+    return new User(res.rows[0]);
+  }
+
+  async delete(uid: UserId): Promise<number> {
     const res = await this.pool.query(`DELETE FROM "user" WHERE id = $1`, [
       uid
     ]);
@@ -142,13 +195,13 @@ export class UserRepository implements Repository<UserId, User> {
   }
 
   // Parameterized
-  async getAllByType(type: UserType) {
+  async getAllByType(type: UserType): Promise<User[]> {
     const res = await this.pool.query(`SELECT * FROM "user" WHERE type = $1`, [
       type
     ]);
     return res.rows.map(row => new User(row));
   }
-  async getOneByType(uid: UserId, type: UserType) {
+  async getOneByType(uid: UserId, type: UserType): Promise<User> {
     const res = await this.pool.query(
       `SELECT * FROM "user" WHERE id = $1 AND type = $2`,
       [uid, type]
@@ -156,12 +209,12 @@ export class UserRepository implements Repository<UserId, User> {
     return new User(res.rows[0]);
   }
 
-  async saveByType(user: User, type: UserType) {
+  async saveByType(user: User, type: UserType): Promise<User> {
     user.type = type;
     return this.save(user);
   }
 
-  async deleteByType(uid: UserId, type: UserType) {
+  async deleteByType(uid: UserId, type: UserType): Promise<number> {
     const res = await this.pool.query(
       `DELETE FROM "user" WHERE id = $1 AND type = $2`,
       [uid, type]

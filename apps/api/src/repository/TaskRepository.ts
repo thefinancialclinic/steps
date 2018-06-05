@@ -59,7 +59,7 @@ export class Task {
 export class TaskRepository implements Repository<TaskId, Task> {
   constructor(public pool: Pool) { }
 
-  async getOne(id: TaskId) {
+  async getOne(id: TaskId): Promise<Task> {
     // Return a single Task along with the all the steps that belong to it.
     const res = await this.pool.query(`
       SELECT
@@ -91,12 +91,12 @@ export class TaskRepository implements Repository<TaskId, Task> {
     return new Task(res.rows[0]);
   }
 
-  async getAll() {
+  async getAll(): Promise<Task[]> {
     const res = await this.pool.query(`SELECT * FROM task`);
     return res.rows.map(row => new Task(row));
   }
 
-  async save(task: Task) {
+  async save(task: Task): Promise<Task> {
     const res = await this.pool.query(
       `
       INSERT INTO  task (
@@ -111,7 +111,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         date_completed,
         recurring
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-      RETURNING id
+      RETURNING *
     `,
       [
         task.title,
@@ -126,15 +126,15 @@ export class TaskRepository implements Repository<TaskId, Task> {
         task.recurring,
       ]
     );
-    return res.rows[0].id as TaskId;
+    return new Task(res.rows[0]);
   }
 
-  async delete(id: TaskId) {
+  async delete(id: TaskId): Promise<number> {
     const res = await this.pool.query(`DELETE FROM task WHERE id = $1`, [id]);
     return res.rowCount;
   }
 
-  async update(id: TaskId, task: Task): Promise<TaskId> {
+  async update(task: Task): Promise<Task> {
     const result = await this.pool.query(
       `
       UPDATE task SET (
@@ -150,7 +150,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         recurring
       ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       WHERE id = $11
-      RETURNING id;
+      RETURNING *
       `,
       [
         task.title,
@@ -163,9 +163,9 @@ export class TaskRepository implements Repository<TaskId, Task> {
         task.date_created,
         task.date_completed,
         task.recurring,
-        id,
+        task.id,
       ]
     );
-    return result.rows[0].id as TaskId;
+    return new Task(result.rows[0]);
   }
 }

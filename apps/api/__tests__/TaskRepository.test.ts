@@ -1,22 +1,22 @@
-import { TaskRepository, TaskId, Task } from '../src/repository/TaskRepository';
+import { TaskRepository, Task } from '../src/repository/TaskRepository';
 import { fixtures, getTestConnectionPool } from './db_helper';
 
 let activeConn;
 
 describe('Task entity operations', () => {
-  let taskId: TaskId;
+  let task: Task;
   let repo: TaskRepository;
 
   beforeAll(async () => {
     const pool = await getTestConnectionPool({ createFixtures: true })
     repo = new TaskRepository(pool);
-    taskId = await repo.save(new Task({
+    task = await repo.save(new Task({
       title: "TITLE",
       category: "CATEGORY",
       description: "DESCRIPTION",
       status: "ACTIVE",
-      created_by: fixtures.org,
-      user_id: fixtures.user,
+      created_by: fixtures.org.id,
+      user_id: fixtures.user.id,
       difficulty: "EASY",
       date_created: new Date(),
       date_completed: new Date(),
@@ -24,27 +24,24 @@ describe('Task entity operations', () => {
   });
 
   afterAll(async () => {
-    repo.delete(taskId);
+    repo.delete(task.id);
   });
 
   it('find a task', async () => {
-    let actual = await repo.getOne(taskId);
-    expect(actual.id).toBe(taskId);
+    let actual = await repo.getOne(task.id);
+    expect(actual.id).toBe(task.id);
   });
 
   it('gets all tasks', async () => {
     let actual = await repo.getAll();
-    expect(actual.filter(task => task.id == taskId).length).toBe(1);
+    expect(actual.filter(x => x.id == task.id).length).toBe(1);
   });
 
   it('updates the task', async () => {
     const expectedTitle = "NEW TITLE";
-    let task = await repo.getOne(taskId);
-    delete task.id;
-    task.title = expectedTitle;
-    await repo.update(taskId, task);
-
-    let actual = await repo.getOne(taskId);
+    let newTask = await repo.getOne(task.id);
+    newTask.title = expectedTitle;
+    const actual = await repo.update(newTask);
     expect(actual.title).toBe(expectedTitle);
   });
 });

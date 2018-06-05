@@ -42,16 +42,16 @@ export class RequestRepository implements Repository<RequestId, RequestItem> {
     return res.rows.map(row => new RequestItem(row));
   }
 
-  async save(request: RequestItem) {
+  async save(request: RequestItem): Promise<RequestItem> {
     const res = await this.pool.query(
       `
       INSERT INTO request (status, user_id, task_id)
       VALUES ($1, $2, $3)
-      RETURNING id
+      RETURNING *
     `,
       [request.status, request.user_id, request.task_id]
     );
-    return res.rows[0].id as RequestId;
+    return new RequestItem(res.rows[0]);
   }
 
   async delete(id: RequestId) {
@@ -59,5 +59,18 @@ export class RequestRepository implements Repository<RequestId, RequestItem> {
       id
     ]);
     return res.rowCount;
+  }
+
+  async update(request: RequestItem): Promise<RequestItem> {
+    const res = await this.pool.query(
+      `
+      UPDATE request SET (status, user_id, task_id)
+      = ($1, $2, $3)
+      WHERE id = $4
+      RETURNING *
+    `,
+      [request.status, request.user_id, request.task_id, request.id]
+    );
+    return new RequestItem(res.rows[0]);
   }
 }

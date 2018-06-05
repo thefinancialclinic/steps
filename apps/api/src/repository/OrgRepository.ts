@@ -39,21 +39,34 @@ export class OrgRepository implements Repository<OrgId, Org> {
     return res.rows.map(row => new Org(row));
   }
 
-  async save(org: Org) {
+  async save(org: Org): Promise<Org> {
     const res = await this.pool.query(
       `
       INSERT INTO org (name, sms_number, logo)
       VALUES ($1, $2, $3)
-      RETURNING id
+      RETURNING *
     `,
       [org.name, org.sms_number, org.logo]
     );
-    return res.rows[0].id as OrgId;
+    return new Org(res.rows[0]);
   }
 
   async delete(oid: OrgId) {
     const res = await this.pool.query(`DELETE FROM org WHERE id = $1`, [oid]);
     return res.rowCount;
+  }
+
+  async update(org: Org): Promise<Org> {
+    const res = await this.pool.query(
+      `
+      UPDATE org SET (name, sms_number, logo)
+      = ($1, $2, $3)
+      WHERE id = $4
+      RETURNING *
+      `,
+      [org.name, org.sms_number, org.logo, org.id]
+    );
+    return new Org(res.rows[0]);
   }
 
   // TEMPORARY: Seeding DB
