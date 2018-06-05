@@ -8,6 +8,7 @@ import { withKnobs } from '@storybook/addon-knobs/react';
 
 import ChatMedia from './Chat/ChatMedia';
 import ChatMessage from './Chat/ChatMessage';
+
 import InputRow from './Forms/InputRow';
 import NameCard from './Clients/NameCard';
 import NavDropdown from './NavDropdown/NavDropdown';
@@ -20,6 +21,11 @@ import TaskForm from './Tasks/TaskForm';
 import TaskStep from './Tasks/TaskStep';
 import TaskTemplate from './Tasks/TaskTemplate';
 import TermsModal from './Clients/TermsModal';
+import { TaskList } from './Tasks/TaskList';
+
+import { Alerts } from './Alert/Alerts';
+import { AlertLevel } from './Alert/types';
+import { Alert } from './Alert/Alert';
 
 import { pink, lightBlue, white } from 'styles/colors';
 import 'styles/global';
@@ -76,11 +82,51 @@ export const Components = storiesOf('Components', module)
       <div>This is a child in a panel.</div>
     </Modal>
   ))
-  .add('Task Form', () => <TaskForm badgeText="boo">child</TaskForm>)
-  .add('Task Step', () => <TaskStep count={1} />)
-  .add('Task Template', () => (
-    <TaskTemplate category="boo" description="Do this thing" />
+  .add('TermsModal', () => <TermsModal phoneNumber="+15558675309" link="#" />)
+  .add('Task Form', () => (
+    <TaskForm
+      task={{
+        id: 1,
+        title: 'A task',
+        description: 'You should do this',
+        category: 'debt'
+      }}
+      client={{ id: 2 }}
+    />
   ))
-  .add('TermsModal', () => <TermsModal phoneNumber="+15558675309" link="#" />);
+  .add('Task Step', () => <TaskStep count={1} />)
+  // TODO: FIX LATER
+  // .add('Task Template', () => <TaskTemplate task={{
+  //   id: 1,
+  //   title: 'As sample task',
+  //   description: 'A sample description',
+  //   category: 'income'
+  // }}/>);
+  .add('Task List', () => (
+    <TaskList
+      tasks={[
+        {
+          id: 1,
+          title: 'Task #1',
+          description: 'A helpful description'
+        },
+        {
+          id: 2,
+          title: 'Task #2',
+          description: 'A helpful description'
+        }
+      ]}
+      client={{ id: 1 }}
+    />
+  ))
+  .add('Error Alert', () => (
+    <Alert level={AlertLevel.Error}>This is an error alert</Alert>
+  ))
+  .add('Warning Alert', () => (
+    <Alert level={AlertLevel.Warning}>This is a warning alert</Alert>
+  ))
+  .add('Info Alert', () => (
+    <Alert level={AlertLevel.Info}>This is an info alert</Alert>
+  ));
 
 export default Components;

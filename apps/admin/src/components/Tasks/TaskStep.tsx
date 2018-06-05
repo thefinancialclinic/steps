@@ -10,12 +10,13 @@ import StackedInputRow from 'components/Forms/StackedInputRow';
 interface Props {
   className?: string;
   count: number;
+  step?: any;
 }
 
 class TaskStep extends React.Component<Props, {}> {
 
   render() {
-    const { className, count } = this.props;
+    const { className, count, step } = this.props;
 
     return (
       <Flex className={className}>
@@ -28,7 +29,7 @@ class TaskStep extends React.Component<Props, {}> {
           </Flex>
         </Box>
         <Box width={7/8} className='step-text'>
-          <Input type='text' />
+          <input type='text' defaultValue={ step ? step.text : '' } />
         </Box>
       </Flex>
     );
@@ -39,12 +40,10 @@ const StyledTaskStep = styled(TaskStep)`
   padding: 1em;
   background: ${white};
 
-
   .step-actions {
     align-items: center;
     flex-direction: column;
     height: 100%;
-  
   }
   .circle {
     background-color: ${green};
