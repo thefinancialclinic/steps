@@ -5,12 +5,14 @@ import { NavLink } from 'react-router-dom';
 import Badge from './Badge';
 import { grey, mediumBlue } from 'styles/colors';
 
+interface FilterCategory {
+  name: string;
+  active: boolean;
+  color?: string;
+}
+
 interface Props {
-  categories: {
-    name: string;
-    active: boolean;
-    color?: string;
-  }[];
+  categories: FilterCategory[];
 }
 
 class Filter extends React.Component<Props, {}> {
@@ -20,14 +22,13 @@ class Filter extends React.Component<Props, {}> {
     return (
       <BaseFilter>
         <span>Filter</span>
-        {categories &&
-          categories.map((cat, key) => (
-            <Badge
-              text={cat.name}
-              key={key}
-              color={!cat.active ? grey : cat.color}
-            />
-          ))}
+        {categories.map((cat, key) => (
+          <Badge
+            text={cat.name}
+            key={key}
+            color={!cat.active ? grey : cat.color}
+          />
+        ))}
       </BaseFilter>
     );
   }

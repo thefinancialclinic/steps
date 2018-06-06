@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-
+import Button from 'atoms/Buttons/Button';
 import Panel from 'atoms/Panel';
-import Button from 'atoms/Button';
-import { svgBackgroundImageUrl } from 'styles/';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { svgBackgroundImageUrl } from 'styles';
+
 
 interface Props {
   className?: string;

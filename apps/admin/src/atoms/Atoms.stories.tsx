@@ -7,13 +7,16 @@ import backgrounds from '@storybook/addon-backgrounds';
 import { withKnobs } from '@storybook/addon-knobs/react';
 
 import Badge from './Badge';
-import Button from './Button';
+import Button from './Buttons/Button';
 import Dropdown from './Dropdown';
 import Filter from './Filter';
-import Input from './Input';
+import Input from './Input/Input';
 import Panel from './Panel';
 
 import { blue, brown, green, lightBlue, pink, white } from 'styles/colors';
+import Main from './Main';
+import BackButton from './Buttons/BackButton';
+import Header from 'atoms/Header';
 
 const Stories = storiesOf('Atoms', module)
   .add('Badge', () => (
@@ -24,12 +27,15 @@ const Stories = storiesOf('Atoms', module)
       {text('Button Text', 'Proceed to Ride')}
     </Button>
   ))
+  .add('Back Button', () => <BackButton to="#" />)
   .add('Dropdown', () => (
     <Dropdown title="Dropdown">
       <p>Dropdown content. Click title to hide.</p>
     </Dropdown>
   ))
-  .add('Input', () => <Input rounded={boolean('Rounded', false)} />)
+  .add('Input', () => (
+    <Input rounded={boolean('Rounded', false)} type={text('Type', 'text')} />
+  ))
   .add('Filter', () => (
     <Filter
       categories={[
@@ -54,6 +60,13 @@ const Stories = storiesOf('Atoms', module)
   ))
   .add('Panel', () => (
     <Panel shadow={boolean('with shadow', false)}>This is a panel</Panel>
+  ))
+  .add('Main', () => <Main>Some page content</Main>)
+  .add('Header', () => (
+    <Header>
+      <h1>A header child</h1>
+      <h2>Another header child</h2>
+    </Header>
   ));
 
 export default Stories;

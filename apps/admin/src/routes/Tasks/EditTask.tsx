@@ -6,6 +6,8 @@ import { createTask } from 'actions/tasks';
 import styled from 'styled-components';
 import TaskForm from 'components/Tasks/TaskForm';
 import TaskStep from 'components/Tasks/TaskStep';
+import SectionHeader from 'components/Headers/SectionHeader';
+import Main from 'atoms/Main';
 
 interface Props {
   className?: string;
@@ -19,14 +21,15 @@ class EditTask extends React.Component<Props, {}> {
     const { className, client, task } = this.props;
 
     return (
-      <div className={className}>
-        <h2>Edit Task</h2>
-        <p>
-          Personalize this task better for your client by editing, adding, or
-          deleting steps.
-        </p>
+      <Main className={className}>
+        <SectionHeader label="Edit Task">
+          <p>
+            Personalize this task better for your client by editing, adding, or
+            deleting steps.
+          </p>
+        </SectionHeader>
         <TaskForm task={task} client={client} />
-      </div>
+      </Main>
     );
   }
 }

@@ -3,26 +3,39 @@ import styled from 'styled-components';
 import Color from 'color';
 
 import { darkBlue, white } from 'styles/colors';
+import { HTMLProps } from 'helpers/types';
+import Label from './Label';
 
-interface Props {
-  className?: string;
+interface Props extends HTMLProps {
   shadow?: boolean;
   fill?: boolean;
+  label?: string;
 }
 
-class Panel extends React.Component<Props, {}> {
-  render() {
-    const { children, className, fill, shadow } = this.props;
-    let PanelEl = shadow ? ShadowedPanel : BasePanel;
+const Panel: React.SFC<Props> = ({
+  children,
+  className,
+  fill,
+  shadow,
+  label,
+}) => {
+  let PanelEl = shadow ? ShadowedPanel : BasePanel;
+  if (fill)
+    PanelEl = PanelEl.extend`
+      ${FillPanelCss};
+    `;
 
-    if (fill)
-      PanelEl = PanelEl.extend`
-        ${FillPanelCss};
-      `;
+  return (
+    <section>
+      {label && <StyledLabel>{label}</StyledLabel>}
+      <PanelEl className={className}>{children}</PanelEl>
+    </section>
+  );
+};
 
-    return <PanelEl className={className}>{children}</PanelEl>;
-  }
-}
+const StyledLabel = styled(Label)`
+  margin-bottom: 10px;
+`;
 
 const BasePanel = styled.div`
   background-color: ${white};

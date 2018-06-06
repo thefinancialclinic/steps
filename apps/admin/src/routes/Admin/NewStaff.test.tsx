@@ -1,7 +1,7 @@
 import { shallow, mount } from 'enzyme';
 import { NewStaff } from './NewStaff';
 import * as React from 'react';
-import Button from '../../atoms/button';
+import Button from '../../atoms/Buttons/Button';
 import NewStaffForm from './NewStaffForm';
 import 'jest';
 

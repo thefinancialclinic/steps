@@ -7,6 +7,7 @@ import { darken, green, white } from 'styles/colors';
 interface Props {
   className?: string;
   white?: boolean;
+  onClick?(event: MouseEvent): void;
 }
 
 class Button extends React.Component<Props, {}> {

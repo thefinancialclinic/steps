@@ -2,7 +2,7 @@ import React from 'react';
 import 'jest';
 import { shallow } from 'enzyme';
 
-import { Dropdown } from '../Dropdown';
+import { Dropdown } from './Dropdown';
 
 it('is closed by default', () => {
   const dropdown = shallow(<Dropdown title="My Rad Dropdown" />);

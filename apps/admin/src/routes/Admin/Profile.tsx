@@ -5,8 +5,11 @@ import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 
 import Panel from 'atoms/Panel';
-import InputRow from 'components/Forms/InputRow';
-import Button from 'atoms/Button';
+import Button from 'atoms/Buttons/Button';
+import Main from 'atoms/Main';
+import DataTable from 'components/DataTable/DataTable';
+import DataRow from 'components/DataTable/DataRow';
+import Centered from 'helpers/Centered';
 
 interface Props {
   className?: string;
@@ -15,22 +18,21 @@ interface Props {
 class Profile extends React.Component<Props, {}> {
   render() {
     return (
-      <div className={this.props.className}>
+      <Main>
         <Panel>
-          <InputRow label="profile picture" />
-          <InputRow label="name" />
-          <InputRow label="email" />
-          <InputRow label="password" />
-          <Button>Edit</Button>
+          <DataTable>
+            <DataRow label="profile picture">Profile picture goes here</DataRow>
+            <DataRow label="name">Jane Smith</DataRow>
+            <DataRow label="email">jane@example.com</DataRow>
+            <DataRow label="password">********</DataRow>
+          </DataTable>
+          <Centered>
+            <Button>Edit</Button>
+          </Centered>
         </Panel>
-      </div>
+      </Main>
     );
   }
 }
-const StyledProfile = styled(Profile)`
-  flex: 2;
-  margin-left: 100px;
-  margin-right: 100px;
-`;
 
-export default StyledProfile;
+export default Profile;

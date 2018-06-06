@@ -7,21 +7,19 @@ import { black, mediumBlue, white } from 'styles/colors';
 interface Props {
   rounded?: boolean;
   type?: string;
+  name?: string;
 }
 
-class Input extends React.Component<Props, {}> {
-  static defaultProps = { rounded: false };
+const Input: React.SFC<Props> = ({ rounded = false, type, name }) => {
+  const InputEl = rounded ? RoundInput : BaseInput;
 
-  render() {
-    const InputEl = this.props.rounded ? RoundInput : BaseInput;
-    const type = this.props.type;
-    return (
-      <InputEl>
-        <input type={type} />
-      </InputEl>
-    );
-  }
-}
+  return (
+    <InputEl>
+      <input type={type} />
+    </InputEl>
+  );
+};
+// TODO: Add file input upload button
 
 const BaseInput = styled.div`
   background-color: ${white};

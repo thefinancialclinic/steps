@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { remCalc } from 'styles/type';
-import Button from 'atoms/Button';
+import Button from 'atoms/Buttons/Button';
 import { Form, Field } from 'react-final-form';
 
 const BaseInputRow = styled.div`

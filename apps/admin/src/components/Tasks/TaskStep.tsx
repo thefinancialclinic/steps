@@ -1,11 +1,7 @@
-import React, { Component } from 'react';
-import { Flex, Box } from 'grid-styled';
+import { Box, Flex } from 'grid-styled';
+import React from 'react';
 import styled from 'styled-components';
 import { green, white } from 'styles/colors';
-import Input from 'atoms/Input';
-import Button from 'atoms/Button';
-import Panel from 'atoms/Panel';
-import StackedInputRow from 'components/Forms/StackedInputRow';
 
 interface Props {
   className?: string;

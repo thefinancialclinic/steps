@@ -5,7 +5,8 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { Flex, Box } from 'grid-styled';
 import { remCalc } from 'styles/type';
-import Button from 'atoms/Button';
+import Button from 'atoms/Buttons/Button';
+import Label from 'atoms/Label';
 
 const BaseInputRow = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ let NewClientForm = props => {
       <Flex flexWrap="wrap">
         <Box width={[1, 1 / 2]} px={2}>
           <BaseInputRow>
-            <label>First</label>
+            <Label>First</Label>
             <Field
               component="input"
               type="text"
@@ -48,7 +49,7 @@ let NewClientForm = props => {
         </Box>
         <Box width={[1, 1 / 2]} px={2}>
           <BaseInputRow>
-            <label>Last</label>
+            <Label>Last</Label>
             <Field
               component="input"
               type="text"
@@ -59,7 +60,7 @@ let NewClientForm = props => {
         </Box>
         <Box w={1} px={2}>
           <BaseInputRow>
-            <label>Email</label>
+            <Label>Email</Label>
             <Field
               component="input"
               type="email"
@@ -70,7 +71,7 @@ let NewClientForm = props => {
         </Box>
         <Box w={1} px={2}>
           <BaseInputRow>
-            <label>Phone Number</label>
+            <Label>Phone Number</Label>
             <Field
               component="input"
               type="tel"

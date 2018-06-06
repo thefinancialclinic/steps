@@ -5,12 +5,13 @@ import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 
 import Panel from 'atoms/Panel';
-import InputRow from 'components/Forms/InputRow';
-import Button from 'atoms/Button';
-import ButtonLink from 'atoms/ButtonLink';
+import Button from 'atoms/Buttons/Button';
 import AdminNewStaff from './NewStaff';
 import { StaffMember } from 'components/StaffList/types';
 import StaffList from 'components/StaffList/StaffList';
+import PageHeader from 'components/Headers/PageHeader';
+import Main from 'atoms/Main';
+import Label from 'atoms/Label';
 
 interface Props {
   staff: StaffMember[];
@@ -19,17 +20,18 @@ interface Props {
 export class Staff extends React.Component<Props, {}> {
   render() {
     return (
-      <BaseStaff>
-        <Header>
-          <h1>Staff</h1>
-          <ButtonLink to="/admin/staff/new">Invite Staff</ButtonLink>
-        </Header>
+      <Main>
+        <PageHeader label="Staff">
+          <Link to="/admin/staff/new">
+            <Button>Invite Staff</Button>
+          </Link>
+        </PageHeader>
         <Label>Name & Email</Label>
         <StaffList staff={this.props.staff} />
         <Switch>
           <Route path="/admin/staff/new" component={AdminNewStaff} />
         </Switch>
-      </BaseStaff>
+      </Main>
     );
   }
 }
@@ -37,17 +39,6 @@ const BaseStaff = styled.div`
   flex: 2;
   margin-left: 100px;
   margin-right: 100px;
-`;
-
-const Header = styled.div`
-  display: flex;
-  font-size: 16px;
-  align-items: baseline;
-  justify-content: space-between;
-`;
-
-const Label = styled.label`
-  text-transform: uppercase;
 `;
 
 const mapStateToProps = ({ staff }) => ({

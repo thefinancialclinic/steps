@@ -1,15 +1,11 @@
+import { Box } from 'grid-styled';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createTask } from 'actions/tasks';
-import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
-import Button from 'atoms/Button';
-import Panel from 'atoms/Panel';
-import StackedInputRow from 'components/Forms/StackedInputRow';
-import TaskForm from 'components/Tasks/TaskForm';
-import TaskStep from 'components/Tasks/TaskStep';
+import { createTask } from 'actions/tasks';
+import SectionHeader from 'components/Headers/SectionHeader';
+import Main from 'atoms/Main';
 
 interface Props {
   className?: string;
@@ -29,20 +25,21 @@ class NewTask extends React.Component<Props, {}> {
 
   render() {
     return (
-      <Box width={1}>
-        <h2>Create New Task</h2>
-        <p>
-          Create a personalized task for your client after you've talked with
-          them to understand their financial goal(s). In the rationale, explain
-          how the task is connected to their goal(s). List the individual steps
-          they will need to take to achieve their task, and include any
-          references or referrals available to help.
-        </p>
+      <Main>
+        <SectionHeader label="Create New Task">
+          <p>
+            Create a personalized task for your client after you've talked with
+            them to understand their financial goal(s). In the rationale,
+            explain how the task is connected to their goal(s). List the
+            individual steps they will need to take to achieve their task, and
+            include any references or referrals available to help.
+          </p>
+        </SectionHeader>
         {/* TODO: Task form needs client */}
         {/* <TaskForm>
             <Box>STEPS</Box>
           </TaskForm> */}
-      </Box>
+      </Main>
     );
   }
 }

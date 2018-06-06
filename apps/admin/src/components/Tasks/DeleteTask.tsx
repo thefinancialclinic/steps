@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import { green, white, yellow } from 'styles/colors';
-import Button from 'atoms/Button';
-import ButtonLink from 'atoms/ButtonLink';
+import Button from 'atoms/Buttons/Button';
 import Modal from 'components/Modal';
+import { Link } from 'react-router-dom';
 
 interface Props {
   className?: string;
@@ -21,12 +21,14 @@ class DeleteTask extends React.Component<Props, {}> {
         <Button white>UNDO</Button>
         <Flex className="actions" justifyContent="center">
           <Box>
-            <ButtonLink to={`/clients/${client.id}/tasks/new`}>
-              Add New Task
-            </ButtonLink>
+            <Link to={`/clients/${client.id}/tasks/new`}>
+              <Button>Add New Task</Button>
+            </Link>
           </Box>
           <Box>
-            <ButtonLink to={`/clients/${client.id}`}>Go To Workplan</ButtonLink>
+            <Link to={`/clients/${client.id}`}>
+              <Button>Go To Workplan</Button>
+            </Link>
           </Box>
         </Flex>
       </Modal>

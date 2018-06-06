@@ -40,11 +40,9 @@ const StyledProfile = styled.div`
   flex-direction: row;
 `;
 
-const mapStateToProps = (state, props) => ({});
-
 const mapDispatchToProps = dispatch => ({});
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(Profile);
