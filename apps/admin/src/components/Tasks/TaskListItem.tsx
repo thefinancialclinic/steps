@@ -36,7 +36,7 @@ export default ({ setTaskStatus, task }: Props) => {
             type="checkbox"
             value={task.status}
             checked={task.status === 'COMPLETED'}
-            onClick={toggleTaskStatus}
+            onChange={toggleTaskStatus}
           />
         </Box>
         <Box>
