@@ -13,7 +13,8 @@ export const Alerts = ({ alerts }: Props) => {
       {alerts.map(({ level, message }, i) => {
         return (
           <Alert key={i} level={level}>
-            {message}
+            {message.toString()}
+            {/* this is temporary until we figure out a redux store issue */}
           </Alert>
         );
       })}

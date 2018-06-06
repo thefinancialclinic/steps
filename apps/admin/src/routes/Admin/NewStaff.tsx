@@ -25,21 +25,14 @@ export class NewStaff extends React.Component<Props, {}> {
         this.props.history.push('/admin/staff');
       })
       .catch(err => {
-        this.props.actions.addAlert(err, AlertLevel.Error);
+        this.props.actions.addAlert(err.message, AlertLevel.Error);
       });
   };
 
   render() {
     return (
       <StyledModal>
-        <div>
-          <h1>Invite Staff</h1>
-          <p>
-            Enter the emails of the people you would like to invite, use commas
-            to invite multiple people.
-          </p>
-          <NewStaffForm onSubmit={this.createStaff} />
-        </div>
+        <NewStaffForm onSubmit={this.createStaff} />
       </StyledModal>
     );
   }

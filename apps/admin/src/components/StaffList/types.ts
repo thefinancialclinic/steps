@@ -10,9 +10,12 @@ export type Staff<T> = {
 export interface User {
   name: string;
   permissionLevel: PermissionLevel;
+  email: string;
 }
 
 export enum PermissionLevel {
   Administrator = 'administrator',
   Coach = 'coach'
 }
+
+export type StaffMember = PendingInvite | Staff<User>;

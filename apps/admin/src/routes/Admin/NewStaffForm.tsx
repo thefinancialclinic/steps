@@ -34,6 +34,11 @@ export const NewStaffForm = ({ onSubmit }: Props) => {
       onSubmit={onSubmit}
       render={({ handleSubmit, pristine, invalid }) => (
         <form onSubmit={handleSubmit}>
+          <h1>Invite Staff</h1>
+          <p>
+            Enter the emails of the people you would like to invite, use commas
+            to invite multiple people.
+          </p>
           <BaseInputRow>
             <label htmlFor="emails">Emails</label>
             <Field name="emails" component="textarea" />
