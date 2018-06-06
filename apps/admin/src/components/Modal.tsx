@@ -1,10 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import Panel from "atoms/Panel";
-import { black } from "styles/colors";
+import React from 'react';
+import styled from 'styled-components';
+import Panel from 'atoms/Panel';
+import { black } from 'styles/colors';
 
 interface Props {
-  children?: any;
   className?: string;
 }
 

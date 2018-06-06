@@ -1,9 +1,5 @@
 /* eslint-disable no-console */
-import {
-  applyMiddleware,
-  createStore,
-  compose
-} from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise';
 
@@ -15,11 +11,8 @@ const enhancer = composeFn(applyMiddleware(...middlewares));
 declare var window;
 declare var module;
 
-export default function configureStore () {
-  const store = createStore(
-    rootReducer,
-    enhancer
-  );
+export default function configureStore() {
+  const store = createStore(rootReducer, enhancer);
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
