@@ -2,6 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link, Route, Switch } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+
+import UserSwitcher from 'components/util/UserSwitcher';
+
 import TopBar from 'components/TopBar';
 import Home from './Home';
 import Clients from './Clients/Clients';
@@ -11,8 +15,9 @@ import AdminSignup from './Admin/Signup';
 import Admin from './Admin';
 import Alert from 'containers/Alert';
 
-const Layout = () => (
+const Layout = (props) => (
   <Wrapper>
+    {process.env.NODE_ENV === 'development' && <UserSwitcher />}
     <TopBar />
     <Alert />
     <Switch>
@@ -36,4 +41,8 @@ const Wrapper = styled.div`
   min-height: 100%;
 `;
 
-export default Layout;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(Layout);
