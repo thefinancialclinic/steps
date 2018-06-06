@@ -1,22 +1,16 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-
+import { boolean, text } from '@storybook/addon-knobs/react';
 import { storiesOf } from '@storybook/react';
-import { text, boolean } from '@storybook/addon-knobs/react';
-import backgrounds from '@storybook/addon-backgrounds';
-import { withKnobs } from '@storybook/addon-knobs/react';
-
-import Badge from './Badge';
-import Button from './Buttons/Button';
-import Filter from './Filter';
-import Input from './Input/Input';
-import Panel from './Panel';
-
-import { blue, brown, green, lightBlue, pink, white } from 'styles/colors';
-import Main from './Main';
-import BackButton from './Buttons/BackButton';
 import Header from 'atoms/Header';
 import Dropdown from 'components/Dropdowns/Dropdown';
+import React from 'react';
+import { blue, brown, green, pink } from 'styles/colors';
+import Badge from './Badge';
+import BackButton from './Buttons/BackButton';
+import Button from './Buttons/Button';
+import Filter from '../components/Filter';
+import Input from './Input/Input';
+import Main from './Main';
+import Panel from './Panel';
 
 const Stories = storiesOf('Atoms', module)
   .add('Badge', () => (

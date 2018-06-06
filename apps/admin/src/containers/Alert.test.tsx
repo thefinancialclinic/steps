@@ -1,10 +1,9 @@
-import configureStore from 'redux-mock-store';
-import Alerts from './Alert';
-import * as React from 'react';
 import { shallow } from 'enzyme';
-import { AlertLevel } from '../components/Alert/types';
-import { addAlert } from '../actions/alerts';
 import 'jest';
+import * as React from 'react';
+import configureStore from 'redux-mock-store';
+import { AlertLevel } from '../components/Alert/types';
+import Alerts from './Alert';
 
 describe('Alert.tsx', () => {
   const initialState = {

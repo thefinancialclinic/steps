@@ -13,7 +13,7 @@ export type ObjectType = {
 export type Step = {
   text: string;
   note?: string;
-}
+};
 
 export type TaskOpts = {
   id?: number;
@@ -131,7 +131,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         task.date_created,
         task.date_completed,
         task.recurring,
-        task.steps
+        task.steps,
       ],
     );
     return new Task(res.rows[0]);

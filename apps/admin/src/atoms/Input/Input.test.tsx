@@ -9,11 +9,4 @@ describe('Input.tsx', () => {
 
     expect(wrapper).toBeDefined();
   });
-
-  it('renders text input', () => {
-    const wrapper = shallow(<Input type="text" />);
-
-    const input = wrapper.find('input[type="text"]');
-    expect(input).toHaveLength(1);
-  });
 });
