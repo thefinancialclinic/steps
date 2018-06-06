@@ -1,37 +1,37 @@
-import { MessageRepository, MessageId, Message } from '../src/repository/MessageRepository';
+import { MessageRepository, Message } from '../src/repository/MessageRepository';
 import { getTestConnectionPool, fixtures } from './db_helper';
 
 let activeConn;
 
 describe('Message entity operations', () => {
-  let messageId: MessageId;
+  let message: Message;
   let repo: MessageRepository;
 
   beforeAll(async () => {
     const pool = await getTestConnectionPool({ createFixtures: true })
     repo = new MessageRepository(pool);
-    messageId = await repo.save(new Message({
+    message = await repo.save(new Message({
       text: 'My Text',
-      to_user: fixtures.user,
-      from_user: fixtures.user,
-      media_id: fixtures.media,
-      request_id: fixtures.request,
+      to_user: fixtures.user.id,
+      from_user: fixtures.user.id,
+      media_id: fixtures.media.id,
+      request_id: fixtures.request.id,
       timestamp: new Date()
     }));
   });
 
   afterAll(async () => {
-    repo.delete(messageId);
+    repo.delete(message.id);
   });
 
   it('find a message', async () => {
-    let actual = await repo.getOne(messageId);
-    expect(actual.id).toBe(messageId);
+    let actual = await repo.getOne(message.id);
+    expect(actual.id).toBe(message.id);
   });
 
   it('gets all messages', async () => {
     let actual = await repo.getAll();
-    expect(actual.filter(message => message.id == messageId).length).toBe(1);
+    expect(actual.filter(x => x.id == message.id).length).toBe(1);
     expect(actual[0].text).toBe('My Text');
   })
 });

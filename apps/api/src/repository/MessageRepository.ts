@@ -45,19 +45,19 @@ export class Message {
 export class MessageRepository implements Repository<MessageId, Message> {
   constructor(public pool: Pool) { }
 
-  async getOne(id: MessageId) {
+  async getOne(id: MessageId): Promise<Message> {
     const res = await this.pool.query(`SELECT * FROM public.message WHERE id = $1`, [
       id
     ]);
     return new Message(res.rows[0]);
   }
 
-  async getAll() {
+  async getAll(): Promise<Message[]> {
     const res = await this.pool.query(`SELECT * FROM public.message`);
     return res.rows.map(row => new Message(row));
   }
 
-  async save(msg: Message) {
+  async save(msg: Message): Promise<Message> {
     const res = await this.pool.query(
       `
       INSERT INTO public.message (
@@ -69,7 +69,7 @@ export class MessageRepository implements Repository<MessageId, Message> {
         timestamp,
         responses
       ) VALUES ($1, $2, $3, $4, $5, $6, $7)
-      RETURNING id
+      RETURNING *
     `,
       [
         msg.text,
@@ -81,13 +81,42 @@ export class MessageRepository implements Repository<MessageId, Message> {
         msg.responses
       ]
     );
-    return res.rows[0].id as MessageId;
+    return new Message(res.rows[0]);
   }
 
-  async delete(id: MessageId) {
+  async delete(id: MessageId): Promise<number> {
     const res = await this.pool.query(`DELETE FROM public.message WHERE id = $1`, [
       id
     ]);
     return res.rowCount;
+  }
+
+  async update(msg: Message): Promise<Message> {
+    const res = await this.pool.query(
+      `
+      UPDATE public.message SET (
+        text,
+        to_user,
+        from_user,
+        media_id,
+        request_id,
+        timestamp,
+        responses
+      ) = ($1, $2, $3, $4, $5, $6, $7)
+      WHERE id = $8
+      RETURNING *
+    `,
+      [
+        msg.text,
+        msg.to_user,
+        msg.from_user,
+        msg.media_id,
+        msg.request_id,
+        msg.timestamp,
+        msg.responses,
+        msg.id,
+      ]
+    );
+    return new Message(res.rows[0]);
   }
 }

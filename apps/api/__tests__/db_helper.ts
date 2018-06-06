@@ -17,12 +17,12 @@ import { UserId, UserRepository, User } from "../src/repository/UserRepository";
 let pool: Pool;
 
 let fixtures: {
-  media: MediaId;
-  org: OrgId;
-  request: RequestId;
-  task: TaskId;
-  step: StepId;
-  user: UserId;
+  media: Media;
+  org: Org;
+  request: RequestItem;
+  task: Task;
+  step: Step;
+  user: User;
 };
 
 const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
@@ -38,20 +38,18 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
 
   // create DB fixtures if requested
   if (options.createFixtures) {
-    let media;
-    let org;
-    let request;
-    let task;
-    let step;
-    let user;
+    let media: Media;
+    let org: Org;
+    let request: RequestItem;
+    let task: Task;
+    let step: Step;
+    let user: User;
 
     let res: any;
 
     // Org
-    res = (await new OrgRepository(pool).getAll())[0];
-    if (res) {
-      org = res.id;
-    } else {
+    org = (await new OrgRepository(pool).getAll())[0];
+    if (!org) {
       org = await new OrgRepository(pool).save(
         new Org({
           name: "NAME",
@@ -62,17 +60,15 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
     }
 
     // User
-    res = (await new UserRepository(pool).getAll())[0];
-    if (res) {
-      user = res.id;
-    } else {
+    user = (await new UserRepository(pool).getAll())[0];
+    if (!user) {
       user = await new UserRepository(pool).save(
         new User({
           first_name: "FIRST",
           last_name: "LAST",
           email: "EMAIL",
           phone: "PHONE",
-          org_id: org,
+          org_id: org.id,
           color: "COLOR",
           goals: ["walk", "run"],
           status: "AWAITING_HELP",
@@ -86,69 +82,61 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
     }
 
     // Task
-    res = (await new TaskRepository(pool).getAll())[0];
-    if (res) {
-      task = res.id;
-    } else {
+    task = (await new TaskRepository(pool).getAll())[0];
+    if (!task) {
       task = await new TaskRepository(pool).save(
         new Task({
           title: "TITLE",
           category: "CATEGORY",
           description: "DESCRIPTION",
           status: "ACTIVE",
-          created_by: org,
-          user_id: user,
+          created_by: org.id,
+          user_id: user.id,
           difficulty: "EASY",
           date_created: new Date(),
-          date_completed: new Date()
+          date_completed: new Date(),
         })
       );
     }
 
     // Request
-    res = (await new RequestRepository(pool).getAll())[0];
-    if (res) {
-      request = res.id;
-    } else {
+    request = (await new RequestRepository(pool).getAll())[0];
+    if (!request) {
       request = await new RequestRepository(pool).save(
         new RequestItem({
           status: "NEEDS_ASSISTANCE",
-          user_id: user,
-          task_id: task
+          user_id: user.id,
+          task_id: task.id,
         })
       );
     }
 
     // Step
-    res = (await new StepRepository(pool).getAll())[0];
-    if (res) {
-      step = res.id;
-    } else {
+    step = (await new StepRepository(pool).getAll())[0];
+    if (!step) {
       step = await new StepRepository(pool).save(
         new Step({
           text: "TEXT",
           note: "NOTE",
-          task_id: task
+          task_id: task.id,
         })
       );
     }
 
     // Media
-    res = (await new MediaRepository(pool).getAll())[0];
-    if (res) {
-      media = res.id;
-    } else {
+    media = (await new MediaRepository(pool).getAll())[0];
+    if (!media) {
       media = await new MediaRepository(pool).save(
         new Media({
-          step_id: step,
-          task_id: task,
+          step_id: step.id,
+          task_id: task.id,
           title: "TITLE",
           category: "CATEGORY",
           description: "DESCRIPTION",
           url: "URL",
           image: "IMAGE",
-          published_by: org,
-          type: "GENERAL_EDUCATION"
+          published_by: org.id,
+          type: "GENERAL_EDUCATION",
         })
       );
     }
@@ -160,7 +148,7 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
       request,
       task,
       step,
-      user
+      user,
     };
   } // end if(options.createFixtures)
 
