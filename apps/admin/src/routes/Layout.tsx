@@ -42,7 +42,7 @@ const Wrapper = styled.div`
 `;
 
 const mapStateToProps = state => ({
-  user: state.user
+  auth: state.auth
 });
 
 export default connect(mapStateToProps)(Layout);

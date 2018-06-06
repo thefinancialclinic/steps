@@ -1,4 +1,4 @@
-import { SET_USER_TYPE } from 'actions/user';
+import { SET_USER_TYPE } from 'actions/auth';
 
 export enum USER_TYPE {
   ADMIN,

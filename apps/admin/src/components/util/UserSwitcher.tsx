@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { setUserType } from 'actions/user';
-import { USER_TYPE } from 'reducers/user';
+import { setUserType } from 'actions/auth';
+import { USER_TYPE } from 'reducers/auth';
 
 import { white, black } from 'styles/colors';
 
@@ -89,7 +89,7 @@ const Wrapper = styled.div`
 `;
 
 const mapStateToProps = state => ({
-  type: state.user.type,
+  type: state.auth.type,
 });
 
 const mapDispatchToProps = dispatch => ({
