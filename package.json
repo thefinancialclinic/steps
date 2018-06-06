@@ -3,10 +3,13 @@
     "start": "$(npm bin)/lerna run start --parallel",
     "start:prod": "(cd apps/api && node .build/index.js)",
     "test": "$(npm bin)/lerna run test",
+    "cypress": "$(npm bin)/cypress run",
     "install:all": "$(npm bin)/lerna exec \"npm install\"",
     "heroku-postbuild": "$(npm bin)/lerna bootstrap && $(npm bin)/lerna run build --parallel"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cypress": "^3.0.1"
+  },
   "dependencies": {
     "lerna": "^2.11.0"
   }

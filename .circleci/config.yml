@@ -10,6 +10,10 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_DB: steps_admin_test
 
+      - image: cypress/base:6
+        environment:
+          TERM: xterm
+
     environment:
       NODE_ENV: test
 
@@ -64,3 +68,12 @@ jobs:
       - run:
           name: test
           command: npm test
+
+      - run:
+          name: cypress
+          command: cypress run
+
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
