@@ -39,7 +39,6 @@ jobs:
           name: Install additional dependencies
           command: |
             sudo apt-get install --yes --quiet \
-              # cypress dependencies
               libgtk2.0-0 \
               libnotify-dev \
               libgconf-2-4 \
@@ -47,7 +46,6 @@ jobs:
               libxss1 \
               libasound2 \
               xvfb \
-              # sqitch dependencies
               sqitch \
               libdbd-pg-perl \
               postgresql-client
