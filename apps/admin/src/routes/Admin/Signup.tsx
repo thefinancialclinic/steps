@@ -1,5 +1,5 @@
 import Button from 'atoms/Buttons/Button';
-import Input from 'atoms/Input/Input';
+import Input from 'atoms/Form/Input';
 import Main from 'atoms/Main';
 import Panel from 'atoms/Panel';
 import Subtext from 'atoms/Subtext';

@@ -2,9 +2,9 @@ import Button from 'atoms/Buttons/Button';
 import Label from 'atoms/Label';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import { remCalc } from 'styles/type';
+import { Form, Field } from 'react-final-form';
 
 const BaseInputRow = styled.div`
   display: flex;
@@ -26,66 +26,62 @@ const BaseInputRow = styled.div`
   }
 `;
 
-let NewClientForm = props => {
-  const { handleSubmit, onSubmit } = props;
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h2>Add New Client</h2>
-
-      <Flex flexWrap="wrap">
-        <Box width={[1, 1 / 2]} px={2}>
-          <BaseInputRow>
-            <Label>First</Label>
-            <Field
-              component="input"
-              type="text"
-              name="first_name"
-              autoComplete="given-name"
-            />
-          </BaseInputRow>
-        </Box>
-        <Box width={[1, 1 / 2]} px={2}>
-          <BaseInputRow>
-            <Label>Last</Label>
-            <Field
-              component="input"
-              type="text"
-              name="last_name"
-              autoComplete="family-name"
-            />
-          </BaseInputRow>
-        </Box>
-        <Box width={1} px={2}>
-          <BaseInputRow>
-            <Label>Email</Label>
-            <Field
-              component="input"
-              type="email"
-              name="email"
-              autoComplete="email"
-            />
-          </BaseInputRow>
-        </Box>
-        <Box width={1} px={2}>
-          <BaseInputRow>
-            <Label>Phone Number</Label>
-            <Field
-              component="input"
-              type="tel"
-              name="phone"
-              autoComplete="tel"
-            />
-          </BaseInputRow>
-        </Box>
-      </Flex>
-      <Button>Save</Button>
-    </form>
-  );
-};
-
-NewClientForm = reduxForm({
-  form: 'new-client',
-})(NewClientForm);
+let NewClientForm = ({ onSubmit }) => (
+  <Form
+    onSubmit={onSubmit}
+    render={({ handleSubmit }) => (
+      <form onSubmit={handleSubmit}>
+        <h2>Add New Client</h2>
+        <Flex flexWrap="wrap">
+          <Box width={[1, 1 / 2]} px={2}>
+            <BaseInputRow>
+              <Label>First</Label>
+              <Field
+                component="input"
+                type="text"
+                name="first_name"
+                autoComplete="given-name"
+              />
+            </BaseInputRow>
+          </Box>
+          <Box width={[1, 1 / 2]} px={2}>
+            <BaseInputRow>
+              <Label>Last</Label>
+              <Field
+                component="input"
+                type="text"
+                name="last_name"
+                autoComplete="family-name"
+              />
+            </BaseInputRow>
+          </Box>
+          <Box width={1} px={2}>
+            <BaseInputRow>
+              <Label>Email</Label>
+              <Field
+                component="input"
+                type="email"
+                name="email"
+                autoComplete="email"
+              />
+            </BaseInputRow>
+          </Box>
+          <Box width={1} px={2}>
+            <BaseInputRow>
+              <Label>Phone Number</Label>
+              <Field
+                component="input"
+                type="tel"
+                name="phone"
+                autoComplete="tel"
+              />
+            </BaseInputRow>
+          </Box>
+        </Flex>
+        <Button>Save</Button>
+      </form>
+    )}
+  />
+);
 
 export default NewClientForm;

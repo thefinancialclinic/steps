@@ -8,7 +8,7 @@ import Badge from './Badge';
 import BackButton from './Buttons/BackButton';
 import Button from './Buttons/Button';
 import Filter from '../components/Filter';
-import Input from './Input/Input';
+import Input from './Form/Input';
 import Main from './Main';
 import Panel from './Panel';
 
