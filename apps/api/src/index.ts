@@ -5,16 +5,34 @@ import { Request, Response } from 'express';
 import { Routes } from './routes';
 import { Pool } from 'pg';
 import express = require('express');
-import { writeFileSync, writeFile } from 'fs';
+import { writeFileSync, writeFile, readFileSync, existsSync } from 'fs';
 import YAML = require('yamljs');
 import * as url from 'url';
 import { OrgRepository } from './repository/OrgRepository';
 import { UserRepository } from './repository/UserRepository';
+import * as jwt from 'express-jwt';
+import * as jwtAuthz from 'express-jwt-authz';
+import { expressJwtSecret } from 'jwks-rsa';
+import * as token from 'jsonwebtoken';
+
+////////////////////////////////////////////////////////////////////////////////
+// Configuration
+
+// Local .env file (if present)
+let ENV;
+if (existsSync('./.env')) {
+  console.log('Reading .env file...');
+  ENV = JSON.parse(readFileSync('./.env').toString());
+}
 
 const isProduction = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT || '3001';
 const localConnString = 'postgres://postgres@localhost:5432/steps_admin_test';
 const connUrl = url.parse(process.env.DATABASE_URL || localConnString);
+
+// Auth0 Config
+const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID || ENV.auth0_client_id;
+const AUTH0_ISSUER = process.env.AUTH0_ISSUER || ENV.auth0_issuer;
 
 export const pool = new Pool({
   user: connUrl.auth.split(':')[0],
@@ -24,9 +42,32 @@ export const pool = new Pool({
   port: parseInt(connUrl.port),
 });
 
+// Authentication middleware. Please see:
+// https://auth0.com/docs/quickstart/backend/nodejs
+// for implementation details
+const checkJwt = jwt({
+  // Retrieve the signing key from the server
+  secret: expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: `${AUTH0_ISSUER}.well-known/jwks.json`,
+  }),
+
+  // Validate the audience of the issuer
+  audience: AUTH0_CLIENT_ID,
+  issuer: AUTH0_ISSUER,
+  algorithms: ['RS256'],
+  complete: true,
+});
+
 // TEMPORARY: Seed Org (id: 1) and Coach (id: 1) needed for Client creation
 new OrgRepository(pool).seed();
 new UserRepository(pool).seed();
+
+
+////////////////////////////////////////////////////////////////////////////////
+// App / Middlewares
 
 const app = express();
 
@@ -45,7 +86,9 @@ if (isProduction) {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 }
 
-// register express routes from defined application routes
+////////////////////////////////////////////////////////////////////////////////
+// Routes
+
 Routes.forEach(route => {
   (app as any)[route.method](
     route.route,
@@ -67,19 +110,34 @@ Routes.forEach(route => {
   );
 });
 
+// Route for checking that Auth0 is working
+app.get('/api/private', checkJwt, (req, res) => {
+  res.type('json');
+  return res.send(req.user); // added by checkJwt, contains user data
+});
+
 // Error handling
 if (process.env.NODE_ENV !== 'production') {
   app.use((err, req, res, next) => {
-    res.status(500);
-    res.render('error', { error: err });
+    if (err) {
+      console.log(err);
+      res.status(err.status);
+      res.send(err);
+    } else {
+      res.status(500);
+      res.send({ error: err });
+    }
   });
 } else {
   app.use((err, req, res, next) => {
-    res.status(500).send({ error: 'Server error' });
+    res.status(500);
+    res.send({ error: 'Server error' });
   });
 }
 
-// start express server
+////////////////////////////////////////////////////////////////////////////////
+// Run server
+
 app.listen(PORT);
 console.log(`Express server has started on port ${PORT}.`);
 process.env.NODE_ENV !== 'production'
