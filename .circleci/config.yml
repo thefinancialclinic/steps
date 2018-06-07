@@ -43,11 +43,28 @@ jobs:
           name: npm install:all
           command: npm run install:all
 
+
+      - run:
+          name: Install additional dependencies
+          command: |
+            sudo apt-get install --yes --quiet \
+              # cypress dependencies
+              libgtk2.0-0 \
+              libnotify-dev \
+              libgconf-2-4 \
+              libnss3 \
+              libxss1 \
+              libasound2 \
+              xvfb \
+              # sqitch dependencies
+              sqitch \
+              libdbd-pg-perl \
+              postgresql-client
+
+
       - run:
           name: Database migrations
           command: |
-            sudo apt-get --yes --quiet install sqitch
-            sudo apt-get --yes --quiet install libdbd-pg-perl postgresql-client
             sqitch deploy --target pg://postgres@localhost/steps_admin_test
 
       - save_cache:
