@@ -18,6 +18,7 @@ import NavDropdown from './Dropdowns/NavDropdown';
 import Modal from './Modal';
 import NavGroup from './NavGroup/NavGroup';
 import PhotoUpload from './PhotoUpload';
+import Request from './Chat/Request';
 import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
@@ -67,6 +68,17 @@ export const Components = storiesOf('Components', module)
         { text: 'first', to: '/first' },
         { text: 'second', to: '/second' },
       ]}
+    />
+  ))
+  .add('Request', () => (
+    <Request
+      status={select(
+        'Status',
+        ['NEEDS_ASSISTANCE', 'REPLIED', 'RESOLVED'],
+        'NEEDS_ASSISTANCE',
+      )}
+      message="I tried calling my credit card but couldn't get through to them"
+      date={new Date()}
     />
   ))
   .add('Sidebar', () => <Sidebar links={[{ to: '', text: '' }]} />)
