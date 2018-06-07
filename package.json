@@ -3,11 +3,24 @@
     "start": "$(npm bin)/lerna run start --parallel",
     "start:prod": "(cd apps/api && node .build/index.js)",
     "test": "$(npm bin)/lerna run test",
+    "prettier": "$(npm bin)/prettier apps/**/*.{ts,tsx} !**/node_modules/** --write",
     "install:all": "$(npm bin)/lerna exec \"npm install\"",
-    "pre-push": "npm run test",
     "heroku-postbuild": "$(npm bin)/lerna bootstrap && $(npm bin)/lerna run build --parallel"
   },
-  "devDependencies": {},
+  "lint-staged": {
+    "*": ["npm run prettier"]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "$(npm bin)/lint-staged",
+      "pre-push": "npm test"
+    }
+  },
+  "devDependencies": {
+    "husky": "^1.0.0-rc.8",
+    "lint-staged": "^7.1.3",
+    "prettier": "^1.13.4"
+  },
   "dependencies": {
     "lerna": "^2.11.0"
   }
