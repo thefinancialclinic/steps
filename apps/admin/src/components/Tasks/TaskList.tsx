@@ -1,6 +1,5 @@
 import Button from 'atoms/Buttons/Button';
 import { Box } from 'grid-styled';
-import Centered from 'helpers/Centered';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -11,6 +10,7 @@ import { grey, mediumBlue, white } from 'styles/colors';
 import NoTasks from './NoTasks';
 import TaskListItem from './TaskListItem';
 import { getTasks, setTasks, setTaskStatus } from 'actions/tasks';
+import { Flex } from 'grid-styled';
 
 interface Props {
   className?: string;
@@ -99,11 +99,11 @@ export class TaskList extends React.Component<Props, {}> {
             shouldCancelStart={this.shouldCancelStart}
             setTaskStatus={this.props.actions.setTaskStatus}
           />
-          <Centered>
+          <Flex justifyContent="center">
             <Link to={`/clients/${client.id}/tasks/add`}>
               <Button>Add New Task</Button>
             </Link>
-          </Centered>
+          </Flex>
         </Box>
       ) : (
         <NoTasks client={client} />

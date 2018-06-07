@@ -4,26 +4,6 @@ import { remCalc } from 'styles/type';
 import Button from 'atoms/Buttons/Button';
 import { Form, Field } from 'react-final-form';
 
-const BaseInputRow = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: ${remCalc(20)};
-
-  label {
-    margin-bottom: ${remCalc(5)};
-    text-transform: uppercase;
-  }
-
-  textarea {
-    font-size: ${remCalc(18)};
-    padding-bottom: ${remCalc(21)};
-    padding-left: ${remCalc(20)};
-    padding-right: ${remCalc(20)};
-    padding-top: ${remCalc(21)};
-    width: 100%;
-  }
-`;
-
 interface Props {
   onSubmit(data): void;
 }
@@ -49,5 +29,25 @@ export const NewStaffForm = ({ onSubmit }: Props) => {
     />
   );
 };
+
+const BaseInputRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: ${remCalc(20)};
+
+  label {
+    margin-bottom: ${remCalc(5)};
+    text-transform: uppercase;
+  }
+
+  textarea {
+    font-size: ${remCalc(18)};
+    padding-bottom: ${remCalc(21)};
+    padding-left: ${remCalc(20)};
+    padding-right: ${remCalc(20)};
+    padding-top: ${remCalc(21)};
+    width: 100%;
+  }
+`;
 
 export default NewStaffForm;

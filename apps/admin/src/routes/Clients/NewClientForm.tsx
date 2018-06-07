@@ -1,12 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-
-import { Field, reduxForm } from 'redux-form';
-import { Link } from 'react-router-dom';
-import { Flex, Box } from 'grid-styled';
-import { remCalc } from 'styles/type';
 import Button from 'atoms/Buttons/Button';
 import Label from 'atoms/Label';
+import { Box, Flex } from 'grid-styled';
+import React from 'react';
+import { Field, reduxForm } from 'redux-form';
+import styled from 'styled-components';
+import { remCalc } from 'styles/type';
 
 const BaseInputRow = styled.div`
   display: flex;
@@ -58,7 +56,7 @@ let NewClientForm = props => {
             />
           </BaseInputRow>
         </Box>
-        <Box w={1} px={2}>
+        <Box width={1} px={2}>
           <BaseInputRow>
             <Label>Email</Label>
             <Field
@@ -69,7 +67,7 @@ let NewClientForm = props => {
             />
           </BaseInputRow>
         </Box>
-        <Box w={1} px={2}>
+        <Box width={1} px={2}>
           <BaseInputRow>
             <Label>Phone Number</Label>
             <Field

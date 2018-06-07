@@ -1,21 +1,15 @@
-import React from 'react';
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import styled from 'styled-components';
-
 import Button from 'atoms/Buttons/Button';
-import Panel from 'atoms/Panel';
-
-import { remCalc } from 'styles/type';
-import { grey } from 'styles/colors';
-import Main from 'atoms/Main';
-import Subtext from 'atoms/Subtext';
-import Centered from 'helpers/Centered';
-import DataTable from 'components/DataTable/DataTable';
-import DataRow from 'components/DataTable/DataRow';
 import Input from 'atoms/Input/Input';
-import SectionHeader from 'components/Headers/SectionHeader';
+import Main from 'atoms/Main';
+import Panel from 'atoms/Panel';
+import Subtext from 'atoms/Subtext';
+import DataRow from 'components/DataTable/DataRow';
+import DataTable from 'components/DataTable/DataTable';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { Flex } from 'grid-styled';
 
 interface Props {
   className?: string;
@@ -26,17 +20,15 @@ class Signup extends React.Component<Props, {}> {
     return (
       <Main>
         <Panel className="right">
-        <SectionHeader label="Sign Up">
+          <h2>Sign Up</h2>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime vero
             qui totam consequatur deserunt harum tempora mollitia quam? Esse
             corrupti mollitia aspernatur aperiam adipisci doloremque ea libero
             praesentium, in fuga?
           </p>
-        </SectionHeader>
           <h2>Sign Up</h2>
-          <Subtext>
-          </Subtext>
+          <Subtext />
           <DataTable>
             <DataRow label="First">
               <Input />
@@ -54,11 +46,11 @@ class Signup extends React.Component<Props, {}> {
               <Input type="password" />
             </DataRow>
           </DataTable>
-          <Centered>
+          <Flex justifyContent="center">
             <Link to="/admin/profile">
               <Button>Sign Up</Button>
             </Link>
-          </Centered>
+          </Flex>
         </Panel>
       </Main>
     );

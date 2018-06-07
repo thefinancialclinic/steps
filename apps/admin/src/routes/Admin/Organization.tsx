@@ -3,8 +3,8 @@ import Main from 'atoms/Main';
 import Panel from 'atoms/Panel';
 import DataRow from 'components/DataTable/DataRow';
 import DataTable from 'components/DataTable/DataTable';
-import Centered from 'helpers/Centered';
 import React from 'react';
+import { Flex } from 'grid-styled';
 
 class Organization extends React.Component<{}, {}> {
   render() {
@@ -15,9 +15,9 @@ class Organization extends React.Component<{}, {}> {
             <DataRow label="Organization Logo">Logo goes here</DataRow>
             <DataRow label="Name">Name goes here</DataRow>
           </DataTable>
-          <Centered>
+          <Flex justifyContent="center">
             <Button>Edit</Button>
-          </Centered>
+          </Flex>
         </Panel>
       </Main>
     );

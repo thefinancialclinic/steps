@@ -1,15 +1,11 @@
-import React from 'react';
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import styled from 'styled-components';
-
-import Panel from 'atoms/Panel';
 import Button from 'atoms/Buttons/Button';
 import Main from 'atoms/Main';
-import DataTable from 'components/DataTable/DataTable';
+import Panel from 'atoms/Panel';
 import DataRow from 'components/DataTable/DataRow';
-import Centered from 'helpers/Centered';
+import DataTable from 'components/DataTable/DataTable';
+import { Flex } from 'grid-styled';
+import React from 'react';
+
 
 interface Props {
   className?: string;
@@ -26,9 +22,9 @@ class Profile extends React.Component<Props, {}> {
             <DataRow label="email">jane@example.com</DataRow>
             <DataRow label="password">********</DataRow>
           </DataTable>
-          <Centered>
+          <Flex justifyContent="center">
             <Button>Edit</Button>
-          </Centered>
+          </Flex>
         </Panel>
       </Main>
     );

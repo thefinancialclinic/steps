@@ -1,17 +1,13 @@
-import React from 'react';
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import styled from 'styled-components';
-
-import Panel from 'atoms/Panel';
 import Button from 'atoms/Buttons/Button';
-import AdminNewStaff from './NewStaff';
-import { StaffMember } from 'components/StaffList/types';
-import StaffList from 'components/StaffList/StaffList';
-import PageHeader from 'components/Headers/PageHeader';
-import Main from 'atoms/Main';
 import Label from 'atoms/Label';
+import Main from 'atoms/Main';
+import PageHeader from 'components/Headers/PageHeader';
+import StaffList from 'components/StaffList/StaffList';
+import { StaffMember } from 'components/StaffList/types';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link, Route, Switch } from 'react-router-dom';
+import AdminNewStaff from './NewStaff';
 
 interface Props {
   staff: StaffMember[];

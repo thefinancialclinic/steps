@@ -1,13 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { createTask } from 'actions/tasks';
-import styled from 'styled-components';
-import TaskForm from 'components/Tasks/TaskForm';
-import TaskStep from 'components/Tasks/TaskStep';
-import SectionHeader from 'components/Headers/SectionHeader';
 import Main from 'atoms/Main';
+import TaskForm from 'components/Tasks/TaskForm';
+import React from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 interface Props {
   className?: string;
@@ -22,12 +17,11 @@ class EditTask extends React.Component<Props, {}> {
 
     return (
       <Main>
-        <SectionHeader label="Edit Task">
-          <p>
-            Personalize this task better for your client by editing, adding, or
-            deleting steps.
-          </p>
-        </SectionHeader>
+        <h2>EditTask</h2>
+        <p>
+          Personalize this task better for your client by editing, adding, or
+          deleting steps.
+        </p>
         <TaskForm task={task} client={client} />
       </Main>
     );
