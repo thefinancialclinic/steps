@@ -35,11 +35,6 @@ export class Staff extends React.Component<Props, {}> {
     );
   }
 }
-const BaseStaff = styled.div`
-  flex: 2;
-  margin-left: 100px;
-  margin-right: 100px;
-`;
 
 const mapStateToProps = ({ staff }) => ({
   staff,

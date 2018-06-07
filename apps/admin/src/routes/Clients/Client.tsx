@@ -11,6 +11,7 @@ import Tasks from 'routes/Tasks/Tasks';
 import GoalList from 'components/Goals/GoalList';
 import Chat from 'components/Chat/Chat';
 import Terms from 'routes/Clients/Terms';
+import BackButton from 'atoms/Buttons/BackButton';
 
 interface Props {
   className?: string;
@@ -37,7 +38,7 @@ class Client extends React.Component<Props, {}> {
               { text: 'Chat', to: `/clients/${client.id}/chat` },
             ]}
           >
-            <Link to="/clients">&larr; Back</Link>
+            <BackButton to="/clients"/>
             <h2>
               {client.first_name} {client.last_name}
             </h2>
