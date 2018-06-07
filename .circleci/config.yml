@@ -23,17 +23,11 @@ jobs:
       - checkout
 
       - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
+          key: v1-dependencies-{{ checksum "package.json" }}
       - restore_cache:
-          keys:
-            - v1-api-dependencies-{{ checksum "apps/api/package.json" }}
-            - v1-api-dependencies-
+          key: v1-api-dependencies-{{ checksum "apps/api/package.json" }}
       - restore_cache:
-          keys:
-            - v1-admin-dependencies-{{ checksum "apps/admin/package.json" }}
-            - v1-admin-dependencies-
+          key: v1-admin-dependencies-{{ checksum "apps/admin/package.json" }}
 
       - run:
           name: Install additional dependencies
@@ -64,19 +58,19 @@ jobs:
             sqitch deploy --target pg://postgres@localhost/steps_admin_test
 
       - save_cache:
-          paths:
-            - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+            - ~/repo/node_modules
 
       - save_cache:
-          paths:
-            - apps/api/node_modules
           key: v1-api-dependencies-{{ checksum "apps/api/package.json" }}
+          paths:
+            - ~/repo/apps/api/node_modules
 
       - save_cache:
-          paths:
-            - apps/admin/node_modules
           key: v1-admin-dependencies-{{ checksum "apps/admin/package.json" }}
+          paths:
+            - ~/repo/apps/admin/node_modules
 
       - run:
           name: test
