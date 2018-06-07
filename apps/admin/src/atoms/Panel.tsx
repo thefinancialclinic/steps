@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import Color from 'color';
 
 import { darkBlue, white } from 'styles/colors';
-import { HTMLProps } from 'helpers/types';
 import Label from './Label';
 
-interface Props extends HTMLProps {
+interface Props {
+  className?: string;
   shadow?: boolean;
   fill?: boolean;
   label?: string;

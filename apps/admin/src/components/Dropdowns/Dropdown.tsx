@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Color from 'color';
 
-import Panel from './Panel';
+import Panel from 'atoms/Panel';
 import { darkBlue, white } from 'styles/colors';
 
 interface Props {
@@ -31,10 +31,6 @@ export class Dropdown extends React.Component<Props, State> {
 
   title() {
     return `${this.props.title} \u25BE`;
-  }
-
-  children() {
-    return this.props.children || [];
   }
 
   renderDropdownItems() {

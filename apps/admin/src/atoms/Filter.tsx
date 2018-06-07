@@ -15,24 +15,14 @@ interface Props {
   categories: FilterCategory[];
 }
 
-class Filter extends React.Component<Props, {}> {
-  render() {
-    const { categories, children } = this.props;
-
-    return (
-      <BaseFilter>
-        <span>Filter</span>
-        {categories.map((cat, key) => (
-          <Badge
-            text={cat.name}
-            key={key}
-            color={!cat.active ? grey : cat.color}
-          />
-        ))}
-      </BaseFilter>
-    );
-  }
-}
+const Filter: React.SFC<Props> = ({ categories, children }) => (
+  <BaseFilter>
+    <span>Filter</span>
+    {categories.map((cat, key) => (
+      <Badge text={cat.name} key={key} color={!cat.active ? grey : cat.color} />
+    ))}
+  </BaseFilter>
+);
 
 const BaseFilter = styled.div`
   align-items: center;

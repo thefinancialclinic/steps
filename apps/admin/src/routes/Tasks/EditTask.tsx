@@ -18,10 +18,10 @@ interface Props {
 
 class EditTask extends React.Component<Props, {}> {
   render() {
-    const { className, client, task } = this.props;
+    const { client, task } = this.props;
 
     return (
-      <Main className={className}>
+      <Main>
         <SectionHeader label="Edit Task">
           <p>
             Personalize this task better for your client by editing, adding, or

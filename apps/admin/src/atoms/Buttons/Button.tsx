@@ -5,22 +5,15 @@ import { remCalc } from 'styles/type';
 import { darken, green, white } from 'styles/colors';
 
 interface Props {
-  className?: string;
   white?: boolean;
   onClick?(event: MouseEvent): void;
 }
 
-class Button extends React.Component<Props, {}> {
-  static defaultProps = { white: false };
+const Button: React.SFC<Props> = ({ white = false, children }) => {
+  const ButtonEl = white ? WhiteButton : GreenButton;
 
-  render() {
-    const { className, children, white } = this.props;
-
-    const ButtonEl = white ? WhiteButton : GreenButton;
-
-    return <ButtonEl className={className}>{children}</ButtonEl>;
-  }
-}
+  return <ButtonEl>{children}</ButtonEl>;
+};
 
 const BaseButton = styled.button`
   border: none;

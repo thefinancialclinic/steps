@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Dropdown from 'atoms/Dropdown';
+import Dropdown from './Dropdown';
 import { blue, lightBlue, grey, green } from 'styles/colors';
 
 interface Link {

@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import React from 'react';
-import { HTMLProps } from 'helpers/types';
 
-const Main: React.SFC<HTMLProps> = ({ children, className }) => (
-  <Wrapper className={className}>{children}</Wrapper>
-);
+interface Props {
+  className?: string;
+}
+
+const Main: React.SFC<Props> = ({ children }) => <Wrapper>{children}</Wrapper>;
 
 // TODO: Content width will need to change
 const Wrapper = styled.main`

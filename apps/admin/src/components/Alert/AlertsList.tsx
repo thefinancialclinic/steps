@@ -7,7 +7,7 @@ interface Props {
   alerts: AlertType[];
 }
 
-export const Alerts = ({ alerts }: Props) => {
+export const AlertsList = ({ alerts }: Props) => {
   return (
     <StyledAlerts>
       {alerts.map(({ level, message }, i) => {
@@ -24,4 +24,4 @@ export const Alerts = ({ alerts }: Props) => {
 
 const StyledAlerts = styled.div``;
 
-export default Alerts;
+export default AlertsList;

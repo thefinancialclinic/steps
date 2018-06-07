@@ -4,6 +4,12 @@ import * as React from 'react';
 import 'jest';
 
 describe('Input.tsx', () => {
+  it('renders correctly', () => {
+    const wrapper = shallow(<Input type="text" />);
+
+    expect(wrapper).toBeDefined();
+  });
+
   it('renders text input', () => {
     const wrapper = shallow(<Input type="text" />);
 

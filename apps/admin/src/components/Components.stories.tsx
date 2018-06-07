@@ -10,7 +10,7 @@ import ChatMedia from './Chat/ChatMedia';
 import ChatMessage from './Chat/ChatMessage';
 
 import NameCard from './Clients/NameCard';
-import NavDropdown from './NavDropdown/NavDropdown';
+import NavDropdown from './Dropdowns/NavDropdown';
 import NavGroup from './NavGroup/NavGroup';
 import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
@@ -22,7 +22,7 @@ import TaskTemplate from './Tasks/TaskTemplate';
 import TermsModal from './Clients/TermsModal';
 import { TaskList } from './Tasks/TaskList';
 
-import { Alerts } from './Alert/Alerts';
+import { AlertsList } from './Alert/AlertsList';
 import { AlertLevel } from './Alert/types';
 import { Alert } from './Alert/Alert';
 import { PermissionLevel } from './StaffList/types';

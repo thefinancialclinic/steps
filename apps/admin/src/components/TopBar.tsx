@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import NavDropdown from 'components/NavDropdown/NavDropdown';
+import NavDropdown from 'components/Dropdowns/NavDropdown';
 import { darkBlue, white } from 'styles/colors';
 
 interface Props {

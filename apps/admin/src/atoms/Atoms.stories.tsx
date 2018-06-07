@@ -8,7 +8,6 @@ import { withKnobs } from '@storybook/addon-knobs/react';
 
 import Badge from './Badge';
 import Button from './Buttons/Button';
-import Dropdown from './Dropdown';
 import Filter from './Filter';
 import Input from './Input/Input';
 import Panel from './Panel';
@@ -17,6 +16,7 @@ import { blue, brown, green, lightBlue, pink, white } from 'styles/colors';
 import Main from './Main';
 import BackButton from './Buttons/BackButton';
 import Header from 'atoms/Header';
+import Dropdown from 'components/Dropdowns/Dropdown';
 
 const Stories = storiesOf('Atoms', module)
   .add('Badge', () => (

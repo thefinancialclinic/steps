@@ -1,14 +1,13 @@
 import Header from 'atoms/Header';
 import { Box } from 'grid-styled';
-import { HTMLProps } from 'helpers/types';
 import React from 'react';
 import styled from 'styled-components';
 
-interface Props extends HTMLProps {
+interface Props {
   label: string;
 }
 
-const PageHeader: React.SFC<Props> = ({ className, children, label }) => (
+const PageHeader: React.SFC<Props> = ({ children, label }) => (
   <Header>
     <StyledHeading>{label}</StyledHeading>
     <Box>{children}</Box>

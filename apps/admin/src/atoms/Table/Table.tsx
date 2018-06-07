@@ -1,9 +1,8 @@
 import React from 'react';
-import { HTMLProps } from 'helpers/types';
 import styled from 'styled-components';
 
-const Table: React.SFC<HTMLProps> = ({ children, className }) => {
-  return <StyledTable className={className}>{children}</StyledTable>;
+const Table: React.SFC<{}> = ({ children }) => {
+  return <StyledTable>{children}</StyledTable>;
 };
 
 const StyledTable = styled.table`
