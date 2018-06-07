@@ -78,7 +78,7 @@ jobs:
 
       - run:
           name: cypress
-          command: cypress run
+          command: $(npm bin)/cypress run
 
       - store_artifacts:
           path: cypress/videos
