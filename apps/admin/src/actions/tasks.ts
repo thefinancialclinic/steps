@@ -20,7 +20,7 @@ export const SET_TASKS = 'SET_TASKS';
 export const setTasks = tasks => {
   return {
     type: SET_TASKS,
-    tasks
+    tasks,
   };
 };
 
@@ -31,9 +31,9 @@ export const setTaskStatus = (task, status): DispatchFn => async dispatch => {
 
   const tasks = await axios.put(`${apiUrl}/tasks/${task.id}`, newTask);
   return dispatch({ type: SET_TASK_STATUS, id: task.id, status });
-}
+};
 
-export const completeTask = (id) => {
+export const completeTask = id => {
   return { type: SET_TASK_STATUS, id, status: 'COMPLETED' };
 };
 
@@ -56,6 +56,6 @@ export const addTask = (task): DispatchFn => async dispatch => {
   const tasks = await axios.post(apiUrl + '/tasks', task);
   return {
     type: ADD_TASK,
-    task
+    task,
   };
 };

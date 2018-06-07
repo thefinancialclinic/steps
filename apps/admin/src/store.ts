@@ -6,11 +6,9 @@ import promise from 'redux-promise';
 import rootReducer from './reducers/index';
 
 const composeFn = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const middlewares = [
-      thunk
-  , promise];
+const middlewares = [thunk, promise];
 const enhancer = composeFn(applyMiddleware(...middlewares));
-  declare var window;
+declare var window;
 declare var module;
 
 export default function configureStore() {

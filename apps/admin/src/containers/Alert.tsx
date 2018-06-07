@@ -6,7 +6,7 @@ import { Alerts } from 'components/Alert/Alerts';
 
 const mapStateToProps = ({ alerts }) => {
   return {
-    alerts
+    alerts,
   };
 };
 

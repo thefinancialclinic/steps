@@ -10,29 +10,28 @@ interface Props {
 }
 
 class NoChat extends React.Component<Props, {}> {
-
   render() {
-    const { className, type} = this.props;
+    const { className, type } = this.props;
     let message: string = '';
     let icon: string = '';
 
-    if(type === 'log') {
-      message = "Chatting hasn't started. Come back later."
+    if (type === 'log') {
+      message = "Chatting hasn't started. Come back later.";
       icon = 'message';
     } else {
-      message = "Looks like your client hasn't messaged you yet."
+      message = "Looks like your client hasn't messaged you yet.";
       icon = 'live_help';
     }
 
     return (
-
       <Box width={1} p={4} className={className}>
         <Panel>
-          <div><i className='material-icons'>{icon}</i></div>
+          <div>
+            <i className="material-icons">{icon}</i>
+          </div>
           <div>{message}</div>
         </Panel>
       </Box>
-
     );
   }
 }

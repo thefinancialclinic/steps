@@ -1,5 +1,5 @@
-import { Repository } from "./Repository";
-import { Pool, Client } from "pg";
+import { Repository } from './Repository';
+import { Pool, Client } from 'pg';
 
 export type StepId = number;
 
@@ -25,12 +25,10 @@ export class Step {
 }
 
 export class StepRepository implements Repository<StepId, Step> {
-  constructor(public pool: Pool) { }
+  constructor(public pool: Pool) {}
 
   async getOne(id: StepId): Promise<Step> {
-    const res = await this.pool.query(`SELECT * FROM step WHERE id = $1`, [
-      id
-    ]);
+    const res = await this.pool.query(`SELECT * FROM step WHERE id = $1`, [id]);
     return new Step(res.rows[0]);
   }
 
@@ -46,11 +44,7 @@ export class StepRepository implements Repository<StepId, Step> {
       VALUES ($1, $2, $3)
       RETURNING *
     `,
-      [
-        step.text,
-        step.note,
-        step.task_id,
-      ]
+      [step.text, step.note, step.task_id],
     );
     return new Step(res.rows[0]);
   }
@@ -68,12 +62,7 @@ export class StepRepository implements Repository<StepId, Step> {
       WHERE id = $4
       RETURNING *
     `,
-      [
-        step.text,
-        step.note,
-        step.task_id,
-        step.id,
-      ]
+      [step.text, step.note, step.task_id, step.id],
     );
     return new Step(res.rows[0]);
   }

@@ -34,7 +34,7 @@ class Client extends React.Component<Props, {}> {
             links={[
               { text: 'Tasks', to: `/clients/${client.id}/tasks` },
               { text: 'Goals', to: `/clients/${client.id}/goals` },
-              { text: 'Chat', to: `/clients/${client.id}/chat` }
+              { text: 'Chat', to: `/clients/${client.id}/chat` },
             ]}
           >
             <Link to="/clients">&larr; Back</Link>
@@ -65,14 +65,14 @@ class Client extends React.Component<Props, {}> {
 const StyledClient = styled(Client)``;
 
 const mapStateToProps = (state, props) => ({
-  client: state.clients.clients.find(c => c.id == props.match.params.id)
+  client: state.clients.clients.find(c => c.id == props.match.params.id),
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ getClients }, dispatch)
+  actions: bindActionCreators({ getClients }, dispatch),
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(StyledClient);

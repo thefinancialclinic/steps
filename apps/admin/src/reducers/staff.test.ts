@@ -10,12 +10,12 @@ describe('Staff reducer', () => {
     expect(updatedState).toMatchObject([
       {
         email: 'one@example.com',
-        pendingInvite: true
+        pendingInvite: true,
       },
       {
         email: 'two@example.com',
-        pendingInvite: true
-      }
+        pendingInvite: true,
+      },
     ]);
   });
 });

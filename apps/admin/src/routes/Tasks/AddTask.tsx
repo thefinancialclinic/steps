@@ -41,7 +41,7 @@ class AddTask extends React.Component<Props, {}> {
         <Filter
           categories={[
             { name: 'debt', active: true },
-            { name: 'budget', active: false }
+            { name: 'budget', active: false },
           ]}
         />
         <Flex alignItems="center">
@@ -56,7 +56,7 @@ class AddTask extends React.Component<Props, {}> {
             user_id: this.props.client.id,
             title: faker.lorem.sentence(),
             category: sample(['income', 'expenses', 'credit', 'debt']),
-            description: faker.lorem.paragraph()
+            description: faker.lorem.paragraph(),
           };
           delete userTask.steps;
 
@@ -76,14 +76,14 @@ class AddTask extends React.Component<Props, {}> {
 
 const mapStateToProps = (state, props) => ({
   tasks: state.tasks.tasks.filter(t => !t.user_id),
-  client: state.clients.clients.find(c => (c.id = props.match.params.id))
+  client: state.clients.clients.find(c => (c.id = props.match.params.id)),
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ addTask }, dispatch)
+  actions: bindActionCreators({ addTask }, dispatch),
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(withRouter(AddTask));

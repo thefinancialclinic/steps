@@ -61,27 +61,27 @@ const initialState: ClientsState = {
         {
           topic: 'string',
           message: 'string',
-          time: '2018-06-04T14:44:20.085Z'
-        }
+          time: '2018-06-04T14:44:20.085Z',
+        },
       ],
-      topic: 'string'
-    }
+      topic: 'string',
+    },
   ],
   orgs: [
     {
       id: 0,
       name: 'string',
       sms_number: 'string',
-      logo: 'string'
-    }
-  ]
+      logo: 'string',
+    },
+  ],
 };
 
 export default (state = initialState, action) => {
   if (action.type === SET_CLIENTS) {
     return {
       ...state,
-      clients: action.clients
+      clients: action.clients,
     };
   }
 

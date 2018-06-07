@@ -11,9 +11,9 @@ describe('Alert.tsx', () => {
       {
         level: AlertLevel.Error,
         message: 'some error',
-        id: 'error-id'
-      }
-    ]
+        id: 'error-id',
+      },
+    ],
   };
 
   const mockStore = configureStore();

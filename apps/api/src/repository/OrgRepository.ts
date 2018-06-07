@@ -1,5 +1,5 @@
-import { Repository } from "./Repository";
-import { Pool, Client } from "pg";
+import { Repository } from './Repository';
+import { Pool, Client } from 'pg';
 
 export type OrgId = number;
 
@@ -25,12 +25,10 @@ export class Org {
 }
 
 export class OrgRepository implements Repository<OrgId, Org> {
-  constructor(public pool: Pool) { }
+  constructor(public pool: Pool) {}
 
   async getOne(oid: OrgId) {
-    const res = await this.pool.query(`SELECT * FROM org WHERE id = $1`, [
-      oid
-    ]);
+    const res = await this.pool.query(`SELECT * FROM org WHERE id = $1`, [oid]);
     return new Org(res.rows[0]);
   }
 
@@ -46,7 +44,7 @@ export class OrgRepository implements Repository<OrgId, Org> {
       VALUES ($1, $2, $3)
       RETURNING *
     `,
-      [org.name, org.sms_number, org.logo]
+      [org.name, org.sms_number, org.logo],
     );
     return new Org(res.rows[0]);
   }
@@ -64,7 +62,7 @@ export class OrgRepository implements Repository<OrgId, Org> {
       WHERE id = $4
       RETURNING *
       `,
-      [org.name, org.sms_number, org.logo, org.id]
+      [org.name, org.sms_number, org.logo, org.id],
     );
     return new Org(res.rows[0]);
   }

@@ -8,16 +8,15 @@ import Panel from 'atoms/Panel';
 import InputRow from 'components/Forms/InputRow';
 import Button from 'atoms/Button';
 
-interface Props {
-}
+interface Props {}
 
 class Organization extends React.Component<Props, {}> {
-  render () {
+  render() {
     return (
       <BaseOrganization>
         <Panel>
-          <InputRow label='Organization Logo' />
-          <InputRow label='Name' />
+          <InputRow label="Organization Logo" />
+          <InputRow label="Name" />
           <Button>Edit</Button>
         </Panel>
       </BaseOrganization>
@@ -30,10 +29,11 @@ const BaseOrganization = styled.div`
   margin-right: 100px;
 `;
 
-const mapStateToProps = (state, props) => ({
-});
+const mapStateToProps = (state, props) => ({});
 
-const mapDispatchToProps = dispatch => ({
-});
+const mapDispatchToProps = dispatch => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Organization);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Organization);

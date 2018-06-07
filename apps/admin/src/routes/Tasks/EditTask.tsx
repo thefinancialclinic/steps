@@ -15,27 +15,28 @@ interface Props {
 }
 
 class EditTask extends React.Component<Props, {}> {
-
-  render () {
+  render() {
     const { className, client, task } = this.props;
 
     return (
       <div className={className}>
         <h2>Edit Task</h2>
-        <p>Personalize this task better for your client by editing, adding, or deleting steps.</p>
+        <p>
+          Personalize this task better for your client by editing, adding, or
+          deleting steps.
+        </p>
         <TaskForm task={task} client={client} />
       </div>
     );
   }
 }
 
-const StyledEditTask = styled(EditTask)`
-`;
+const StyledEditTask = styled(EditTask)``;
 
 // TODO: Need to request the specific task in order to get the steps
 const mapStateToProps = (state, props) => ({
-  task: state.tasks.tasks.find(t => t.id = props.match.params.taskId),
-  client: state.clients.clients.find(c => c.id = props.match.params.id)
+  task: state.tasks.tasks.find(t => (t.id = props.match.params.taskId)),
+  client: state.clients.clients.find(c => (c.id = props.match.params.id)),
 });
 
 export default connect(mapStateToProps)(StyledEditTask);

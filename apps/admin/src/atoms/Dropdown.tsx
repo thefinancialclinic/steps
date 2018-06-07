@@ -18,14 +18,14 @@ export class Dropdown extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
     };
     this.toggle = this.toggle.bind(this);
   }
 
   toggle() {
     this.setState(prevState => ({
-      open: !prevState.open
+      open: !prevState.open,
     }));
   }
 

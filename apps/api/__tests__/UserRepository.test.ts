@@ -10,28 +10,30 @@ describe('User entity operations', () => {
   beforeAll(async () => {
     const pool = await getTestConnectionPool({ createFixtures: true });
     repo = new UserRepository(pool);
-    user = await repo.save(new User({
-      first_name: "FIRST",
-      last_name: "LAST",
-      email: "EMAIL",
-      phone: "PHONE",
-      org_id: fixtures.org.id,
-      color: "COLOR",
-      goals: ["walk", "run"],
-      status: "AWAITING_HELP",
-      type: "Client",
-      updated: new Date(),
-      platform: "SMS",
-      follow_up_date: new Date(),
-      plan_url: "http://plan.example.com",
-      checkin_times: [
-        {
-          topic: 'TOPIC',
-          message: 'MESSAGE',
-          time: new Date(),
-        }
-      ],
-    }));
+    user = await repo.save(
+      new User({
+        first_name: 'FIRST',
+        last_name: 'LAST',
+        email: 'EMAIL',
+        phone: 'PHONE',
+        org_id: fixtures.org.id,
+        color: 'COLOR',
+        goals: ['walk', 'run'],
+        status: 'AWAITING_HELP',
+        type: 'Client',
+        updated: new Date(),
+        platform: 'SMS',
+        follow_up_date: new Date(),
+        plan_url: 'http://plan.example.com',
+        checkin_times: [
+          {
+            topic: 'TOPIC',
+            message: 'MESSAGE',
+            time: new Date(),
+          },
+        ],
+      }),
+    );
   });
 
   afterAll(async () => {
@@ -47,5 +49,5 @@ describe('User entity operations', () => {
   it('gets all users', async () => {
     let actual = await repo.getAll();
     expect(actual.filter(foundUser => foundUser.id == user.id).length).toBe(1);
-  })
+  });
 });

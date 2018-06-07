@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { MediaRepository, Media } from "../repository/MediaRepository";
-import { pool } from "../index";
+import { NextFunction, Request, Response } from 'express';
+import { MediaRepository, Media } from '../repository/MediaRepository';
+import { pool } from '../index';
 
 export class MediaController {
   private repo = new MediaRepository(pool);

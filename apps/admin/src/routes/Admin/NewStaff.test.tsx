@@ -7,7 +7,7 @@ import 'jest';
 
 describe('NewStaff.tsx', () => {
   const history = {
-    push: jest.fn()
+    push: jest.fn(),
   };
   const addAlert = jest.fn();
 
@@ -17,7 +17,7 @@ describe('NewStaff.tsx', () => {
       .mockReturnValue(Promise.resolve('some response'));
     const actions = {
       inviteStaff,
-      addAlert
+      addAlert,
     };
     const wrapper = shallow(<NewStaff actions={actions} history={history} />);
     const form = wrapper.find(NewStaffForm);
@@ -33,19 +33,19 @@ describe('NewStaff.tsx', () => {
       .mockReturnValue(Promise.resolve('some response'));
     const actions = {
       inviteStaff,
-      addAlert
+      addAlert,
     };
     const wrapper = shallow(<NewStaff actions={actions} history={history} />);
     const form = wrapper.find(NewStaffForm);
 
     form.simulate('submit', {
-      emails: 'test@example.com,test2@example.com,  test3@example.com'
+      emails: 'test@example.com,test2@example.com,  test3@example.com',
     });
 
     expect(actions.inviteStaff).toHaveBeenCalledWith([
       'test@example.com',
       'test2@example.com',
-      'test3@example.com'
+      'test3@example.com',
     ]);
   });
 
@@ -55,7 +55,7 @@ describe('NewStaff.tsx', () => {
       .mockReturnValue(Promise.resolve('some response'));
     const actions = {
       inviteStaff,
-      addAlert
+      addAlert,
     };
     const wrapper = shallow(<NewStaff actions={actions} history={history} />);
     const form = wrapper.find(NewStaffForm);

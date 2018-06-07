@@ -1,12 +1,12 @@
-import { Repository } from "./Repository";
-import { Pool, Client } from "pg";
+import { Repository } from './Repository';
+import { Pool, Client } from 'pg';
 
 export type MediaId = number;
 export type MediaType =
-  | "TASK_CONTENT"
-  | "TASK_RESOURCE"
-  | "STORY"
-  | "GENERAL_EDUCATION";
+  | 'TASK_CONTENT'
+  | 'TASK_RESOURCE'
+  | 'STORY'
+  | 'GENERAL_EDUCATION';
 
 export type MediaOpts = {
   id?: MediaId;
@@ -48,11 +48,11 @@ export class Media {
 }
 
 export class MediaRepository implements Repository<MediaId, Media> {
-  constructor(public pool: Pool) { }
+  constructor(public pool: Pool) {}
 
   async getOne(id: MediaId): Promise<Media> {
     const res = await this.pool.query(`SELECT * FROM media WHERE id = $1`, [
-      id
+      id,
     ]);
     return new Media(res.rows[0]);
   }
@@ -87,8 +87,8 @@ export class MediaRepository implements Repository<MediaId, Media> {
         media.url,
         media.image,
         media.published_by,
-        media.type
-      ]
+        media.type,
+      ],
     );
     return new Media(res.rows[0]);
   }
@@ -126,7 +126,7 @@ export class MediaRepository implements Repository<MediaId, Media> {
         media.published_by,
         media.type,
         media.id,
-      ]
+      ],
     );
     return new Media(res.rows[0]);
   }
