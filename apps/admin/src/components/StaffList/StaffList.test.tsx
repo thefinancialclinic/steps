@@ -8,14 +8,14 @@ describe('StaffList.tsx', () => {
     const staff: StaffMember[] = [
       {
         email: 'test@example.com',
-        pendingInvite: true
+        pendingInvite: true,
       },
       {
         email: 'test2@example.com',
         pendingInvite: false,
         name: 'John Smith',
-        permissionLevel: PermissionLevel.Administrator
-      }
+        permissionLevel: PermissionLevel.Administrator,
+      },
     ];
 
     const wrapper = shallow(<StaffList staff={staff} />);

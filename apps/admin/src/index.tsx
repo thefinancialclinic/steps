@@ -11,14 +11,14 @@ const rootEl = document.getElementById('root');
 
 declare var module;
 
-const render = (Component) => {
+const render = Component => {
   styleGlobals();
 
   ReactDOM.render(
     <AppContainer>
       <Component store={store} />
     </AppContainer>,
-    rootEl
+    rootEl,
   );
 };
 

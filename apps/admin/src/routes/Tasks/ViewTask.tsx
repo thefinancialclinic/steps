@@ -19,15 +19,15 @@ interface Props {
   actions: { deleteTask };
 }
 
-const steps = (task) => {
+const steps = task => {
   return task.steps.map((step, index) => (
     <p key={`step-${index}`}>{step.text}</p>
   ));
-}
+};
 
 class ViewTask extends React.Component<Props, {}> {
   state = {
-    showModal: false
+    showModal: false,
   };
 
   setModal = showModal => {
@@ -43,7 +43,7 @@ class ViewTask extends React.Component<Props, {}> {
   handleDelete = async () => {
     await this.props.actions.deleteTask(this.props.task.id);
     this.setModal(!this.state.showModal);
-  }
+  };
 
   render() {
     const { className, client, task } = this.props;
@@ -93,11 +93,14 @@ const StyledViewTask = styled(ViewTask)`
 
 const mapStateToProps = (state, props) => ({
   task: state.tasks.tasks.find(t => (t.id = props.match.params.taskId)),
-  client: state.clients.clients.find(c => (c.id = props.match.params.id))
+  client: state.clients.clients.find(c => (c.id = props.match.params.id)),
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ deleteTask }, dispatch)
+  actions: bindActionCreators({ deleteTask }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledViewTask);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(StyledViewTask);

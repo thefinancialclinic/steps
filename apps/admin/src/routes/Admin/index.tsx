@@ -22,7 +22,7 @@ class Profile extends React.Component<Props, {}> {
           links={[
             { to: '/admin/profile', text: 'My Profile' },
             { to: '/admin/organization', text: 'Organization Info' },
-            { to: '/admin/staff', text: 'Manage Staff' }
+            { to: '/admin/staff', text: 'Manage Staff' },
           ]}
         />
         <Switch>
@@ -46,5 +46,5 @@ const mapDispatchToProps = dispatch => ({});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Profile);

@@ -49,10 +49,10 @@ const StyledModal = styled(Modal)`
 `;
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ inviteStaff, addAlert }, dispatch)
+  actions: bindActionCreators({ inviteStaff, addAlert }, dispatch),
 });
 
 export default connect(
   null,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(withRouter(NewStaff));

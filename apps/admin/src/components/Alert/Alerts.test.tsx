@@ -10,12 +10,12 @@ describe('Alerts.tsx', () => {
     const alerts = [
       {
         message: 'some warning',
-        level: AlertLevel.Warning
+        level: AlertLevel.Warning,
       },
       {
         message: 'some error',
-        level: AlertLevel.Error
-      }
+        level: AlertLevel.Error,
+      },
     ];
     const wrapper = shallow(<Alerts alerts={alerts} />);
 

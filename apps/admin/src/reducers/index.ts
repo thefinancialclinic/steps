@@ -12,6 +12,6 @@ export default storageMergeReducer(
     clients,
     tasks,
     alerts,
-    staff
-  })
+    staff,
+  }),
 );

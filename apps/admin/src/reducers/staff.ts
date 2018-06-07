@@ -5,7 +5,7 @@ export default (state = [], action) => {
     case INVITE_STAFF:
       const invitedStaff = action.emails.map(email => ({
         email,
-        pendingInvite: true
+        pendingInvite: true,
       }));
       return [...state, ...invitedStaff];
     default:

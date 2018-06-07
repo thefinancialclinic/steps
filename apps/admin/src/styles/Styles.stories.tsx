@@ -16,7 +16,10 @@ const ColorSquare: any = styled.div`
   text-align: center;
   width: 100px;
 
-  &, > * { box-sizing: border-box; }
+  &,
+  > * {
+    box-sizing: border-box;
+  }
 
   .name {
     margin-bottom: 0.25em;
@@ -43,17 +46,16 @@ const ColorSquare: any = styled.div`
   }
 `;
 
-const Components = storiesOf('Styles', module)
+const Components = storiesOf('Styles', module);
 
-Components
-  .add('Colors', () => {
-    return map(colors, (color, name) => (
-      <ColorSquare color={color} key={name}>
-        <div className='name'>{name}</div>
-        <div className='color' />
-        <input defaultValue={color} />
-      </ColorSquare>
-    ));
-  })
+Components.add('Colors', () => {
+  return map(colors, (color, name) => (
+    <ColorSquare color={color} key={name}>
+      <div className="name">{name}</div>
+      <div className="color" />
+      <input defaultValue={color} />
+    </ColorSquare>
+  ));
+});
 
 export default Components;

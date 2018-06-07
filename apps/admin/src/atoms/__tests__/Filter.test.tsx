@@ -8,12 +8,12 @@ describe('Filter.tsx', () => {
     const categories = [
       {
         name: 'category 1',
-        active: true
+        active: true,
       },
       {
         name: 'category 2',
-        active: false
-      }
+        active: false,
+      },
     ];
     const wrapper = shallow(<Filter categories={categories} />);
 

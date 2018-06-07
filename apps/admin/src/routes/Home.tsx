@@ -11,20 +11,24 @@ interface Props {
 }
 
 class Home extends React.Component<Props, {}> {
-  render () {
+  render() {
     const { className } = this.props;
 
     return (
       <div className={className}>
-        <div className='panel-wrapper'>
-          <div className='blep'>
+        <div className="panel-wrapper">
+          <div className="blep">
             <Panel fill>
-              <Link to="/clients"><Button>My Clients</Button></Link>
+              <Link to="/clients">
+                <Button>My Clients</Button>
+              </Link>
             </Panel>
           </div>
-          <div className='blep'>
+          <div className="blep">
             <Panel fill>
-              <Link to="/clients/new"><Button>New Client</Button></Link>
+              <Link to="/clients/new">
+                <Button>New Client</Button>
+              </Link>
             </Panel>
           </div>
         </div>
@@ -70,8 +74,7 @@ const StyledHome = styled(Home)`
       }
 
       &:hover::before {
-        ${svgBackgroundImage('hover-bg.svg')}
-        background-position: center;
+        ${svgBackgroundImage('hover-bg.svg')} background-position: center;
         background-size: cover;
         opacity: 1;
       }

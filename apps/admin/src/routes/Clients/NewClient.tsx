@@ -40,7 +40,7 @@ export class NewClient extends React.Component<Props> {
       .catch(error => {
         this.props.actions.addAlert({
           type: AlertLevel.Error,
-          message: error
+          message: error,
         });
       });
   };
@@ -73,7 +73,10 @@ export class NewClient extends React.Component<Props> {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ createClient, addAlert }, dispatch)
+  actions: bindActionCreators({ createClient, addAlert }, dispatch),
 });
 
-export default connect(null, mapDispatchToProps)(withRouter(NewClient));
+export default connect(
+  null,
+  mapDispatchToProps,
+)(withRouter(NewClient));

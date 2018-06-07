@@ -8,11 +8,13 @@ describe('media entity operations', () => {
   beforeAll(async () => {
     const pool = await getTestConnectionPool({ createFixtures: true });
     repo = new StepRepository(pool);
-    step = await repo.save(new Step({
-      text: "TEXT",
-      note: "NOTE",
-      task_id: fixtures.task.id,
-    }));
+    step = await repo.save(
+      new Step({
+        text: 'TEXT',
+        note: 'NOTE',
+        task_id: fixtures.task.id,
+      }),
+    );
   });
 
   afterAll(async () => {
@@ -27,5 +29,5 @@ describe('media entity operations', () => {
   it('gets all media', async () => {
     let actual = await repo.getAll();
     expect(actual.filter(x => x.id == step.id).length).toBe(1);
-  })
+  });
 });

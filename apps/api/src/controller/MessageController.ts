@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { MessageRepository, Message } from "../repository/MessageRepository";
-import { pool } from "../index";
+import { NextFunction, Request, Response } from 'express';
+import { MessageRepository, Message } from '../repository/MessageRepository';
+import { pool } from '../index';
 
 export class MessageController {
   private repo = new MessageRepository(pool);

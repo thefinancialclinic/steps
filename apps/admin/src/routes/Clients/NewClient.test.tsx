@@ -13,7 +13,7 @@ describe('NewClient.tsx', () => {
       .mockReturnValue(Promise.reject('some error'));
     const actions = {
       addAlert: jest.fn(),
-      createClient
+      createClient,
     };
     const wrapper = shallow(<NewClient actions={actions} history={history} />);
     const form = wrapper.find(NewClientForm);
@@ -23,7 +23,7 @@ describe('NewClient.tsx', () => {
     process.nextTick(() => {
       expect(actions.addAlert).toHaveBeenCalledWith({
         type: AlertLevel.Error,
-        message: 'some error'
+        message: 'some error',
       });
       done();
     });
@@ -34,7 +34,7 @@ describe('NewClient.tsx', () => {
     const createClient = jest.fn().mockReturnValue(Promise.resolve('success!'));
     const actions = {
       addAlert: jest.fn(),
-      createClient
+      createClient,
     };
     const wrapper = shallow(<NewClient actions={actions} history={history} />);
     const form = wrapper.find(NewClientForm);

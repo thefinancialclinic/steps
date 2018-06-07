@@ -17,7 +17,7 @@ interface Props {
 class ChatMessage extends React.Component<Props, {}> {
   static props = {
     type: 'received',
-    color: mediumBlue
+    color: mediumBlue,
   };
 
   render() {

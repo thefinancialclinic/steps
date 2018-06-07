@@ -1,29 +1,29 @@
-import { Repository } from "./Repository";
-import { Pool, Client } from "pg";
-import { Step } from "./StepRepository";
+import { Repository } from './Repository';
+import { Pool, Client } from 'pg';
+import { Step } from './StepRepository';
 
 export type TaskId = number;
-export type TaskStatus = "ACTIVE" | "COMPLETED" | "ARCHIVED";
-export type TaskDifficulty = "EASY" | "MODERATE" | "DIFFICULT";
+export type TaskStatus = 'ACTIVE' | 'COMPLETED' | 'ARCHIVED';
+export type TaskDifficulty = 'EASY' | 'MODERATE' | 'DIFFICULT';
 
 // Collection of string key-value pairs
 export type ObjectType = {
   [key: string]: string | number | boolean | ObjectType;
-}
+};
 
 export type TaskOpts = {
-  id?: number,
-  title: string,
-  category: string,
-  description?: string,
-  status?: TaskStatus,
-  created_by?: number,
-  user_id?: number,
-  difficulty?: TaskDifficulty,
-  date_created: Date,
-  date_completed?: Date,
-  recurring?: ObjectType,
-  steps?: Step[],
+  id?: number;
+  title: string;
+  category: string;
+  description?: string;
+  status?: TaskStatus;
+  created_by?: number;
+  user_id?: number;
+  difficulty?: TaskDifficulty;
+  date_created: Date;
+  date_completed?: Date;
+  recurring?: ObjectType;
+  steps?: Step[];
 };
 
 export class Task {
@@ -57,11 +57,12 @@ export class Task {
 }
 
 export class TaskRepository implements Repository<TaskId, Task> {
-  constructor(public pool: Pool) { }
+  constructor(public pool: Pool) {}
 
   async getOne(id: TaskId): Promise<Task> {
     // Return a single Task along with the all the steps that belong to it.
-    const res = await this.pool.query(`
+    const res = await this.pool.query(
+      `
       SELECT
         t.id,
         t.title,
@@ -86,7 +87,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
       FROM task t
       WHERE id = $1;
       `,
-      [id]
+      [id],
     );
     return new Task(res.rows[0]);
   }
@@ -124,7 +125,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         task.date_created,
         task.date_completed,
         task.recurring,
-      ]
+      ],
     );
     return new Task(res.rows[0]);
   }
@@ -164,7 +165,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         task.date_completed,
         task.recurring,
         task.id,
-      ]
+      ],
     );
     return new Task(result.rows[0]);
   }

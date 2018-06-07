@@ -25,7 +25,7 @@ export default {
   mediumBlue,
   pink,
   white,
-  yellow
+  yellow,
 };
 
 export const colorFromString = (text: string, colors: string[]): string => {

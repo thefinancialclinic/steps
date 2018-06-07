@@ -1,13 +1,13 @@
-import { Repository } from "./Repository";
-import { Pool, Client } from "pg";
-import { MediaId } from "./MediaRepository";
-import { UserId } from "./UserRepository";
-import { RequestId } from "./RequestRepository";
+import { Repository } from './Repository';
+import { Pool, Client } from 'pg';
+import { MediaId } from './MediaRepository';
+import { UserId } from './UserRepository';
+import { RequestId } from './RequestRepository';
 
 export type MessageId = number;
 export type ObjectType = {
   [key: string]: string | number | boolean | ObjectType;
-}
+};
 
 export type MessageOpts = {
   id?: MessageId;
@@ -43,12 +43,13 @@ export class Message {
 }
 
 export class MessageRepository implements Repository<MessageId, Message> {
-  constructor(public pool: Pool) { }
+  constructor(public pool: Pool) {}
 
   async getOne(id: MessageId): Promise<Message> {
-    const res = await this.pool.query(`SELECT * FROM public.message WHERE id = $1`, [
-      id
-    ]);
+    const res = await this.pool.query(
+      `SELECT * FROM public.message WHERE id = $1`,
+      [id],
+    );
     return new Message(res.rows[0]);
   }
 
@@ -78,16 +79,17 @@ export class MessageRepository implements Repository<MessageId, Message> {
         msg.media_id,
         msg.request_id,
         msg.timestamp,
-        msg.responses
-      ]
+        msg.responses,
+      ],
     );
     return new Message(res.rows[0]);
   }
 
   async delete(id: MessageId): Promise<number> {
-    const res = await this.pool.query(`DELETE FROM public.message WHERE id = $1`, [
-      id
-    ]);
+    const res = await this.pool.query(
+      `DELETE FROM public.message WHERE id = $1`,
+      [id],
+    );
     return res.rowCount;
   }
 
@@ -115,7 +117,7 @@ export class MessageRepository implements Repository<MessageId, Message> {
         msg.timestamp,
         msg.responses,
         msg.id,
-      ]
+      ],
     );
     return new Message(res.rows[0]);
   }

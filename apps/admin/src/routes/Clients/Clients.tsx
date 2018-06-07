@@ -65,13 +65,16 @@ class Clients extends React.Component<Props, {}> {
 }
 
 const mapStateToProps = state => ({
-  clients: state.clients.clients
+  clients: state.clients.clients,
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ getClients }, dispatch)
+  actions: bindActionCreators({ getClients }, dispatch),
 });
 
 const StyledClients = styled(Clients)``;
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledClients);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(StyledClients);

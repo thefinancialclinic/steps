@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { TaskRepository, Task } from "../repository/TaskRepository";
-import { pool } from "../index";
-
+import { NextFunction, Request, Response } from 'express';
+import { TaskRepository, Task } from '../repository/TaskRepository';
+import { pool } from '../index';
 
 export class TaskController {
   private repo = new TaskRepository(pool);
@@ -22,12 +21,12 @@ export class TaskController {
 
   async remove(request: Request, response: Response, next: NextFunction) {
     const num = await this.repo.delete(request.params.id);
-    return { deleted: num }
+    return { deleted: num };
   }
 
   async update(request: Request, response: Response, next: NextFunction) {
     const id = await this.repo.update(request.body);
     response.status(200);
-    return {id: id};
+    return { id: id };
   }
 }

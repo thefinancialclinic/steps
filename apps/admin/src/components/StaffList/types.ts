@@ -15,7 +15,7 @@ export interface User {
 
 export enum PermissionLevel {
   Administrator = 'administrator',
-  Coach = 'coach'
+  Coach = 'coach',
 }
 
 export type StaffMember = PendingInvite | Staff<User>;

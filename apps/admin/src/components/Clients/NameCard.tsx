@@ -11,7 +11,7 @@ import {
   pink,
   yellow,
   white,
-  colorFromString
+  colorFromString,
 } from 'styles/colors';
 
 interface Props {
@@ -20,11 +20,11 @@ interface Props {
 }
 
 class NameCard extends React.Component<Props, {}> {
-  render () {
+  render() {
     return (
       <BaseNameCard {...this.props}>
         <Panel shadow fill>
-          <h3 className='title'>{this.props.title}</h3>
+          <h3 className="title">{this.props.title}</h3>
         </Panel>
       </BaseNameCard>
     );
@@ -34,7 +34,8 @@ class NameCard extends React.Component<Props, {}> {
 const badgeColors = [blue, brown, green, pink, yellow];
 
 const BaseNameCard = styled.div`
-  background-color: ${({ title }) => colorFromString(title.toUpperCase(), badgeColors)};
+  background-color: ${({ title }) =>
+    colorFromString(title.toUpperCase(), badgeColors)};
   border-radius: 4px;
   height: 180px;
   text-align: center;
