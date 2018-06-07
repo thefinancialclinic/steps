@@ -36,15 +36,6 @@ jobs:
             - v1-admin-dependencies-
 
       - run:
-          name: npm install
-          command: npm install
-
-      - run:
-          name: npm install:all
-          command: npm run install:all
-
-
-      - run:
           name: Install additional dependencies
           command: |
             sudo apt-get install --yes --quiet \
@@ -61,6 +52,13 @@ jobs:
               libdbd-pg-perl \
               postgresql-client
 
+      - run:
+          name: npm install
+          command: npm install
+
+      - run:
+          name: npm install:all
+          command: npm run install:all
 
       - run:
           name: Database migrations
