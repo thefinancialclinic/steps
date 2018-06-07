@@ -8,7 +8,7 @@ interface Props {
   links: {
     to: string;
     text: string;
-  }[]
+  }[];
 }
 
 class Sidebar extends React.Component<Props, {}> {
@@ -16,7 +16,11 @@ class Sidebar extends React.Component<Props, {}> {
     return (
       <StyledSidebar>
         {this.props.children}
-        {this.props.links.map((link, i) => <SidebarItem to={link.to} key={i}>{link.text}</SidebarItem>)}
+        {this.props.links.map((link, i) => (
+          <SidebarItem to={link.to} key={i}>
+            {link.text}
+          </SidebarItem>
+        ))}
       </StyledSidebar>
     );
   }

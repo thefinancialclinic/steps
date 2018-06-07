@@ -41,7 +41,7 @@ it('shows each dropdown item when open', () => {
     <Dropdown title="My Rad Dropdown">
       <a className="item-one" />
       <a className="item-two" />
-    </Dropdown>
+    </Dropdown>,
   );
   const toggle = dropdown.find('.dropdown-toggle');
   toggle.simulate('click');

@@ -8,7 +8,7 @@ describe('ButtonLink.tsx', () => {
     const wrapper = shallow(
       <ButtonLink className="my-button-link-class" to="/my/page">
         My button text
-      </ButtonLink>
+      </ButtonLink>,
     );
 
     expect(wrapper).toMatchSnapshot();

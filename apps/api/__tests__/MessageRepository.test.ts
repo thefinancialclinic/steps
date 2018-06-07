@@ -1,4 +1,7 @@
-import { MessageRepository, Message } from '../src/repository/MessageRepository';
+import {
+  MessageRepository,
+  Message,
+} from '../src/repository/MessageRepository';
 import { getTestConnectionPool, fixtures } from './db_helper';
 
 let activeConn;
@@ -8,16 +11,18 @@ describe('Message entity operations', () => {
   let repo: MessageRepository;
 
   beforeAll(async () => {
-    const pool = await getTestConnectionPool({ createFixtures: true })
+    const pool = await getTestConnectionPool({ createFixtures: true });
     repo = new MessageRepository(pool);
-    message = await repo.save(new Message({
-      text: 'My Text',
-      to_user: fixtures.user.id,
-      from_user: fixtures.user.id,
-      media_id: fixtures.media.id,
-      request_id: fixtures.request.id,
-      timestamp: new Date()
-    }));
+    message = await repo.save(
+      new Message({
+        text: 'My Text',
+        to_user: fixtures.user.id,
+        from_user: fixtures.user.id,
+        media_id: fixtures.media.id,
+        request_id: fixtures.request.id,
+        timestamp: new Date(),
+      }),
+    );
   });
 
   afterAll(async () => {
@@ -33,5 +38,5 @@ describe('Message entity operations', () => {
     let actual = await repo.getAll();
     expect(actual.filter(x => x.id == message.id).length).toBe(1);
     expect(actual[0].text).toBe('My Text');
-  })
+  });
 });

@@ -8,19 +8,21 @@ describe('Task entity operations', () => {
   let repo: TaskRepository;
 
   beforeAll(async () => {
-    const pool = await getTestConnectionPool({ createFixtures: true })
+    const pool = await getTestConnectionPool({ createFixtures: true });
     repo = new TaskRepository(pool);
-    task = await repo.save(new Task({
-      title: "TITLE",
-      category: "CATEGORY",
-      description: "DESCRIPTION",
-      status: "ACTIVE",
-      created_by: fixtures.org.id,
-      user_id: fixtures.user.id,
-      difficulty: "EASY",
-      date_created: new Date(),
-      date_completed: new Date(),
-    }));
+    task = await repo.save(
+      new Task({
+        title: 'TITLE',
+        category: 'CATEGORY',
+        description: 'DESCRIPTION',
+        status: 'ACTIVE',
+        created_by: fixtures.org.id,
+        user_id: fixtures.user.id,
+        difficulty: 'EASY',
+        date_created: new Date(),
+        date_completed: new Date(),
+      }),
+    );
   });
 
   afterAll(async () => {
@@ -38,7 +40,7 @@ describe('Task entity operations', () => {
   });
 
   it('updates the task', async () => {
-    const expectedTitle = "NEW TITLE";
+    const expectedTitle = 'NEW TITLE';
     let newTask = await repo.getOne(task.id);
     newTask.title = expectedTitle;
     const actual = await repo.update(newTask);

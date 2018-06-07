@@ -6,7 +6,7 @@ import 'jest';
 describe('Badge.tsx', () => {
   it('renders correctly', () => {
     const wrapper = shallow(
-      <Badge text="badge text" className="my-class-name" />
+      <Badge text="badge text" className="my-class-name" />,
     );
 
     expect(wrapper).toMatchSnapshot();

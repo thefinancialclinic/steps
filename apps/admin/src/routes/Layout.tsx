@@ -10,6 +10,7 @@ import NewClient from './Clients/NewClient';
 import AdminSignup from './Admin/Signup';
 import Admin from './Admin';
 import Alert from 'containers/Alert';
+import AdminNewStaff from './Admin/NewStaff';
 
 const Layout = () => (
   <Wrapper>
@@ -24,7 +25,7 @@ const Layout = () => (
 
         <Route exact path="/admin" component={AdminSignup} />
         <Route exact path="/admin/signup" component={AdminSignup} />
-        <Route exact path="/admin/:route" component={Admin} />
+        <Route path="/admin/:route" component={Admin} />
       </Switch>
     </Switch>
   </Wrapper>

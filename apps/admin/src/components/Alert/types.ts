@@ -1,7 +1,7 @@
 export enum AlertLevel {
   Info = 'info',
   Warning = 'warning',
-  Error = 'error'
+  Error = 'error',
 }
 
 export interface Alert {

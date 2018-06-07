@@ -23,7 +23,7 @@ class NewTask extends React.Component<Props, {}> {
 
     this.props.actions.createTask({
       steps: { foo: 'bar' },
-      content: content.value
+      content: content.value,
     });
   };
 
@@ -49,9 +49,12 @@ class NewTask extends React.Component<Props, {}> {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ createTask }, dispatch)
+  actions: bindActionCreators({ createTask }, dispatch),
 });
 
 const StyledNewTask = styled(NewTask)``;
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledNewTask);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(StyledNewTask);

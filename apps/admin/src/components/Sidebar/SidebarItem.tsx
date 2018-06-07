@@ -17,7 +17,7 @@ class SidebarItem extends React.Component<Props, {}> {
     return (
       <NavLink to={to} className={className} activeClassName="active">
         <span>{children}</span>
-        <div className='bar' />
+        <div className="bar" />
       </NavLink>
     );
   }

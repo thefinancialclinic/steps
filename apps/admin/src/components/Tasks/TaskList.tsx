@@ -3,7 +3,7 @@ import { Flex, Box } from 'grid-styled';
 import {
   SortableContainer,
   SortableElement,
-  arrayMove
+  arrayMove,
 } from 'react-sortable-hoc';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -75,7 +75,7 @@ export class TaskList extends React.Component<Props, {}> {
 
   onSortEnd = ({ oldIndex, newIndex }) => {
     this.props.actions.setTasks(
-      arrayMove(this.props.tasks, oldIndex, newIndex)
+      arrayMove(this.props.tasks, oldIndex, newIndex),
     );
   };
 
@@ -131,14 +131,14 @@ export class ConnectedTaskList extends React.Component<Props, {}> {
 
 const mapStateToProps = (state, props) => ({
   tasks: state.tasks.tasks.filter(t => t.user_id == props.match.params.id),
-  client: state.clients.clients.find(c => c.id == props.match.params.id)
+  client: state.clients.clients.find(c => c.id == props.match.params.id),
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ getTasks, setTasks, setTaskStatus }, dispatch)
+  actions: bindActionCreators({ getTasks, setTasks, setTaskStatus }, dispatch),
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ConnectedTaskList);

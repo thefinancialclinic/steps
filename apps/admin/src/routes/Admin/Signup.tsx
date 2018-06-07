@@ -16,20 +16,27 @@ interface Props {
 }
 
 class Signup extends React.Component<Props, {}> {
-  render () {
+  render() {
     return (
       <div className={this.props.className}>
-        <div className='left'>word</div>
-        <Panel className='right'>
+        <div className="left">word</div>
+        <Panel className="right">
           <h2>Sign Up</h2>
-          <p className='subtext'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime vero qui totam consequatur deserunt harum tempora mollitia quam? Esse corrupti mollitia aspernatur aperiam adipisci doloremque ea libero praesentium, in fuga?</p>
-          <StackedInputRow label='First' />
-          <StackedInputRow label='Last' />
+          <p className="subtext">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime vero
+            qui totam consequatur deserunt harum tempora mollitia quam? Esse
+            corrupti mollitia aspernatur aperiam adipisci doloremque ea libero
+            praesentium, in fuga?
+          </p>
+          <StackedInputRow label="First" />
+          <StackedInputRow label="Last" />
           <StackedInputRow label="Organization's Name" />
-          <StackedInputRow label='Email' />
-          <StackedInputRow label='Password' />
-          <div className='sign-up-button'>
-            <Link to='/admin/profile'><Button>Sign Up</Button></Link>
+          <StackedInputRow label="Email" />
+          <StackedInputRow label="Password" />
+          <div className="sign-up-button">
+            <Link to="/admin/profile">
+              <Button>Sign Up</Button>
+            </Link>
           </div>
         </Panel>
       </div>
@@ -62,10 +69,11 @@ const StyledSignup = styled(Signup)`
   }
 `;
 
-const mapStateToProps = (state, props) => ({
-});
+const mapStateToProps = (state, props) => ({});
 
-const mapDispatchToProps = dispatch => ({
-});
+const mapDispatchToProps = dispatch => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledSignup);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(StyledSignup);

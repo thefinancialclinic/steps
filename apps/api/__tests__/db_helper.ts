@@ -1,18 +1,18 @@
 import {
   MediaId,
   MediaRepository,
-  Media
-} from "../src/repository/MediaRepository";
-import { Org, OrgId, OrgRepository } from "../src/repository/OrgRepository";
-import { Pool } from "pg";
+  Media,
+} from '../src/repository/MediaRepository';
+import { Org, OrgId, OrgRepository } from '../src/repository/OrgRepository';
+import { Pool } from 'pg';
 import {
   RequestRepository,
   RequestId,
-  RequestItem
-} from "../src/repository/RequestRepository";
-import { StepId, StepRepository, Step } from "../src/repository/StepRepository";
-import { TaskId, TaskRepository, Task } from "../src/repository/TaskRepository";
-import { UserId, UserRepository, User } from "../src/repository/UserRepository";
+  RequestItem,
+} from '../src/repository/RequestRepository';
+import { StepId, StepRepository, Step } from '../src/repository/StepRepository';
+import { TaskId, TaskRepository, Task } from '../src/repository/TaskRepository';
+import { UserId, UserRepository, User } from '../src/repository/UserRepository';
 
 let pool: Pool;
 
@@ -28,11 +28,11 @@ let fixtures: {
 const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
   if (!pool) {
     pool = new Pool({
-      user: "postgres",
-      host: "localhost",
-      database: "steps_admin_test",
-      password: "",
-      port: 5432
+      user: 'postgres',
+      host: 'localhost',
+      database: 'steps_admin_test',
+      password: '',
+      port: 5432,
     });
   }
 
@@ -52,10 +52,10 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
     if (!org) {
       org = await new OrgRepository(pool).save(
         new Org({
-          name: "NAME",
-          sms_number: "SMS_NUMBER",
-          logo: "LOGO"
-        })
+          name: 'NAME',
+          sms_number: 'SMS_NUMBER',
+          logo: 'LOGO',
+        }),
       );
     }
 
@@ -64,20 +64,20 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
     if (!user) {
       user = await new UserRepository(pool).save(
         new User({
-          first_name: "FIRST",
-          last_name: "LAST",
-          email: "EMAIL",
-          phone: "PHONE",
+          first_name: 'FIRST',
+          last_name: 'LAST',
+          email: 'EMAIL',
+          phone: 'PHONE',
           org_id: org.id,
-          color: "COLOR",
-          goals: ["walk", "run"],
-          status: "AWAITING_HELP",
-          type: "Client",
+          color: 'COLOR',
+          goals: ['walk', 'run'],
+          status: 'AWAITING_HELP',
+          type: 'Client',
           updated: new Date(),
-          platform: "SMS",
+          platform: 'SMS',
           follow_up_date: new Date(),
           checkin_times: [],
-        })
+        }),
       );
     }
 
@@ -86,16 +86,16 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
     if (!task) {
       task = await new TaskRepository(pool).save(
         new Task({
-          title: "TITLE",
-          category: "CATEGORY",
-          description: "DESCRIPTION",
-          status: "ACTIVE",
+          title: 'TITLE',
+          category: 'CATEGORY',
+          description: 'DESCRIPTION',
+          status: 'ACTIVE',
           created_by: org.id,
           user_id: user.id,
-          difficulty: "EASY",
+          difficulty: 'EASY',
           date_created: new Date(),
           date_completed: new Date(),
-        })
+        }),
       );
     }
 
@@ -104,10 +104,10 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
     if (!request) {
       request = await new RequestRepository(pool).save(
         new RequestItem({
-          status: "NEEDS_ASSISTANCE",
+          status: 'NEEDS_ASSISTANCE',
           user_id: user.id,
           task_id: task.id,
-        })
+        }),
       );
     }
 
@@ -116,10 +116,10 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
     if (!step) {
       step = await new StepRepository(pool).save(
         new Step({
-          text: "TEXT",
-          note: "NOTE",
+          text: 'TEXT',
+          note: 'NOTE',
           task_id: task.id,
-        })
+        }),
       );
     }
 
@@ -130,14 +130,14 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
         new Media({
           step_id: step.id,
           task_id: task.id,
-          title: "TITLE",
-          category: "CATEGORY",
-          description: "DESCRIPTION",
-          url: "URL",
-          image: "IMAGE",
+          title: 'TITLE',
+          category: 'CATEGORY',
+          description: 'DESCRIPTION',
+          url: 'URL',
+          image: 'IMAGE',
           published_by: org.id,
-          type: "GENERAL_EDUCATION",
-        })
+          type: 'GENERAL_EDUCATION',
+        }),
       );
     }
 

@@ -9,7 +9,7 @@ import {
   pink,
   yellow,
   white,
-  colorFromString
+  colorFromString,
 } from 'styles/colors';
 
 const badgeColors = [blue, brown, green, pink, yellow];

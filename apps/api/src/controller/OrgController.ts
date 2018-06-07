@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { OrgRepository, Org } from "../repository/OrgRepository";
-import { pool } from "../index";
-
+import { NextFunction, Request, Response } from 'express';
+import { OrgRepository, Org } from '../repository/OrgRepository';
+import { pool } from '../index';
 
 export class OrgController {
   private repo = new OrgRepository(pool);
@@ -22,6 +21,6 @@ export class OrgController {
 
   async remove(request: Request, response: Response, next: NextFunction) {
     const num = await this.repo.delete(request.params.id);
-    return { deleted: num }
+    return { deleted: num };
   }
 }

@@ -6,7 +6,7 @@ import 'jest';
 describe('Button.tsx', () => {
   it('renders correctly', () => {
     const wrapper = shallow(
-      <Button className="my-button-class">My button text</Button>
+      <Button className="my-button-class">My button text</Button>,
     );
 
     expect(wrapper).toMatchSnapshot();
