@@ -3,7 +3,7 @@
     "start": "$(npm bin)/lerna run start --parallel",
     "start:prod": "(cd apps/api && node .build/index.js)",
     "test": "$(npm bin)/lerna run test",
-    "prettier": "$(npm bin)/prettier apps/**/*.{ts,tsx} !**/node_modules/** --write",
+    "prettier": "$(npm bin)/prettier \"apps/{admin,api}/**/*.{ts,tsx}\" --write",
     "install:all": "$(npm bin)/lerna exec \"npm install\"",
     "heroku-postbuild": "$(npm bin)/lerna bootstrap && $(npm bin)/lerna run build --parallel"
   },
