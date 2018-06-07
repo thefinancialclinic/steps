@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Request renders correctly 1`] = `
+<div
+  date={2018-06-07T00:00:00.000Z}
+  message="I need help"
+  status="NEEDS_ASSISTANCE"
+>
+  <Panel
+    className="container"
+  >
+    <Flex
+      theme={
+        Object {
+          "breakpoints": Array [
+            "40em",
+            "52em",
+            "64em",
+          ],
+          "fontSizes": Array [
+            12,
+            14,
+            16,
+            20,
+            24,
+            32,
+            48,
+            64,
+            96,
+            128,
+          ],
+          "space": Array [
+            0,
+            4,
+            8,
+            16,
+            32,
+            64,
+            128,
+            256,
+            512,
+          ],
+        }
+      }
+    >
+      <div
+        className="status"
+      >
+        Needs assistance
+      </div>
+      <div
+        className="date"
+      >
+        2018-6-7
+      </div>
+    </Flex>
+    <div
+      className="message"
+    >
+      I need help
+    </div>
+  </Panel>
+</div>
+`;

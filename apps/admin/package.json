@@ -6,7 +6,7 @@
   "scripts": {
     "start": "$(npm bin)/webpack-dev-server",
     "build": "$(npm bin)/webpack",
-    "test": "$(npm bin)/jest",
+    "test": "TZ=UTC $(npm bin)/jest",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

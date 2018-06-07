@@ -62,7 +62,7 @@ const StyledRequest = styled(Request)`
 
   .status {
     font-size: 16px;
-    color: ${props => statusColor(props.status)}
+    color: ${props => statusColor(props.status)};
     text-transform: uppercase;
   }
 
