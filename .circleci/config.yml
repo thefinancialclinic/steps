@@ -76,11 +76,11 @@ jobs:
           name: test
           command: npm test
 
-      - run:
-          name: cypress
-          command: |
-            $(npm bin)/cypress install
-            $(npm bin)/cypress run
+      # - run:
+      #     name: cypress
+      #     command: |
+      #       $(npm bin)/cypress install
+      #       $(npm bin)/cypress run
 
       - store_artifacts:
           path: cypress/videos
