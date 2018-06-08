@@ -8,7 +8,9 @@
     "heroku-postbuild": "$(npm bin)/lerna bootstrap && $(npm bin)/lerna run build --parallel"
   },
   "lint-staged": {
-    "*": ["npm run prettier"]
+    "*": [
+      "npm run prettier"
+    ]
   },
   "husky": {
     "hooks": {
