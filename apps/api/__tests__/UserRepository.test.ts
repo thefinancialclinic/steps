@@ -1,9 +1,10 @@
 import { UserRepository, User } from '../src/repository/UserRepository';
-import { getTestConnectionPool, fixtures } from './db_helper';
+import { fixtures, getTestConnectionPool, Pool } from './db_helper';
 
 let activeConn;
 
 describe('User entity operations', () => {
+  let pool: Pool;
   let user: User;
   let repo: UserRepository;
 
@@ -37,7 +38,8 @@ describe('User entity operations', () => {
   });
 
   afterAll(async () => {
-    repo.delete(user.id);
+    await repo.delete(user.id);
+    pool.end();
   });
 
   it('find a user', async () => {

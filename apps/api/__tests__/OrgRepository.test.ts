@@ -1,7 +1,8 @@
 import { OrgRepository, Org } from '../src/repository/OrgRepository';
-import { getTestConnectionPool } from './db_helper';
+import { getTestConnectionPool, Pool } from './db_helper';
 
 describe('Org entity operations', () => {
+  let pool: Pool;
   let org: Org;
   let repo: OrgRepository;
 
@@ -18,7 +19,8 @@ describe('Org entity operations', () => {
   });
 
   afterAll(async () => {
-    repo.delete(org.id);
+    await repo.delete(org.id);
+    pool.end();
   });
 
   it('find an org', async () => {

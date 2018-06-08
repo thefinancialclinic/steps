@@ -155,4 +155,4 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
   return pool;
 };
 
-export { getTestConnectionPool, fixtures };
+export { getTestConnectionPool, fixtures, Pool };

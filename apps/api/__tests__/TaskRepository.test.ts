@@ -1,9 +1,10 @@
 import { TaskRepository, Task } from '../src/repository/TaskRepository';
-import { fixtures, getTestConnectionPool } from './db_helper';
+import { fixtures, getTestConnectionPool, Pool } from './db_helper';
 
 let activeConn;
 
 describe('Task entity operations', () => {
+  let pool: Pool;
   let task: Task;
   let repo: TaskRepository;
 
@@ -26,7 +27,8 @@ describe('Task entity operations', () => {
   });
 
   afterAll(async () => {
-    repo.delete(task.id);
+    await repo.delete(task.id);
+    pool.end();
   });
 
   it('find a task', async () => {
