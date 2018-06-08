@@ -23,11 +23,11 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
       - restore_cache:
-          key: v1-api-dependencies-{{ checksum "apps/api/package.json" }}
+          key: v1-api-dependencies-{{ checksum "apps/api/package-lock.json" }}
       - restore_cache:
-          key: v1-admin-dependencies-{{ checksum "apps/admin/package.json" }}
+          key: v1-admin-dependencies-{{ checksum "apps/admin/package-lock.json" }}
 
       - run:
           name: Install additional dependencies
