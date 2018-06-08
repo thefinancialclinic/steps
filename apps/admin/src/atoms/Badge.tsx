@@ -21,20 +21,16 @@ interface Props {
   rounded?: boolean;
 }
 
-class Badge extends React.Component<Props, {}> {
-  render() {
-    const { className, text } = this.props;
+const Badge: React.SFC<Props> = props => (
+  <StyledBadge {...props}>{props.text}></StyledBadge>
+);
 
-    return <div className={className}>{text}</div>;
-  }
-}
-
-const StyledBadge = styled(Badge)`
+const StyledBadge = styled<Props, 'div'>('div')`
   background-color: ${({ color, text }) => {
     if (color) return color;
     return colorFromString(text.toUpperCase(), badgeColors);
   }};
-  border-radius: ${props => (props.rounded ? 1000 : 4)}px;
+  border-radius: ${({ rounded }) => (rounded ? 1000 : 4)}px;
   color: ${white};
   display: inline-block;
   font-size: 0.825rem;
@@ -45,4 +41,4 @@ const StyledBadge = styled(Badge)`
   text-transform: uppercase;
 `;
 
-export default StyledBadge;
+export default Badge;

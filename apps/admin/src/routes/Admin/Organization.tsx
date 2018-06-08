@@ -1,39 +1,27 @@
-import React from 'react';
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import styled from 'styled-components';
-
+import Button from 'atoms/Buttons/Button';
+import Main from 'atoms/Main';
 import Panel from 'atoms/Panel';
-import InputRow from 'components/Forms/InputRow';
-import Button from 'atoms/Button';
+import DataRow from 'components/DataTable/DataRow';
+import DataTable from 'components/DataTable/DataTable';
+import React from 'react';
+import { Flex } from 'grid-styled';
 
-interface Props {}
-
-class Organization extends React.Component<Props, {}> {
+class Organization extends React.Component<{}, {}> {
   render() {
     return (
-      <BaseOrganization>
+      <Main>
         <Panel>
-          <InputRow label="Organization Logo" />
-          <InputRow label="Name" />
-          <Button>Edit</Button>
+          <DataTable>
+            <DataRow label="Organization Logo">Logo goes here</DataRow>
+            <DataRow label="Name">Name goes here</DataRow>
+          </DataTable>
+          <Flex justifyContent="center">
+            <Button>Edit</Button>
+          </Flex>
         </Panel>
-      </BaseOrganization>
+      </Main>
     );
   }
 }
-const BaseOrganization = styled.div`
-  flex: 2;
-  margin-left: 100px;
-  margin-right: 100px;
-`;
 
-const mapStateToProps = (state, props) => ({});
-
-const mapDispatchToProps = dispatch => ({});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Organization);
+export default Organization;

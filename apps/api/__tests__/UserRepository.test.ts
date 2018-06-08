@@ -9,7 +9,7 @@ describe('User entity operations', () => {
   let repo: UserRepository;
 
   beforeAll(async () => {
-    const pool = await getTestConnectionPool({ createFixtures: true });
+    pool = await getTestConnectionPool({ createFixtures: true });
     repo = new UserRepository(pool);
     user = await repo.save(
       new User({
@@ -39,7 +39,7 @@ describe('User entity operations', () => {
 
   afterAll(async () => {
     await repo.delete(user.id);
-    pool.end();
+    await pool.end();
   });
 
   it('find a user', async () => {

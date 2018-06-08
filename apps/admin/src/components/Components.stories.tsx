@@ -9,9 +9,8 @@ import { withKnobs } from '@storybook/addon-knobs/react';
 import ChatMedia from './Chat/ChatMedia';
 import ChatMessage from './Chat/ChatMessage';
 
-import InputRow from './Forms/InputRow';
 import NameCard from './Clients/NameCard';
-import NavDropdown from './NavDropdown/NavDropdown';
+import NavDropdown from './Dropdowns/NavDropdown';
 import NavGroup from './NavGroup/NavGroup';
 import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
@@ -23,13 +22,19 @@ import TaskTemplate from './Tasks/TaskTemplate';
 import TermsModal from './Clients/TermsModal';
 import { TaskList } from './Tasks/TaskList';
 
-import { Alerts } from './Alert/Alerts';
+import { AlertsList } from './Alert/AlertsList';
 import { AlertLevel } from './Alert/types';
 import { Alert } from './Alert/Alert';
 import { PermissionLevel } from './StaffList/types';
 
 import { pink, lightBlue, white } from 'styles/colors';
 import 'styles/global';
+import Table from 'atoms/Table/Table';
+import DataRow from './DataTable/DataRow';
+import DataTable from './DataTable/DataTable';
+import PageHeader from 'components/Headers/PageHeader';
+import Button from 'atoms/Buttons/Button';
+import Input from 'atoms/Input/Input';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -75,7 +80,6 @@ export const Components = storiesOf('Components', module)
     />
   ))
   .add('Sidebar', () => <Sidebar links={[{ to: '', text: '' }]} />)
-  .add('Input Row', () => <InputRow label="Bob" name="name" />)
   .add('Staff List', () => (
     <StaffList
       staff={[
@@ -142,6 +146,17 @@ export const Components = storiesOf('Components', module)
   ))
   .add('Info Alert', () => (
     <Alert level={AlertLevel.Info}>This is an info alert</Alert>
+  ))
+  .add('Data Table', () => (
+    <DataTable>
+      <DataRow label="label">Some data</DataRow>
+    </DataTable>
+  ))
+  .add('Page Header', () => (
+    <PageHeader label="Page Header">
+      <Input />
+      <Button>Some Button</Button>
+    </PageHeader>
   ));
 
 export default Components;

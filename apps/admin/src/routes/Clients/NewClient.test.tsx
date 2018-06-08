@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { NewClient } from './NewClient';
 import NewClientForm from './NewClientForm';
 import * as React from 'react';
-import { AlertLevel } from 'components/Alert/types';
+import { AlertLevel } from '../../components/Alert/types';
 
 describe('NewClient.tsx', () => {
   it('displays an error if the client response is an error', done => {

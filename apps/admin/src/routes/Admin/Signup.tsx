@@ -1,15 +1,15 @@
-import React from 'react';
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import styled from 'styled-components';
-
-import Button from 'atoms/Button';
-import StackedInputRow from 'components/Forms/StackedInputRow';
+import Button from 'atoms/Buttons/Button';
+import Input from 'atoms/Input/Input';
+import Main from 'atoms/Main';
 import Panel from 'atoms/Panel';
-
-import { remCalc } from 'styles/type';
-import { grey } from 'styles/colors';
+import Subtext from 'atoms/Subtext';
+import DataRow from 'components/DataTable/DataRow';
+import DataTable from 'components/DataTable/DataTable';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { Flex } from 'grid-styled';
 
 interface Props {
   className?: string;
@@ -18,54 +18,58 @@ interface Props {
 class Signup extends React.Component<Props, {}> {
   render() {
     return (
-      <div className={this.props.className}>
-        <div className="left">word</div>
+      <Main>
         <Panel className="right">
           <h2>Sign Up</h2>
-          <p className="subtext">
+          <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime vero
             qui totam consequatur deserunt harum tempora mollitia quam? Esse
             corrupti mollitia aspernatur aperiam adipisci doloremque ea libero
             praesentium, in fuga?
           </p>
-          <StackedInputRow label="First" />
-          <StackedInputRow label="Last" />
-          <StackedInputRow label="Organization's Name" />
-          <StackedInputRow label="Email" />
-          <StackedInputRow label="Password" />
-          <div className="sign-up-button">
+          <h2>Sign Up</h2>
+          <Subtext />
+          <DataTable>
+            <DataRow label="First">
+              <Input />
+            </DataRow>
+            <DataRow label="Last">
+              <Input />
+            </DataRow>
+            <DataRow label="Organization's Name">
+              <Input />
+            </DataRow>
+            <DataRow label="Email">
+              <Input />
+            </DataRow>
+            <DataRow label="Password">
+              <Input type="password" />
+            </DataRow>
+          </DataTable>
+          <Flex justifyContent="center">
             <Link to="/admin/profile">
               <Button>Sign Up</Button>
             </Link>
-          </div>
+          </Flex>
         </Panel>
-      </div>
+      </Main>
     );
   }
 }
+
+const Right = styled(Panel)`
+  border-radius: 0;
+  display: table-cell;
+  min-height: 100%;
+  padding: 30px;
+  width: 400px;
+`;
+
 const StyledSignup = styled(Signup)`
   display: table;
   min-height: 100%;
 
-  .left {
-    width: 100%;
-  }
-
   .right {
-    border-radius: 0;
-    display: table-cell;
-    min-height: 100%;
-    padding: 30px;
-    width: 400px;
-  }
-
-  .subtext {
-    color: ${grey};
-    margin-bottom: ${remCalc(40)};
-  }
-
-  .sign-up-button {
-    text-align: center;
   }
 `;
 

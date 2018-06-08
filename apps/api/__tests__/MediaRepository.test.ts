@@ -26,7 +26,7 @@ describe('media entity operations', () => {
 
   afterAll(async () => {
     await repo.delete(media.id);
-    pool.end();
+    await pool.end();
   });
 
   it('find a media', async () => {

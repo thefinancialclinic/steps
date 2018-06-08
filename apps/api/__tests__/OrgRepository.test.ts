@@ -7,7 +7,7 @@ describe('Org entity operations', () => {
   let repo: OrgRepository;
 
   beforeAll(async () => {
-    const pool = await getTestConnectionPool({ createFixtures: true });
+    pool = await getTestConnectionPool({ createFixtures: true });
     repo = new OrgRepository(pool);
     org = await repo.save(
       new Org({
@@ -20,7 +20,7 @@ describe('Org entity operations', () => {
 
   afterAll(async () => {
     await repo.delete(org.id);
-    pool.end();
+    await pool.end();
   });
 
   it('find an org', async () => {

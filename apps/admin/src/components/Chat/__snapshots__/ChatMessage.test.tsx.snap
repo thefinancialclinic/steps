@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`ChatMessage.tsx renders correctly 1`] = `
-<ChatMessage
-  className="sc-htpNat FesiK"
-  text="test message"
-/>
-`;
