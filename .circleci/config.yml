@@ -58,17 +58,17 @@ jobs:
             sqitch deploy --target pg://postgres@localhost/steps_admin_test
 
       - save_cache:
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
           paths:
             - ~/repo/node_modules
 
       - save_cache:
-          key: v1-api-dependencies-{{ checksum "apps/api/package.json" }}
+          key: v1-api-dependencies-{{ checksum "apps/api/package-lock.json" }}
           paths:
             - ~/repo/apps/api/node_modules
 
       - save_cache:
-          key: v1-admin-dependencies-{{ checksum "apps/admin/package.json" }}
+          key: v1-admin-dependencies-{{ checksum "apps/admin/package-lock.json" }}
           paths:
             - ~/repo/apps/admin/node_modules
 
