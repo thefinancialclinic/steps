@@ -65,7 +65,6 @@ const checkJwt = jwt({
 new OrgRepository(pool).seed();
 new UserRepository(pool).seed();
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // App / Middlewares
 

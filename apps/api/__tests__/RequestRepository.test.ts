@@ -2,9 +2,10 @@ import {
   RequestRepository,
   RequestItem,
 } from '../src/repository/RequestRepository';
-import { getTestConnectionPool, fixtures } from './db_helper';
+import { fixtures, getTestConnectionPool, Pool } from './db_helper';
 
 describe('media entity operations', () => {
+  let pool: Pool;
   let request: RequestItem;
   let repo: RequestRepository;
 
@@ -21,7 +22,8 @@ describe('media entity operations', () => {
   });
 
   afterAll(async () => {
-    repo.delete(request.id);
+    await repo.delete(request.id);
+    pool.end();
   });
 
   it('find a request', async () => {
