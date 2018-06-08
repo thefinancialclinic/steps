@@ -6,7 +6,6 @@ import DataTable from 'components/DataTable/DataTable';
 import { Flex } from 'grid-styled';
 import React from 'react';
 
-
 interface Props {
   className?: string;
 }

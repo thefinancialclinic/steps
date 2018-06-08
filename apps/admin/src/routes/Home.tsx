@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { svgBackgroundImageUrl } from 'styles';
 
-
 interface Props {
   className?: string;
 }

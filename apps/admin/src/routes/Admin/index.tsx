@@ -9,7 +9,7 @@ import AdminOrganization from './Organization';
 import AdminProfile from './Profile';
 import AdminSignup from './Signup';
 import AdminStaff from './Staff';
-import { Flex, Box } from 'grid-styled'
+import { Flex, Box } from 'grid-styled';
 
 interface Props {
   className?: string;
