@@ -2,7 +2,7 @@
   "scripts": {
     "start": "$(npm bin)/lerna run start --parallel",
     "start:prod": "(cd apps/api && node .build/index.js)",
-    "test": "$(npm bin)/lerna run test",
+    "test": "$(npm bin)/lerna run test --parallel",
     "cypress": "$(npm bin)/cypress run",
     "install:all": "$(npm bin)/lerna exec \"npm install\"",
     "prettier": "$(npm bin)/prettier \"apps/{admin,api}/**/*.{ts,tsx}\" --write",
@@ -25,7 +25,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "$(npm bin)/lint-staged",
-      "pre-push": "npm test -- --parallel"
+      "pre-push": "npm test"
     }
   },
   "devDependencies": {
