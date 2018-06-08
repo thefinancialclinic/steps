@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Panel from 'atoms/Panel';
 import Button from 'atoms/Button';
-import { svgBackgroundImage } from 'styles/';
+import { svgBackgroundImageUrl } from 'styles/';
 
 interface Props {
   className?: string;
@@ -74,7 +74,8 @@ const StyledHome = styled(Home)`
       }
 
       &:hover::before {
-        ${svgBackgroundImage('hover-bg.svg')} background-position: center;
+        background-image: ${svgBackgroundImageUrl('hover-bg.svg')};
+        background-position: center;
         background-size: cover;
         opacity: 1;
       }

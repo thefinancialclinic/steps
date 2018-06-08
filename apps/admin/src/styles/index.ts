@@ -1,6 +1,6 @@
-export const svgBackgroundImage = svgPath => {
+export const svgBackgroundImageUrl = svgPath => {
   const svg = require(`../assets/${svgPath}`);
-  return `background-image: url("data:image/svg+xml;utf8,${encodeURIComponent(
-    svg,
-  )}");`;
+  const encodedSvg = encodeURIComponent(svg);
+
+  return `url("data:image/svg+xml;utf8,${encodedSvg}")`;
 };

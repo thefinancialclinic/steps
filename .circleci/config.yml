@@ -10,6 +10,10 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_DB: steps_admin_test
 
+      - image: cypress/base:6
+        environment:
+          TERM: xterm
+
     environment:
       NODE_ENV: test
 
@@ -19,17 +23,26 @@ jobs:
       - checkout
 
       - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
+          key: v1-dependencies-{{ checksum "package.json" }}
       - restore_cache:
-          keys:
-            - v1-api-dependencies-{{ checksum "apps/api/package.json" }}
-            - v1-api-dependencies-
+          key: v1-api-dependencies-{{ checksum "apps/api/package.json" }}
       - restore_cache:
-          keys:
-            - v1-admin-dependencies-{{ checksum "apps/admin/package.json" }}
-            - v1-admin-dependencies-
+          key: v1-admin-dependencies-{{ checksum "apps/admin/package.json" }}
+
+      - run:
+          name: Install additional dependencies
+          command: |
+            sudo apt-get install --yes --quiet \
+              libgtk2.0-0 \
+              libnotify-dev \
+              libgconf-2-4 \
+              libnss3 \
+              libxss1 \
+              libasound2 \
+              xvfb \
+              sqitch \
+              libdbd-pg-perl \
+              postgresql-client
 
       - run:
           name: npm install
@@ -42,25 +55,34 @@ jobs:
       - run:
           name: Database migrations
           command: |
-            sudo apt-get --yes --quiet install sqitch
-            sudo apt-get --yes --quiet install libdbd-pg-perl postgresql-client
             sqitch deploy --target pg://postgres@localhost/steps_admin_test
 
       - save_cache:
-          paths:
-            - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+            - ~/repo/node_modules
 
       - save_cache:
-          paths:
-            - apps/api/node_modules
           key: v1-api-dependencies-{{ checksum "apps/api/package.json" }}
+          paths:
+            - ~/repo/apps/api/node_modules
 
       - save_cache:
-          paths:
-            - apps/admin/node_modules
           key: v1-admin-dependencies-{{ checksum "apps/admin/package.json" }}
+          paths:
+            - ~/repo/apps/admin/node_modules
 
       - run:
           name: test
           command: npm test
+
+      # - run:
+      #     name: cypress
+      #     command: |
+      #       $(npm bin)/cypress install
+      #       $(npm bin)/cypress run
+
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
