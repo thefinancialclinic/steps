@@ -1,12 +1,13 @@
 import { MediaRepository, Media } from '../src/repository/MediaRepository';
-import { fixtures, getTestConnectionPool } from './db_helper';
+import { fixtures, getTestConnectionPool, Pool } from './db_helper';
 
 describe('media entity operations', () => {
+  let pool: Pool;
   let media: Media;
   let repo: MediaRepository;
 
   beforeAll(async () => {
-    const pool = await getTestConnectionPool({ createFixtures: true });
+    pool = await getTestConnectionPool({ createFixtures: true });
     repo = new MediaRepository(pool);
     media = await repo.save(
       new Media({
@@ -25,6 +26,7 @@ describe('media entity operations', () => {
 
   afterAll(async () => {
     repo.delete(media.id);
+    pool.end();
   });
 
   it('find a media', async () => {
