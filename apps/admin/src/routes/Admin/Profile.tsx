@@ -1,12 +1,10 @@
-import React from 'react';
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import styled from 'styled-components';
-
+import Button from 'atoms/Buttons/Button';
+import Main from 'atoms/Main';
 import Panel from 'atoms/Panel';
-import InputRow from 'components/Forms/InputRow';
-import Button from 'atoms/Button';
+import DataRow from 'components/DataTable/DataRow';
+import DataTable from 'components/DataTable/DataTable';
+import { Flex } from 'grid-styled';
+import React from 'react';
 
 interface Props {
   className?: string;
@@ -15,22 +13,21 @@ interface Props {
 class Profile extends React.Component<Props, {}> {
   render() {
     return (
-      <div className={this.props.className}>
+      <Main>
         <Panel>
-          <InputRow label="profile picture" />
-          <InputRow label="name" />
-          <InputRow label="email" />
-          <InputRow label="password" />
-          <Button>Edit</Button>
+          <DataTable>
+            <DataRow label="profile picture">Profile picture goes here</DataRow>
+            <DataRow label="name">Jane Smith</DataRow>
+            <DataRow label="email">jane@example.com</DataRow>
+            <DataRow label="password">********</DataRow>
+          </DataTable>
+          <Flex justifyContent="center">
+            <Button>Edit</Button>
+          </Flex>
         </Panel>
-      </div>
+      </Main>
     );
   }
 }
-const StyledProfile = styled(Profile)`
-  flex: 2;
-  margin-left: 100px;
-  margin-right: 100px;
-`;
 
-export default StyledProfile;
+export default Profile;

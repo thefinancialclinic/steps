@@ -6,9 +6,11 @@ import { Flex, Box } from 'grid-styled';
 import { getClients } from 'actions/clients';
 import styled from 'styled-components';
 
-import ButtonLink from 'atoms/ButtonLink';
 import Panel from 'atoms/Panel';
 import NameCard from 'components/Clients/NameCard';
+import Main from 'atoms/Main';
+import PageHeader from 'components/Headers/PageHeader';
+import Button from 'atoms/Buttons/Button';
 
 interface Props {
   className?: string;
@@ -44,22 +46,19 @@ class Clients extends React.Component<Props, {}> {
       );
 
     return (
-      <div className={this.props.className}>
+      <Main>
         <Box width={1}>
           <Link to="/">&larr; Back</Link>
         </Box>
-        <Flex justifyContent="space-between" alignItems="center">
-          <Box>
-            <h2>My Clients</h2>
-          </Box>
-          <Box>
-            <ButtonLink to="/clients/new">Add New Client</ButtonLink>
-          </Box>
-        </Flex>
+        <PageHeader label="My Clients">
+          <Link to="/clients/new">
+            <Button>Add New Client</Button>
+          </Link>
+        </PageHeader>
         <Flex className="clients" flexWrap="wrap">
           {ClientsList}
         </Flex>
-      </div>
+      </Main>
     );
   }
 }

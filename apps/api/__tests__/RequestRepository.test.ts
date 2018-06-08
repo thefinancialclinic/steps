@@ -10,7 +10,7 @@ describe('media entity operations', () => {
   let repo: RequestRepository;
 
   beforeAll(async () => {
-    const pool = await getTestConnectionPool({ createFixtures: true });
+    pool = await getTestConnectionPool({ createFixtures: true });
     repo = new RequestRepository(pool);
     request = await repo.save(
       new RequestItem({
@@ -23,7 +23,7 @@ describe('media entity operations', () => {
 
   afterAll(async () => {
     await repo.delete(request.id);
-    pool.end();
+    await pool.end();
   });
 
   it('find a request', async () => {

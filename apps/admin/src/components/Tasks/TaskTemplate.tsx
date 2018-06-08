@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
+import Badge from 'atoms/Badge';
+import Panel from 'atoms/Panel';
+import { Box, Flex } from 'grid-styled';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import { green, white } from 'styles/colors';
-import Input from 'atoms/Input';
-import Badge from 'atoms/Badge';
-import Button from 'atoms/Button';
-import Panel from 'atoms/Panel';
-import StackedInputRow from 'components/Forms/StackedInputRow';
 import { Task } from '../../reducers/tasks';
 
 interface Props {

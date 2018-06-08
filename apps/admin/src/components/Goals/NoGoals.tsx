@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import { yellow } from 'styles/colors';
-import ButtonLink from 'atoms/ButtonLink';
 import Panel from 'atoms/Panel';
+import { Link } from 'react-router-dom';
+import Button from 'atoms/Buttons/Button';
 
 interface Props {
   className?: string;
@@ -21,7 +22,9 @@ class NoGoals extends React.Component<Props, {}> {
           </div>
           <div>Create your first goal.</div>
           <Box m={2}>
-            <ButtonLink to="/clients/:id/goals/new">Add Goal</ButtonLink>
+            <Link to="/clients/:id/goals/new">
+              <Button>Add Goal</Button>
+            </Link>
           </Box>
         </Panel>
       </Box>

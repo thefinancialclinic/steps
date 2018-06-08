@@ -4,11 +4,10 @@ import styled from 'styled-components';
 import { green, grey, white, black, mediumBlue } from 'styles/colors';
 import { remCalc } from 'styles/type';
 import Badge from 'atoms/Badge';
-import Button from 'atoms/Button';
-import Input from 'atoms/Input';
+import Button from 'atoms/Buttons/Button';
+import Input from 'atoms/Input/Input';
 import { Link } from 'react-router-dom';
 import Panel from 'atoms/Panel';
-import StackedInputRow from 'components/Forms/StackedInputRow';
 import TaskStep from './TaskStep';
 
 interface Props {

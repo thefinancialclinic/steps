@@ -1,18 +1,16 @@
+import Button from 'atoms/Buttons/Button';
+import { Box } from 'grid-styled';
 import React from 'react';
-import { Flex, Box } from 'grid-styled';
-import {
-  SortableContainer,
-  SortableElement,
-  arrayMove,
-} from 'react-sortable-hoc';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { SortableContainer, arrayMove } from 'react-sortable-hoc';
 import { bindActionCreators } from 'redux';
-import { grey, mediumBlue, white } from 'styles/colors';
-import { setTaskStatus, getTasks, setTasks } from 'actions/tasks';
-import ButtonLink from 'atoms/ButtonLink';
 import styled from 'styled-components';
-import TaskListItem from './TaskListItem';
+import { grey, mediumBlue, white } from 'styles/colors';
 import NoTasks from './NoTasks';
+import TaskListItem from './TaskListItem';
+import { getTasks, setTasks, setTaskStatus } from 'actions/tasks';
+import { Flex } from 'grid-styled';
 
 interface Props {
   className?: string;
@@ -102,9 +100,9 @@ export class TaskList extends React.Component<Props, {}> {
             setTaskStatus={this.props.actions.setTaskStatus}
           />
           <Flex justifyContent="center">
-            <ButtonLink to={`/clients/${client.id}/tasks/add`}>
-              Add New Task
-            </ButtonLink>
+            <Link to={`/clients/${client.id}/tasks/add`}>
+              <Button>Add New Task</Button>
+            </Link>
           </Flex>
         </Box>
       ) : (

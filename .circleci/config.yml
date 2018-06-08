@@ -56,8 +56,12 @@ jobs:
             - ~/repo/apps/admin/node_modules
 
       - run:
-          name: test
-          command: npm test
+          name: "Test: Admin"
+          command: $(npm bin)/lerna run test --scope=steps-admin --stream
+
+      - run:
+          name: "Test: Api"
+          command: $(npm bin)/lerna run test --scope=steps-api --stream
 
       # - run:
       #     name: cypress

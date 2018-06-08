@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Panel.tsx renders correctly 1`] = `
-<styled.div>
-  My Panel Content
-</styled.div>
-`;

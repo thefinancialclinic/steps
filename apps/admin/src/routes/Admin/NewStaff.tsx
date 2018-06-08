@@ -1,15 +1,14 @@
-import * as React from 'react';
-import Modal from '../../components/Modal';
-import styled from 'styled-components';
-import ButtonLink from 'atoms/ButtonLink';
-import NewStaffForm from './NewStaffForm';
 import { AlertLevel } from 'components/Alert/types';
-import { bindActionCreators } from 'redux';
+import * as React from 'react';
 import { connect } from 'react-redux';
-import { addAlert } from 'actions/alerts';
-import { inviteStaff } from 'actions/staff';
 import { History } from 'react-router';
 import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import styled from 'styled-components';
+import Modal from '../../components/Modal';
+import NewStaffForm from './NewStaffForm';
+import { inviteStaff } from 'actions/staff';
+import { addAlert } from 'actions/alerts';
 
 interface Props {
   actions: { inviteStaff; addAlert };

@@ -12,7 +12,7 @@ describe('Message entity operations', () => {
   let repo: MessageRepository;
 
   beforeAll(async () => {
-    const pool = await getTestConnectionPool({ createFixtures: true });
+    pool = await getTestConnectionPool({ createFixtures: true });
     repo = new MessageRepository(pool);
     message = await repo.save(
       new Message({
@@ -28,7 +28,7 @@ describe('Message entity operations', () => {
 
   afterAll(async () => {
     await repo.delete(message.id);
-    pool.end();
+    await pool.end();
   });
 
   it('find a message', async () => {
