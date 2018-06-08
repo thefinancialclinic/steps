@@ -1,9 +1,8 @@
-import { shallow, mount } from 'enzyme';
-import { NewStaff } from './NewStaff';
-import * as React from 'react';
-import Button from '../../atoms/Buttons/Button';
-import NewStaffForm from './NewStaffForm';
+import { shallow } from 'enzyme';
 import 'jest';
+import * as React from 'react';
+import { NewStaff } from './NewStaff';
+import NewStaffForm from 'forms/NewStaffForm';
 
 describe('NewStaff.tsx', () => {
   const history = {

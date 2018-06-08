@@ -1,7 +1,7 @@
 import 'jest';
 import { shallow } from 'enzyme';
 import { NewClient } from './NewClient';
-import NewClientForm from './NewClientForm';
+import NewClientForm from 'forms/NewClientForm';
 import * as React from 'react';
 import { AlertLevel } from '../../components/Alert/types';
 

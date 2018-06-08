@@ -8,7 +8,7 @@ import Badge from './Badge';
 import BackButton from './Buttons/BackButton';
 import Button from './Buttons/Button';
 import Filter from '../components/Filter';
-import Input from './Form/Input';
+import Input from './Input/Input';
 import Main from './Main';
 import Panel from './Panel';
 
@@ -28,7 +28,11 @@ const Stories = storiesOf('Atoms', module)
     </Dropdown>
   ))
   .add('Input', () => (
-    <Input rounded={boolean('Rounded', false)} type={text('Type', 'text')} />
+    <Input
+      rounded={boolean('Rounded', false)}
+      type={text('Type', 'text')}
+      name="my input"
+    />
   ))
   .add('Filter', () => (
     <Filter
