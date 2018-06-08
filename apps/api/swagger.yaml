@@ -40,9 +40,6 @@ components:
           nullable: true
     Media:
       properties:
-        step_id:
-          type: integer
-          nullable: true
         task_id:
           type: integer
           nullable: true
@@ -86,8 +83,6 @@ components:
         note:
           type: string
           nullable: true
-        task_id:
-          type: number
     Task:
       properties:
         title:
@@ -126,8 +121,7 @@ components:
           nullable: true
           type: array
           items:
-            type:
-              $ref: '#components/schemas/Step'
+            $ref: '#components/schemas/Step'
     User:
       properties:
         first_name:
@@ -466,10 +460,6 @@ paths:
       description: >
         The updated task must have all fields provided. You could use the
         result of a GET /tasks/{id} call to populate the body of this request.
-        The one caveat is related to GET on a single task. You'll need to delete
-        the 'steps', and 'id' keys from your JSON payload. 'steps' must be
-        deleted because it is a synthetic field obtained by joining with the
-        step resource. 'id' must be deleted because it is given as a url param.
       parameters:
         - in: path
           name: id
@@ -479,7 +469,7 @@ paths:
           description: The numeric id if the task to update.
       tags: [tasks]
       requestBody:
-        description: Task to be update. Remember: remove 'steps' key.
+        description: Task to be update.
         required: true
         content:
           application/json:
@@ -505,85 +495,6 @@ paths:
       responses:
         '200':
           description: The number of Tasks deleted (should be 1 or 0)
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  deleted:
-                    type: number
-
-
-  /steps:
-    get:
-      summary: Return a list of Steps
-      tags: [steps]
-      responses:
-        '200':
-          description: A JSON array of Step objects
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#components/schemas/Step'
-    post:
-      summary: Create a new Step
-      tags: [steps]
-      requestBody:
-        description: New Step to create
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Step'
-      responses:
-        '500':
-          description: Server error (more detailed errors in development/test)
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: object
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Step'
-  /steps/{id}:
-    get:
-      summary: Return a single Step by ID
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-          description: Numeric id
-      tags: [steps]
-      responses:
-        '200':
-          description: A JSON object representing a single Step
-          content:
-            application/json:
-              schema:
-                $ref: '#components/schemas/Step'
-    delete:
-      summary: Delete an Step by the given id
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-          description: Numeric id to be deleted
-      tags: [steps]
-      responses:
-        '200':
-          description: The number of Steps deleted (should be 1 or 0)
           content:
             application/json:
               schema:

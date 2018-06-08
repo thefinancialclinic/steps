@@ -25,8 +25,10 @@ export class TaskController {
   }
 
   async update(request: Request, response: Response, next: NextFunction) {
-    const id = await this.repo.update(request.body);
+    const task = new Task(request.body);
+    task.id = request.params.id || task.id;
+    const result = await this.repo.update(task);
     response.status(200);
-    return { id: id };
+    return result;
   }
 }

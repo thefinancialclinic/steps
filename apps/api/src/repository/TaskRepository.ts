@@ -1,6 +1,5 @@
 import { Repository } from './Repository';
 import { Pool, Client } from 'pg';
-import { Step } from './StepRepository';
 
 export type TaskId = number;
 export type TaskStatus = 'ACTIVE' | 'COMPLETED' | 'ARCHIVED';
@@ -10,6 +9,11 @@ export type TaskDifficulty = 'EASY' | 'MODERATE' | 'DIFFICULT';
 export type ObjectType = {
   [key: string]: string | number | boolean | ObjectType;
 };
+
+export type Step = {
+  text: string;
+  note?: string;
+}
 
 export type TaskOpts = {
   id?: number;
@@ -27,7 +31,7 @@ export type TaskOpts = {
 };
 
 export class Task {
-  id: number;
+  id?: number;
   title: string;
   category: string;
   description?: string;
@@ -75,15 +79,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         t.date_created,
         t.date_completed,
         t.recurring,
-        ARRAY(
-          SELECT json_build_object(
-            'id', s.id,
-            'text', s.text,
-            'note', s.note,
-            'task_id', s.task_id)
-          FROM step s
-          WHERE s.task_id = $1
-        ) as "steps"
+        t.steps
       FROM task t
       WHERE id = $1;
       `,
@@ -100,7 +96,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
   async save(task: Task): Promise<Task> {
     const res = await this.pool.query(
       `
-      INSERT INTO  task (
+      INSERT INTO task (
         title,
         category,
         description,
@@ -110,8 +106,9 @@ export class TaskRepository implements Repository<TaskId, Task> {
         difficulty,
         date_created,
         date_completed,
-        recurring
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+        recurring,
+        steps
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
       RETURNING *
     `,
       [
@@ -125,6 +122,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         task.date_created,
         task.date_completed,
         task.recurring,
+        task.steps
       ],
     );
     return new Task(res.rows[0]);
@@ -148,9 +146,10 @@ export class TaskRepository implements Repository<TaskId, Task> {
         difficulty,
         date_created,
         date_completed,
-        recurring
-      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-      WHERE id = $11
+        recurring,
+        steps
+      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      WHERE id = $12
       RETURNING *
       `,
       [
@@ -164,6 +163,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         task.date_created,
         task.date_completed,
         task.recurring,
+        task.steps,
         task.id,
       ],
     );

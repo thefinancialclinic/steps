@@ -22,6 +22,10 @@ describe('Task entity operations', () => {
         difficulty: 'EASY',
         date_created: new Date(),
         date_completed: new Date(),
+        steps: [
+          {text: 'TEXT1' },
+          {text: 'TEXT2', note: 'NOTE2'},
+        ]
       }),
     );
   });
@@ -47,5 +51,10 @@ describe('Task entity operations', () => {
     newTask.title = expectedTitle;
     const actual = await repo.update(newTask);
     expect(actual.title).toBe(expectedTitle);
+  });
+
+  it('can retrieve steps' async () => {
+    const subject = await repo.getOne(task.id);
+    expect(subject.steps[1].note).toBe('NOTE2');
   });
 });

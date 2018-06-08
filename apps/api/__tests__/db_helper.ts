@@ -10,7 +10,6 @@ import {
   RequestId,
   RequestItem,
 } from '../src/repository/RequestRepository';
-import { StepId, StepRepository, Step } from '../src/repository/StepRepository';
 import { TaskId, TaskRepository, Task } from '../src/repository/TaskRepository';
 import { UserId, UserRepository, User } from '../src/repository/UserRepository';
 
@@ -21,7 +20,6 @@ let fixtures: {
   org: Org;
   request: RequestItem;
   task: Task;
-  step: Step;
   user: User;
 };
 
@@ -42,7 +40,6 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
     let org: Org;
     let request: RequestItem;
     let task: Task;
-    let step: Step;
     let user: User;
 
     let res: any;
@@ -111,24 +108,11 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
       );
     }
 
-    // Step
-    step = (await new StepRepository(pool).getAll())[0];
-    if (!step) {
-      step = await new StepRepository(pool).save(
-        new Step({
-          text: 'TEXT',
-          note: 'NOTE',
-          task_id: task.id,
-        }),
-      );
-    }
-
     // Media
     media = (await new MediaRepository(pool).getAll())[0];
     if (!media) {
       media = await new MediaRepository(pool).save(
         new Media({
-          step_id: step.id,
           task_id: task.id,
           title: 'TITLE',
           category: 'CATEGORY',
@@ -147,7 +131,6 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
       org,
       request,
       task,
-      step,
       user,
     };
   } // end if(options.createFixtures)
