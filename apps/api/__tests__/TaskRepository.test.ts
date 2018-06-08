@@ -9,7 +9,7 @@ describe('Task entity operations', () => {
   let repo: TaskRepository;
 
   beforeAll(async () => {
-    const pool = await getTestConnectionPool({ createFixtures: true });
+    pool = await getTestConnectionPool({ createFixtures: true });
     repo = new TaskRepository(pool);
     task = await repo.save(
       new Task({
@@ -28,7 +28,7 @@ describe('Task entity operations', () => {
 
   afterAll(async () => {
     await repo.delete(task.id);
-    pool.end();
+    await pool.end();
   });
 
   it('find a task', async () => {

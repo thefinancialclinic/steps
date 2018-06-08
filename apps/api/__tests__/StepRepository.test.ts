@@ -7,7 +7,7 @@ describe('media entity operations', () => {
   let repo: StepRepository;
 
   beforeAll(async () => {
-    const pool = await getTestConnectionPool({ createFixtures: true });
+    pool = await getTestConnectionPool({ createFixtures: true });
     repo = new StepRepository(pool);
     step = await repo.save(
       new Step({
@@ -20,7 +20,7 @@ describe('media entity operations', () => {
 
   afterAll(async () => {
     await repo.delete(step.id);
-    pool.end();
+    await pool.end();
   });
 
   it('find a media', async () => {
