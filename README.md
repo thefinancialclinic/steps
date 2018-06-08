@@ -42,6 +42,29 @@ Deploying changes to steps
 
 If you see that, then the DB is ready to rock.
 
+### Authentication/Authorization
+
+There are some environment variables that configure our [Auth0](https://auth0.com/)
+integration. These are:
+
+* AUTH0_CLIENT_ID
+* AUTH0_ISSUER
+
+These can be set at the command line or, more conveniently can be put in an
+`.env` json file:
+
+_/apps/api/.env_
+```
+{
+  "auth0_client_id": [AUTH0_CLIENT_ID],
+  "auth0_issuer": [AUTH0_ISSUER]
+}
+```
+
+If this `.env` file is successfully loaded, you should see the message,
+_"Reading .env file..."_ on the command line when the application starts.
+
+
 # Running
 
 Change directories to the project root (where this README is).
