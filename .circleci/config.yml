@@ -68,6 +68,8 @@ jobs:
 
       - run:
           name: build
+          environment:
+            NODE_ENV: production
           command: |
             $(npm bin)/lerna run build --parallel
             npm run start:prod &
