@@ -1,7 +1,8 @@
 import { StepRepository, Step } from '../src/repository/StepRepository';
-import { getTestConnectionPool, fixtures } from './db_helper';
+import { fixtures, getTestConnectionPool, Pool } from './db_helper';
 
 describe('media entity operations', () => {
+  let pool: Pool;
   let step: Step;
   let repo: StepRepository;
 
@@ -18,7 +19,8 @@ describe('media entity operations', () => {
   });
 
   afterAll(async () => {
-    repo.delete(step.id);
+    await repo.delete(step.id);
+    pool.end();
   });
 
   it('find a media', async () => {

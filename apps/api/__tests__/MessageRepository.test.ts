@@ -2,11 +2,12 @@ import {
   MessageRepository,
   Message,
 } from '../src/repository/MessageRepository';
-import { getTestConnectionPool, fixtures } from './db_helper';
+import { fixtures, getTestConnectionPool, Pool } from './db_helper';
 
 let activeConn;
 
 describe('Message entity operations', () => {
+  let pool: Pool;
   let message: Message;
   let repo: MessageRepository;
 
@@ -26,7 +27,8 @@ describe('Message entity operations', () => {
   });
 
   afterAll(async () => {
-    repo.delete(message.id);
+    await repo.delete(message.id);
+    pool.end();
   });
 
   it('find a message', async () => {
