@@ -21,6 +21,23 @@ export const Routes = [
     action: 'one',
   },
   {
+    method: 'get',
+    route: '/api/clients/:id/tasks',
+    controller: ClientController,
+    action: 'tasks',
+  },
+  {
+    method: 'get',
+    route: '/api/clients/:id/messages',
+    controller: ClientController,
+    action: 'messages',
+  },
+  {
+    method: 'get',
+    route: '/api/clients/:id/requests',
+    controller: ClientController,
+    action: 'requests',
+  },
     method: 'post',
     route: '/api/clients',
     controller: ClientController,

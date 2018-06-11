@@ -14,10 +14,10 @@ export class MediaController {
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
-    const message = new Media(request.body);
+    const newMedia = new Media(request.body);
     response.status(201); // created
-    const messageId = await this.repo.save(message);
-    return { id: messageId };
+    const media = await this.repo.save(newMedia);
+    return media;
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {
