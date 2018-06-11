@@ -77,7 +77,7 @@ jobs:
           name: cypress
           command: |
             npm run start:prod &
-            $(npm bin)/wait-on http://localhost:3001
+            $(npm bin)/wait-on http://localhost:3000
             $(npm bin)/cypress run
 
       - store_artifacts:
