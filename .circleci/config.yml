@@ -29,16 +29,13 @@ jobs:
 
       - run:
           name: npm install
-          command: npm install
+          command: |
+            npm install
+            $(npm bin)/cypress install
 
       - run:
           name: npm install:all
           command: npm run install:all
-
-      - run:
-          name: Database migrations
-          command: |
-            sqitch deploy --target pg://postgres@localhost/steps_admin_test
 
       - save_cache:
           key: v1-dependencies-{{ checksum "package-lock.json" }}
@@ -56,6 +53,11 @@ jobs:
           paths:
             - ~/repo/apps/admin/node_modules
 
+
+      - run:
+          name: Database migrations
+          command: sqitch deploy --target pg://postgres@localhost/steps_admin_test
+
       - run:
           name: "Test: Admin"
           command: $(npm bin)/lerna run test --scope=steps-admin --stream
@@ -64,11 +66,19 @@ jobs:
           name: "Test: Api"
           command: $(npm bin)/lerna run test --scope=steps-api --stream
 
-      # - run:
-      #     name: cypress
-      #     command: |
-      #       $(npm bin)/cypress install
-      #       $(npm bin)/cypress run
+      - run:
+          name: build
+          environment:
+            NODE_ENV: production
+          command: |
+            $(npm bin)/lerna run build --stream
+
+      - run:
+          name: cypress
+          command: |
+            npm run start:prod &
+            $(npm bin)/wait-on http://localhost:3000
+            $(npm bin)/cypress run
 
       - store_artifacts:
           path: cypress/videos
