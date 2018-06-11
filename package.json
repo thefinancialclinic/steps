@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "$(npm bin)/lerna run start --parallel",
-    "start:prod": "(cd apps/api && node .build/index.js)",
+    "start:prod": "(cd apps/api && NODE_ENV=production node .build/index.js)",
     "test": "$(npm bin)/lerna run test --stream",
     "cypress": "$(npm bin)/cypress run",
     "install:all": "$(npm bin)/lerna exec \"npm install\"",

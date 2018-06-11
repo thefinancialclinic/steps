@@ -71,7 +71,7 @@ jobs:
           environment:
             NODE_ENV: production
           command: |
-            $(npm bin)/lerna run build --parallel
+            $(npm bin)/lerna run build --stream
             npm run start:prod &
             $(npm bin)/wait-on http://localhost:3000
 
