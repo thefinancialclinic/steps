@@ -73,7 +73,7 @@ jobs:
           command: |
             $(npm bin)/lerna run build --parallel
             npm run start:prod &
-            $(npm bin)/wait-on http://localhost:3001
+            $(npm bin)/wait-on http://localhost:3000
 
       - run:
           name: cypress
