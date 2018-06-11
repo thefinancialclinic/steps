@@ -10,7 +10,6 @@ export type MediaType =
 
 export type MediaOpts = {
   id?: MediaId;
-  step_id?: number;
   task_id?: number;
   title: string;
   category: string;
@@ -23,7 +22,6 @@ export type MediaOpts = {
 
 export class Media {
   id?: MediaId;
-  step_id?: number;
   task_id?: number;
   title: string;
   category: string;
@@ -35,7 +33,6 @@ export class Media {
 
   constructor(opts: MediaOpts) {
     this.id = opts.id;
-    this.step_id = opts.step_id;
     this.task_id = opts.task_id;
     this.title = opts.title;
     this.category = opts.category;
@@ -66,7 +63,6 @@ export class MediaRepository implements Repository<MediaId, Media> {
     const res = await this.pool.query(
       `
       INSERT INTO  media (
-        step_id,
         task_id,
         title,
         category,
@@ -75,11 +71,10 @@ export class MediaRepository implements Repository<MediaId, Media> {
         image,
         published_by,
         type
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *
     `,
       [
-        media.step_id,
         media.task_id,
         media.title,
         media.category,
@@ -102,7 +97,6 @@ export class MediaRepository implements Repository<MediaId, Media> {
     const res = await this.pool.query(
       `
       UPDATE media SET (
-        step_id,
         task_id,
         title,
         category,
@@ -111,12 +105,11 @@ export class MediaRepository implements Repository<MediaId, Media> {
         image,
         published_by,
         type
-      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      ) = ($1, $2, $3, $4, $5, $6, $7, $8)
       WHERE id = $10
       RETURNING *
       `,
       [
-        media.step_id,
         media.task_id,
         media.title,
         media.category,

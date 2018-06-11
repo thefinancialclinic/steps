@@ -11,7 +11,6 @@ describe('media entity operations', () => {
     repo = new MediaRepository(pool);
     media = await repo.save(
       new Media({
-        step_id: fixtures.step.id,
         task_id: fixtures.task.id,
         title: 'TITLE',
         category: 'CATEGORY',

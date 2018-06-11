@@ -3,7 +3,6 @@ import { CoachController } from './controller/CoachController';
 import { OrgController } from './controller/OrgController';
 import { UserController } from './controller/UserController';
 import { TaskController } from './controller/TaskController';
-import { StepController } from './controller/StepController';
 import { MessageController } from './controller/MessageController';
 import { MediaController } from './controller/MediaController';
 import { RequestController } from './controller/RequestController';
@@ -134,30 +133,6 @@ export const Routes = [
     route: '/api/tasks/:id',
     controller: TaskController,
     action: 'update',
-  },
-  {
-    method: 'get',
-    route: '/api/steps',
-    controller: StepController,
-    action: 'all',
-  },
-  {
-    method: 'get',
-    route: '/api/steps/:id',
-    controller: StepController,
-    action: 'one',
-  },
-  {
-    method: 'post',
-    route: '/api/steps',
-    controller: StepController,
-    action: 'save',
-  },
-  {
-    method: 'delete',
-    route: '/api/steps/:id',
-    controller: StepController,
-    action: 'remove',
   },
   {
     method: 'get',
