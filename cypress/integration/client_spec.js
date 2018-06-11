@@ -17,12 +17,4 @@ describe('Index', () => {
 
     cy.contains('New Client').click();
   });
-
-  it('can add a task to a user', () => {
-    cy.visit('http://localhost:3000/clients');
-    cy.get('.clients > a:first-child').click();
-    cy.contains('New Task').click();
-    cy.get('input').type('NEW_TASK');
-    cy.get('form').submit();
-  });
 });
