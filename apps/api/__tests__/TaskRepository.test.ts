@@ -22,10 +22,7 @@ describe('Task entity operations', () => {
         difficulty: 'EASY',
         date_created: new Date(),
         date_completed: new Date(),
-        steps: [
-          {text: 'TEXT1' },
-          {text: 'TEXT2', note: 'NOTE2'},
-        ]
+        steps: [{ text: 'TEXT1' }, { text: 'TEXT2', note: 'NOTE2' }],
       }),
     );
   });
