@@ -9,7 +9,7 @@ import { USER_TYPE } from 'reducers/auth';
 import { white, black } from 'styles/colors';
 
 class UserSwitcher extends React.Component<any, any> {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = { show: false };
@@ -29,7 +29,7 @@ class UserSwitcher extends React.Component<any, any> {
 
   toggleDisplay = () => {
     this.setState({ show: !this.state.show });
-  }
+  };
 
   render() {
     const { type } = this.props;
@@ -61,7 +61,9 @@ class UserSwitcher extends React.Component<any, any> {
       </Wrapper>
     ) : (
       <Wrapper>
-        <a href="#" onClick={this.toggleDisplay}>show user switcher</a>
+        <a href="#" onClick={this.toggleDisplay}>
+          show user switcher
+        </a>
       </Wrapper>
     );
   }

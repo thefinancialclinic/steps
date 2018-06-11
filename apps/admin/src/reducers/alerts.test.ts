@@ -14,7 +14,7 @@ describe('alerts reducer', () => {
     expect(updatedState).toContainEqual({
       id: 'id',
       message: 'some error',
-      level: 'error'
+      level: 'error',
     });
   });
 
@@ -23,8 +23,8 @@ describe('alerts reducer', () => {
       {
         id: 'id',
         message: 'some error',
-        level: 'error'
-      }
+        level: 'error',
+      },
     ];
     const action = removeAlert('id');
 

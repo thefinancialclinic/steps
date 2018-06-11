@@ -10,12 +10,12 @@ interface Props {
 }
 
 class NavGroup extends React.Component<Props, {}> {
-  render () {
+  render() {
     const { className, links } = this.props;
 
     return (
       <div className={className}>
-        <div className='nav-group'>
+        <div className="nav-group">
           {links.map((link, key) => <NavGroupItem key={key} link={link} />)}
         </div>
       </div>

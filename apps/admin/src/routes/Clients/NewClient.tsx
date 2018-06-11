@@ -1,4 +1,4 @@
-import Button from 'atoms/Button';
+import Button from 'atoms/Buttons/Button';
 import { AlertLevel } from 'components/Alert/types';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
@@ -10,6 +10,7 @@ import NewClientForm from './NewClientForm';
 import { createClient } from 'actions/clients';
 import { addAlert } from 'actions/alerts';
 import { History } from 'react-router';
+import Main from 'atoms/Main';
 
 const Content = styled.div`
   position: relative;
@@ -40,14 +41,14 @@ export class NewClient extends React.Component<Props> {
       .catch(error => {
         this.props.actions.addAlert({
           type: AlertLevel.Error,
-          message: error
+          message: error,
         });
       });
   };
 
   render() {
     return (
-      <div className="new-client">
+      <Main className="new-client">
         <Flex flexWrap="wrap">
           <Box width={[1, 1 / 2]} px={2}>
             <Content>
@@ -67,13 +68,16 @@ export class NewClient extends React.Component<Props> {
           </Box>
         </Flex>
         <Link to="/">Home</Link>
-      </div>
+      </Main>
     );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ createClient, addAlert }, dispatch)
+  actions: bindActionCreators({ createClient, addAlert }, dispatch),
 });
 
-export default connect(null, mapDispatchToProps)(withRouter(NewClient));
+export default connect(
+  null,
+  mapDispatchToProps,
+)(withRouter(NewClient));

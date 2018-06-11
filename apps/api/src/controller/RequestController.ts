@@ -1,6 +1,9 @@
-import { NextFunction, Request, Response } from "express";
-import { RequestRepository, RequestItem } from "../repository/RequestRepository";
-import { pool } from "../index";
+import { NextFunction, Request, Response } from 'express';
+import {
+  RequestRepository,
+  RequestItem,
+} from '../repository/RequestRepository';
+import { pool } from '../index';
 
 export class RequestController {
   private repo = new RequestRepository(pool);

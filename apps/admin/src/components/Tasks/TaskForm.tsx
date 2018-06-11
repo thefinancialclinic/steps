@@ -4,11 +4,10 @@ import styled from 'styled-components';
 import { green, grey, white, black, mediumBlue } from 'styles/colors';
 import { remCalc } from 'styles/type';
 import Badge from 'atoms/Badge';
-import Button from 'atoms/Button'
-import Input from 'atoms/Input';
+import Button from 'atoms/Buttons/Button';
+import Input from 'atoms/Input/Input';
 import { Link } from 'react-router-dom';
 import Panel from 'atoms/Panel';
-import StackedInputRow from 'components/Forms/StackedInputRow';
 import TaskStep from './TaskStep';
 
 interface Props {
@@ -41,30 +40,40 @@ const BaseInputRow = styled.div`
 `;
 
 class TaskForm extends React.Component<Props, {}> {
-
   render() {
     const { className, children, task } = this.props;
 
     const steps = task.steps ? (
-        task.steps.map((item, index) => (
-          <TaskStep count={index + 1} step={item} />
-        )
-      )) : (
-        <TaskStep count={1} />
-      );
+      task.steps.map((item, index) => (
+        <TaskStep count={index + 1} step={item} />
+      ))
+    ) : (
+      <TaskStep count={1} />
+    );
 
     return (
       <div className={className}>
         <Panel>
-          <Box><Badge className='task-badge' text={task && task.category? task.category : 'custom'}></Badge></Box>
+          <Box>
+            <Badge
+              className="task-badge"
+              text={task && task.category ? task.category : 'custom'}
+            />
+          </Box>
           <form>
             <BaseInputRow>
               <label>Task</label>
-              <input type='text' defaultValue={task && task.title ? task.title : ''} />
+              <input
+                type="text"
+                defaultValue={task && task.title ? task.title : ''}
+              />
             </BaseInputRow>
             <BaseInputRow>
               <label>Why This Matters</label>
-              <input type='text' defaultValue={task && task.description ? task.description : ''} />
+              <input
+                type="text"
+                defaultValue={task && task.description ? task.description : ''}
+              />
             </BaseInputRow>
           </form>
           <label>STEPS</label>
@@ -72,8 +81,12 @@ class TaskForm extends React.Component<Props, {}> {
           {steps}
 
           {/* TODO: What happens when this is clicked? */}
-          <div className='add-step-link'><Link to='/'>Add a step</Link></div>
-          <Flex justifyContent='center'><Button>SAVE TO WORKPLAN</Button></Flex>
+          <div className="add-step-link">
+            <Link to="/">Add a step</Link>
+          </div>
+          <Flex justifyContent="center">
+            <Button>SAVE TO WORKPLAN</Button>
+          </Flex>
         </Panel>
       </div>
     );
@@ -91,7 +104,8 @@ const StyledTaskForm = styled(TaskForm)`
     text-transform: uppercase;
     white-space: nowrap;
 
-    &:before, &:after {
+    &:before,
+    &:after {
       border-top: 1px solid ${grey};
       content: '';
       display: table-cell;

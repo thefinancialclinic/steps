@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
@@ -14,8 +14,9 @@ import NewClient from './Clients/NewClient';
 import AdminSignup from './Admin/Signup';
 import Admin from './Admin';
 import Alert from 'containers/Alert';
+import AdminNewStaff from './Admin/NewStaff';
 
-const Layout = (props) => (
+const Layout: React.SFC = props => (
   <Wrapper>
     {process.env.NODE_ENV === 'development' && <UserSwitcher />}
     <TopBar />
@@ -29,7 +30,7 @@ const Layout = (props) => (
 
         <Route exact path="/admin" component={AdminSignup} />
         <Route exact path="/admin/signup" component={AdminSignup} />
-        <Route exact path="/admin/:route" component={Admin} />
+        <Route path="/admin/:route" component={Admin} />
       </Switch>
     </Switch>
   </Wrapper>
@@ -42,7 +43,7 @@ const Wrapper = styled.div`
 `;
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
 });
 
-export default connect(mapStateToProps)(Layout);
+export default withRouter(connect(mapStateToProps)(Layout));

@@ -1,16 +1,16 @@
-import React from 'react';
-import { Flex, Box } from 'grid-styled';
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { getClients } from 'actions/clients';
-import styled from 'styled-components';
-
-import Sidebar from 'components/Sidebar/Sidebar';
-import Tasks from 'routes/Tasks/Tasks';
-import GoalList from 'components/Goals/GoalList';
+import BackButton from 'atoms/Buttons/BackButton';
 import Chat from 'components/Chat/Chat';
+import GoalList from 'components/Goals/GoalList';
+import Sidebar from 'components/Sidebar/Sidebar';
+import { Box, Flex } from 'grid-styled';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import Terms from 'routes/Clients/Terms';
+import Tasks from 'routes/Tasks/Tasks';
+import styled from 'styled-components';
 
 interface Props {
   className?: string;
@@ -34,10 +34,10 @@ class Client extends React.Component<Props, {}> {
             links={[
               { text: 'Tasks', to: `/clients/${client.id}/tasks` },
               { text: 'Goals', to: `/clients/${client.id}/goals` },
-              { text: 'Chat', to: `/clients/${client.id}/chat` }
+              { text: 'Chat', to: `/clients/${client.id}/chat` },
             ]}
           >
-            <Link to="/clients">&larr; Back</Link>
+            <BackButton to="/clients" />
             <h2>
               {client.first_name} {client.last_name}
             </h2>
@@ -65,14 +65,14 @@ class Client extends React.Component<Props, {}> {
 const StyledClient = styled(Client)``;
 
 const mapStateToProps = (state, props) => ({
-  client: state.clients.clients.find(c => c.id == props.match.params.id)
+  client: state.clients.clients.find(c => c.id == props.match.params.id),
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ getClients }, dispatch)
+  actions: bindActionCreators({ getClients }, dispatch),
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(StyledClient);

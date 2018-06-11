@@ -9,7 +9,7 @@ import {
   pink,
   yellow,
   white,
-  colorFromString
+  colorFromString,
 } from 'styles/colors';
 
 const backgroundColors = [blue, brown, green, pink, yellow];

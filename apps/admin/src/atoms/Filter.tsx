@@ -5,33 +5,24 @@ import { NavLink } from 'react-router-dom';
 import Badge from './Badge';
 import { grey, mediumBlue } from 'styles/colors';
 
+interface FilterCategory {
+  name: string;
+  active: boolean;
+  color?: string;
+}
+
 interface Props {
-  categories: {
-    name: string;
-    active: boolean;
-    color?: string;
-  }[];
+  categories: FilterCategory[];
 }
 
-class Filter extends React.Component<Props, {}> {
-  render() {
-    const { categories, children } = this.props;
-
-    return (
-      <BaseFilter>
-        <span>Filter</span>
-        {categories &&
-          categories.map((cat, key) => (
-            <Badge
-              text={cat.name}
-              key={key}
-              color={!cat.active ? grey : cat.color}
-            />
-          ))}
-      </BaseFilter>
-    );
-  }
-}
+const Filter: React.SFC<Props> = ({ categories, children }) => (
+  <BaseFilter>
+    <span>Filter</span>
+    {categories.map((cat, key) => (
+      <Badge text={cat.name} key={key} color={!cat.active ? grey : cat.color} />
+    ))}
+  </BaseFilter>
+);
 
 const BaseFilter = styled.div`
   align-items: center;

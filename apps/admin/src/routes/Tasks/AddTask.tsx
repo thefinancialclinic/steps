@@ -14,6 +14,11 @@ import { Client } from 'reducers/clients';
 
 // TODO: REMOVE THIS -- DEMO ONLY
 import faker from 'faker';
+import Main from 'atoms/Main';
+import PageHeader from 'components/Headers/PageHeader';
+import Header from 'atoms/Header';
+import BackButton from 'atoms/Buttons/BackButton';
+import Button from 'atoms/Buttons/Button';
 
 interface Props {
   className?: string;
@@ -36,27 +41,27 @@ const StyledLink = styled.span`
 class AddTask extends React.Component<Props, {}> {
   render() {
     return (
-      <Box width={1}>
-        <h2>Add New Task</h2>
+      <Main>
+        <Header>
+          <BackButton to={`/clients/${this.props.client.id}/tasks`} />
+          <Button>Create New Task</Button>
+        </Header>
+        <PageHeader label="Add New Task" />
         <Filter
           categories={[
             { name: 'debt', active: true },
-            { name: 'budget', active: false }
+            { name: 'budget', active: false },
           ]}
         />
-        <Flex alignItems="center">
-          <h3>Task</h3>{' '}
-          <StyledLink>
-            <Link to="/">Sort by last used</Link>
-          </StyledLink>
-        </Flex>
+        <h3>Task</h3>
+        {/* TODO: Extract to TaskList */}
         {this.props.tasks.map((task, i) => {
           const userTask = {
             ...task,
             user_id: this.props.client.id,
             title: faker.lorem.sentence(),
             category: sample(['income', 'expenses', 'credit', 'debt']),
-            description: faker.lorem.paragraph()
+            description: faker.lorem.paragraph(),
           };
           delete userTask.steps;
 
@@ -69,21 +74,21 @@ class AddTask extends React.Component<Props, {}> {
             />
           );
         })}
-      </Box>
+      </Main>
     );
   }
 }
 
 const mapStateToProps = (state, props) => ({
   tasks: state.tasks.tasks.filter(t => !t.user_id),
-  client: state.clients.clients.find(c => (c.id = props.match.params.id))
+  client: state.clients.clients.find(c => (c.id = props.match.params.id)),
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ addTask }, dispatch)
+  actions: bindActionCreators({ addTask }, dispatch),
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(withRouter(AddTask));

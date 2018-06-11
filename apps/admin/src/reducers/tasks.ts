@@ -46,25 +46,25 @@ const initialState: TasksState = {
         {
           text: 'string',
           note: 'string',
-          task_id: 0
-        }
-      ]
-    }
-  ]
+          task_id: 0,
+        },
+      ],
+    },
+  ],
 };
 
 export default (state = initialState, action) => {
   if (action.type === SET_TASKS) {
     return {
       ...state,
-      tasks: action.tasks
+      tasks: action.tasks,
     };
   }
 
   if (action.type === ADD_TASK) {
     return {
       ...state,
-      tasks: [...state.tasks, action.task]
+      tasks: [...state.tasks, action.task],
     };
   }
 
@@ -74,7 +74,7 @@ export default (state = initialState, action) => {
       tasks: state.tasks.map(task => {
         if (task.id !== action.id) return task;
         return { ...task, status: action.status };
-      })
+      }),
     };
   }
 

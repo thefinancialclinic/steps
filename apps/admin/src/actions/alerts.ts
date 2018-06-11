@@ -4,7 +4,7 @@ export const addAlert = (message, level, id) => {
     type: ADD_ALERT,
     message,
     level,
-    id
+    id,
   };
 };
 
@@ -12,6 +12,6 @@ export const REMOVE_ALERT = 'REMOVE_ALERT';
 export const removeAlert = id => {
   return {
     type: REMOVE_ALERT,
-    id
+    id,
   };
 };

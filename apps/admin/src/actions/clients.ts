@@ -20,7 +20,7 @@ export const SET_CLIENTS = 'SET_CLIENTS';
 export const setClients = clients => {
   return {
     type: SET_CLIENTS,
-    clients
+    clients,
   };
 };
 

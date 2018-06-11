@@ -1,15 +1,10 @@
+import { Box } from 'grid-styled';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createTask } from 'actions/tasks';
-import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
-import Button from 'atoms/Button';
-import Panel from 'atoms/Panel';
-import StackedInputRow from 'components/Forms/StackedInputRow';
-import TaskForm from 'components/Tasks/TaskForm';
-import TaskStep from 'components/Tasks/TaskStep';
+import { createTask } from 'actions/tasks';
+import Main from 'atoms/Main';
 
 interface Props {
   className?: string;
@@ -23,13 +18,13 @@ class NewTask extends React.Component<Props, {}> {
 
     this.props.actions.createTask({
       steps: { foo: 'bar' },
-      content: content.value
+      content: content.value,
     });
   };
 
   render() {
     return (
-      <Box width={1}>
+      <Main>
         <h2>Create New Task</h2>
         <p>
           Create a personalized task for your client after you've talked with
@@ -42,16 +37,19 @@ class NewTask extends React.Component<Props, {}> {
         {/* <TaskForm>
             <Box>STEPS</Box>
           </TaskForm> */}
-      </Box>
+      </Main>
     );
   }
 }
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ createTask }, dispatch)
+  actions: bindActionCreators({ createTask }, dispatch),
 });
 
 const StyledNewTask = styled(NewTask)``;
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledNewTask);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(StyledNewTask);

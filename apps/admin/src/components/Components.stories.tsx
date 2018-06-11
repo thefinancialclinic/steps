@@ -9,9 +9,8 @@ import { withKnobs } from '@storybook/addon-knobs/react';
 import ChatMedia from './Chat/ChatMedia';
 import ChatMessage from './Chat/ChatMessage';
 
-import InputRow from './Forms/InputRow';
 import NameCard from './Clients/NameCard';
-import NavDropdown from './NavDropdown/NavDropdown';
+import NavDropdown from './Dropdowns/NavDropdown';
 import NavGroup from './NavGroup/NavGroup';
 import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
@@ -23,12 +22,19 @@ import TaskTemplate from './Tasks/TaskTemplate';
 import TermsModal from './Clients/TermsModal';
 import { TaskList } from './Tasks/TaskList';
 
-import { Alerts } from './Alert/Alerts';
+import { AlertsList } from './Alert/AlertsList';
 import { AlertLevel } from './Alert/types';
 import { Alert } from './Alert/Alert';
+import { PermissionLevel } from './StaffList/types';
 
 import { pink, lightBlue, white } from 'styles/colors';
 import 'styles/global';
+import Table from 'atoms/Table/Table';
+import DataRow from './DataTable/DataRow';
+import DataTable from './DataTable/DataTable';
+import PageHeader from 'components/Headers/PageHeader';
+import Button from 'atoms/Buttons/Button';
+import Input from 'atoms/Input/Input';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -36,11 +42,11 @@ export const Components = storiesOf('Components', module)
       title={text('Title', "Tres & Tanya's Story")}
       url={text(
         'URL',
-        'https://soundcloud.com/bedstuyrestocorp/tres-tanyas-story'
+        'https://soundcloud.com/bedstuyrestocorp/tres-tanyas-story',
       )}
       image={text(
         'Image',
-        'https://i1.sndcdn.com/artworks-000311861322-omp1pm-t500x500.jpg'
+        'https://i1.sndcdn.com/artworks-000311861322-omp1pm-t500x500.jpg',
       )}
     />
   ))
@@ -49,7 +55,7 @@ export const Components = storiesOf('Components', module)
       type={select('Type', ['sent', 'received'], 'sent')}
       text={text(
         'Text',
-        "Hi hi! How's it going with finishing your task? Text DONE, HELP, or STILL WORKING"
+        "Hi hi! How's it going with finishing your task? Text DONE, HELP, or STILL WORKING",
       )}
       from={text('From', 'Roo')}
       color={pink}
@@ -61,7 +67,7 @@ export const Components = storiesOf('Components', module)
       title="Coach Name"
       links={[
         { text: 'My Clients', to: '#' },
-        { text: 'Add New Client', to: '#' }
+        { text: 'Add New Client', to: '#' },
       ]}
     />
   ))
@@ -69,14 +75,27 @@ export const Components = storiesOf('Components', module)
     <NavGroup
       links={[
         { text: 'first', to: '/first' },
-        { text: 'second', to: '/second' }
+        { text: 'second', to: '/second' },
       ]}
     />
   ))
   .add('Sidebar', () => <Sidebar links={[{ to: '', text: '' }]} />)
-  .add('Input Row', () => <InputRow label="Bob" name="name" />)
-  .add('Staff List', () => <StaffList />)
-  .add('Staff List Item', () => <StaffListItem />)
+  .add('Staff List', () => (
+    <StaffList
+      staff={[
+        { email: 'john@example.com', pendingInvite: true },
+        {
+          email: 'jane@example.com',
+          pendingInvite: false,
+          name: 'Jane Smith',
+          permissionLevel: PermissionLevel.Coach,
+        },
+      ]}
+    />
+  ))
+  .add('Staff List Item', () => (
+    <StaffListItem pendingInvite={true} email="john@example.com" />
+  ))
   .add('Modal', () => (
     <Modal>
       <div>This is a child in a panel.</div>
@@ -89,7 +108,7 @@ export const Components = storiesOf('Components', module)
         id: 1,
         title: 'A task',
         description: 'You should do this',
-        category: 'debt'
+        category: 'debt',
       }}
       client={{ id: 2 }}
     />
@@ -108,13 +127,13 @@ export const Components = storiesOf('Components', module)
         {
           id: 1,
           title: 'Task #1',
-          description: 'A helpful description'
+          description: 'A helpful description',
         },
         {
           id: 2,
           title: 'Task #2',
-          description: 'A helpful description'
-        }
+          description: 'A helpful description',
+        },
       ]}
       client={{ id: 1 }}
     />
@@ -127,6 +146,17 @@ export const Components = storiesOf('Components', module)
   ))
   .add('Info Alert', () => (
     <Alert level={AlertLevel.Info}>This is an info alert</Alert>
+  ))
+  .add('Data Table', () => (
+    <DataTable>
+      <DataRow label="label">Some data</DataRow>
+    </DataTable>
+  ))
+  .add('Page Header', () => (
+    <PageHeader label="Page Header">
+      <Input />
+      <Button>Some Button</Button>
+    </PageHeader>
   ));
 
 export default Components;

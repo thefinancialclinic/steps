@@ -6,8 +6,8 @@ export default (state = [], action) => {
         {
           message: action.message,
           level: action.level,
-          id: action.id
-        }
+          id: action.id,
+        },
       ];
 
     case 'REMOVE_ALERT':

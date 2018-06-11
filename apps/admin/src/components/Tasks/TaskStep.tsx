@@ -1,11 +1,7 @@
-import React, { Component } from 'react';
-import { Flex, Box } from 'grid-styled';
+import { Box, Flex } from 'grid-styled';
+import React from 'react';
 import styled from 'styled-components';
 import { green, white } from 'styles/colors';
-import Input from 'atoms/Input';
-import Button from 'atoms/Button'
-import Panel from 'atoms/Panel';
-import StackedInputRow from 'components/Forms/StackedInputRow';
 
 interface Props {
   className?: string;
@@ -14,22 +10,23 @@ interface Props {
 }
 
 class TaskStep extends React.Component<Props, {}> {
-
   render() {
     const { className, count, step } = this.props;
 
     return (
       <Flex className={className}>
-        <Box width={1/8} >
-          <Flex className='step-actions'>
+        <Box width={1 / 8}>
+          <Flex className="step-actions">
             <Box width={1} mb={1}>
-              <div className='circle'>{count}</div>
+              <div className="circle">{count}</div>
             </Box>
-            <Box width={1} mt={1}>&nbsp;X</Box>
+            <Box width={1} mt={1}>
+              &nbsp;X
+            </Box>
           </Flex>
         </Box>
-        <Box width={7/8} className='step-text'>
-          <input type='text' defaultValue={ step ? step.text : '' } />
+        <Box width={7 / 8} className="step-text">
+          <input type="text" defaultValue={step ? step.text : ''} />
         </Box>
       </Flex>
     );

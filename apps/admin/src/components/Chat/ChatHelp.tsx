@@ -9,24 +9,18 @@ interface Props {
 }
 
 class ChatList extends React.Component<Props, {}> {
-
-  render () {
+  render() {
     const helpItems = [];
-    const helpDisplay = helpItems.length > 0 ? (
+    const helpDisplay =
+      helpItems.length > 0 ? (
+        <Box width={1}>Help items go here</Box>
+      ) : (
         <Box width={1}>
-          Help items go here
-        </Box>
-    ) : (
-        <Box width={1}>
-          <NoChat type='help'></NoChat>
+          <NoChat type="help" />
         </Box>
       );
 
-    return (
-      <div>
-        {helpDisplay}
-      </div>
-    );
+    return <div>{helpDisplay}</div>;
   }
 }
 

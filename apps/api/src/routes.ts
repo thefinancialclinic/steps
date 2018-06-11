@@ -1,234 +1,209 @@
-import { ClientController } from "./controller/ClientController";
-import { CoachController } from "./controller/CoachController";
-import { OrgController } from "./controller/OrgController";
-import { UserController } from "./controller/UserController";
-import { TaskController } from "./controller/TaskController";
-import { StepController } from "./controller/StepController";
-import { MessageController } from "./controller/MessageController";
-import { MediaController } from "./controller/MediaController";
-import { RequestController } from "./controller/RequestController";
+import { ClientController } from './controller/ClientController';
+import { CoachController } from './controller/CoachController';
+import { OrgController } from './controller/OrgController';
+import { UserController } from './controller/UserController';
+import { TaskController } from './controller/TaskController';
+import { MessageController } from './controller/MessageController';
+import { MediaController } from './controller/MediaController';
+import { RequestController } from './controller/RequestController';
 
 export const Routes = [
   {
-    method: "get",
-    route: "/api/clients",
+    method: 'get',
+    route: '/api/clients',
     controller: ClientController,
-    action: "all"
+    action: 'all',
   },
   {
-    method: "get",
-    route: "/api/clients/:id",
+    method: 'get',
+    route: '/api/clients/:id',
     controller: ClientController,
-    action: "one"
+    action: 'one',
   },
   {
-    method: "post",
-    route: "/api/clients",
+    method: 'post',
+    route: '/api/clients',
     controller: ClientController,
-    action: "save"
+    action: 'save',
   },
   {
-    method: "delete",
-    route: "/api/clients/:id",
+    method: 'delete',
+    route: '/api/clients/:id',
     controller: ClientController,
-    action: "remove"
+    action: 'remove',
   },
   {
-    method: "get",
-    route: "/api/coaches",
+    method: 'get',
+    route: '/api/coaches',
     controller: CoachController,
-    action: "all"
+    action: 'all',
   },
   {
-    method: "get",
-    route: "/api/coaches/:id",
+    method: 'get',
+    route: '/api/coaches/:id',
     controller: CoachController,
-    action: "one"
+    action: 'one',
   },
   {
-    method: "post",
-    route: "/api/coaches",
+    method: 'post',
+    route: '/api/coaches',
     controller: CoachController,
-    action: "save"
+    action: 'save',
   },
   {
-    method: "delete",
-    route: "/api/coaches/:id",
+    method: 'delete',
+    route: '/api/coaches/:id',
     controller: CoachController,
-    action: "remove"
+    action: 'remove',
   },
   {
-    method: "get",
-    route: "/api/orgs",
+    method: 'get',
+    route: '/api/orgs',
     controller: OrgController,
-    action: "all"
+    action: 'all',
   },
   {
-    method: "get",
-    route: "/api/orgs/:id",
+    method: 'get',
+    route: '/api/orgs/:id',
     controller: OrgController,
-    action: "one"
+    action: 'one',
   },
   {
-    method: "post",
-    route: "/api/orgs",
+    method: 'post',
+    route: '/api/orgs',
     controller: OrgController,
-    action: "save"
+    action: 'save',
   },
   {
-    method: "delete",
-    route: "/api/orgs/:id",
+    method: 'delete',
+    route: '/api/orgs/:id',
     controller: OrgController,
-    action: "remove"
+    action: 'remove',
   },
   {
-    method: "get",
-    route: "/api/users",
+    method: 'get',
+    route: '/api/users',
     controller: UserController,
-    action: "all"
+    action: 'all',
   },
   {
-    method: "get",
-    route: "/api/users/:id",
+    method: 'get',
+    route: '/api/users/:id',
     controller: UserController,
-    action: "one"
+    action: 'one',
   },
   {
-    method: "post",
-    route: "/api/users",
+    method: 'post',
+    route: '/api/users',
     controller: UserController,
-    action: "save"
+    action: 'save',
   },
   {
-    method: "delete",
-    route: "/api/users/:id",
+    method: 'delete',
+    route: '/api/users/:id',
     controller: UserController,
-    action: "remove"
+    action: 'remove',
   },
   {
-    method: "get",
-    route: "/api/tasks",
+    method: 'get',
+    route: '/api/tasks',
     controller: TaskController,
-    action: "all"
+    action: 'all',
   },
   {
-    method: "get",
-    route: "/api/tasks/:id",
+    method: 'get',
+    route: '/api/tasks/:id',
     controller: TaskController,
-    action: "one"
+    action: 'one',
   },
   {
-    method: "post",
-    route: "/api/tasks",
+    method: 'post',
+    route: '/api/tasks',
     controller: TaskController,
-    action: "save"
+    action: 'save',
   },
   {
-    method: "delete",
-    route: "/api/tasks/:id",
+    method: 'delete',
+    route: '/api/tasks/:id',
     controller: TaskController,
-    action: "remove"
+    action: 'remove',
   },
   {
-    method: "put",
-    route: "/api/tasks/:id",
+    method: 'put',
+    route: '/api/tasks/:id',
     controller: TaskController,
-    action: "update"
+    action: 'update',
   },
   {
-    method: "get",
-    route: "/api/steps",
-    controller: StepController,
-    action: "all"
-  },
-  {
-    method: "get",
-    route: "/api/steps/:id",
-    controller: StepController,
-    action: "one"
-  },
-  {
-    method: "post",
-    route: "/api/steps",
-    controller: StepController,
-    action: "save"
-  },
-  {
-    method: "delete",
-    route: "/api/steps/:id",
-    controller: StepController,
-    action: "remove"
-  },
-  {
-    method: "get",
-    route: "/api/messages",
+    method: 'get',
+    route: '/api/messages',
     controller: MessageController,
-    action: "all"
+    action: 'all',
   },
   {
-    method: "get",
-    route: "/api/messages/:id",
+    method: 'get',
+    route: '/api/messages/:id',
     controller: MessageController,
-    action: "one"
+    action: 'one',
   },
   {
-    method: "post",
-    route: "/api/messages",
+    method: 'post',
+    route: '/api/messages',
     controller: MessageController,
-    action: "save"
+    action: 'save',
   },
   {
-    method: "delete",
-    route: "/api/messages/:id",
+    method: 'delete',
+    route: '/api/messages/:id',
     controller: MessageController,
-    action: "remove"
+    action: 'remove',
   },
   {
-    method: "get",
-    route: "/api/media",
+    method: 'get',
+    route: '/api/media',
     controller: MediaController,
-    action: "all"
+    action: 'all',
   },
   {
-    method: "get",
-    route: "/api/media/:id",
+    method: 'get',
+    route: '/api/media/:id',
     controller: MediaController,
-    action: "one"
+    action: 'one',
   },
   {
-    method: "post",
-    route: "/api/media",
+    method: 'post',
+    route: '/api/media',
     controller: MediaController,
-    action: "save"
+    action: 'save',
   },
   {
-    method: "delete",
-    route: "/api/media/:id",
+    method: 'delete',
+    route: '/api/media/:id',
     controller: MediaController,
-    action: "remove"
+    action: 'remove',
   },
   {
-    method: "get",
-    route: "/api/requests",
+    method: 'get',
+    route: '/api/requests',
     controller: RequestController,
-    action: "all"
+    action: 'all',
   },
   {
-    method: "get",
-    route: "/api/requests/:id",
+    method: 'get',
+    route: '/api/requests/:id',
     controller: RequestController,
-    action: "one"
+    action: 'one',
   },
   {
-    method: "post",
-    route: "/api/requests",
+    method: 'post',
+    route: '/api/requests',
     controller: RequestController,
-    action: "save"
+    action: 'save',
   },
   {
-    method: "delete",
-    route: "/api/requests/:id",
+    method: 'delete',
+    route: '/api/requests/:id',
     controller: RequestController,
-    action: "remove"
+    action: 'remove',
   },
 ];

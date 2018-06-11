@@ -9,7 +9,7 @@ it('displays URL domain', () => {
     <ChatMedia
       title="Tres & Tanya's Story"
       url="https://example.com/some/path"
-    />
+    />,
   );
   expect(chatMedia.find('.domain').text()).toBe('example.com');
 });
@@ -19,7 +19,7 @@ it('displays title', () => {
     <ChatMedia
       title="Tres & Tanya's Story"
       url="https://example.com/some/path"
-    />
+    />,
   );
   expect(chatMedia.find('.title').text()).toBe("Tres & Tanya's Story");
 });
@@ -32,7 +32,7 @@ it('hides media when title is missing', () => {
 it('links to URL', () => {
   const url = 'https://example.com/some/path';
   const chatMedia = shallow(
-    <ChatMedia title="Tres & Tanya's Story" url={url} />
+    <ChatMedia title="Tres & Tanya's Story" url={url} />,
   );
   expect(chatMedia.find('a').prop('href')).toBe(url);
 });

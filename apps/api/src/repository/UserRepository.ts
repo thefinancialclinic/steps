@@ -1,21 +1,21 @@
-import { Repository } from "./Repository";
-import { OrgId } from "./OrgRepository";
-import { Pool, Client } from "pg";
+import { Repository } from './Repository';
+import { OrgId } from './OrgRepository';
+import { Pool, Client } from 'pg';
 
 export type UserId = number;
-export type UserType = "Client" | "Coach" | "Admin" | "Superadmin";
-export type UserPlatform = "SMS" | "FBOOK";
-export type UserStatus = "AWAITING_HELP" | "WORKING" | "NON_RESPONSIVE";
+export type UserType = 'Client' | 'Coach' | 'Admin' | 'Superadmin';
+export type UserPlatform = 'SMS' | 'FBOOK';
+export type UserStatus = 'AWAITING_HELP' | 'WORKING' | 'NON_RESPONSIVE';
 
 export type ObjectType = {
   [key: string]: string | number | boolean | ObjectType;
-}
+};
 
 export type Checkin = {
   topic: string;
   message: string;
   time: Date;
-}
+};
 
 export type UserOpts = {
   id?: UserId;
@@ -81,11 +81,11 @@ export class User {
 }
 
 export class UserRepository implements Repository<UserId, User> {
-  constructor(public pool: Pool) { }
+  constructor(public pool: Pool) {}
 
   async getOne(uid: UserId) {
     const res = await this.pool.query(`SELECT * FROM "user" WHERE id = $1`, [
-      uid
+      uid,
     ]);
     return new User(res.rows[0]);
   }
@@ -135,7 +135,7 @@ export class UserRepository implements Repository<UserId, User> {
         user.follow_up_date,
         user.plan_url,
         user.checkin_times,
-      ]
+      ],
     );
     return new User(res.rows[0]);
   }
@@ -182,14 +182,14 @@ export class UserRepository implements Repository<UserId, User> {
         user.plan_url,
         user.checkin_times,
         user.id,
-      ]
+      ],
     );
     return new User(res.rows[0]);
   }
 
   async delete(uid: UserId): Promise<number> {
     const res = await this.pool.query(`DELETE FROM "user" WHERE id = $1`, [
-      uid
+      uid,
     ]);
     return res.rowCount;
   }
@@ -197,14 +197,14 @@ export class UserRepository implements Repository<UserId, User> {
   // Parameterized
   async getAllByType(type: UserType): Promise<User[]> {
     const res = await this.pool.query(`SELECT * FROM "user" WHERE type = $1`, [
-      type
+      type,
     ]);
     return res.rows.map(row => new User(row));
   }
   async getOneByType(uid: UserId, type: UserType): Promise<User> {
     const res = await this.pool.query(
       `SELECT * FROM "user" WHERE id = $1 AND type = $2`,
-      [uid, type]
+      [uid, type],
     );
     return new User(res.rows[0]);
   }
@@ -217,7 +217,7 @@ export class UserRepository implements Repository<UserId, User> {
   async deleteByType(uid: UserId, type: UserType): Promise<number> {
     const res = await this.pool.query(
       `DELETE FROM "user" WHERE id = $1 AND type = $2`,
-      [uid, type]
+      [uid, type],
     );
     return res.rowCount;
   }

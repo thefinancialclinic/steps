@@ -5,6 +5,7 @@ import clients from './clients';
 import alerts from './alerts';
 import auth from './auth';
 import tasks from './tasks';
+import staff from './staff';
 
 export default storageMergeReducer(
   combineReducers({
@@ -12,6 +13,7 @@ export default storageMergeReducer(
     clients,
     tasks,
     auth,
-    alerts
-  })
+    alerts,
+    staff,
+  }),
 );

@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { formatNumber } from 'libphonenumber-js';
 
-import ButtonLink from 'atoms/ButtonLink';
 import Modal from 'components/Modal';
 import { green } from 'styles/colors';
+import Button from 'atoms/Buttons/Button';
 
 interface Props {
   phoneNumber: string;
@@ -54,7 +54,9 @@ export class TermsModal extends React.Component<Props, {}> {
           </p>
 
           <p>By texting the number, you agree to these terms and conditions</p>
-          <ButtonLink to={link}>Next</ButtonLink>
+          <Link to={link}>
+            <Button>Next</Button>
+          </Link>
         </Container>
       </StyledModal>
     );
