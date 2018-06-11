@@ -67,13 +67,17 @@ jobs:
           command: $(npm bin)/lerna run test --scope=steps-api --stream
 
       - run:
-          name: "Test: Cypress"
+          name: build
           environment:
             NODE_ENV: production
           command: |
             $(npm bin)/lerna run build --stream
+
+      - run:
+          name: cypress
+          command: |
             npm run start:prod &
-            $(npm bin)/wait-on http://localhost:3000
+            $(npm bin)/wait-on http://localhost:3001
             $(npm bin)/cypress run
 
       - store_artifacts:
