@@ -93,6 +93,15 @@ export class TaskRepository implements Repository<TaskId, Task> {
     return res.rows.map(row => new Task(row));
   }
 
+  async filterAll(filters: {status: TaskStatus}): Promise<Task[]> {
+    const res = await this.pool.query(`
+      SELECT *
+      FROM task
+      WHERE status = $1
+    `, [filters.status]);
+    return res.rows.map(row => new Task(row));
+  }
+
   async save(task: Task): Promise<Task> {
     const res = await this.pool.query(
       `
