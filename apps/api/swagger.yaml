@@ -395,6 +395,14 @@ paths:
     get:
       summary: Return a list of Tasks
       tags: [tasks]
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: ['ACTIVE', 'COMPLETED', 'ARCHIVED']
+          required: false
+          description: Filter by the status of the task
       responses:
         '200':
           description: A JSON array of Task objects

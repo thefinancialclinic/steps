@@ -2,11 +2,19 @@ import { NextFunction, Request, Response } from 'express';
 import { TaskRepository, Task } from '../repository/TaskRepository';
 import { pool } from '../index';
 
+const isEmpty = (obj: object): boolean => {
+  return Object.getOwnPropertyNames(obj).length === 0;
+}
+
 export class TaskController {
   private repo = new TaskRepository(pool);
 
   async all(request: Request, response: Response, next: NextFunction) {
-    return this.repo.getAll();
+    if (isEmpty(request.query)) {
+      return this.repo.getAll();
+    } else {
+      return this.repo.filterAll(request.query);
+    }
   }
 
   async one(request: Request, response: Response, next: NextFunction) {
