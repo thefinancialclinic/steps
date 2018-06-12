@@ -5,16 +5,16 @@ import styled from 'styled-components';
 
 interface Props {
   alerts: AlertType[];
+  actions: { removeAlert };
 }
 
-export const AlertsList = ({ alerts }: Props) => {
+export const AlertsList = ({ alerts, actions }: Props) => {
   return (
     <StyledAlerts>
-      {alerts.map(({ level, message }, i) => {
+      {alerts.map(({ level, message, id }, i) => {
         return (
-          <Alert key={i} level={level}>
-            {message.toString()}
-            {/* this is temporary until we figure out a redux store issue */}
+          <Alert onClose={() => actions.removeAlert(id)} key={i} level={level}>
+            {message}
           </Alert>
         );
       })}

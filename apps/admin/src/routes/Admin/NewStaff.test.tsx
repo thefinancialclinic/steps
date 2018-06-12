@@ -78,7 +78,11 @@ describe('NewStaff.tsx', () => {
     form.simulate('submit', { emails: 'test@example.com' });
 
     process.nextTick(() => {
-      expect(addAlert).toHaveBeenCalledWith('some error', 'error');
+      expect(addAlert).toHaveBeenCalledWith({
+        message: 'some error',
+        id: 'new-staff-error',
+        level: 'error',
+      });
       done();
     });
   });

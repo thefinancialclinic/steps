@@ -2,7 +2,7 @@ import { addAlert } from 'actions/alerts';
 import { createClient } from 'actions/clients';
 import Button from 'atoms/Buttons/Button';
 import Main from 'atoms/Main';
-import { AlertLevel } from 'components/Alert/types';
+import { Alert, AlertLevel } from 'components/Alert/types';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -27,7 +27,7 @@ const Content = styled.div`
 
 interface Props {
   className?: string;
-  actions: { addAlert; createClient };
+  actions: { addAlert: (alert: Alert) => any; createClient };
   history: History;
 }
 
@@ -40,8 +40,9 @@ export class NewClient extends React.Component<Props> {
       })
       .catch(error => {
         this.props.actions.addAlert({
-          type: AlertLevel.Error,
-          message: error,
+          level: AlertLevel.Error,
+          message: error.message,
+          id: 'new-client-error',
         });
       });
   };

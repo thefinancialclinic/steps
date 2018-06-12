@@ -142,13 +142,19 @@ export const Components = storiesOf('Components', module)
     />
   ))
   .add('Error Alert', () => (
-    <Alert level={AlertLevel.Error}>This is an error alert</Alert>
+    <Alert onClose={() => {}} level={AlertLevel.Error}>
+      This is an error alert
+    </Alert>
   ))
   .add('Warning Alert', () => (
-    <Alert level={AlertLevel.Warning}>This is a warning alert</Alert>
+    <Alert onClose={() => {}} level={AlertLevel.Warning}>
+      This is a warning alert
+    </Alert>
   ))
   .add('Info Alert', () => (
-    <Alert level={AlertLevel.Info}>This is an info alert</Alert>
+    <Alert onClose={() => {}} level={AlertLevel.Info}>
+      This is an info alert
+    </Alert>
   ))
   .add('Data Table', () => (
     <DataTable>

@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Alert renders correctly 1`] = `
+<styled.div
+  level="error"
+>
+  <Flex
+    alignItems="center"
+    justifyContent="space-between"
+    theme={
+      Object {
+        "breakpoints": Array [
+          "40em",
+          "52em",
+          "64em",
+        ],
+        "fontSizes": Array [
+          12,
+          14,
+          16,
+          20,
+          24,
+          32,
+          48,
+          64,
+          96,
+          128,
+        ],
+        "space": Array [
+          0,
+          4,
+          8,
+          16,
+          32,
+          64,
+          128,
+          256,
+          512,
+        ],
+      }
+    }
+  >
+    Some alert message
+    <styled.i
+      className="material-icons"
+      onClick={
+        [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+        }
+      }
+    >
+      clear
+    </styled.i>
+  </Flex>
+</styled.div>
+`;
