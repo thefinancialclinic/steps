@@ -53,7 +53,7 @@ describe('Task entity operations', () => {
     expect(actual.title).toBe(expectedTitle);
   });
 
-  it('can retrieve steps' async () => {
+  it('can retrieve steps', async () => {
     const subject = await repo.getOne(task.id);
     expect(subject.steps[1].note).toBe('NOTE2');
   });

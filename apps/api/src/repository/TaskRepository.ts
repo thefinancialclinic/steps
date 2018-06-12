@@ -13,7 +13,7 @@ export type ObjectType = {
 export type Step = {
   text: string;
   note?: string;
-}
+};
 
 export type TaskOpts = {
   id?: number;
@@ -93,12 +93,15 @@ export class TaskRepository implements Repository<TaskId, Task> {
     return res.rows.map(row => new Task(row));
   }
 
-  async filterAll(filters: {status: TaskStatus}): Promise<Task[]> {
-    const res = await this.pool.query(`
+  async filterAll(filters: { status: TaskStatus }): Promise<Task[]> {
+    const res = await this.pool.query(
+      `
       SELECT *
       FROM task
       WHERE status = $1
-    `, [filters.status]);
+    `,
+      [filters.status],
+    );
     return res.rows.map(row => new Task(row));
   }
 
@@ -131,7 +134,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         task.date_created,
         task.date_completed,
         task.recurring,
-        task.steps
+        task.steps,
       ],
     );
     return new Task(res.rows[0]);

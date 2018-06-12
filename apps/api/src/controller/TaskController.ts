@@ -4,7 +4,7 @@ import { pool } from '../index';
 
 const isEmpty = (obj: object): boolean => {
   return Object.getOwnPropertyNames(obj).length === 0;
-}
+};
 
 export class TaskController {
   private repo = new TaskRepository(pool);
