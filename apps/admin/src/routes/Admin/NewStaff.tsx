@@ -1,18 +1,18 @@
-import { AlertLevel } from 'components/Alert/types';
+import { addAlert } from 'actions/alerts';
+import { inviteStaff } from 'actions/staff';
+import { AlertLevel, Alert } from 'components/Alert/types';
+import Modal from 'components/Modal';
+import NewStaffForm from 'forms/NewStaffForm';
+import { Flex } from 'grid-styled';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { History } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
-import Modal from 'components/Modal';
-import NewStaffForm from 'forms/NewStaffForm';
-import { inviteStaff } from 'actions/staff';
-import { addAlert } from 'actions/alerts';
-import { Flex } from 'grid-styled';
 
 interface Props {
-  actions: { inviteStaff; addAlert };
+  actions: { inviteStaff; addAlert: (alert: Alert) => any };
   history: History;
 }
 
@@ -25,7 +25,11 @@ export class NewStaff extends React.Component<Props, {}> {
         this.props.history.push('/admin/staff');
       })
       .catch(err => {
-        this.props.actions.addAlert(err.message, AlertLevel.Error);
+        this.props.actions.addAlert({
+          message: err.message,
+          level: AlertLevel.Error,
+          id: 'new-staff-error',
+        });
       });
   };
 

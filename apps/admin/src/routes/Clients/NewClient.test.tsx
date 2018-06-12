@@ -10,7 +10,7 @@ describe('NewClient.tsx', () => {
     const history = { push: jest.fn() };
     const createClient = jest
       .fn()
-      .mockReturnValue(Promise.reject('some error'));
+      .mockReturnValue(Promise.reject({ message: 'some error' }));
     const actions = {
       addAlert: jest.fn(),
       createClient,
@@ -22,8 +22,9 @@ describe('NewClient.tsx', () => {
 
     process.nextTick(() => {
       expect(actions.addAlert).toHaveBeenCalledWith({
-        type: AlertLevel.Error,
+        level: AlertLevel.Error,
         message: 'some error',
+        id: 'new-client-error',
       });
       done();
     });

@@ -1,13 +1,17 @@
-import { ADD_ALERT, removeAlert } from './../actions/alerts';
 import 'jest';
-import reducer from './alerts';
 import { addAlert } from '../actions/alerts';
 import { AlertLevel } from '../components/Alert/types';
+import { removeAlert } from './../actions/alerts';
+import reducer from './alerts';
 
 describe('alerts reducer', () => {
   it('adds an alert', () => {
     const initialState = [];
-    const action = addAlert('some error', AlertLevel.Error, 'id');
+    const action = addAlert({
+      message: 'some error',
+      level: AlertLevel.Error,
+      id: 'id',
+    });
 
     const updatedState = reducer(initialState, action);
 
