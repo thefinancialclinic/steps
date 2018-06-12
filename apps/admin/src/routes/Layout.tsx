@@ -7,7 +7,7 @@ import auth, { USER_TYPE } from 'reducers/auth';
 
 import UserSwitcher from 'components/util/UserSwitcher';
 
-import Admin from './Admin/';
+import Admin from './Admin/index';
 import Client from './Client/';
 import Coach from './Coach/';
 import Login from './Login';

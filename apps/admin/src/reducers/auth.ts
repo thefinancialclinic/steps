@@ -12,7 +12,7 @@ export interface State {
 }
 
 const initialState: State = {
-  type: USER_TYPE.ADMIN,
+  type: null,
 };
 
 export default (state = initialState, action): State => {
