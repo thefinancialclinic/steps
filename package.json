@@ -29,6 +29,7 @@
     }
   },
   "devDependencies": {
+    "@types/jasmine": "^2.8.8",
     "cypress": "^3.0.1",
     "husky": "^1.0.0-rc.8",
     "lint-staged": "^7.1.3",
