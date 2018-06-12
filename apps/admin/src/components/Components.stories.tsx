@@ -27,6 +27,7 @@ import TaskForm from './Tasks/TaskForm';
 import { TaskList } from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
 import moment from 'moment';
+import Goal from './Goals/Goal';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -167,6 +168,9 @@ export const Components = storiesOf('Components', module)
       <Button>Some Button</Button>
     </PageHeader>
   ))
-  .add('Photo Upload', () => <PhotoUpload />);
+  .add('Photo Upload', () => <PhotoUpload />)
+  .add('Goal', () => (
+    <Goal text="My goal is to go to the moon" onEdit={() => {}} />
+  ));
 
 export default Components;
