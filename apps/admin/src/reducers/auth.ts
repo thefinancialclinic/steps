@@ -1,9 +1,10 @@
 import { SET_USER_TYPE } from 'actions/auth';
 
 export enum USER_TYPE {
-  ADMIN,
-  COACH,
-  CLIENT,
+  SUPER_ADMIN = 'Superadmin',
+  ADMIN = 'Admin',
+  COACH = 'Coach',
+  CLIENT = 'Client',
 }
 
 export interface State {

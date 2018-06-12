@@ -15,6 +15,10 @@ class UserSwitcher extends React.Component<any, any> {
     this.state = { show: false };
   }
 
+  setSuperadmin = () => {
+    this.props.actions.setUserType(USER_TYPE.SUPER_ADMIN);
+  };
+
   setAdmin = () => {
     this.props.actions.setUserType(USER_TYPE.ADMIN);
   };
@@ -27,6 +31,10 @@ class UserSwitcher extends React.Component<any, any> {
     this.props.actions.setUserType(USER_TYPE.CLIENT);
   };
 
+  setNone = () => {
+    this.props.actions.setUserType(null);
+  };
+
   toggleDisplay = () => {
     this.setState({ show: !this.state.show });
   };
@@ -36,6 +44,13 @@ class UserSwitcher extends React.Component<any, any> {
 
     return this.state.show ? (
       <Wrapper>
+        <label>
+          <input
+            type="checkbox"
+            onChange={this.setSuperadmin}
+            checked={type === USER_TYPE.SUPER_ADMIN}
+          />Superadmin
+        </label>
         <label>
           <input
             type="checkbox"
@@ -56,6 +71,13 @@ class UserSwitcher extends React.Component<any, any> {
             onChange={this.setClient}
             checked={type === USER_TYPE.CLIENT}
           />Client
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            onChange={this.setNone}
+            checked={type === null}
+          />None
         </label>
         <button onClick={this.toggleDisplay}>hide</button>
       </Wrapper>
