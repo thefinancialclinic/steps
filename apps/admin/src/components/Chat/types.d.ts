@@ -1,4 +1,4 @@
-export type RequestStatus = "NEEDS_ASSISTANCE" | "REPLIED" | "RESOLVED";
+export type RequestStatus = 'NEEDS_ASSISTANCE' | 'REPLIED' | 'RESOLVED';
 
 export type Request = {
   id: number;
@@ -9,7 +9,7 @@ export type Request = {
 
 export type ObjectType = {
   [key: string]: string | number | boolean | ObjectType;
-}
+};
 
 export type Message = {
   id: number;
