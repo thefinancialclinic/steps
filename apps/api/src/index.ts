@@ -17,13 +17,7 @@ import * as token from 'jsonwebtoken';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
-
-// Local .env file (if present)
-let ENV;
-if (existsSync('./.env')) {
-  console.log('Reading .env file...');
-  ENV = JSON.parse(readFileSync('./.env').toString());
-}
+import 'dotenv/config';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT || '3001';
@@ -31,8 +25,8 @@ const localConnString = 'postgres://postgres@localhost:5432/steps_admin_test';
 const connUrl = url.parse(process.env.DATABASE_URL || localConnString);
 
 // Auth0 Config
-const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID || ENV.auth0_client_id;
-const AUTH0_ISSUER = process.env.AUTH0_ISSUER || ENV.auth0_issuer;
+const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID;
+const AUTH0_ISSUER = process.env.AUTH0_ISSUER;
 
 export const pool = new Pool({
   user: connUrl.auth.split(':')[0],
