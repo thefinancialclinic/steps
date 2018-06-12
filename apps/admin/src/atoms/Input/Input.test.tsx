@@ -2,18 +2,12 @@ import Input from './Input';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import 'jest';
+import { Field } from 'react-final-form';
 
 describe('Input.tsx', () => {
   it('renders correctly', () => {
-    const wrapper = shallow(<Input type="text" />);
+    const wrapper = shallow(<Input type="text" name="my input" />);
 
     expect(wrapper).toBeDefined();
-  });
-
-  it('renders text input', () => {
-    const wrapper = shallow(<Input type="text" />);
-
-    const input = wrapper.find('input[type="text"]');
-    expect(input).toHaveLength(1);
   });
 });

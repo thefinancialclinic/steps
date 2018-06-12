@@ -1,16 +1,16 @@
+import { addAlert } from 'actions/alerts';
+import { createClient } from 'actions/clients';
 import Button from 'atoms/Buttons/Button';
+import Main from 'atoms/Main';
 import { AlertLevel } from 'components/Alert/types';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { History } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
-import NewClientForm from './NewClientForm';
-import { createClient } from 'actions/clients';
-import { addAlert } from 'actions/alerts';
-import { History } from 'react-router';
-import Main from 'atoms/Main';
+import NewClientForm from '../../forms/NewClientForm';
 
 const Content = styled.div`
   position: relative;

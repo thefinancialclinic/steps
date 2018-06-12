@@ -5,10 +5,11 @@ import { History } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
-import Modal from '../../components/Modal';
-import NewStaffForm from './NewStaffForm';
+import Modal from 'components/Modal';
+import NewStaffForm from 'forms/NewStaffForm';
 import { inviteStaff } from 'actions/staff';
 import { addAlert } from 'actions/alerts';
+import { Flex } from 'grid-styled';
 
 interface Props {
   actions: { inviteStaff; addAlert };
@@ -31,7 +32,9 @@ export class NewStaff extends React.Component<Props, {}> {
   render() {
     return (
       <StyledModal>
-        <NewStaffForm onSubmit={this.createStaff} />
+        <Flex justifyContent="center">
+          <NewStaffForm onSubmit={this.createStaff} />
+        </Flex>
       </StyledModal>
     );
   }

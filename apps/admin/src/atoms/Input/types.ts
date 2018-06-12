@@ -1,4 +1,1 @@
-export enum InputType {
-  Text = 'text',
-  File = 'file',
-}
+export type InputType = 'text' | 'textarea';
