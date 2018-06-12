@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, withRouter } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+
+import UserSwitcher from 'components/util/UserSwitcher';
 
 import TopBar from 'components/TopBar';
 import Home from './Home';
@@ -12,8 +16,9 @@ import Admin from './Admin';
 import Alert from 'containers/Alert';
 import AdminNewStaff from './Admin/NewStaff';
 
-const Layout = () => (
+const Layout: React.SFC = props => (
   <Wrapper>
+    {process.env.NODE_ENV === 'development' && <UserSwitcher />}
     <TopBar />
     <Alert />
     <Switch>
@@ -37,4 +42,8 @@ const Wrapper = styled.div`
   min-height: 100%;
 `;
 
-export default Layout;
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
+export default withRouter(connect(mapStateToProps)(Layout));
