@@ -1,9 +1,11 @@
+import DateDisplay from 'atoms/DateDisplay';
+import Panel from 'atoms/Panel';
+import Status from 'atoms/Status';
+import { Flex } from 'grid-styled';
+import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
-import Panel from 'atoms/Panel';
-import { Flex } from 'grid-styled';
-import { red, blue, green, grey } from 'styles/colors';
-import moment from 'moment';
+import { blue, green, red } from 'styles/colors';
 import { RequestStatus } from './types';
 
 interface Props {
@@ -31,46 +33,35 @@ const statusDetails = {
 const statusText = status => statusDetails[status].text;
 const statusColor = status => statusDetails[status].color;
 
-export class Request extends React.Component<Props, {}> {
-  render() {
-    const { className, status, message, date } = this.props;
-    return (
-      <div className={className} {...this.props}>
-        <Panel className="container">
-          <Flex>
-            <div className="status">{statusText(status)}</div>
-            <div className="date">{date.format('YYYY-M-D')}</div>
-          </Flex>
-          <div className="message">{message}</div>
-        </Panel>
-      </div>
-    );
-  }
-}
+export const Request: React.SFC<Props> = ({
+  className,
+  status,
+  message,
+  date,
+}) => (
+  <StyledRequest className={className} status={status}>
+    <Panel className="container">
+      <Flex alignItems="center" justifyContent="space-between">
+        <Status color={statusColor(status)}>{statusText(status)}</Status>
+        <DateDisplay date={date} />
+      </Flex>
+      <Message>{message}</Message>
+    </Panel>
+  </StyledRequest>
+);
 
-const StyledRequest = styled(Request)`
-  border-left: 10px solid ${props => statusColor(props.status)};
+export const Message = styled.div`
+  font-size: 30px;
+`;
+
+const StyledRequest = styled<{ status: string }, 'div'>('div')`
+  border-left: 10px solid ${({ status }) => statusColor(status)};
   font-family: 'Calibre', sans-serif;
   margin: 20px;
 
   .container {
-      padding: 30px;
-  }
-
-  .date {
-      color ${grey};
-      margin-left: auto;
-  }
-
-  .status {
-    font-size: 16px;
-    color: ${props => statusColor(props.status)};
-    text-transform: uppercase;
-  }
-
-  .message {
-      font-size: 30px;
+    padding: 30px;
   }
 `;
 
-export default StyledRequest;
+export default Request;

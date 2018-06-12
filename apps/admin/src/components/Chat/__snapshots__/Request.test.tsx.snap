@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Request renders correctly 1`] = `
-<div
-  date={"2018-06-07T05:00:00.000Z"}
-  message="I need help"
+<styled.div
   status="NEEDS_ASSISTANCE"
 >
   <Panel
     className="container"
   >
     <Flex
+      alignItems="center"
+      justifyContent="space-between"
       theme={
         Object {
           "breakpoints": Array [
@@ -43,22 +43,18 @@ exports[`Request renders correctly 1`] = `
         }
       }
     >
-      <div
-        className="status"
+      <Status
+        color="#F73833"
       >
         Needs assistance
-      </div>
-      <div
-        className="date"
-      >
-        2018-6-7
-      </div>
+      </Status>
+      <DateDisplay
+        date={"2018-06-07T05:00:00.000Z"}
+      />
     </Flex>
-    <div
-      className="message"
-    >
+    <styled.div>
       I need help
-    </div>
+    </styled.div>
   </Panel>
-</div>
+</styled.div>
 `;

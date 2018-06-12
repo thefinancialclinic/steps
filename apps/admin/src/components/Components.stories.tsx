@@ -10,6 +10,7 @@ import { Alert } from './Alert/Alert';
 import { AlertLevel } from './Alert/types';
 import ChatMedia from './Chat/ChatMedia';
 import ChatMessage from './Chat/ChatMessage';
+import Request from './Chat/Request';
 import NameCard from './Clients/NameCard';
 import TermsModal from './Clients/TermsModal';
 import DataRow from './DataTable/DataRow';
@@ -18,7 +19,6 @@ import NavDropdown from './Dropdowns/NavDropdown';
 import Modal from './Modal';
 import NavGroup from './NavGroup/NavGroup';
 import PhotoUpload from './PhotoUpload';
-import Request from './Chat/Request';
 import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
@@ -26,6 +26,7 @@ import { PermissionLevel } from './StaffList/types';
 import TaskForm from './Tasks/TaskForm';
 import { TaskList } from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
+import moment from 'moment';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -78,7 +79,7 @@ export const Components = storiesOf('Components', module)
         'NEEDS_ASSISTANCE',
       )}
       message="I tried calling my credit card but couldn't get through to them"
-      date={new Date()}
+      date={moment.utc()}
     />
   ))
   .add('Sidebar', () => <Sidebar links={[{ to: '', text: '' }]} />)
