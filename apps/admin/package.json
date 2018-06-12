@@ -21,6 +21,7 @@
     "final-form": "^4.7.3",
     "grid-styled": "^4.1.0",
     "libphonenumber-js": "^1.2.14",
+    "moment": "^2.22.2",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-final-form": "^3.5.1",

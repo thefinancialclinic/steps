@@ -2,8 +2,9 @@ import { shallow } from 'enzyme';
 import { Request } from './Request';
 import * as React from 'react';
 import 'jest';
+import moment from 'moment';
 
-const date = new Date(Date.UTC(2018, 5, 7));
+const date = moment.utc(new Date(2018, 5, 7));
 
 describe('Request', () => {
   it('shows request status', () => {
@@ -27,7 +28,7 @@ describe('Request', () => {
       <Request status="NEEDS_ASSISTANCE" message="I need help" date={date} />,
     );
 
-    expect(wrapper.find('.date').text()).toBe(date.toLocaleDateString());
+    expect(wrapper.find('.date').text()).toBe(date.format('YYYY-M-D'));
   });
 
   it('renders correctly', () => {

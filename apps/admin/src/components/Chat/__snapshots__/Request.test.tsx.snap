@@ -2,7 +2,7 @@
 
 exports[`Request renders correctly 1`] = `
 <div
-  date={2018-06-07T00:00:00.000Z}
+  date={"2018-06-07T05:00:00.000Z"}
   message="I need help"
   status="NEEDS_ASSISTANCE"
 >

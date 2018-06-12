@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import Panel from 'atoms/Panel';
 import { Flex } from 'grid-styled';
 import { red, blue, green, grey } from 'styles/colors';
+import moment from 'moment';
+import { RequestStatus } from './types';
 
 interface Props {
   className?: string;
   status: RequestStatus;
   message: string;
-  date: Date;
+  date: moment.Moment;
 }
 
 const statusDetails = {
@@ -37,7 +39,7 @@ export class Request extends React.Component<Props, {}> {
         <Panel className="container">
           <Flex>
             <div className="status">{statusText(status)}</div>
-            <div className="date">{date.toLocaleDateString()}</div>
+            <div className="date">{date.format('YYYY-M-D')}</div>
           </Flex>
           <div className="message">{message}</div>
         </Panel>
