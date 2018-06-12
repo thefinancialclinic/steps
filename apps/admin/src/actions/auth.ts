@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { USER_TYPE } from 'reducers/auth';
+import { Org, User, USER_TYPE } from 'reducers/auth';
 
 const apiUrl = process.env.API_URL || 'http://localhost:3001/api';
 
@@ -15,12 +15,16 @@ export const authenticate = async userType => {
 
 export const LOGIN = 'LOGIN';
 export const login = userType => async dispatch => {
-  let user = { type: userType };
+  let user: User = { type: userType };
+  let org: any = {};
+
   if (userType === USER_TYPE.SUPER_ADMIN) {
   } else if (userType === USER_TYPE.ADMIN) {
   } else if (userType === USER_TYPE.COACH) {
     const coaches = await axios.get(apiUrl + '/coaches');
     user = coaches.data[0];
+    org = await axios.get(`${apiUrl}/orgs/${user.org_id}`);
+    user.org = org.data;
   } else if (userType === USER_TYPE.CLIENT) {
     const clients = await axios.get(apiUrl + '/clients');
     user = clients.data[1];

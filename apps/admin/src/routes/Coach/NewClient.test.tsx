@@ -5,6 +5,8 @@ import NewClientForm from './NewClientForm';
 import * as React from 'react';
 import { AlertLevel } from '../../components/Alert/types';
 
+declare var process;
+
 describe('NewClient.tsx', () => {
   it('displays an error if the client response is an error', done => {
     const history = { push: jest.fn() };

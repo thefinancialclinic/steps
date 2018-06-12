@@ -1,4 +1,4 @@
-import { LOGIN, SET_USER_TYPE } from 'actions/auth';
+import { LOGIN, LOGOUT, SET_USER_TYPE } from 'actions/auth';
 
 export enum USER_TYPE {
   SUPER_ADMIN = 'Superadmin',
@@ -7,7 +7,14 @@ export enum USER_TYPE {
   CLIENT = 'Client',
 }
 
-export interface User {
+export type Org = {
+  id?: number;
+  name: string;
+  sms_number: string;
+  logo?: string;
+}
+
+export type User = {
   checkin_times?: any;
   coach_id?: number;
   color?: string;
@@ -25,14 +32,17 @@ export interface User {
   status?: string;
   type: null | USER_TYPE;
   updated?: string;
+  org?: Org;
 }
 
 export interface State {
   user: null | User;
+  isAuthenticated: boolean;
 }
 
 const initialState: State = {
   user: { type: null },
+  isAuthenticated: false,
 };
 
 export default (state = initialState, action): State => {
@@ -41,7 +51,10 @@ export default (state = initialState, action): State => {
       return { ...state, user: { type: action.userType } };
 
     case LOGIN:
-      return { ...state, user: action.user };
+      return { ...state, user: action.user, isAuthenticated: true };
+
+    case LOGOUT:
+      return { ...state, user: null, isAuthenticated: false };
 
     default:
       return state;

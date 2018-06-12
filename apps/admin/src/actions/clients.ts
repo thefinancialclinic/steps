@@ -2,15 +2,19 @@ import axios from 'axios';
 import { addAlert } from './alerts';
 import { AlertLevel } from '../components/Alert/types';
 
-type DispatchFn = (any) => any;
+type DispatchFn = (dispatch?: any, getState?: any) => any;
 
 const apiUrl = process.env.API_URL || 'http://localhost:3001/api';
 
 const GET_CLIENTS = 'GET_CLIENTS';
-export const getClients = (): DispatchFn => async dispatch => {
+export const getClients = (): DispatchFn => async (dispatch, getState) => {
   try {
-    const clients = await axios.get(apiUrl + '/clients');
-    return dispatch(setClients(clients.data));
+    const { user } = getState().auth;
+    const allClients = await axios.get(apiUrl + '/clients');
+    console.log(allClients.data);
+    const clients = [...allClients.data].filter(c => c.coach_id === user.id);
+
+    return dispatch(setClients(clients));
   } catch (error) {
     console.error(error);
   }
@@ -24,18 +28,13 @@ export const setClients = clients => {
   };
 };
 
-const tempGetCoach = async () => {
-  const coaches = await axios.get(apiUrl + '/coaches');
-  return coaches.data[0];
-};
-
 export const CREATE_CLIENT = 'CREATE_CLIENT';
-export const createClient = (clientData): DispatchFn => async dispatch => {
+export const createClient = (clientData): DispatchFn => async (dispatch, getState) => {
   try {
     // TODO: Coach should be stored in the auth store, with current user information
-    const coach = await tempGetCoach();
-    clientData.org_id = coach.org_id;
-    clientData.coach_id = coach.id;
+    const { user } = getState().auth;
+    clientData.org_id = user.org_id;
+    clientData.coach_id = user.id;
     clientData.color = 'blue';
     clientData.status = 'AWAITING_HELP';
 

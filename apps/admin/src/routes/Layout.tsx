@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, Route, Switch, withRouter } from 'react-router-dom';
+import { Link, Redirect, Route, Switch, withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import auth, { USER_TYPE, User } from 'reducers/auth';
@@ -16,9 +16,10 @@ import Superadmin from './Superadmin/index';
 interface Props {
   children?: any;
   user: null | User;
+  history: any;
 }
 
-const Layout: React.SFC = ({ user }: Props) => {
+const Layout: React.SFC = ({ history, user }: Props) => {
   const { type } = user;
   let Routes = DefaultRoutes;
 
@@ -31,6 +32,7 @@ const Layout: React.SFC = ({ user }: Props) => {
     <Wrapper>
       {process.env.NODE_ENV === 'development' && <UserSwitcher />}
       <Routes user={user} />
+      {history.location !== '/' && <Redirect to={`/`} />}
     </Wrapper>
   );
 };

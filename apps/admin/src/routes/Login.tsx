@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Form, Field } from 'react-final-form';
 
@@ -22,8 +23,9 @@ const RadioField: React.SFC<any> = ({ userType }) => (
 );
 
 class Login extends React.Component<any, any> {
-  private onSubmit = ({ user_type }) => {
-    this.props.actions.login(user_type);
+  private onSubmit = async ({ user_type }) => {
+    await this.props.actions.login(user_type);
+    this.props.history.push('/');
   };
 
   render() {
@@ -73,4 +75,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Login);
+)(withRouter(Login));

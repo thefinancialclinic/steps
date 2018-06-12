@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import Terms from './Terms';
-import Tasks from '../Tasks/Tasks';
+import Tasks from '../old/Tasks/Tasks';
 import styled from 'styled-components';
 
 interface Props {
