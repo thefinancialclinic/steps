@@ -39,6 +39,7 @@ exports[`Goal.tsx renders correctly 1`] = `
   >
     <EditButton
       component="Goal"
+      onClick={[MockFunction]}
     />
   </Flex>
   <Flex

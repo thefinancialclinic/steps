@@ -9,10 +9,11 @@ import { Flex } from 'grid-styled';
 interface Props {
   text: string;
   onEdit(): void;
+  className?: string;
 }
 
-const Goal: React.SFC<Props> = ({ text, onEdit }) => (
-  <Panel>
+const Goal: React.SFC<Props> = ({ text, onEdit, className }) => (
+  <Panel className={className}>
     <Flex justifyContent="flex-end">
       <EditButton component="Goal" onClick={onEdit} />
     </Flex>

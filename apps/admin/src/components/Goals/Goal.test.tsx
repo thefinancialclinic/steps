@@ -4,14 +4,15 @@ import Goal from './Goal';
 import EditButton from '../../atoms/EditButton';
 
 describe('Goal.tsx', () => {
+  const onEdit = jest.fn();
   it('is defined', () => {
-    const wrapper = shallow(<Goal text="This is my goal" />);
+    const wrapper = shallow(<Goal onEdit={onEdit} text="This is my goal" />);
 
     expect(wrapper).toBeDefined();
   });
 
   it('renders correctly', () => {
-    const wrapper = shallow(<Goal text="This is my goal" />);
+    const wrapper = shallow(<Goal onEdit={onEdit} text="This is my goal" />);
 
     expect(wrapper).toMatchSnapshot();
   });
