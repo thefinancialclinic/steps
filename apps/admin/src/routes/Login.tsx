@@ -22,12 +22,6 @@ const RadioField: React.SFC<any> = ({ userType }) => (
 );
 
 class Login extends React.Component<any, any> {
-  constructor(props) {
-    super(props);
-
-    this.state = { show: false };
-  }
-
   private onSubmit = ({ user_type }) => {
     this.props.actions.login(user_type);
   };
@@ -45,7 +39,6 @@ class Login extends React.Component<any, any> {
             <RadioField userType={USER_TYPE.ADMIN} />
             <RadioField userType={USER_TYPE.COACH} />
             <RadioField userType={USER_TYPE.CLIENT} />
-            <RadioField userType={'null'} />
             <Button type="submit" onClick={handleSubmit}>
               Submit
             </Button>
@@ -70,7 +63,7 @@ const StyledForm = styled.form`
 `;
 
 const mapStateToProps = state => ({
-  type: state.auth.type,
+  type: state.auth.user.type,
 });
 
 const mapDispatchToProps = dispatch => ({

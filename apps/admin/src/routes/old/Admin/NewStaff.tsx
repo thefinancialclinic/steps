@@ -5,7 +5,7 @@ import { History } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
-import Modal from '../../components/Modal';
+import Modal from 'components/Modal';
 import NewStaffForm from './NewStaffForm';
 import { inviteStaff } from 'actions/staff';
 import { addAlert } from 'actions/alerts';

@@ -8,8 +8,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import Terms from 'routes/Clients/Terms';
-import Tasks from 'routes/Tasks/Tasks';
+import Terms from './Terms';
+import Tasks from '../Tasks/Tasks';
 import styled from 'styled-components';
 
 interface Props {

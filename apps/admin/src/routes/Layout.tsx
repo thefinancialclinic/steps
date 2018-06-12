@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link, Route, Switch, withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import auth, { USER_TYPE } from 'reducers/auth';
+import auth, { USER_TYPE, User } from 'reducers/auth';
 
 import UserSwitcher from 'components/util/UserSwitcher';
 
@@ -11,16 +11,15 @@ import Admin from './Admin/index';
 import Client from './Client/';
 import Coach from './Coach/';
 import Login from './Login';
-import PrivateRoute from './PrivateRoute';
-import Superadmin from './Superadmin/';
+import Superadmin from './Superadmin/index';
 
 interface Props {
   children?: any;
-  auth: any;
+  user: null | User;
 }
 
-const Layout: React.SFC = ({ auth }: Props) => {
-  const { type } = auth;
+const Layout: React.SFC = ({ user }: Props) => {
+  const { type } = user;
   let Routes = DefaultRoutes;
 
   if (type === USER_TYPE.SUPER_ADMIN) Routes = Superadmin;
@@ -31,7 +30,7 @@ const Layout: React.SFC = ({ auth }: Props) => {
   return (
     <Wrapper>
       {process.env.NODE_ENV === 'development' && <UserSwitcher />}
-      <Routes auth={auth} />
+      <Routes user={user} />
     </Wrapper>
   );
 };
@@ -45,7 +44,7 @@ const Wrapper = styled.div`
 `;
 
 const mapStateToProps = state => ({
-  auth: state.auth,
+  user: state.auth.user,
 });
 
 export default withRouter(connect(mapStateToProps)(Layout));
