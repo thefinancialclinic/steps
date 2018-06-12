@@ -12,7 +12,7 @@ export type Org = {
   name: string;
   sms_number: string;
   logo?: string;
-}
+};
 
 export type User = {
   checkin_times?: any;
@@ -33,7 +33,7 @@ export type User = {
   type: null | USER_TYPE;
   updated?: string;
   org?: Org;
-}
+};
 
 export interface State {
   user: null | User;

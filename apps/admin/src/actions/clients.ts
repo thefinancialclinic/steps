@@ -29,7 +29,10 @@ export const setClients = clients => {
 };
 
 export const CREATE_CLIENT = 'CREATE_CLIENT';
-export const createClient = (clientData): DispatchFn => async (dispatch, getState) => {
+export const createClient = (clientData): DispatchFn => async (
+  dispatch,
+  getState,
+) => {
   try {
     // TODO: Coach should be stored in the auth store, with current user information
     const { user } = getState().auth;
