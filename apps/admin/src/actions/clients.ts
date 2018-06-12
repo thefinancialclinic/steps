@@ -24,11 +24,18 @@ export const setClients = clients => {
   };
 };
 
+const tempGetCoach = async () => {
+  const coaches = await axios.get(apiUrl + '/coaches');
+  return coaches.data[0];
+};
+
 export const CREATE_CLIENT = 'CREATE_CLIENT';
 export const createClient = (clientData): DispatchFn => async dispatch => {
   try {
-    clientData.org_id = 1;
-    clientData.coach_id = 6;
+    // TODO: Coach should be stored in the auth store, with current user information
+    const coach = await tempGetCoach();
+    clientData.org_id = coach.org_id;
+    clientData.coach_id = coach.id;
     clientData.color = 'blue';
     clientData.status = 'AWAITING_HELP';
 
