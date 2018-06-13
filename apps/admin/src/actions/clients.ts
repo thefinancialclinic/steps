@@ -43,3 +43,13 @@ export const createClient = (clientData): DispatchFn => async dispatch => {
     return Promise.reject(error);
   }
 };
+
+export const SET_CLIENT_GOALS = 'SET_CLIENT_GOALS';
+export const setGoals = (clientId, goals) => {
+  // api call
+  return {
+    type: SET_CLIENT_GOALS,
+    clientId,
+    goals,
+  };
+};
