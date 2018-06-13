@@ -1,15 +1,26 @@
-import { Repository } from "./Repository";
-import { OrgId } from "./OrgRepository";
-import { Pool, Client } from "pg";
+import { Repository } from './Repository';
+import { OrgId } from './OrgRepository';
+import { Pool, Client } from 'pg';
+import { Task } from './TaskRepository';
+import { Message } from './MessageRepository';
+import { Media, MediaId } from './MediaRepository';
+import { RequestItem } from './RequestRepository';
 
 export type UserId = number;
-export type UserType = "Client" | "Coach" | "Admin" | "Superadmin";
-export type UserPlatform = "SMS" | "FBOOK";
-export type UserStatus = "AWAITING_HELP" | "WORKING" | "NON_RESPONSIVE";
+export type UserType = 'Client' | 'Coach' | 'Admin' | 'Superadmin';
+export type UserPlatform = 'SMS' | 'FBOOK';
+export type UserStatus = 'AWAITING_HELP' | 'WORKING' | 'NON_RESPONSIVE';
+export type ViewedMedia = { id: number; client_id: UserId; media_id: MediaId };
 
 export type ObjectType = {
   [key: string]: string | number | boolean | ObjectType;
-}
+};
+
+export type Checkin = {
+  topic: string;
+  message: string;
+  time: Date;
+};
 
 export type UserOpts = {
   id?: UserId;
@@ -28,7 +39,7 @@ export type UserOpts = {
   image?: string;
   follow_up_date?: Date;
   plan_url?: string;
-  checkin_times?: ObjectType[];
+  checkin_times?: Checkin[];
   topic?: string;
 };
 
@@ -49,7 +60,7 @@ export class User {
   image?: string | null;
   follow_up_date?: Date;
   plan_url?: string;
-  checkin_times?: ObjectType[];
+  checkin_times?: Checkin[];
   topic?: string;
 
   constructor(opts: UserOpts) {
@@ -75,11 +86,11 @@ export class User {
 }
 
 export class UserRepository implements Repository<UserId, User> {
-  constructor(public pool: Pool) { }
+  constructor(public pool: Pool) {}
 
   async getOne(uid: UserId) {
     const res = await this.pool.query(`SELECT * FROM "user" WHERE id = $1`, [
-      uid
+      uid,
     ]);
     return new User(res.rows[0]);
   }
@@ -89,7 +100,7 @@ export class UserRepository implements Repository<UserId, User> {
     return res.rows.map(row => new User(row));
   }
 
-  async save(user: User) {
+  async save(user: User): Promise<User> {
     const res = await this.pool.query(
       `
       INSERT INTO "user" (
@@ -110,7 +121,7 @@ export class UserRepository implements Repository<UserId, User> {
         plan_url,
         checkin_times
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
-      RETURNING id
+      RETURNING *
     `,
       [
         user.first_name,
@@ -129,42 +140,89 @@ export class UserRepository implements Repository<UserId, User> {
         user.follow_up_date,
         user.plan_url,
         user.checkin_times,
-      ]
+      ],
     );
-    return res.rows[0].id as UserId;
+    return new User(res.rows[0]);
   }
 
-  async delete(uid: UserId) {
+  async update(user: User): Promise<User> {
+    const res = await this.pool.query(
+      `
+      UPDATE "user" SET (
+        first_name,
+        last_name,
+        email,
+        phone,
+        coach_id,
+        org_id,
+        color,
+        goals,
+        status,
+        type,
+        updated,
+        platform,
+        image,
+        follow_up_date,
+        plan_url,
+        checkin_times
+      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+      WHERE id = $17
+      RETURNING *
+    `,
+      [
+        user.first_name,
+        user.last_name,
+        user.email,
+        user.phone,
+        user.coach_id,
+        user.org_id,
+        user.color,
+        user.goals,
+        user.status,
+        user.type,
+        user.updated,
+        user.platform,
+        user.image,
+        user.follow_up_date,
+        user.plan_url,
+        user.checkin_times,
+        user.id,
+      ],
+    );
+    return new User(res.rows[0]);
+  }
+
+  async delete(uid: UserId): Promise<number> {
     const res = await this.pool.query(`DELETE FROM "user" WHERE id = $1`, [
-      uid
+      uid,
     ]);
     return res.rowCount;
   }
 
   // Parameterized
-  async getAllByType(type: UserType) {
+  async getAllByType(type: UserType): Promise<User[]> {
     const res = await this.pool.query(`SELECT * FROM "user" WHERE type = $1`, [
-      type
+      type,
     ]);
     return res.rows.map(row => new User(row));
   }
-  async getOneByType(uid: UserId, type: UserType) {
+  async getOneByType(uid: UserId, type: UserType): Promise<User> {
     const res = await this.pool.query(
       `SELECT * FROM "user" WHERE id = $1 AND type = $2`,
-      [uid, type]
+      [uid, type],
     );
     return new User(res.rows[0]);
   }
 
-  async saveByType(user: User, type: UserType) {
+  async saveByType(user: User, type: UserType): Promise<User> {
     user.type = type;
     return this.save(user);
   }
 
-  async deleteByType(uid: UserId, type: UserType) {
+  async deleteByType(uid: UserId, type: UserType): Promise<number> {
     const res = await this.pool.query(
       `DELETE FROM "user" WHERE id = $1 AND type = $2`,
-      [uid, type]
+      [uid, type],
     );
     return res.rowCount;
   }
@@ -181,5 +239,127 @@ export class UserRepository implements Repository<UserId, User> {
     // problem that the next (very first!) User to be added will clash
     // with the existing seeded value.
     await this.pool.query(`SELECT nextval('user_id_seq');`);
+  }
+
+  async tasks(clientId: UserId, currentCoach: UserId): Promise<Task[]> {
+    const res = await this.pool.query(
+      `
+      SELECT
+        task.id,
+        task.title,
+        task.category,
+        task.description,
+        task.status,
+        task.created_by,
+        task.user_id,
+        task.difficulty,
+        task.date_created,
+        task.date_completed,
+        task.recurring,
+        task.steps
+      FROM task
+      JOIN "user" usr ON task.user_id = usr.id
+      WHERE usr.coach_id = $1
+      AND   usr.id = $2
+      AND   usr.type = 'Client'`,
+      [currentCoach, clientId],
+    );
+    return res.rows.map(row => new Task(row));
+  }
+
+  async messages(clientId: UserId, currentCoach: UserId): Promise<Message[]> {
+    const res = await this.pool.query(
+      `
+      SELECT
+        msg.id,
+        msg.text,
+        msg.to_user,
+        msg.from_user,
+        msg.media_id,
+        msg.request_id,
+        msg.timestamp,
+        msg.responses
+      FROM message msg
+      JOIN "user" usr ON (usr.id = msg.from_user OR usr.id = msg.to_user)
+      WHERE usr.id = $1
+      AND usr.type = 'Client'
+      AND usr.coach_id = $2
+    `,
+      [clientId, currentCoach],
+    );
+    return res.rows.map(row => new Message(row));
+  }
+
+  async viewed_media(clientId: UserId, currentCoach: UserId): Promise<Media[]> {
+    const res = await this.pool.query(
+      `
+      SELECT
+        media.id,
+        media.task_id,
+        media.title,
+        media.category,
+        media.description,
+        media.url,
+        media.image,
+        media.published_by,
+        media.type
+      FROM media
+      JOIN viewed_media vm ON media.id = vm.media_id
+      JOIN "user" usr ON usr.id = vm.client_id
+      WHERE usr.id = $1
+      AND usr.type = 'Client'
+      AND usr.coach_id = $2;
+      `,
+      [clientId, currentCoach],
+    );
+    return res.rows.map(row => new Media(row));
+  }
+
+  async create_viewed_media(
+    clientId: UserId,
+    mediaId: MediaId,
+  ): Promise<ViewedMedia> {
+    const res = await this.pool.query(
+      `
+      INSERT INTO viewed_media (client_id, media_id)
+      VALUES ($1, $2)
+      RETURNING *
+      `,
+      [clientId, mediaId],
+    );
+    return res.rows[0];
+  }
+
+  async delete_viewed_media(
+    clientId: UserId,
+    mediaId: MediaId,
+  ): Promise<number> {
+    const res = await this.pool.query(
+      `
+      DELETE FROM viewed_media
+      WHERE client_id = $1 AND media_id = $2;
+      `,
+      [clientId, mediaId],
+    );
+    return res.rowCount;
+  }
+
+  async requests(clientId: UserId, coachId: UserId): Promise<RequestItem[]> {
+    const res = await this.pool.query(
+      `
+      SELECT
+        r.id,
+        r.status,
+        r.user_id,
+        r.task_id
+      FROM request r
+      JOIN "user" usr ON usr.id = r.user_id
+      WHERE usr.coach_id = $2
+      AND usr.type = 'Client'
+      AND usr.id = $1;
+      `,
+      [clientId, coachId],
+    );
+    return res.rows.map(row => new RequestItem(row));
   }
 }

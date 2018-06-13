@@ -1,42 +1,41 @@
 import React from 'react';
 import styled from 'styled-components';
 import Panel from 'atoms/Panel';
+import { PendingInvite, User, Staff, StaffMember } from './types';
+import { Flex, Box } from 'grid-styled';
 
-interface Props {
-  className?: string;
-}
-
+type Props = StaffMember & { className?: string };
 
 class StaffListItem extends React.Component<Props, {}> {
-  render () {
+  render() {
     return (
-      <div className={this.props.className}>
-        <Panel>
-          <div className='list-wrapper'>
-            <div className='name-and-email'>bob@villa.com</div>
-            <div className='right'>
-              <div className='permissions'>dropdown here</div>
-              <div className='actions'>icon</div>
-            </div>
-          </div>
-        </Panel>
-      </div>
+      <Panel shadow={true} className={this.props.className}>
+        <Flex justifyContent="space-between">
+          <Box>
+            <NameOrEmail {...this.props} />
+          </Box>
+          <Box>
+            <PendingInvite>Pending Invite</PendingInvite>
+          </Box>
+        </Flex>
+      </Panel>
     );
   }
 }
 
-const StyledStaffListItem = styled(StaffListItem)`
-margin-bottom: 10px;
+export const NameOrEmail = props => {
+  const { email, name, pendingInvite } = props;
+  return pendingInvite ? <Email>{email}</Email> : <Name>{name}</Name>;
+};
 
-.list-wrapper {
-  display: flex;
-  justify-content: space-between;;
-}
-
-.right {
-  display: flex;
-  justify-content: flex-end;
-}
+const PendingInvite = styled.div`
+  text-transform: uppercase;
 `;
 
-export default StyledStaffListItem;
+const Name = styled.div``;
+
+export const Email = styled.div`
+  font-style: italic;
+`;
+
+export default StaffListItem;

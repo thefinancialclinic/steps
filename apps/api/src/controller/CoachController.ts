@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { UserRepository, UserType, User } from "../repository/UserRepository";
-import { pool } from "../index";
-
+import { NextFunction, Request, Response } from 'express';
+import { UserRepository, UserType, User } from '../repository/UserRepository';
+import { pool } from '../index';
 
 export class CoachController {
   private repo = new UserRepository(pool);

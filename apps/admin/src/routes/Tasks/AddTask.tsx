@@ -1,19 +1,35 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Flex, Box } from 'grid-styled';
-import { blue, brown, green, grey, pink} from 'styles/colors';
-import styled from 'styled-components';
-import Filter from 'atoms/Filter';
+import { addTask } from 'actions/tasks';
+import BackButton from 'atoms/Buttons/BackButton';
+import Button from 'atoms/Buttons/Button';
+import Header from 'atoms/Header';
+import Main from 'atoms/Main';
+import Filter from 'components/Filter';
+import PageHeader from 'components/Headers/PageHeader';
 import TaskTemplate from 'components/Tasks/TaskTemplate';
+// TODO: REMOVE THIS -- DEMO ONLY
+import faker from 'faker';
+import sample from 'lodash/sample';
+import React from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { Client } from 'reducers/clients';
+import { Task } from 'reducers/tasks';
+import { bindActionCreators } from 'redux';
+import styled from 'styled-components';
+import { grey } from 'styles/colors';
 
 interface Props {
   className?: string;
+  client: Client;
+  tasks: Task[];
+  actions: { addTask };
+  history: any;
 }
 
 const StyledLink = styled.span`
   a {
     color: ${grey};
-    font-size: .8em;
+    font-size: 0.8em;
     margin-left: 1em;
     text-decoration: none;
     text-transform: uppercase;
@@ -21,29 +37,56 @@ const StyledLink = styled.span`
 `;
 
 class AddTask extends React.Component<Props, {}> {
-
-  render () {
-
-    const task = {
-      id: 3,
-      title: 'A title',
-      description: 'This is a preexisting task',
-      category: 'Boop'
-    };
-
+  render() {
     return (
-        <Box width={1}>
-          <h2>Add New Task</h2>
-          <Filter
-            categories={[{name: 'debt', active: true}, {name: 'budget', active: false}]}
-          />
-          <Flex alignItems='center'>
-            <h3>Task</h3> <StyledLink><Link  to='/'>Sort by last used</Link></StyledLink>
-          </Flex>
-          <TaskTemplate task={task}></TaskTemplate>
-        </Box>
+      <Main>
+        <Header>
+          <BackButton to={`/clients/${this.props.client.id}/tasks`} />
+          <Button>Create New Task</Button>
+        </Header>
+        <PageHeader label="Add New Task" />
+        <Filter
+          categories={[
+            { name: 'debt', active: true },
+            { name: 'budget', active: false },
+          ]}
+        />
+        <h3>Task</h3>
+        {/* TODO: Extract to TaskList */}
+        {this.props.tasks.map((task, i) => {
+          const userTask = {
+            ...task,
+            user_id: this.props.client.id,
+            title: faker.lorem.sentence(),
+            category: sample(['income', 'expenses', 'credit', 'debt']),
+            description: faker.lorem.paragraph(),
+          };
+          delete userTask.steps;
+
+          return (
+            <TaskTemplate
+              task={userTask}
+              key={i}
+              addTask={this.props.actions.addTask}
+              history={this.props.history}
+            />
+          );
+        })}
+      </Main>
     );
   }
 }
 
-export default AddTask;
+const mapStateToProps = (state, props) => ({
+  tasks: state.tasks.tasks.filter(t => !t.user_id),
+  client: state.clients.clients.find(c => (c.id = props.match.params.id)),
+});
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ addTask }, dispatch),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withRouter(AddTask));

@@ -1,15 +1,16 @@
+import { addAlert } from 'actions/alerts';
+import { createClient } from 'actions/clients';
+import Button from 'atoms/Buttons/Button';
+import Main from 'atoms/Main';
+import { Alert, AlertLevel } from 'components/Alert/types';
+import { Box, Flex } from 'grid-styled';
 import React from 'react';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { History } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { createClient  } from 'actions/clients';
-import { Link, Redirect } from 'react-router-dom';
-import { Flex, Box } from 'grid-styled';
-import { remCalc } from 'styles/type';
-import Button from 'atoms/Button';
-import StackedInputRow from 'components/Forms/StackedInputRow';
-import Panel from 'atoms/Panel';
-import NewClientForm from './NewClientForm';
+import styled from 'styled-components';
+import NewClientForm from '../../forms/NewClientForm';
 
 const Content = styled.div`
   position: relative;
@@ -18,7 +19,7 @@ const Content = styled.div`
 
   button {
     position: absolute;
-    bottom:0;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -26,60 +27,58 @@ const Content = styled.div`
 
 interface Props {
   className?: string;
-  actions: any;
+  actions: { addAlert: (alert: Alert) => any; createClient };
+  history: History;
 }
 
-class NewClient extends React.Component<Props>{
-
-  state = {
-    shouldRedirect: false
-  }
-  setRedirect = () => {
-    this.setState({
-      shouldRedirect: true
-    })
-  }
-  renderRedirect = () => {
-    if (this.state.shouldRedirect) {
-      return <Redirect to='/clients' from='/clients/new' />
-    }
-  }
-
+export class NewClient extends React.Component<Props> {
   createClient = clientData => {
-    this.props.actions.createClient(clientData)
+    this.props.actions
+      .createClient(clientData)
       .then(res => {
-        this.setRedirect();
-        this.renderRedirect();
-      }).catch(error => this.setState({ shouldRedirect: false, errorMessage: error }))
+        this.props.history.push('/clients');
+      })
+      .catch(error => {
+        this.props.actions.addAlert({
+          level: AlertLevel.Error,
+          message: error.message,
+          id: 'new-client-error',
+        });
+      });
   };
 
-  render () {
+  render() {
     return (
-
-      <div className='new-client'>
-        {this.renderRedirect()}
-        <Flex flexWrap='wrap'>
-          <Box width={[1, 1/2]} px={2}>
+      <Main className="new-client">
+        <Flex flexWrap="wrap">
+          <Box width={[1, 1 / 2]} px={2}>
             <Content>
               <h2>Title</h2>
-              <Box>Learn how this digital helper can help you achieve your dreams. It's a text message based program and will reach out to you once a day with reminders, content, and encouragement.</Box>
+              <Box>
+                Learn how this digital helper can help you achieve your dreams.
+                It's a text message based program and will reach out to you once
+                a day with reminders, content, and encouragement.
+              </Box>
               <Button>Play Video</Button>
             </Content>
           </Box>
-          <Box width={[1, 1/2]} px={2}>
+          <Box width={[1, 1 / 2]} px={2}>
             <Content>
-              <NewClientForm onSubmit={this.createClient}></NewClientForm>
+              <NewClientForm onSubmit={this.createClient} />
             </Content>
           </Box>
         </Flex>
         <Link to="/">Home</Link>
-      </div>
+      </Main>
     );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ createClient }, dispatch)
+  actions: bindActionCreators({ createClient, addAlert }, dispatch),
 });
 
-export default connect(null, mapDispatchToProps)(NewClient);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(withRouter(NewClient));

@@ -1,31 +1,38 @@
-import { RequestRepository, RequestId, RequestItem } from '../src/repository/RequestRepository';
-import { getTestConnectionPool, fixtures } from './db_helper';
+import {
+  RequestRepository,
+  RequestItem,
+} from '../src/repository/RequestRepository';
+import { fixtures, getTestConnectionPool, Pool } from './db_helper';
 
 describe('media entity operations', () => {
-  let requestId: RequestId;
+  let pool: Pool;
+  let request: RequestItem;
   let repo: RequestRepository;
 
   beforeAll(async () => {
-    const pool = await getTestConnectionPool({ createFixtures: true });
+    pool = await getTestConnectionPool({ createFixtures: true });
     repo = new RequestRepository(pool);
-    requestId = await repo.save(new RequestItem({
-      status: "NEEDS_ASSISTANCE",
-      user_id: fixtures.user,
-      task_id: fixtures.task,
-    }));
+    request = await repo.save(
+      new RequestItem({
+        status: 'NEEDS_ASSISTANCE',
+        user_id: fixtures.user.id,
+        task_id: fixtures.task.id,
+      }),
+    );
   });
 
   afterAll(async () => {
-    repo.delete(requestId);
+    await repo.delete(request.id);
+    await pool.end();
   });
 
   it('find a request', async () => {
-    let actual = await repo.getOne(requestId);
-    expect(actual.id).toBe(requestId);
+    let actual = await repo.getOne(request.id);
+    expect(actual.id).toBe(request.id);
   });
 
   it('gets all requests', async () => {
     let actual = await repo.getAll();
-    expect(actual.filter(media => media.id == requestId).length).toBe(1);
-  })
+    expect(actual.filter(x => x.id == request.id).length).toBe(1);
+  });
 });

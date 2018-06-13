@@ -12,8 +12,7 @@ interface Props {
 }
 
 class Tasks extends React.Component<Props, {}> {
-
-  render () {
+  render() {
     const { className } = this.props;
     return (
       <div className={className}>

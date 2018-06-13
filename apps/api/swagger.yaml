@@ -40,9 +40,6 @@ components:
           nullable: true
     Media:
       properties:
-        step_id:
-          type: integer
-          nullable: true
         task_id:
           type: integer
           nullable: true
@@ -86,8 +83,14 @@ components:
         note:
           type: string
           nullable: true
-        task_id:
-          type: number
+    ViewedMedia:
+      properties:
+        id:
+          type: integer
+        media_id:
+          type: integer
+        client_id:
+          type: integer
     Task:
       properties:
         title:
@@ -126,8 +129,7 @@ components:
           nullable: true
           type: array
           items:
-            type:
-              $ref: '#components/schemas/Step'
+            $ref: '#components/schemas/Step'
     User:
       properties:
         first_name:
@@ -220,10 +222,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+                $ref: '#/components/schemas/User'
   /clients/{id}:
     get:
       summary: Return a single Client by ID
@@ -262,6 +261,132 @@ paths:
                 properties:
                   deleted:
                     type: number
+  /api/clients/{id}/tasks:
+    get:
+      summary: Get a client's list of assigned tasks.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [users]
+      responses:
+        '200':
+          description: Client's Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+  /api/clients/{id}/messages:
+    get:
+      summary: Get messages to or from a client.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [users]
+      responses:
+        '200':
+          description: Client's Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+  /api/clients/{id}/requests:
+    get:
+      summary: Get all of a client's requests.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [users]
+      responses:
+        '200':
+          description: Client's Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Request'
+  /api/clients/{id}/viewed_media:
+    get:
+      summary: Get all of a client's viewed media
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Client ID
+      tags: [users]
+      responses:
+        '200':
+          description: Client's Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Media'
+  /api/clients/{id}/viewed_media/{media_id}:
+    post:
+      tags: [users]
+      summary: Mark a particular media item as having been viewed by the client.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Client ID
+      responses:
+        '201':
+          description: Client's Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ViewedMedia'
+    delete:
+      summary: Mark a particular media item as NOT having been viewed by the client.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Client ID
+        - in: path
+          name: media_id
+          schema:
+            type: integer
+          required: true
+          description: Media ID
+      tags: [users]
+      responses:
+        '200':
+          description: Number deleted (should be 1 or 0)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: integer
 
   /coaches:
     get:
@@ -291,11 +416,7 @@ paths:
           description: Created
           content:
             application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+              $ref: '#/components/schemas/User'
   /coaches/{id}:
     get:
       summary: Return a single Coach by ID
@@ -364,10 +485,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+                $ref: '#/components/schemas/Org'
   /orgs/{id}:
     get:
       summary: Return a single Org by ID
@@ -411,6 +529,14 @@ paths:
     get:
       summary: Return a list of Tasks
       tags: [tasks]
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: ['ACTIVE', 'COMPLETED', 'ARCHIVED']
+          required: false
+          description: Filter by the status of the task
       responses:
         '200':
           description: A JSON array of Task objects
@@ -445,10 +571,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+                $ref: '#/components/schemas/Task'
   /tasks/{id}:
     get:
       summary: Return a single Task by ID
@@ -474,6 +597,33 @@ paths:
             application/json:
               schema:
                 $ref: '#components/schemas/Task'
+    put:
+      summary: Update a single task identified by the given id.
+      description: >
+        The updated task must have all fields provided. You could use the
+        result of a GET /tasks/{id} call to populate the body of this request.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The numeric id if the task to update.
+      tags: [tasks]
+      requestBody:
+        description: Task to be update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '200':
+          description: A JSON object of the task that was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
     delete:
       summary: Delete an Task by the given id
       parameters:
@@ -487,88 +637,6 @@ paths:
       responses:
         '200':
           description: The number of Tasks deleted (should be 1 or 0)
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  deleted:
-                    type: number
-
-
-  /steps:
-    get:
-      summary: Return a list of Steps
-      tags: [steps]
-      responses:
-        '200':
-          description: A JSON array of Step objects
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#components/schemas/Step'
-    post:
-      summary: Create a new Step
-      tags: [steps]
-      requestBody:
-        description: New Step to create
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Step'
-      responses:
-        '500':
-          description: Server error (more detailed errors in development/test)
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: object
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-  /steps/{id}:
-    get:
-      summary: Return a single Step by ID
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-          description: Numeric id
-      tags: [steps]
-      responses:
-        '200':
-          description: A JSON object representing a single Step
-          content:
-            application/json:
-              schema:
-                $ref: '#components/schemas/Step'
-    delete:
-      summary: Delete an Step by the given id
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-          description: Numeric id to be deleted
-      tags: [steps]
-      responses:
-        '200':
-          description: The number of Steps deleted (should be 1 or 0)
           content:
             application/json:
               schema:
@@ -615,10 +683,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+                $ref: '#/components/schemas/Message'
   /messages/{id}:
     get:
       summary: Return a single Message by ID
@@ -687,10 +752,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+                $ref: '#/components/schemas/Media'
   /media/{id}:
     get:
       summary: Return a single Media by ID
@@ -768,10 +830,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
+                $ref: '#/components/schemas/Request'
   /requests/{id}:
     get:
       summary: Return a single Request by ID

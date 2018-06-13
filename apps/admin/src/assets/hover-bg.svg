@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="720" height="974" viewBox="0 0 720 974">
+    <defs>
+        <path id="a" d="M0 0h720v974H0z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <mask id="b" fill="#fff">
+            <use xlink:href="#a"/>
+        </mask>
+        <use fill="#D8D8D8" xlink:href="#a"/>
+        <g mask="url(#b)">
+            <path fill="#BFA682" d="M225 974h135V91.016L225 7.614zM450 974h90V181.395l-90-69.354z"/>
+            <path fill="#1E41A5" d="M540 109.817V974h90V-21.193z"/>
+            <path fill="#C4E6F7" d="M360 606.082V974h90V549.752z"/>
+            <path fill="#F7337B" d="M180 746l-5.852 228H270V688.386z"/>
+            <path fill="#ED99C1" d="M450-50v202.492l90 56.773V-50z"/>
+            <path fill="#C4E6F7" d="M90 974h90V6.85L90-50z"/>
+            <path fill="#BFA682" d="M0 974h90V281.9L0 224.869z"/>
+            <path fill="#F7337B" d="M0-50v275.781l90 56.702V-50z"/>
+            <path fill="#00BF8D" d="M270-50V55.664l90 56.377V-50z"/>
+            <path fill="#F7DA35" d="M90-50l90 57.614V-50z"/>
+            <path fill="#ED99C1" d="M180-50v797l90-56.851V-50z"/>
+            <path fill="#F7DA35" d="M360-50v656.565l90-56.663V-50zM630 606.48V974h90V550.15z"/>
+            <path fill="#00BF8D" d="M630-50v656.565l90-56.663V-50z"/>
+            <path fill="#5AC4F9" d="M540-50v168.042l90-56.861V-50z"/>
+        </g>
+    </g>
+</svg>

@@ -1,6 +1,9 @@
-import { NextFunction, Request, Response } from "express";
-import { RequestRepository, RequestItem } from "../repository/RequestRepository";
-import { pool } from "../index";
+import { NextFunction, Request, Response } from 'express';
+import {
+  RequestRepository,
+  RequestItem,
+} from '../repository/RequestRepository';
+import { pool } from '../index';
 
 export class RequestController {
   private repo = new RequestRepository(pool);
@@ -14,10 +17,10 @@ export class RequestController {
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
-    const message = new RequestItem(request.body);
+    const requestItem = new RequestItem(request.body);
     response.status(201); // created
-    const messageId = await this.repo.save(message);
-    return { id: messageId };
+    const req = await this.repo.save(requestItem);
+    return req;
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {

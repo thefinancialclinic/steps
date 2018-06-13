@@ -1,48 +1,39 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { createTask } from 'actions/tasks';
-import styled from 'styled-components';
+import Main from 'atoms/Main';
 import TaskForm from 'components/Tasks/TaskForm';
-import TaskStep from 'components/Tasks/TaskStep';
+import React from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 interface Props {
   className?: string;
   actions: any;
+  task: any;
+  client: any;
 }
 
 class EditTask extends React.Component<Props, {}> {
-  newTask = (e) => {
-    e.preventDefault();
-    const content: any = this.refs.content;
+  render() {
+    const { client, task } = this.props;
 
-    this.props.actions.createTask({
-      steps: { foo: 'bar' },
-      content: content.value,
-    });
-  }
-
-  render () {
     return (
-      <div>
-        <h2>Edit Task</h2>
-        <p>Personalize this task better for your client by editing, adding, or deleting steps.</p>
-        <TaskForm badgeText='passmein'>
-          <TaskStep count={1} />
-        </TaskForm>
-      </div>
+      <Main>
+        <h2>EditTask</h2>
+        <p>
+          Personalize this task better for your client by editing, adding, or
+          deleting steps.
+        </p>
+        <TaskForm task={task} client={client} />
+      </Main>
     );
   }
 }
-const mapStateToProps = state => ({
+
+const StyledEditTask = styled(EditTask)``;
+
+// TODO: Need to request the specific task in order to get the steps
+const mapStateToProps = (state, props) => ({
+  task: state.tasks.tasks.find(t => (t.id = props.match.params.taskId)),
+  client: state.clients.clients.find(c => (c.id = props.match.params.id)),
 });
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ createTask }, dispatch)
-});
-
-const StyledNewTask = styled(EditTask)`
-`;
-
-export default connect(mapStateToProps, mapDispatchToProps)(StyledNewTask);
+export default connect(mapStateToProps)(StyledEditTask);

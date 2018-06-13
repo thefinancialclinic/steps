@@ -10,7 +10,8 @@ export const grey = '#999999';
 export const mediumBlue = '#C4E6F7';
 export const lightBlue = '#E8F5F9';
 export const pink = '#EC98C0';
-export const white = '#ffffff';
+export const red = '#F73833';
+export const white = '#FFFFFF';
 export const yellow = '#F7DB35';
 
 export default {
@@ -24,8 +25,9 @@ export default {
   lightBlue,
   mediumBlue,
   pink,
+  red,
   white,
-  yellow
+  yellow,
 };
 
 export const colorFromString = (text: string, colors: string[]): string => {

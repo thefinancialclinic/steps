@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { MediaRepository, Media } from "../repository/MediaRepository";
-import { pool } from "../index";
+import { NextFunction, Request, Response } from 'express';
+import { MediaRepository, Media } from '../repository/MediaRepository';
+import { pool } from '../index';
 
 export class MediaController {
   private repo = new MediaRepository(pool);
@@ -14,10 +14,10 @@ export class MediaController {
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
-    const message = new Media(request.body);
+    const newMedia = new Media(request.body);
     response.status(201); // created
-    const messageId = await this.repo.save(message);
-    return { id: messageId };
+    const media = await this.repo.save(newMedia);
+    return media;
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {

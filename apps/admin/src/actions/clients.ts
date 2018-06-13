@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { addAlert } from './alerts';
+import { AlertLevel } from '../components/Alert/types';
 
 type DispatchFn = (any) => any;
 
@@ -18,21 +20,28 @@ export const SET_CLIENTS = 'SET_CLIENTS';
 export const setClients = clients => {
   return {
     type: SET_CLIENTS,
-    clients
+    clients,
   };
 };
 
+const tempGetCoach = async () => {
+  const coaches = await axios.get(apiUrl + '/coaches');
+  return coaches.data[0];
+};
+
 export const CREATE_CLIENT = 'CREATE_CLIENT';
-export const createClient = (clientData) : DispatchFn => async dispatch => {
+export const createClient = (clientData): DispatchFn => async dispatch => {
   try {
-    clientData.org_id = 1;
-    clientData.coach_id = 6;
+    // TODO: Coach should be stored in the auth store, with current user information
+    const coach = await tempGetCoach();
+    clientData.org_id = coach.org_id;
+    clientData.coach_id = coach.id;
     clientData.color = 'blue';
     clientData.status = 'AWAITING_HELP';
 
     const clients = await axios.post(apiUrl + '/clients', clientData);
     return dispatch(getClients());
   } catch (error) {
-    console.error(error);
+    return Promise.reject(error);
   }
-}
+};
