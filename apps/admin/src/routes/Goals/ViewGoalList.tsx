@@ -7,10 +7,13 @@ import { Goal as GoalType } from 'components/Goals/types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getGoals } from 'actions/goals';
+import { Alert, AlertLevel } from 'components/Alert/types';
+import { addAlert } from 'actions/alerts';
 
 interface Props {
   actions: {
-    getGoals(): GoalType[];
+    getGoals(): Promise<GoalType[]>;
+    addAlert(alert: Alert): void;
   };
   goals: GoalType[];
 }
@@ -24,7 +27,13 @@ export const GoalListLayout: React.SFC<{ goals: GoalType[] }> = ({ goals }) => (
 
 export class ViewGoalList extends React.Component<Props> {
   componentWillMount() {
-    this.props.actions.getGoals();
+    this.props.actions.getGoals().catch(err => {
+      this.props.actions.addAlert({
+        level: AlertLevel.Error,
+        message: err.message,
+        id: 'view-goal-error',
+      });
+    });
   }
 
   render() {
@@ -46,7 +55,7 @@ const mapStateToProps = ({ goals }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ getGoals }, dispatch),
+  actions: bindActionCreators({ getGoals, addAlert }, dispatch),
 });
 
 export default connect(

@@ -7,13 +7,20 @@ import { remCalc } from 'styles/type';
 
 interface Props {
   label?: string;
+  placeholder?: string;
+  value?: string;
   name: string;
 }
 
-const Textarea: React.SFC<Props> = ({ label, name }) => (
+const Textarea: React.SFC<Props> = ({ label, name, placeholder, value }) => (
   <BaseInput>
     {label && <Label htmlFor={name}>{label}</Label>}
-    <Field name={name} component="textarea" />
+    <Field
+      name={name}
+      component="textarea"
+      placeholder={placeholder}
+      value={value}
+    />
   </BaseInput>
 );
 
