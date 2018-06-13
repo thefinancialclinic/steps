@@ -44,14 +44,14 @@ const initialState: ClientsState = {
   clients: [
     {
       id: 0,
-      first_name: 'string',
-      last_name: 'string',
+      first_name: 'Jane',
+      last_name: 'Smith',
       email: 'user@example.com',
       phone: 'string',
       coach_id: 0,
       org_id: 0,
       color: 'string',
-      goals: ['string'],
+      goals: ['first goal', 'second goal'],
       status: 'AWAITING_HELP',
       updated: '2018-06-04T14:44:20.085Z',
       platform: 'SMS',

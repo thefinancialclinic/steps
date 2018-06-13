@@ -1,20 +1,21 @@
 import React from 'react';
 import Goal from './Goal';
-import { Goal as GoalType } from './types';
 import styled from 'styled-components';
 
 interface Props {
   className?: string;
-  goals: GoalType[];
+  goals: string[];
 }
 
 const GoalList: React.SFC<Props> = ({ goals }) => (
   <div>
-    {goals.map(goal => <StyledGoal text={goal.text} onEdit={() => {}} />)}
+    {goals.map((goal, i) => (
+      <StyledGoal text={goal} key={i} onEdit={() => {}} />
+    ))}
   </div>
 );
 
-const StyledGoal = styled(Goal)`
+export const StyledGoal = styled(Goal)`
   margin-bottom: 2rem;
 `;
 

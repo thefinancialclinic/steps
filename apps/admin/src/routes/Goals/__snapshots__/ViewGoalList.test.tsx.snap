@@ -38,6 +38,18 @@ exports[`ViewGoalList.tsx renders correctly 1`] = `
   width={1}
 >
   <Component
+    client={
+      Object {
+        "goals": Array [
+          Object {
+            "text": "first goal",
+          },
+          Object {
+            "text": "second goal",
+          },
+        ],
+      }
+    }
     goals={
       Array [
         Object {

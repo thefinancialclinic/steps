@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Flex, Box } from 'grid-styled';
+import Button from 'atoms/Buttons/Button';
+import Panel from 'atoms/Panel';
+import { Box } from 'grid-styled';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { yellow } from 'styles/colors';
-import Panel from 'atoms/Panel';
-import { Link } from 'react-router-dom';
-import Button from 'atoms/Buttons/Button';
 
 interface Props {
   className?: string;

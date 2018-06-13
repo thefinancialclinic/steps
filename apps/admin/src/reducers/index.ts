@@ -5,7 +5,6 @@ import alerts from './alerts';
 import auth from './auth';
 import tasks from './tasks';
 import staff from './staff';
-import goals from './goals';
 
 export default storageMergeReducer(
   combineReducers({
@@ -14,6 +13,5 @@ export default storageMergeReducer(
     auth,
     alerts,
     staff,
-    goals,
   }),
 );

@@ -6,7 +6,7 @@ import { Goal } from 'components/Goals/types';
 import Textarea from 'components/Form/Textarea';
 
 interface Props {
-  onSubmit: () => void;
+  onSubmit: (goal: Goal) => void;
   goal?: Goal;
 }
 

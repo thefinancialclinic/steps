@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import Terms from 'routes/Clients/Terms';
 import Tasks from 'routes/Tasks/Tasks';
 import styled from 'styled-components';
-import ViewGoalList from '../Goals/ViewGoalList';
+import Goals from '../Goals/Goals';
 
 interface Props {
   className?: string;
@@ -49,7 +49,7 @@ class Client extends React.Component<Props, {}> {
               <Terms client={client} />
             </Route>
             <Route path="/clients/:id/tasks" component={Tasks} />
-            <Route path="/clients/:id/goals" component={ViewGoalList} />
+            <Route path="/clients/:id/goals" component={Goals} />
             <Route path="/clients/:id/chat" component={Chat} />
             <Redirect
               exact

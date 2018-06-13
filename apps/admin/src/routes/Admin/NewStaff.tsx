@@ -12,7 +12,7 @@ import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 
 interface Props {
-  actions: { inviteStaff; addAlert: (alert: Alert) => any };
+  actions: { inviteStaff; addAlert: (alert: Alert) => void };
   history: History;
 }
 
