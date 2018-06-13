@@ -51,7 +51,7 @@ integration. These are:
 * AUTH0_ISSUER
 
 These can be set at the command line or, more conveniently can be put in an
-`.env` json file:
+`.env` file:
 
 _/apps/api/.env_
 ```
