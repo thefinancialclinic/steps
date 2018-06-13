@@ -1,6 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserRepository, User, UserType } from '../repository/UserRepository';
 import { pool } from '../index';
+import { Task } from '../repository/TaskRepository';
+import { Message } from '../repository/MessageRepository';
+import { RequestItem } from '../repository/RequestRepository';
+import { Media } from '../repository/MediaRepository';
 
 export class ClientController {
   private repo = new UserRepository(pool);
