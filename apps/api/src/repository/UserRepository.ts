@@ -10,7 +10,7 @@ export type UserId = number;
 export type UserType = 'Client' | 'Coach' | 'Admin' | 'Superadmin';
 export type UserPlatform = 'SMS' | 'FBOOK';
 export type UserStatus = 'AWAITING_HELP' | 'WORKING' | 'NON_RESPONSIVE';
-export type ViewedMedia = { client_id: number; media_id: number };
+export type ViewedMedia = { id: number; client_id: UserId; media_id: MediaId };
 
 export type ObjectType = {
   [key: string]: string | number | boolean | ObjectType;
@@ -317,7 +317,7 @@ export class UserRepository implements Repository<UserId, User> {
 
   async create_viewed_media(
     clientId: UserId,
-    viewedMedia: ViewedMedia,
+    mediaId: MediaId,
   ): Promise<ViewedMedia> {
     const res = await this.pool.query(
       `
@@ -325,7 +325,7 @@ export class UserRepository implements Repository<UserId, User> {
       VALUES ($1, $2)
       RETURNING *
       `,
-      [clientId, viewedMedia.media_id],
+      [clientId, mediaId],
     );
     return res.rows[0];
   }

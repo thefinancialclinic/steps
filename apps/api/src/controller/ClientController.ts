@@ -43,7 +43,12 @@ export class ClientController {
     response: Response,
     next: NextFunction,
   ) {
-    return this.repo.create_viewed_media(request.params.id, request.body);
+    const res = this.repo.create_viewed_media(
+      request.params.id,
+      request.params.media_id,
+    );
+    response.status(201);
+    return res;
   }
 
   async delete_viewed_media(
