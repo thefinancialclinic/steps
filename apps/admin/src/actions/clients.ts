@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { addAlert } from './alerts';
-import { AlertLevel } from '../components/Alert/types';
 
 type DispatchFn = (any) => any;
 
@@ -12,7 +10,7 @@ export const getClients = (): DispatchFn => async dispatch => {
     const clients = await axios.get(apiUrl + '/clients');
     return dispatch(setClients(clients.data));
   } catch (error) {
-    console.error(error);
+    return Promise.reject(error);
   }
 };
 
