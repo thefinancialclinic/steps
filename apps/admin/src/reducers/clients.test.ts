@@ -1,5 +1,5 @@
 import 'jest';
-import { setGoals } from '../actions/clients';
+import { setClientGoals } from '../actions/clients';
 import reducer, { ClientsState } from './clients';
 
 const initialState: ClientsState = {
@@ -40,8 +40,8 @@ const initialState: ClientsState = {
 };
 
 describe('clients reducer', () => {
-  it('updates goals ', () => {
-    const action = setGoals(0, ['new goal']);
+  it('updates goals ', async () => {
+    const action = await setClientGoals(0, ['new goal']);
 
     const updatedState = reducer(initialState, action);
     expect(updatedState.clients[0].goals).toEqual(['new goal']);

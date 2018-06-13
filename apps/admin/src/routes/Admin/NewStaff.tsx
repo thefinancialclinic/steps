@@ -21,7 +21,7 @@ export class NewStaff extends React.Component<Props, {}> {
     const splitEmails = emails.split(/,\s*/);
     this.props.actions
       .inviteStaff(splitEmails)
-      .then(res => {
+      .then(_res => {
         this.props.history.push('/admin/staff');
       })
       .catch(err => {

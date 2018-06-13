@@ -5,15 +5,19 @@ import BackButton from 'atoms/Buttons/BackButton';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { addAlert } from 'actions/alerts';
-import { getClients } from 'actions/clients';
+import { getClients, setClientGoals } from 'actions/clients';
 import { Client } from 'reducers/clients';
+import { History } from 'react-router';
+import { withRouter } from 'react-router-dom';
 
 interface Props {
   actions: {
     addAlert(alert: Alert): void;
     getClients(): Promise<void>;
+    setClientGoals(clientId: number, goals: string[]): Promise<void>;
   };
   client?: Client;
+  history: History;
 }
 
 export class NewGoal extends React.Component<Props> {
@@ -28,7 +32,19 @@ export class NewGoal extends React.Component<Props> {
   }
 
   createGoal = goalData => {
-    // create goal
+    const updatedGoals = [...this.props.client.goals, goalData.goal];
+    this.props.actions
+      .setClientGoals(this.props.client.id, updatedGoals)
+      .then(() => {
+        this.props.history.push(`/clients/${this.props.client.id}/goals`);
+      })
+      .catch(err => {
+        this.props.actions.addAlert({
+          level: AlertLevel.Error,
+          message: err.message,
+          id: 'new-goal-error',
+        });
+      });
   };
 
   render() {
@@ -46,10 +62,13 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ addAlert, getClients }, dispatch),
+  actions: bindActionCreators(
+    { addAlert, getClients, setClientGoals },
+    dispatch,
+  ),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(NewGoal);
+)(withRouter(NewGoal));

@@ -45,7 +45,7 @@ export const createClient = (clientData): DispatchFn => async dispatch => {
 };
 
 export const SET_CLIENT_GOALS = 'SET_CLIENT_GOALS';
-export const setGoals = (clientId, goals) => {
+export const setClientGoals = async (clientId, goals) => {
   // api call
   return {
     type: SET_CLIENT_GOALS,

@@ -27,18 +27,15 @@ describe('ViewGoalList.tsx', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('loads clients on mount', done => {
+  it('loads clients on mount', () => {
     const actions = {
       addAlert: jest.fn(),
       getClients: jest.fn().mockReturnValue(Promise.resolve()),
     };
 
-    const wrapper = shallow(<ViewGoalList actions={actions} />);
+    shallow(<ViewGoalList actions={actions} />);
 
-    process.nextTick(() => {
-      expect(actions.getClients).toHaveBeenCalled();
-      done();
-    });
+    expect(actions.getClients).toHaveBeenCalled();
   });
 
   it('displays a list of goals if there are goals', () => {
@@ -64,7 +61,7 @@ describe('ViewGoalList.tsx', () => {
     expect(goalList).toHaveLength(1);
   });
 
-  it('displays an error message if load clients fails', done => {
+  it('displays an error message if load clients fails', async () => {
     const actions = {
       getClients: jest
         .fn()
@@ -74,13 +71,10 @@ describe('ViewGoalList.tsx', () => {
 
     const wrapper = shallow(<ViewGoalList actions={actions} />);
 
-    process.nextTick(() => {
-      expect(actions.addAlert).toHaveBeenCalledWith({
-        level: 'error',
-        message: 'some error',
-        id: 'view-goal-get-clients-error',
-      });
-      done();
+    expect(await actions.addAlert).toHaveBeenCalledWith({
+      level: 'error',
+      message: 'some error',
+      id: 'view-goal-get-clients-error',
     });
   });
 });
