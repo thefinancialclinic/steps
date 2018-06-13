@@ -358,7 +358,7 @@ export class UserRepository implements Repository<UserId, User> {
       AND usr.type = 'Client'
       AND usr.id = $1;
       `,
-      [clientId, coachId]
+      [clientId, coachId],
     );
     return res.rows.map(row => new RequestItem(row));
   }

@@ -34,6 +34,30 @@ export class ClientController {
     return this.repo.messages(request.params.id, this.currentCoach);
   }
 
+  async viewed_media(request: Request, response: Response, next: NextFunction) {
+    return this.repo.viewed_media(request.params.id, this.currentCoach);
+  }
+
+  async create_viewed_media(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ) {
+    return this.repo.create_viewed_media(request.params.id, request.body);
+  }
+
+  async delete_viewed_media(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ) {
+    const num = this.repo.delete_viewed_media(
+      request.params.id,
+      request.params.media_id,
+    );
+    return { deleted: num };
+  }
+
   async requests(request: Request, response: Response, next: NextFunction) {
     return this.repo.requests(request.params.id, this.currentCoach);
   }
