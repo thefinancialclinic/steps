@@ -1,11 +1,16 @@
 import { Repository } from './Repository';
 import { OrgId } from './OrgRepository';
 import { Pool, Client } from 'pg';
+import { Task } from './TaskRepository';
+import { Message } from './MessageRepository';
+import { Media, MediaId } from './MediaRepository';
+import { RequestItem } from './RequestRepository';
 
 export type UserId = number;
 export type UserType = 'Client' | 'Coach' | 'Admin' | 'Superadmin';
 export type UserPlatform = 'SMS' | 'FBOOK';
 export type UserStatus = 'AWAITING_HELP' | 'WORKING' | 'NON_RESPONSIVE';
+export type ViewedMedia = { id: number; client_id: UserId; media_id: MediaId };
 
 export type ObjectType = {
   [key: string]: string | number | boolean | ObjectType;
@@ -234,5 +239,127 @@ export class UserRepository implements Repository<UserId, User> {
     // problem that the next (very first!) User to be added will clash
     // with the existing seeded value.
     await this.pool.query(`SELECT nextval('user_id_seq');`);
+  }
+
+  async tasks(clientId: UserId, currentCoach: UserId): Promise<Task[]> {
+    const res = await this.pool.query(
+      `
+      SELECT
+        task.id,
+        task.title,
+        task.category,
+        task.description,
+        task.status,
+        task.created_by,
+        task.user_id,
+        task.difficulty,
+        task.date_created,
+        task.date_completed,
+        task.recurring,
+        task.steps
+      FROM task
+      JOIN "user" usr ON task.user_id = usr.id
+      WHERE usr.coach_id = $1
+      AND   usr.id = $2
+      AND   usr.type = 'Client'`,
+      [currentCoach, clientId],
+    );
+    return res.rows.map(row => new Task(row));
+  }
+
+  async messages(clientId: UserId, currentCoach: UserId): Promise<Message[]> {
+    const res = await this.pool.query(
+      `
+      SELECT
+        msg.id,
+        msg.text,
+        msg.to_user,
+        msg.from_user,
+        msg.media_id,
+        msg.request_id,
+        msg.timestamp,
+        msg.responses
+      FROM message msg
+      JOIN "user" usr ON (usr.id = msg.from_user OR usr.id = msg.to_user)
+      WHERE usr.id = $1
+      AND usr.type = 'Client'
+      AND usr.coach_id = $2
+    `,
+      [clientId, currentCoach],
+    );
+    return res.rows.map(row => new Message(row));
+  }
+
+  async viewed_media(clientId: UserId, currentCoach: UserId): Promise<Media[]> {
+    const res = await this.pool.query(
+      `
+      SELECT
+        media.id,
+        media.task_id,
+        media.title,
+        media.category,
+        media.description,
+        media.url,
+        media.image,
+        media.published_by,
+        media.type
+      FROM media
+      JOIN viewed_media vm ON media.id = vm.media_id
+      JOIN "user" usr ON usr.id = vm.client_id
+      WHERE usr.id = $1
+      AND usr.type = 'Client'
+      AND usr.coach_id = $2;
+      `,
+      [clientId, currentCoach],
+    );
+    return res.rows.map(row => new Media(row));
+  }
+
+  async create_viewed_media(
+    clientId: UserId,
+    mediaId: MediaId,
+  ): Promise<ViewedMedia> {
+    const res = await this.pool.query(
+      `
+      INSERT INTO viewed_media (client_id, media_id)
+      VALUES ($1, $2)
+      RETURNING *
+      `,
+      [clientId, mediaId],
+    );
+    return res.rows[0];
+  }
+
+  async delete_viewed_media(
+    clientId: UserId,
+    mediaId: MediaId,
+  ): Promise<number> {
+    const res = await this.pool.query(
+      `
+      DELETE FROM viewed_media
+      WHERE client_id = $1 AND media_id = $2;
+      `,
+      [clientId, mediaId],
+    );
+    return res.rowCount;
+  }
+
+  async requests(clientId: UserId, coachId: UserId): Promise<RequestItem[]> {
+    const res = await this.pool.query(
+      `
+      SELECT
+        r.id,
+        r.status,
+        r.user_id,
+        r.task_id
+      FROM request r
+      JOIN "user" usr ON usr.id = r.user_id
+      WHERE usr.coach_id = $2
+      AND usr.type = 'Client'
+      AND usr.id = $1;
+      `,
+      [clientId, coachId],
+    );
+    return res.rows.map(row => new RequestItem(row));
   }
 }

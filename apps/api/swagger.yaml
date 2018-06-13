@@ -83,6 +83,14 @@ components:
         note:
           type: string
           nullable: true
+    ViewedMedia:
+      properties:
+        id:
+          type: integer
+        media_id:
+          type: integer
+        client_id:
+          type: integer
     Task:
       properties:
         title:
@@ -214,7 +222,7 @@ paths:
           content:
             application/json:
               schema:
-                ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/User'
   /clients/{id}:
     get:
       summary: Return a single Client by ID
@@ -253,6 +261,132 @@ paths:
                 properties:
                   deleted:
                     type: number
+  /api/clients/{id}/tasks:
+    get:
+      summary: Get a client's list of assigned tasks.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [users]
+      responses:
+        '200':
+          description: Client's Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+  /api/clients/{id}/messages:
+    get:
+      summary: Get messages to or from a client.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [users]
+      responses:
+        '200':
+          description: Client's Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+  /api/clients/{id}/requests:
+    get:
+      summary: Get all of a client's requests.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [users]
+      responses:
+        '200':
+          description: Client's Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Request'
+  /api/clients/{id}/viewed_media:
+    get:
+      summary: Get all of a client's viewed media
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Client ID
+      tags: [users]
+      responses:
+        '200':
+          description: Client's Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Media'
+  /api/clients/{id}/viewed_media/{media_id}:
+    post:
+      tags: [users]
+      summary: Mark a particular media item as having been viewed by the client.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Client ID
+      responses:
+        '201':
+          description: Client's Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ViewedMedia'
+    delete:
+      summary: Mark a particular media item as NOT having been viewed by the client.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Client ID
+        - in: path
+          name: media_id
+          schema:
+            type: integer
+          required: true
+          description: Media ID
+      tags: [users]
+      responses:
+        '200':
+          description: Number deleted (should be 1 or 0)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: integer
 
   /coaches:
     get:

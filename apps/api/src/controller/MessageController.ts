@@ -14,10 +14,10 @@ export class MessageController {
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
-    const message = new Message(request.body);
+    const newMessage = new Message(request.body);
     response.status(201); // created
-    const messageId = await this.repo.save(message);
-    return { id: messageId };
+    const message = await this.repo.save(newMessage);
+    return message;
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {

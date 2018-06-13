@@ -10,13 +10,14 @@ describe('Message entity operations', () => {
   let pool: Pool;
   let message: Message;
   let repo: MessageRepository;
+  const expectedText = 'My Text';
 
   beforeAll(async () => {
     pool = await getTestConnectionPool({ createFixtures: true });
     repo = new MessageRepository(pool);
     message = await repo.save(
       new Message({
-        text: 'My Text',
+        text: expectedText,
         to_user: fixtures.user.id,
         from_user: fixtures.user.id,
         media_id: fixtures.media.id,
@@ -38,7 +39,6 @@ describe('Message entity operations', () => {
 
   it('gets all messages', async () => {
     let actual = await repo.getAll();
-    expect(actual.filter(x => x.id == message.id).length).toBe(1);
-    expect(actual[0].text).toBe('My Text');
+    expect(actual.find(x => x.id == message.id).text).toBe(expectedText);
   });
 });
