@@ -11,6 +11,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import NewClientForm from '../../forms/NewClientForm';
+import VideoModal from 'components/Clients/VideoModal';
 
 const Content = styled.div`
   position: relative;
@@ -31,7 +32,19 @@ interface Props {
   history: History;
 }
 
-export class NewClient extends React.Component<Props> {
+interface State {
+  showVideo: boolean;
+}
+
+export class NewClient extends React.Component<Props, State> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showVideo: false,
+    };
+    this.toggleVideo = this.toggleVideo.bind(this);
+  }
+
   createClient = clientData => {
     this.props.actions
       .createClient(clientData)
@@ -47,9 +60,25 @@ export class NewClient extends React.Component<Props> {
       });
   };
 
+  toggleVideo() {
+    this.setState({ showVideo: !this.state.showVideo });
+  }
+
+  renderModal() {
+    if (this.state.showVideo) {
+      return (
+        <VideoModal
+          embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q"
+          onClose={this.toggleVideo}
+        />
+      );
+    }
+  }
+
   render() {
     return (
       <Main className="new-client">
+        {this.renderModal()}
         <Flex flexWrap="wrap">
           <Box width={[1, 1 / 2]} px={2}>
             <Content>
@@ -59,7 +88,9 @@ export class NewClient extends React.Component<Props> {
                 It's a text message based program and will reach out to you once
                 a day with reminders, content, and encouragement.
               </Box>
-              <Button>Play Video</Button>
+              <a onClick={this.toggleVideo}>
+                <Button>Play Video</Button>
+              </a>
             </Content>
           </Box>
           <Box width={[1, 1 / 2]} px={2}>

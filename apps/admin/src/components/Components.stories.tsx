@@ -13,6 +13,7 @@ import ChatMessage from './Chat/ChatMessage';
 import Request from './Chat/Request';
 import NameCard from './Clients/NameCard';
 import TermsModal from './Clients/TermsModal';
+import VideoModal from './Clients/VideoModal';
 import DataRow from './DataTable/DataRow';
 import DataTable from './DataTable/DataTable';
 import NavDropdown from './Dropdowns/NavDropdown';
@@ -105,6 +106,9 @@ export const Components = storiesOf('Components', module)
     </Modal>
   ))
   .add('TermsModal', () => <TermsModal phoneNumber="+15558675309" link="#" />)
+  .add('VideoModal', () => (
+    <VideoModal embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q" link="#" />
+  ))
   .add('Task Form', () => (
     <TaskForm
       task={{
