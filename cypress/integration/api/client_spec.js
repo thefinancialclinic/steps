@@ -4,6 +4,8 @@ describe('API endpoints (accessed directly)', () => {
   // expected values
   const taskTitle = 'Title';
   const clientFirstName = 'Client first name';
+  const newClientFirstName = 'New client first name';
+  const clientGoal = 'added goal';
   const messageText = 'Message text';
   const mediaTitle = 'Media title';
   const requestStatus = 'NEEDS_ASSISTANCE';
@@ -54,14 +56,12 @@ describe('API endpoints (accessed directly)', () => {
               published_by: 1,
               type: 'TASK_CONTENT',
             }).then(resp => {
+              console.log(resp.body.id);
               mediaId = resp.body.id;
 
               cy.request(
                 'POST',
-                `http://localhost:3001/api/clients/${clientId}/viewed_media`,
-                {
-                  media_id: mediaId,
-                },
+                `http://localhost:3001/api/clients/${clientId}/viewed_media/${mediaId}`,
               );
             });
           });
@@ -117,6 +117,22 @@ describe('API endpoints (accessed directly)', () => {
         expect(response.body).to.have.property('first_name', clientFirstName);
       },
     );
+  });
+
+  it('PUT Client (update)', () => {
+    cy.request('PUT', `http://localhost:3001/api/clients/${clientId}`, {
+      first_name: newClientFirstName,
+      last_name: 'Last',
+      email: 'client@example.com',
+      coach_id: 1,
+      org_id: 1,
+      color: 'blue',
+      goals: [clientGoal],
+      status: 'AWAITING_HELP',
+    }).then(response => {
+      expect(response.body).to.have.property('first_name', newClientFirstName);
+      expect(response.body.goals[0]).to.equal(clientGoal);
+    });
   });
 
   it('GET Client Tasks', () => {
