@@ -107,7 +107,10 @@ export const Components = storiesOf('Components', module)
   ))
   .add('TermsModal', () => <TermsModal phoneNumber="+15558675309" link="#" />)
   .add('VideoModal', () => (
-    <VideoModal embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q" link="#" />
+    <VideoModal
+      embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q"
+      onClose={() => {}}
+    />
   ))
   .add('Task Form', () => (
     <TaskForm

@@ -8,11 +8,7 @@ interface Props {
   onClose: Function;
 }
 
-interface State {
-  show: boolean;
-}
-
-export class VideoModal extends React.Component<Props, State> {
+export class VideoModal extends React.Component<Props, {}> {
   constructor(props) {
     super(props);
     this.close = this.close.bind(this);
@@ -32,9 +28,7 @@ export class VideoModal extends React.Component<Props, State> {
         <Container>
           <iframe
             src={`${embedURL}?rel=0&controls=0&showinfo=0&autoplay=1`}
-            frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen
+            frameBorder="0"
           />
         </Container>
       </StyledModal>
