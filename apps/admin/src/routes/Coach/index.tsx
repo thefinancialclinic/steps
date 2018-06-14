@@ -23,7 +23,7 @@ const Coach: React.SFC<Props> = ({ history, user }) => {
         <Route exact path="/clients/new" component={ClientNew} />
         <Route path="/clients/:id" component={ClientProfile} />
         <Route exact path="/" component={Home} />
-        <Route render={props => <Redirect to={`/`} /> } />
+        <Route render={props => <Redirect to="/" />} />
       </Switch>
     </div>
   );

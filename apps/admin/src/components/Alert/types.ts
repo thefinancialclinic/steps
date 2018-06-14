@@ -7,4 +7,5 @@ export enum AlertLevel {
 export interface Alert {
   level: AlertLevel;
   message: string;
+  id: string;
 }

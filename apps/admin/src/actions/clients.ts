@@ -43,6 +43,6 @@ export const createClient = (clientData): DispatchFn => async (
     const clients = await axios.post(apiUrl + '/clients', clientData);
     return dispatch(getClients());
   } catch (error) {
-    return dispatch(addAlert('Unable to create client', AlertLevel.Error, '1'));
+    return Promise.reject(error);
   }
 };

@@ -1,20 +1,20 @@
+import { addAlert } from 'actions/alerts';
 import Button from 'atoms/Buttons/Button';
-import { AlertLevel } from 'components/Alert/types';
+import Main from 'atoms/Main';
+import { Alert, AlertLevel } from 'components/Alert/types';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { History } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
-import NewClientForm from 'components/Clients/NewClientForm';
 import { createClient } from 'actions/clients';
-import { addAlert } from 'actions/alerts';
-import { History } from 'react-router';
-import Main from 'atoms/Main';
+import NewClientForm from 'forms/NewClientForm';
 
 interface Props {
   className?: string;
-  actions: { addAlert; createClient };
+  actions: { addAlert: (alert: Alert) => any; createClient };
   history: History;
 }
 
@@ -27,8 +27,9 @@ export class ClientNew extends React.Component<Props> {
       })
       .catch(error => {
         this.props.actions.addAlert({
-          type: AlertLevel.Error,
-          message: error,
+          level: AlertLevel.Error,
+          message: error.message,
+          id: 'new-client-error',
         });
       });
   };

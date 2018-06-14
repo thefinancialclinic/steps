@@ -5,6 +5,7 @@ import DataRow from 'components/DataTable/DataRow';
 import DataTable from 'components/DataTable/DataTable';
 import { Flex } from 'grid-styled';
 import React from 'react';
+import PhotoUpload from 'components/PhotoUpload';
 
 interface Props {
   className?: string;
@@ -16,7 +17,9 @@ class Profile extends React.Component<Props, {}> {
       <Main>
         <Panel>
           <DataTable>
-            <DataRow label="profile picture">Profile picture goes here</DataRow>
+            <DataRow label="profile picture">
+              <PhotoUpload />
+            </DataRow>
             <DataRow label="name">Jane Smith</DataRow>
             <DataRow label="email">jane@example.com</DataRow>
             <DataRow label="password">********</DataRow>

@@ -1,40 +1,32 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-
+import { select, text } from '@storybook/addon-knobs/react';
 import { storiesOf } from '@storybook/react';
-import { boolean, select, text } from '@storybook/addon-knobs/react';
-import backgrounds from '@storybook/addon-backgrounds';
-import { withKnobs } from '@storybook/addon-knobs/react';
-
+import Button from 'atoms/Buttons/Button';
+import Input from 'atoms/Input/Input';
+import PageHeader from 'components/Headers/PageHeader';
+import React from 'react';
+import { pink } from 'styles/colors';
+import 'styles/global';
+import { Alert } from './Alert/Alert';
+import { AlertLevel } from './Alert/types';
 import ChatMedia from './Chat/ChatMedia';
 import ChatMessage from './Chat/ChatMessage';
-
+import Request from './Chat/Request';
 import NameCard from './Clients/NameCard';
+import TermsModal from './Clients/TermsModal';
+import DataRow from './DataTable/DataRow';
+import DataTable from './DataTable/DataTable';
 import NavDropdown from './Dropdowns/NavDropdown';
+import Modal from './Modal';
 import NavGroup from './NavGroup/NavGroup';
+import PhotoUpload from './PhotoUpload';
 import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
-import Modal from './Modal';
-import TaskForm from './Tasks/TaskForm';
-import TaskStep from './Tasks/TaskStep';
-import TaskTemplate from './Tasks/TaskTemplate';
-import TermsModal from './Clients/TermsModal';
-import { TaskList } from './Tasks/TaskList';
-
-import { AlertsList } from './Alert/AlertsList';
-import { AlertLevel } from './Alert/types';
-import { Alert } from './Alert/Alert';
 import { PermissionLevel } from './StaffList/types';
-
-import { pink, lightBlue, white } from 'styles/colors';
-import 'styles/global';
-import Table from 'atoms/Table/Table';
-import DataRow from './DataTable/DataRow';
-import DataTable from './DataTable/DataTable';
-import PageHeader from 'components/Headers/PageHeader';
-import Button from 'atoms/Buttons/Button';
-import Input from 'atoms/Input/Input';
+import TaskForm from './Tasks/TaskForm';
+import { TaskList } from './Tasks/TaskList';
+import TaskStep from './Tasks/TaskStep';
+import moment from 'moment';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -77,6 +69,17 @@ export const Components = storiesOf('Components', module)
         { text: 'first', to: '/first' },
         { text: 'second', to: '/second' },
       ]}
+    />
+  ))
+  .add('Request', () => (
+    <Request
+      status={select(
+        'Status',
+        ['NEEDS_ASSISTANCE', 'REPLIED', 'RESOLVED'],
+        'NEEDS_ASSISTANCE',
+      )}
+      message="I tried calling my credit card but couldn't get through to them"
+      date={moment.utc()}
     />
   ))
   .add('Sidebar', () => <Sidebar links={[{ to: '', text: '' }]} />)
@@ -139,13 +142,19 @@ export const Components = storiesOf('Components', module)
     />
   ))
   .add('Error Alert', () => (
-    <Alert level={AlertLevel.Error}>This is an error alert</Alert>
+    <Alert onClose={() => {}} level={AlertLevel.Error}>
+      This is an error alert
+    </Alert>
   ))
   .add('Warning Alert', () => (
-    <Alert level={AlertLevel.Warning}>This is a warning alert</Alert>
+    <Alert onClose={() => {}} level={AlertLevel.Warning}>
+      This is a warning alert
+    </Alert>
   ))
   .add('Info Alert', () => (
-    <Alert level={AlertLevel.Info}>This is an info alert</Alert>
+    <Alert onClose={() => {}} level={AlertLevel.Info}>
+      This is an info alert
+    </Alert>
   ))
   .add('Data Table', () => (
     <DataTable>
@@ -157,6 +166,7 @@ export const Components = storiesOf('Components', module)
       <Input />
       <Button>Some Button</Button>
     </PageHeader>
-  ));
+  ))
+  .add('Photo Upload', () => <PhotoUpload />);
 
 export default Components;

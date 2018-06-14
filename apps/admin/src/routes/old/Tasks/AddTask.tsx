@@ -1,24 +1,22 @@
 import { addTask } from 'actions/tasks';
-import Filter from 'atoms/Filter';
-import TaskTemplate from 'components/Tasks/TaskTemplate';
-import { Box, Flex } from 'grid-styled';
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Link, withRouter } from 'react-router-dom';
-import sample from 'lodash/sample';
-import { Task } from 'reducers/tasks';
-import styled from 'styled-components';
-import { grey } from 'styles/colors';
-import { Client } from 'reducers/clients';
-
-// TODO: REMOVE THIS -- DEMO ONLY
-import faker from 'faker';
-import Main from 'atoms/Main';
-import PageHeader from 'components/Headers/PageHeader';
-import Header from 'atoms/Header';
 import BackButton from 'atoms/Buttons/BackButton';
 import Button from 'atoms/Buttons/Button';
+import Header from 'atoms/Header';
+import Main from 'atoms/Main';
+import Filter from 'components/Filter';
+import PageHeader from 'components/Headers/PageHeader';
+import TaskTemplate from 'components/Tasks/TaskTemplate';
+// TODO: REMOVE THIS -- DEMO ONLY
+import faker from 'faker';
+import sample from 'lodash/sample';
+import React from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { Client } from 'reducers/clients';
+import { Task } from 'reducers/tasks';
+import { bindActionCreators } from 'redux';
+import styled from 'styled-components';
+import { grey } from 'styles/colors';
 
 interface Props {
   className?: string;

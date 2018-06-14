@@ -21,6 +21,42 @@ export const Routes = [
     action: 'one',
   },
   {
+    method: 'get',
+    route: '/api/clients/:id/tasks',
+    controller: ClientController,
+    action: 'tasks',
+  },
+  {
+    method: 'get',
+    route: '/api/clients/:id/messages',
+    controller: ClientController,
+    action: 'messages',
+  },
+  {
+    method: 'get',
+    route: '/api/clients/:id/viewed_media',
+    controller: ClientController,
+    action: 'viewed_media',
+  },
+  {
+    method: 'get',
+    route: '/api/clients/:id/requests',
+    controller: ClientController,
+    action: 'requests',
+  },
+  {
+    method: 'post',
+    route: '/api/clients/:id/viewed_media',
+    controller: ClientController,
+    action: 'create_viewed_media',
+  },
+  {
+    method: 'delete',
+    route: '/api/clients/:id/viewed_media/:media_id',
+    controller: ClientController,
+    action: 'delete_viewed_media',
+  },
+  {
     method: 'post',
     route: '/api/clients',
     controller: ClientController,

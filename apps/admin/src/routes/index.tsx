@@ -27,7 +27,7 @@ interface RoutesProps {
 
 type RoutesElement = (RoutesProps) => JSX.Element;
 
-const Layout: React.SFC = ({ history, user }: Props) => {
+const Routes: React.SFC = ({ history, user }: Props) => {
   const { type } = user;
   let Routes: RoutesElement = DefaultRoutes;
 
@@ -57,4 +57,4 @@ const mapStateToProps = state => ({
   user: state.auth.user,
 });
 
-export default withRouter(connect(mapStateToProps)(Layout));
+export default withRouter(connect(mapStateToProps)(Routes));

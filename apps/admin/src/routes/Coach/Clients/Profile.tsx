@@ -19,7 +19,7 @@ class Client extends React.Component<Props, {}> {
     const { client } = this.props;
     if (!client) return null;
 
-    return <ClientProfile {...this.props} />;
+    return <ClientProfile {...this.props} withAddTask />;
   }
 }
 

@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-
-import Badge from './Badge';
 import { grey, mediumBlue } from 'styles/colors';
+import Badge from '../atoms/Badge';
 
 interface FilterCategory {
   name: string;

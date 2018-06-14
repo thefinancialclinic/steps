@@ -51,14 +51,12 @@ integration. These are:
 * AUTH0_ISSUER
 
 These can be set at the command line or, more conveniently can be put in an
-`.env` json file:
+`.env` file:
 
 _/apps/api/.env_
 ```
-{
-  "auth0_client_id": [AUTH0_CLIENT_ID],
-  "auth0_issuer": [AUTH0_ISSUER]
-}
+AUTH0_CLIENT_ID=<Auth0 Client ID>
+AUTH0_ISSUER=<Auth0 Issuer>
 ```
 
 If this `.env` file is successfully loaded, you should see the message,

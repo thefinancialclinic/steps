@@ -4,7 +4,7 @@ import GoalList from 'components/Goals/GoalList';
 import Sidebar from 'components/Sidebar/Sidebar';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Terms from 'routes/Coach/Terms';
 import Tasks from 'routes/Coach/Clients/ProfileTasksList';
 import styled from 'styled-components';
@@ -15,11 +15,16 @@ interface Props {
   client: any;
   match?: any;
   user?: any;
+  withAddTask: boolean;
 }
 
 class Client extends React.Component<Props, {}> {
+  private static defaultProps = {
+    withAddTask: false,
+  };
+
   render() {
-    const { client, match } = this.props;
+    const { client, match, withAddTask } = this.props;
     if (!client) return null;
     const { url, params } = match;
 
@@ -45,17 +50,19 @@ class Client extends React.Component<Props, {}> {
               <Route path={`${url}/terms`}>
                 <Terms client={client} />
               </Route>
+              {withAddTask && (
+                <Route
+                  path={`${url}/tasks/add`}
+                  component={() => <h2>HOOK ME BACK UP</h2>}
+                />
+              )}
               <Route
                 path={`${url}/tasks`}
                 render={props => <Tasks client={client} />}
               />
               <Route path={`${url}/goals`} component={GoalList} />
               <Route path={`${url}/chat`} component={Chat} />
-              {/* <Redirect
-                    exact
-                    from=""
-                    to='./tasks'
-                  /> */}
+              <Redirect exact from="" to={`${url}/tasks`} />
             </Switch>
           </Box>
         </Flex>

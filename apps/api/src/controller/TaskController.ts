@@ -22,9 +22,9 @@ export class TaskController {
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
-    const id = await this.repo.save(request.body);
+    const task = await this.repo.save(request.body);
     response.status(201); // created
-    return { id };
+    return task;
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {

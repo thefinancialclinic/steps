@@ -1,7 +1,7 @@
 import 'jest';
 import { shallow } from 'enzyme';
 import { ClientNew } from './New';
-import NewClientForm from '../../../components/Clients/NewClientForm';
+import NewClientForm from '../../../forms/NewClientForm';
 import * as React from 'react';
 import { AlertLevel } from '../../../components/Alert/types';
 
@@ -12,7 +12,7 @@ describe('ClientNew.tsx', () => {
     const history = { push: jest.fn() };
     const createClient = jest
       .fn()
-      .mockReturnValue(Promise.reject('some error'));
+      .mockReturnValue(Promise.reject({ message: 'some error' }));
     const actions = {
       addAlert: jest.fn(),
       createClient,
@@ -24,8 +24,9 @@ describe('ClientNew.tsx', () => {
 
     process.nextTick(() => {
       expect(actions.addAlert).toHaveBeenCalledWith({
-        type: AlertLevel.Error,
+        level: AlertLevel.Error,
         message: 'some error',
+        id: 'new-client-error',
       });
       done();
     });

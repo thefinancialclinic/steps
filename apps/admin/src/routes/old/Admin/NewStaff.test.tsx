@@ -1,9 +1,10 @@
-import { shallow, mount } from 'enzyme';
-import { NewStaff } from './NewStaff';
-import * as React from 'react';
-import Button from '../../atoms/Buttons/Button';
-import NewStaffForm from './NewStaffForm';
+import { shallow } from 'enzyme';
 import 'jest';
+import * as React from 'react';
+import { NewStaff } from './NewStaff';
+import NewStaffForm from '../../../forms/NewStaffForm';
+
+declare var process;
 
 describe('NewStaff.tsx', () => {
   const history = {
@@ -79,7 +80,11 @@ describe('NewStaff.tsx', () => {
     form.simulate('submit', { emails: 'test@example.com' });
 
     process.nextTick(() => {
-      expect(addAlert).toHaveBeenCalledWith('some error', 'error');
+      expect(addAlert).toHaveBeenCalledWith({
+        message: 'some error',
+        id: 'new-staff-error',
+        level: 'error',
+      });
       done();
     });
   });

@@ -1,10 +1,10 @@
+import { Alert } from 'components/Alert/types';
+
 export const ADD_ALERT = 'ADD_ALERT';
-export const addAlert = (message, level, id) => {
+export const addAlert = (alert: Alert) => {
   return {
     type: ADD_ALERT,
-    message,
-    level,
-    id,
+    alert,
   };
 };
 
