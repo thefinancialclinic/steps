@@ -4,7 +4,8 @@ import { AlertLevel } from '../components/Alert/types';
 
 type DispatchFn = (any) => any;
 
-const apiUrl = process.env.API_URL || 'http://localhost:3001/api';
+const apiUrl = process.env.API_URL;
+console.log('process env', JSON.stringify(process.env));
 
 const GET_CLIENTS = 'GET_CLIENTS';
 export const getClients = (): DispatchFn => async dispatch => {

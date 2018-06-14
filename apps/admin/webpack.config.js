@@ -71,6 +71,9 @@ const baseConfig = {
         NODE_ENV: isProduction
           ? JSON.stringify('production')
           : JSON.stringify('development'),
+        API_URL: isProduction
+          ? JSON.stringify('https://steps-admin.herokuapp.com/api')
+          : JSON.stringify('http://localhost:3001/api'),
         ...env
       }
     }),
