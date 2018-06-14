@@ -63,7 +63,7 @@ jobs:
           working_directory: ~/repo/apps/admin/
           command: |
             npm test -- --clearCache
-            npm test
+            npm test -- -i
 
       - run:
           name: "Test: Api"
