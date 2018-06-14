@@ -1,42 +1,32 @@
 import React from 'react';
-import { Flex, Box } from 'grid-styled';
-import {
-  SortableContainer,
-  SortableElement,
-  arrayMove,
-} from 'react-sortable-hoc';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import Goal from './Goal';
 import styled from 'styled-components';
-import NoGoals from './NoGoals';
+import { Client } from 'reducers/clients';
+import { History, withRouter } from 'react-router-dom';
 
 interface Props {
   className?: string;
+  goals: string[];
+  client: Client;
+  history: History;
 }
 
-class GoalList extends React.Component<Props, {}> {
-  render() {
-    const goals = [];
-    const goalsDisplay =
-      goals.length > 0 ? (
-        <Box width={1} p={4}>
-          <h2>Tasks</h2>
-          <Link to="/clients/1/goals/new">New Goal</Link>
-          A list of goals goes here
-        </Box>
-      ) : (
-        <Box width={1} p={4}>
-          <NoGoals />
-        </Box>
-      );
+export const GoalList: React.SFC<Props> = ({ goals, client, history }) => (
+  <div>
+    {goals.map((goal, i) => (
+      <StyledGoal
+        text={goal}
+        key={i}
+        onEdit={() => {
+          history.push(`/clients/${client.id}/goals/${i}/edit`);
+        }}
+      />
+    ))}
+  </div>
+);
 
-    return <div>{goalsDisplay}</div>;
-  }
-}
-
-const StyledGoalList = styled(GoalList)`
-  display: flex;
+export const StyledGoal = styled(Goal)`
+  margin-bottom: 2rem;
 `;
 
-export default StyledGoalList;
+export default withRouter(GoalList);

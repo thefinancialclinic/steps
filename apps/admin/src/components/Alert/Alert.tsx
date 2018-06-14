@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { AlertLevel } from './types';
-import { red, white, yellow, blue } from 'styles/colors';
+import { red, white, yellow, blue, green } from 'styles/colors';
 import { Flex } from 'grid-styled';
 
 export interface Props {
@@ -28,6 +28,8 @@ const alertColor = (level: AlertLevel): string => {
       return yellow;
     case AlertLevel.Info:
       return blue;
+    case AlertLevel.Success:
+      return green;
     default:
       return red;
   }

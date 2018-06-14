@@ -1,7 +1,6 @@
 import { getClients } from 'actions/clients';
 import BackButton from 'atoms/Buttons/BackButton';
 import Chat from 'components/Chat/Chat';
-import GoalList from 'components/Goals/GoalList';
 import Sidebar from 'components/Sidebar/Sidebar';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
@@ -11,6 +10,7 @@ import { bindActionCreators } from 'redux';
 import Terms from 'routes/Clients/Terms';
 import Tasks from 'routes/Tasks/Tasks';
 import styled from 'styled-components';
+import Goals from '../Goals/Goals';
 
 interface Props {
   className?: string;
@@ -49,7 +49,7 @@ class Client extends React.Component<Props, {}> {
               <Terms client={client} />
             </Route>
             <Route path="/clients/:id/tasks" component={Tasks} />
-            <Route path="/clients/:id/goals" component={GoalList} />
+            <Route path="/clients/:id/goals" component={Goals} />
             <Route path="/clients/:id/chat" component={Chat} />
             <Redirect
               exact
