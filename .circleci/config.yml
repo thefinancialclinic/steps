@@ -61,12 +61,16 @@ jobs:
       - run:
           name: "Test: Admin"
           working_directory: ~/repo/apps/admin/
-          command: npm test
+          command: |
+            npm test -- --clearCache
+            npm test
 
       - run:
           name: "Test: Api"
           working_directory: ~/repo/apps/api/
-          command: npm test
+          command: |
+            npm test -- --clearCache
+            npm test
 
       - run:
           name: build
