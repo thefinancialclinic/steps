@@ -40,8 +40,12 @@ class TaskDetails extends React.Component<Props, {}> {
   };
 
   handleDelete = async () => {
-    await this.props.actions.deleteTask(this.props.task.id);
-    this.setModal(!this.state.showModal);
+    try {
+      await this.props.actions.deleteTask(this.props.task.id);
+      this.setModal(!this.state.showModal);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   render() {

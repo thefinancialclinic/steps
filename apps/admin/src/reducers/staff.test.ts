@@ -3,19 +3,23 @@ import reducer from './staff';
 
 describe('Staff reducer', () => {
   it('stores invited emails', async () => {
-    const action = await inviteStaff(['one@example.com', 'two@example.com']);
+    try {
+      const action = await inviteStaff(['one@example.com', 'two@example.com']);
 
-    const updatedState = reducer([], action);
+      const updatedState = reducer([], action);
 
-    expect(updatedState).toMatchObject([
-      {
-        email: 'one@example.com',
-        pendingInvite: true,
-      },
-      {
-        email: 'two@example.com',
-        pendingInvite: true,
-      },
-    ]);
+      expect(updatedState).toMatchObject([
+        {
+          email: 'one@example.com',
+          pendingInvite: true,
+        },
+        {
+          email: 'two@example.com',
+          pendingInvite: true,
+        },
+      ]);
+    } catch (error) {
+      return error;
+    }
   });
 });

@@ -18,22 +18,26 @@ export const login = userType => async dispatch => {
   let user: User = { type: userType };
   let org: any = {};
 
-  if (userType === USER_TYPE.SUPER_ADMIN) {
-  } else if (userType === USER_TYPE.ADMIN) {
-  } else if (userType === USER_TYPE.COACH) {
-    const coaches = await axios.get(apiUrl + '/coaches');
-    user = coaches.data[0];
-    org = await axios.get(`${apiUrl}/orgs/${user.org_id}`);
-    user.org = org.data;
-  } else if (userType === USER_TYPE.CLIENT) {
-    const clients = await axios.get(apiUrl + '/clients');
-    user = clients.data[1];
-  }
+  try {
+    if (userType === USER_TYPE.SUPER_ADMIN) {
+    } else if (userType === USER_TYPE.ADMIN) {
+    } else if (userType === USER_TYPE.COACH) {
+      const coaches = await axios.get(apiUrl + '/coaches');
+      user = coaches.data[0];
+      org = await axios.get(`${apiUrl}/orgs/${user.org_id}`);
+      user.org = org.data;
+    } else if (userType === USER_TYPE.CLIENT) {
+      const clients = await axios.get(apiUrl + '/clients');
+      user = clients.data[1];
+    }
 
-  dispatch({ type: LOGIN, user });
+    dispatch({ type: LOGIN, user });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const LOGOUT = 'LOGOUT';
-export const logout = async userType => dispatch => {
+export const logout = userType => dispatch => {
   return dispatch({ type: SET_USER_TYPE, userType: null });
 };
