@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditGoal.tsx renders correctly 1`] = `
+<div>
+  <BackButton
+    to="/clients/123/goals"
+  />
+  <GoalForm
+    goal={
+      Object {
+        "id": 1,
+        "text": "my goal",
+      }
+    }
+    onSubmit={[Function]}
+  />
+</div>
+`;

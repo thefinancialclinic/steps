@@ -24,7 +24,7 @@ export const GoalListLayout: React.SFC<{ goals: string[]; client: Client }> = ({
   client,
 }) => (
   <div>
-    <GoalList goals={goals} />
+    <GoalList goals={goals} client={client} />
     <Flex justifyContent="center">
       <Link to={`/clients/${client.id}/goals/new`}>
         <Button>New Goal</Button>
