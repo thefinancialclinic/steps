@@ -36,6 +36,7 @@ export const createClient = (clientData): DispatchFn => async dispatch => {
     clientData.coach_id = coach.id;
     clientData.color = 'blue';
     clientData.status = 'AWAITING_HELP';
+    clientData.goals = [];
 
     const clients = await axios.post(apiUrl + '/clients', clientData);
     return dispatch(getClients());
