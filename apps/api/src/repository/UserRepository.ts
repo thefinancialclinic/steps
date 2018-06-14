@@ -52,7 +52,7 @@ export class User {
   coach_id?: number;
   org_id: number;
   color: string;
-  goals?: string[];
+  goals: string[];
   status: string;
   type: string;
   updated?: Date;

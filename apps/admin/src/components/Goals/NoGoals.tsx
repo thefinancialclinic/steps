@@ -5,14 +5,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { yellow } from 'styles/colors';
+import { Client } from 'reducers/clients';
 
 interface Props {
   className?: string;
+  client: Client;
 }
 
 class NoGoals extends React.Component<Props, {}> {
   render() {
-    const { className } = this.props;
+    const { className, client } = this.props;
 
     return (
       <Box width={1} p={4} className={className}>
@@ -22,7 +24,7 @@ class NoGoals extends React.Component<Props, {}> {
           </div>
           <div>Create your first goal.</div>
           <Box m={2}>
-            <Link to="/clients/:id/goals/new">
+            <Link to={`/clients/${client.id}/goals/new`}>
               <Button>Add Goal</Button>
             </Link>
           </Box>

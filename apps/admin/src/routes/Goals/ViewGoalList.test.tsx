@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
+import NoGoals from '../../components/Goals/NoGoals';
 import { GoalListLayout, ViewGoalList } from './ViewGoalList';
 
 describe('ViewGoalList.tsx', () => {
@@ -59,6 +60,22 @@ describe('ViewGoalList.tsx', () => {
     const goalList = wrapper.find(GoalListLayout);
 
     expect(goalList).toHaveLength(1);
+  });
+
+  it('displays a NoGoals if there are no goals', () => {
+    const actions = {
+      getClients: jest.fn().mockReturnValue(Promise.resolve()),
+      addAlert: jest.fn(),
+    };
+
+    const client = {
+      goals: [],
+    };
+
+    const wrapper = shallow(<ViewGoalList client={client} actions={actions} />);
+    const noGoals = wrapper.find(NoGoals);
+
+    expect(noGoals).toHaveLength(1);
   });
 
   it('displays an error message if load clients fails', async () => {

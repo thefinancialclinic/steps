@@ -47,13 +47,13 @@ export class ViewGoalList extends React.Component<Props> {
   render() {
     return (
       <Box width={1} p={4}>
-        {this.hasGoals ? (
+        {this.hasGoals() ? (
           <GoalListLayout
             goals={this.props.client ? this.props.client.goals : []}
             client={this.props.client}
           />
         ) : (
-          <NoGoals />
+          <NoGoals client={this.props.client} />
         )}
       </Box>
     );
