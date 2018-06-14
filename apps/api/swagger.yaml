@@ -190,6 +190,9 @@ components:
         topic:
           type: string
           nullable: true
+        fb_id:
+          type: string
+          nullable: true
 
 
 paths:
