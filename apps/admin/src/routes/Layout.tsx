@@ -19,9 +19,17 @@ interface Props {
   history: any;
 }
 
+interface RoutesProps {
+  children?: any;
+  user?: User;
+  history: any;
+}
+
+type RoutesElement = (RoutesProps) => JSX.Element;
+
 const Layout: React.SFC = ({ history, user }: Props) => {
   const { type } = user;
-  let Routes = DefaultRoutes;
+  let Routes: RoutesElement = DefaultRoutes;
 
   if (type === USER_TYPE.SUPER_ADMIN) Routes = Superadmin;
   else if (type === USER_TYPE.ADMIN) Routes = Admin;
@@ -31,13 +39,13 @@ const Layout: React.SFC = ({ history, user }: Props) => {
   return (
     <Wrapper>
       {process.env.NODE_ENV === 'development' && <UserSwitcher />}
-      <Routes user={user} />
-      {history.location !== '/' && <Redirect to={`/`} />}
+      <Routes user={user} history={history} />
     </Wrapper>
   );
 };
 
-const DefaultRoutes = props => <Login />;
+const DefaultRoutes = ({ history }) =>
+  history.location.pathname !== '/' ? <Redirect to="/" /> : <Login />;
 
 const Wrapper = styled.div`
   display: flex;

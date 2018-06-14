@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import TopBar from 'components/TopBar';
 import Home from './Home';
@@ -10,9 +10,11 @@ import ClientNew from './Clients/New';
 import { User } from 'reducers/auth';
 
 type Props = {
+  history: any;
   user: User;
 };
-const Coach = ({ user }: Props) => {
+
+const Coach: React.SFC<Props> = ({ history, user }) => {
   return (
     <div>
       <TopBar user={user} />
@@ -21,6 +23,7 @@ const Coach = ({ user }: Props) => {
         <Route exact path="/clients/new" component={ClientNew} />
         <Route path="/clients/:id" component={ClientProfile} />
         <Route exact path="/" component={Home} />
+        <Route render={props => <Redirect to={`/`} /> } />
       </Switch>
     </div>
   );
