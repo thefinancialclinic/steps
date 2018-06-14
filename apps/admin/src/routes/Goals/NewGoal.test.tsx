@@ -66,8 +66,13 @@ describe('NewGoal.tsx', () => {
     });
 
     setTimeout(() => {
-      expect(actions.addAlert).toHaveBeenCalled();
-      done();
+      try {
+        expect(actions.addAlert).toHaveBeenCalled();
+      } catch (err) {
+        fail(err);
+      } finally {
+        done();
+      }
     }, 0);
   });
 
