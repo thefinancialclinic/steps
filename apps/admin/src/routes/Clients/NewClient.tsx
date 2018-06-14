@@ -23,6 +23,11 @@ const Content = styled.div`
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+
+    i {
+      font-size: 14px;
+      vertical-align: top;
+    }
   }
 `;
 
@@ -82,14 +87,16 @@ export class NewClient extends React.Component<Props, State> {
         <Flex flexWrap="wrap">
           <Box width={[1, 1 / 2]} px={2}>
             <Content>
-              <h2>Title</h2>
+              <h2>Meet Roo</h2>
               <Box>
                 Learn how this digital helper can help you achieve your dreams.
                 It's a text message based program and will reach out to you once
                 a day with reminders, content, and encouragement.
               </Box>
               <a onClick={this.toggleVideo}>
-                <Button>Play Video</Button>
+                <Button>
+                  Play Video<i className="material-icons">play_arrow</i>
+                </Button>
               </a>
             </Content>
           </Box>
