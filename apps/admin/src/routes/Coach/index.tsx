@@ -1,13 +1,12 @@
 import React from 'react';
-import { Link, Redirect, Route, Switch, withRouter } from 'react-router-dom';
-import PrivateRoute from 'routes/PrivateRoute';
+import { Route, Switch } from 'react-router-dom';
 
 import TopBar from 'components/TopBar';
 import Home from './Home';
-import Clients from './Clients';
-import Client from './Client';
-import NewClient from './NewClient';
-import Alert from 'containers/Alert';
+import Clients from './Clients/List';
+import ClientProfile from './Clients/Profile';
+import ClientNew from './Clients/New';
+// import Alert from 'containers/Alert';
 import { User } from 'reducers/auth';
 
 type Props = {
@@ -18,10 +17,10 @@ const Coach = ({ user }: Props) => {
     <div>
       <TopBar user={user} />
       <Switch>
-        <PrivateRoute exact path="/" component={Home} />
-        <PrivateRoute exact path="/clients" component={Clients} />
-        <PrivateRoute exact path="/clients/new" component={NewClient} />
-        <PrivateRoute path="/clients/:id" component={Client} />
+        <Route exact path="/clients" component={Clients} />
+        <Route exact path="/clients/new" component={ClientNew} />
+        <Route path="/clients/:id" component={ClientProfile} />
+        <Route exact path="/" component={Home} />
       </Switch>
     </div>
   );

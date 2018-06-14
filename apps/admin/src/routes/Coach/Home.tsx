@@ -5,16 +5,12 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { svgBackgroundImageUrl } from 'styles';
 
-interface Props {
-  className?: string;
-}
+interface Props {}
 
 class Home extends React.Component<Props, {}> {
   render() {
-    const { className } = this.props;
-
     return (
-      <div className={className}>
+      <StyledHome>
         <div className="panel-wrapper">
           <div className="blep">
             <Panel fill>
@@ -31,12 +27,12 @@ class Home extends React.Component<Props, {}> {
             </Panel>
           </div>
         </div>
-      </div>
+      </StyledHome>
     );
   }
 }
 
-const StyledHome = styled(Home)`
+const StyledHome = styled.div`
   position: absolute;
   bottom: 0;
   top: 50px;
@@ -82,4 +78,4 @@ const StyledHome = styled(Home)`
   }
 `;
 
-export default StyledHome;
+export default Home;

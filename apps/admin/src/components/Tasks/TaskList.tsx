@@ -15,7 +15,7 @@ import { Flex } from 'grid-styled';
 interface Props {
   className?: string;
   actions?: any;
-  tasks: any;
+  tasks?: any;
   client: any;
 }
 
@@ -127,10 +127,16 @@ export class ConnectedTaskList extends React.Component<Props, {}> {
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  tasks: state.tasks.tasks.filter(t => t.user_id == props.match.params.id),
-  client: state.clients.clients.find(c => c.id == props.match.params.id),
-});
+const mapStateToProps = (state, props) => {
+  return {
+    tasks: state.tasks.tasks.filter(
+      t => t.user_id == (props.client.id || props.match.params.id),
+    ),
+    client: state.clients.clients.find(
+      c => c.id == (props.client.id || props.match.params.id),
+    ),
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ getTasks, setTasks, setTaskStatus }, dispatch),

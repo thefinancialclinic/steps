@@ -1,13 +1,13 @@
 import 'jest';
 import { shallow } from 'enzyme';
-import { NewClient } from './NewClient';
-import NewClientForm from './NewClientForm';
+import { ClientNew } from './New';
+import NewClientForm from '../../../components/Clients/NewClientForm';
 import * as React from 'react';
-import { AlertLevel } from '../../components/Alert/types';
+import { AlertLevel } from '../../../components/Alert/types';
 
 declare var process;
 
-describe('NewClient.tsx', () => {
+describe('ClientNew.tsx', () => {
   it('displays an error if the client response is an error', done => {
     const history = { push: jest.fn() };
     const createClient = jest
@@ -17,7 +17,7 @@ describe('NewClient.tsx', () => {
       addAlert: jest.fn(),
       createClient,
     };
-    const wrapper = shallow(<NewClient actions={actions} history={history} />);
+    const wrapper = shallow(<ClientNew actions={actions} history={history} />);
     const form = wrapper.find(NewClientForm);
 
     form.simulate('submit');
@@ -38,7 +38,7 @@ describe('NewClient.tsx', () => {
       addAlert: jest.fn(),
       createClient,
     };
-    const wrapper = shallow(<NewClient actions={actions} history={history} />);
+    const wrapper = shallow(<ClientNew actions={actions} history={history} />);
     const form = wrapper.find(NewClientForm);
 
     form.simulate('submit');

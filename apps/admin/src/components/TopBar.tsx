@@ -18,7 +18,6 @@ interface Props {
 class TopBar extends React.Component<Props> {
   render() {
     const { user, title } = this.props;
-    console.log(user);
 
     return (
       <StyledTopBar>

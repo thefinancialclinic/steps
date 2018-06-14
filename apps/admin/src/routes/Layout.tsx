@@ -8,8 +8,8 @@ import auth, { USER_TYPE, User } from 'reducers/auth';
 import UserSwitcher from 'components/util/UserSwitcher';
 
 import Admin from './Admin/index';
-import Client from './Client/';
-import Coach from './Coach/';
+import Client from './Client/index';
+import Coach from './Coach/index';
 import Login from './Login';
 import Superadmin from './Superadmin/index';
 

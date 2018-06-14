@@ -6,24 +6,11 @@ import { connect } from 'react-redux';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
-import NewClientForm from './NewClientForm';
+import NewClientForm from 'components/Clients/NewClientForm';
 import { createClient } from 'actions/clients';
 import { addAlert } from 'actions/alerts';
 import { History } from 'react-router';
 import Main from 'atoms/Main';
-
-const Content = styled.div`
-  position: relative;
-  padding: 2em 2em 6em 2em;
-  height: 100%;
-
-  button {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-`;
 
 interface Props {
   className?: string;
@@ -31,7 +18,7 @@ interface Props {
   history: History;
 }
 
-export class NewClient extends React.Component<Props> {
+export class ClientNew extends React.Component<Props> {
   createClient = clientData => {
     this.props.actions
       .createClient(clientData)
@@ -73,6 +60,19 @@ export class NewClient extends React.Component<Props> {
   }
 }
 
+const Content = styled.div`
+  position: relative;
+  padding: 2em 2em 6em 2em;
+  height: 100%;
+
+  button {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+`;
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ createClient, addAlert }, dispatch),
 });
@@ -80,4 +80,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps,
-)(withRouter(NewClient));
+)(withRouter(ClientNew));
