@@ -46,7 +46,7 @@ export const Routes = [
   },
   {
     method: 'post',
-    route: '/api/clients/:id/viewed_media',
+    route: '/api/clients/:id/viewed_media/:media_id',
     controller: ClientController,
     action: 'create_viewed_media',
   },
@@ -61,6 +61,12 @@ export const Routes = [
     route: '/api/clients',
     controller: ClientController,
     action: 'save',
+  },
+  {
+    method: 'put',
+    route: '/api/clients/:id',
+    controller: ClientController,
+    action: 'update',
   },
   {
     method: 'delete',
