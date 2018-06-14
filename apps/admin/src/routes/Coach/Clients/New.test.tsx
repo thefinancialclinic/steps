@@ -8,7 +8,7 @@ import { AlertLevel } from '../../../components/Alert/types';
 declare var process;
 
 describe('ClientNew.tsx', () => {
-  it('displays an error if the client response is an error', done => {
+  it('displays an error if the client response is an error', async () => {
     const history = { push: jest.fn() };
     const createClient = jest
       .fn()
@@ -22,17 +22,16 @@ describe('ClientNew.tsx', () => {
 
     form.simulate('submit');
 
-    process.nextTick(() => {
+    await process.nextTick(() => {
       expect(actions.addAlert).toHaveBeenCalledWith({
         level: AlertLevel.Error,
         message: 'some error',
         id: 'new-client-error',
       });
-      done();
     });
   });
 
-  it('redirects to /clients if client response is success', done => {
+  it('redirects to /clients if client response is success', async () => {
     const history = { push: jest.fn() };
     const createClient = jest.fn().mockReturnValue(Promise.resolve('success!'));
     const actions = {
@@ -44,9 +43,8 @@ describe('ClientNew.tsx', () => {
 
     form.simulate('submit');
 
-    process.nextTick(() => {
+    await process.nextTick(() => {
       expect(history.push).toHaveBeenCalledWith('/clients');
-      done();
     });
   });
 });
