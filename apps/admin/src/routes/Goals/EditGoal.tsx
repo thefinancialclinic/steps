@@ -11,6 +11,7 @@ import { History } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Goal } from 'components/Goals/types';
 import { findById } from 'helpers';
+import Main from 'atoms/Main';
 
 interface Props {
   actions: {
@@ -62,10 +63,10 @@ export class EditGoal extends React.Component<Props> {
 
   render() {
     return (
-      <div>
+      <Main>
         <BackButton to={`/clients/${this.props.client.id}/goals`} />
         <GoalForm onSubmit={this.updateGoal} goal={this.props.goal} />
-      </div>
+      </Main>
     );
   }
 }

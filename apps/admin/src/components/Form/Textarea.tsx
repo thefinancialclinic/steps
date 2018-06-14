@@ -30,6 +30,7 @@ const BaseInput = styled.div`
     background-color: ${white};
     border: solid 1px ${mediumBlue};
     font-size: ${remCalc(18)};
+    margin-bottom: ${remCalc(20)};
     padding-bottom: ${remCalc(21)};
     padding-left: ${remCalc(20)};
     padding-right: ${remCalc(20)};

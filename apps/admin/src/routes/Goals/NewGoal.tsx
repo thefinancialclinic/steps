@@ -10,6 +10,7 @@ import { Client } from 'reducers/clients';
 import { History } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { findById } from 'helpers';
+import Main from 'atoms/Main';
 
 interface Props {
   actions: {
@@ -55,10 +56,10 @@ export class NewGoal extends React.Component<Props> {
 
   render() {
     return (
-      <div>
+      <Main>
         <BackButton to={`/clients/${this.props.client.id}/goals`} />
         <GoalForm onSubmit={this.createGoal} />
-      </div>
+      </Main>
     );
   }
 }

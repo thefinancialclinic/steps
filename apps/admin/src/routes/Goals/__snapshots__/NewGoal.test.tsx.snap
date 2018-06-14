@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NewGoal.tsx renders correctly 1`] = `
-<div>
+<Main>
   <BackButton
     to="/clients/123/goals"
   />
   <GoalForm
     onSubmit={[Function]}
   />
-</div>
+</Main>
 `;

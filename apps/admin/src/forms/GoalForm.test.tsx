@@ -1,10 +1,10 @@
-import 'jest';
 import { shallow } from 'enzyme';
-import GoalForm from './GoalForm';
+import 'jest';
 import React from 'react';
-import Textarea from '../components/Form/Textarea';
+import { Form } from 'react-final-form';
+import GoalForm from './GoalForm';
 
-describe('NewGoalForm.tsx', () => {
+describe('GoalForm.tsx', () => {
   it('renders correctly', () => {
     const onSubmit = jest.fn();
     const wrapper = shallow(<GoalForm onSubmit={onSubmit} />);
@@ -47,8 +47,8 @@ describe('NewGoalForm.tsx', () => {
 
     const wrapper = shallow(<GoalForm onSubmit={onSubmit} goal={goal} />);
 
-    const textarea = wrapper.dive().find(Textarea);
+    const form = wrapper.find(Form);
 
-    expect(textarea.props().value).toEqual('My goal');
+    expect(form.props().initialValues).toEqual({ goal: 'My goal' });
   });
 });

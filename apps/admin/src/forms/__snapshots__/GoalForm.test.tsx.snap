@@ -1,49 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NewGoalForm.tsx renders correctly 1`] = `
+exports[`GoalForm.tsx renders correctly 1`] = `
 <form
   onSubmit={[Function]}
 >
   <h2>
     Add New Goal
   </h2>
-  <Flex
-    flexWrap="wrap"
-    theme={
-      Object {
-        "breakpoints": Array [
-          "40em",
-          "52em",
-          "64em",
-        ],
-        "fontSizes": Array [
-          12,
-          14,
-          16,
-          20,
-          24,
-          32,
-          48,
-          64,
-          96,
-          128,
-        ],
-        "space": Array [
-          0,
-          4,
-          8,
-          16,
-          32,
-          64,
-          128,
-          256,
-          512,
-        ],
-      }
-    }
-  >
-    <Box
-      px={2}
+  <Panel>
+    <Textarea
+      label="goal"
+      name="goal"
+      placeholder="My goal is to..."
+    />
+    <Flex
+      justifyContent="center"
       theme={
         Object {
           "breakpoints": Array [
@@ -76,22 +47,11 @@ exports[`NewGoalForm.tsx renders correctly 1`] = `
           ],
         }
       }
-      width={
-        Array [
-          1,
-          0.5,
-        ]
-      }
     >
-      <Textarea
-        label="goal"
-        name="goal"
-        placeholder="My goal is to..."
-      />
-    </Box>
-  </Flex>
-  <Button>
-    Save
-  </Button>
+      <Button>
+        Save
+      </Button>
+    </Flex>
+  </Panel>
 </form>
 `;
