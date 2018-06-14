@@ -2,7 +2,7 @@ import axios from 'axios';
 
 type DispatchFn = (any) => any;
 
-const apiUrl = process.env.API_URL || 'http://localhost:3001/api';
+const apiUrl = process.env.API_URL;
 
 const CREATE_TASK = 'CREATE_TASK';
 export const createTask = async (data): Promise<any> => {
