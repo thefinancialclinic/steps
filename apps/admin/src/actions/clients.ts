@@ -43,11 +43,19 @@ export const createClient = (clientData): DispatchFn => async dispatch => {
 };
 
 export const SET_CLIENT_GOALS = 'SET_CLIENT_GOALS';
-export const setClientGoals = async (clientId, goals) => {
-  // TODO: API call to PUT /clients
-  return {
-    type: SET_CLIENT_GOALS,
-    clientId,
+export const setClientGoals = async (client: Client, goals: string[]) => {
+  const updatedClient = {
+    ...client,
     goals,
   };
+  try {
+    await client.put(`/clients/${client.id}`, updatedClient);
+    return {
+      type: SET_CLIENT_GOALS,
+      clientId: client.id,
+      goals,
+    };
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };

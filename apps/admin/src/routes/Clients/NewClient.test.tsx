@@ -20,14 +20,14 @@ describe('NewClient.tsx', () => {
 
     form.simulate('submit');
 
-    process.nextTick(() => {
+    setTimeout(() => {
       expect(actions.addAlert).toHaveBeenCalledWith({
         level: AlertLevel.Error,
         message: 'some error',
         id: 'new-client-error',
       });
       done();
-    });
+    }, 0);
   });
 
   it('redirects to /clients if client response is success', done => {
@@ -42,9 +42,9 @@ describe('NewClient.tsx', () => {
 
     form.simulate('submit');
 
-    process.nextTick(() => {
+    setTimeout(() => {
       expect(history.push).toHaveBeenCalledWith('/clients');
       done();
-    });
+    }, 0);
   });
 });
