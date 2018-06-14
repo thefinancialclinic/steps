@@ -1,10 +1,8 @@
 import axios from 'axios';
-import { addAlert } from './alerts';
-import { AlertLevel } from '../components/Alert/types';
 
 type DispatchFn = (any) => any;
 
-const apiUrl = process.env.API_URL || 'http://localhost:3001/api';
+const apiUrl = process.env.API_URL;
 
 const GET_CLIENTS = 'GET_CLIENTS';
 export const getClients = (): DispatchFn => async dispatch => {
@@ -12,7 +10,7 @@ export const getClients = (): DispatchFn => async dispatch => {
     const clients = await axios.get(apiUrl + '/clients');
     return dispatch(setClients(clients.data));
   } catch (error) {
-    console.error(error);
+    return Promise.reject(error);
   }
 };
 
@@ -38,10 +36,21 @@ export const createClient = (clientData): DispatchFn => async dispatch => {
     clientData.coach_id = coach.id;
     clientData.color = 'blue';
     clientData.status = 'AWAITING_HELP';
+    clientData.goals = [];
 
     const clients = await axios.post(apiUrl + '/clients', clientData);
     return dispatch(getClients());
   } catch (error) {
     return Promise.reject(error);
   }
+};
+
+export const SET_CLIENT_GOALS = 'SET_CLIENT_GOALS';
+export const setClientGoals = async (clientId, goals) => {
+  // TODO: API call to PUT /clients
+  return {
+    type: SET_CLIENT_GOALS,
+    clientId,
+    goals,
+  };
 };

@@ -13,6 +13,7 @@ import ChatMessage from './Chat/ChatMessage';
 import Request from './Chat/Request';
 import NameCard from './Clients/NameCard';
 import TermsModal from './Clients/TermsModal';
+import VideoModal from './Clients/VideoModal';
 import DataRow from './DataTable/DataRow';
 import DataTable from './DataTable/DataTable';
 import NavDropdown from './Dropdowns/NavDropdown';
@@ -27,6 +28,7 @@ import TaskForm from './Tasks/TaskForm';
 import { TaskList } from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
 import moment from 'moment';
+import Goal from './Goals/Goal';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -105,6 +107,12 @@ export const Components = storiesOf('Components', module)
     </Modal>
   ))
   .add('TermsModal', () => <TermsModal phoneNumber="+15558675309" link="#" />)
+  .add('VideoModal', () => (
+    <VideoModal
+      embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q"
+      onClose={() => {}}
+    />
+  ))
   .add('Task Form', () => (
     <TaskForm
       task={{
@@ -167,6 +175,9 @@ export const Components = storiesOf('Components', module)
       <Button>Some Button</Button>
     </PageHeader>
   ))
-  .add('Photo Upload', () => <PhotoUpload />);
+  .add('Photo Upload', () => <PhotoUpload />)
+  .add('Goal', () => (
+    <Goal text="My goal is to go to the moon" onEdit={() => {}} />
+  ));
 
 export default Components;

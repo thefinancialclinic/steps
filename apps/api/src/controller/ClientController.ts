@@ -25,6 +25,14 @@ export class ClientController {
     return client;
   }
 
+  async update(request: Request, response: Response, next: NextFunction) {
+    const newUser = new User(request.body);
+    newUser.type = 'Client';
+    newUser.id = request.params.id;
+    const user = await this.repo.update(newUser);
+    return user;
+  }
+
   async remove(request: Request, response: Response, next: NextFunction) {
     const num = await this.repo.deleteByType(request.params.id, 'Client');
     return { deleted: num };
