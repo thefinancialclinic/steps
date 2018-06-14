@@ -15,7 +15,6 @@ describe('DateDisplay.tsx', () => {
   it('is properly formatted', () => {
     const wrapper = shallow(<DateDisplay date={date} />);
 
-    expect(wrapper).toMatchSnapshot();
     expect(wrapper.dive().text()).toEqual('2018-01-01');
   });
 });
