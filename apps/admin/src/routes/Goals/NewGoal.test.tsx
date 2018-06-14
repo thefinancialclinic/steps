@@ -41,7 +41,7 @@ describe('NewGoal.tsx', () => {
 
     goalForm.simulate('submit', { goal: 'It is my goal to go to the moon' });
 
-    expect(actions.setClientGoals).toHaveBeenCalledWith(123, [
+    expect(actions.setClientGoals).toHaveBeenCalledWith(client, [
       'It is my goal to get a job',
       'It is my goal to go to the moon',
     ]);
@@ -65,10 +65,15 @@ describe('NewGoal.tsx', () => {
       goal: 'It is my goal to go to the moon',
     });
 
-    process.nextTick(() => {
-      expect(actions.addAlert).toHaveBeenCalled();
-      done();
-    });
+    setTimeout(() => {
+      try {
+        expect(actions.addAlert).toHaveBeenCalled();
+      } catch (err) {
+        fail(err);
+      } finally {
+        done();
+      }
+    }, 0);
   });
 
   it('redirects back to the goals page on success', async () => {

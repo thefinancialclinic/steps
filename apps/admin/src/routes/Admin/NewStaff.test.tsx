@@ -48,7 +48,7 @@ describe('NewStaff.tsx', () => {
     ]);
   });
 
-  it('redirects back to the staff page on success', done => {
+  it('redirects back to the staff page on success', () => {
     const inviteStaff = jest
       .fn()
       .mockReturnValue(Promise.resolve('some response'));
@@ -61,10 +61,7 @@ describe('NewStaff.tsx', () => {
 
     form.simulate('submit', { emails: 'test@example.com' });
 
-    process.nextTick(() => {
-      expect(history.push).toHaveBeenCalledWith('/admin/staff');
-      done();
-    });
+    expect(history.push).toHaveBeenCalledWith('/admin/staff');
   });
 
   it('displays an error message on error', done => {
@@ -77,13 +74,13 @@ describe('NewStaff.tsx', () => {
 
     form.simulate('submit', { emails: 'test@example.com' });
 
-    process.nextTick(() => {
+    setTimeout(() => {
       expect(addAlert).toHaveBeenCalledWith({
         message: 'some error',
         id: 'new-staff-error',
         level: 'error',
       });
       done();
-    });
+    }, 0);
   });
 });

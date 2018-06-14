@@ -16,7 +16,7 @@ interface Props {
   actions: {
     addAlert(alert: Alert): void;
     getClients(): Promise<void>;
-    setClientGoals(clientId: number, goals: string[]): Promise<void>;
+    setClientGoals(client: Client, goals: string[]): Promise<void>;
   };
   client?: Client;
   history: History;
@@ -36,7 +36,7 @@ export class NewGoal extends React.Component<Props> {
   createGoal = goalData => {
     const updatedGoals = [...this.props.client.goals, goalData.goal];
     this.props.actions
-      .setClientGoals(this.props.client.id, updatedGoals)
+      .setClientGoals(this.props.client, updatedGoals)
       .then(() => {
         this.props.history.push(`/clients/${this.props.client.id}/goals`);
         this.props.actions.addAlert({

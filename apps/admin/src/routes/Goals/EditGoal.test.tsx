@@ -51,7 +51,7 @@ describe('EditGoal.tsx', () => {
 
     goalForm.simulate('submit', { goal: 'It is my goal to go to the moon' });
 
-    expect(actions.setClientGoals).toHaveBeenCalledWith(123, [
+    expect(actions.setClientGoals).toHaveBeenCalledWith(client, [
       'It is my goal to go to the moon',
     ]);
   });
@@ -79,10 +79,10 @@ describe('EditGoal.tsx', () => {
       goal: 'It is my goal to go to the moon',
     });
 
-    process.nextTick(() => {
+    setTimeout(() => {
       expect(actions.addAlert).toHaveBeenCalled();
       done();
-    });
+    }, 0);
   });
 
   it('redirects back to the goals page on success', async () => {
