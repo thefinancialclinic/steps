@@ -22,13 +22,17 @@ describe('ClientNew.tsx', () => {
 
     form.simulate('submit');
 
-    await process.nextTick(() => {
-      expect(actions.addAlert).toHaveBeenCalledWith({
-        level: AlertLevel.Error,
-        message: 'some error',
-        id: 'new-client-error',
+    try {
+      await process.nextTick(() => {
+        expect(actions.addAlert).toHaveBeenCalledWith({
+          level: AlertLevel.Error,
+          message: 'some error',
+          id: 'new-client-error',
+        });
       });
-    });
+    } catch (error) {
+      return error;
+    }
   });
 
   it('redirects to /clients if client response is success', async () => {
@@ -43,8 +47,12 @@ describe('ClientNew.tsx', () => {
 
     form.simulate('submit');
 
-    await process.nextTick(() => {
-      expect(history.push).toHaveBeenCalledWith('/clients');
-    });
+    try {
+      await process.nextTick(() => {
+        expect(history.push).toHaveBeenCalledWith('/clients');
+      });
+    } catch (error) {
+      return error;
+    }
   });
 });

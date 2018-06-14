@@ -63,9 +63,13 @@ describe('NewStaff.tsx', () => {
 
     form.simulate('submit', { emails: 'test@example.com' });
 
-    await process.nextTick(() => {
-      expect(history.push).toHaveBeenCalledWith('/admin/staff');
-    });
+    try {
+      await process.nextTick(() => {
+        expect(history.push).toHaveBeenCalledWith('/admin/staff');
+      });
+    } catch (error) {
+      return error;
+    }
   });
 
   it('displays an error message on error', async () => {
@@ -78,12 +82,16 @@ describe('NewStaff.tsx', () => {
 
     form.simulate('submit', { emails: 'test@example.com' });
 
-    await process.nextTick(() => {
-      expect(addAlert).toHaveBeenCalledWith({
-        message: 'some error',
-        id: 'new-staff-error',
-        level: 'error',
+    try {
+      await process.nextTick(() => {
+        expect(addAlert).toHaveBeenCalledWith({
+          message: 'some error',
+          id: 'new-staff-error',
+          level: 'error',
+        });
       });
-    });
+    } catch (error) {
+      return error;
+    }
   });
 });
