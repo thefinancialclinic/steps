@@ -1,8 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Route, RouteComponentProps, Switch } from 'react-router-dom';
+import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { Box } from 'grid-styled';
-import styled from 'styled-components';
 import ChatHelp from './ChatHelp';
 import ChatLog from './ChatLog';
 import NavGroup from 'components/NavGroup/NavGroup';
@@ -29,14 +27,11 @@ class Chat extends React.Component<Props, {}> {
         <Switch>
           <Route path="/clients/:id/chat/log" component={ChatLog} />
           <Route path="/clients/:id/chat/help" component={ChatHelp} />
+          <Redirect exact from="" to={`/clients/${client.id}/chat/log`} />
         </Switch>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  client: state.clients.clients.find(c => c.id == props.match.params.id),
-});
-
-export default connect(mapStateToProps)(Chat);
+export default Chat;
