@@ -247,6 +247,30 @@ paths:
             application/json:
               schema:
                 $ref: '#components/schemas/User'
+    put:
+      summary: Update a single Client by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Client ID
+      requestBody:
+        description: Existing Client to Update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      tags: [users]
+      responses:
+        '200':
+          description: A JSON object representing a single Client (user)
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/User'
     delete:
       summary: Delete a Client by the given id
       parameters:
@@ -267,7 +291,7 @@ paths:
                 properties:
                   deleted:
                     type: number
-  /api/clients/{id}/tasks:
+  /clients/{id}/tasks:
     get:
       summary: Get a client's list of assigned tasks.
       parameters:
@@ -287,7 +311,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Task'
-  /api/clients/{id}/messages:
+  /clients/{id}/messages:
     get:
       summary: Get messages to or from a client.
       parameters:
@@ -307,7 +331,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Message'
-  /api/clients/{id}/requests:
+  /clients/{id}/requests:
     get:
       summary: Get all of a client's requests.
       parameters:
@@ -327,7 +351,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Request'
-  /api/clients/{id}/viewed_media:
+  /clients/{id}/viewed_media:
     get:
       summary: Get all of a client's viewed media
       parameters:
@@ -347,7 +371,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Media'
-  /api/clients/{id}/viewed_media/{media_id}:
+  /clients/{id}/viewed_media/{media_id}:
     post:
       tags: [users]
       summary: Mark a particular media item as having been viewed by the client.
