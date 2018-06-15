@@ -29,9 +29,7 @@ jobs:
 
       - run:
           name: npm install
-          command: |
-            npm install
-            $(npm bin)/cypress install
+          command: npm install
 
       - run:
           name: npm install:all
@@ -60,27 +58,33 @@ jobs:
 
       - run:
           name: "Test: Admin"
-          command: $(npm bin)/lerna run test --scope=steps-admin --stream
+          working_directory: ~/repo/apps/admin/
+          command: |
+            npm test -- --clearCache
+            npm test -- -i
 
       - run:
           name: "Test: Api"
-          command: $(npm bin)/lerna run test --scope=steps-api --stream
-
-      - run:
-          name: build
-          environment:
-            NODE_ENV: production
+          working_directory: ~/repo/apps/api/
           command: |
-            $(npm bin)/lerna run build --stream
+            npm test -- --clearCache
+            npm test
 
-      - run:
-          name: cypress
-          command: |
-            npm run start:prod &
-            $(npm bin)/wait-on http://localhost:3000
-            $(npm bin)/cypress run
+      # - run:
+      #     name: build
+      #     environment:
+      #       NODE_ENV: production
+      #     command: |
+      #       $(npm bin)/lerna run build --stream
 
-      - store_artifacts:
-          path: cypress/videos
-      - store_artifacts:
-          path: cypress/screenshots
+      # - run:
+      #     name: cypress
+      #     command: |
+      #       npm run start:prod &
+      #       $(npm bin)/wait-on http://localhost:3000
+      #       $(npm bin)/cypress run
+
+      # - store_artifacts:
+      #     path: cypress/videos
+      # - store_artifacts:
+      #     path: cypress/screenshots

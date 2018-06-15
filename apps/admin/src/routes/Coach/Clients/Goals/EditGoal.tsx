@@ -9,6 +9,7 @@ import { getClients, setClientGoals } from 'actions/clients';
 import { Client } from 'reducers/clients';
 import { History } from 'react-router';
 import { withRouter } from 'react-router-dom';
+import { Goal } from 'components/Goals/types';
 import { findById } from 'helpers';
 import Main from 'atoms/Main';
 
@@ -16,33 +17,39 @@ interface Props {
   actions: {
     addAlert(alert: Alert): void;
     getClients(): Promise<void>;
-    setClientGoals(clientId: number, goals: string[]): Promise<void>;
+    setClientGoals(client: Client, goals: string[]): Promise<void>;
   };
   client?: Client;
   history: History;
+  goal: Goal;
 }
 
-export class NewGoal extends React.Component<Props> {
+export class EditGoal extends React.Component<Props> {
   componentWillMount() {
     this.props.actions.getClients().catch(err => {
       this.props.actions.addAlert({
         level: AlertLevel.Error,
         message: err.message,
-        id: 'new-goal-get-client-error',
+        id: 'edit-goal-get-client-error',
       });
     });
   }
 
-  createGoal = goalData => {
-    const updatedGoals = [...this.props.client.goals, goalData.goal];
+  updateGoal = goalData => {
+    const updatedGoals = this.props.client.goals.map((goal, i) => {
+      if (i == this.props.goal.id) {
+        return goalData.goal;
+      }
+      return goal;
+    });
     this.props.actions
-      .setClientGoals(this.props.client.id, updatedGoals)
+      .setClientGoals(this.props.client, updatedGoals)
       .then(() => {
         this.props.history.push(`/clients/${this.props.client.id}/goals`);
         this.props.actions.addAlert({
           level: AlertLevel.Success,
           message: 'Success!',
-          id: 'new-goal-success',
+          id: 'edit-goal-success',
         });
       })
       .catch(err => {
@@ -58,14 +65,19 @@ export class NewGoal extends React.Component<Props> {
     return (
       <Main>
         <BackButton to={`/clients/${this.props.client.id}/goals`} />
-        <GoalForm onSubmit={this.createGoal} />
+        <GoalForm onSubmit={this.updateGoal} goal={this.props.goal} />
       </Main>
     );
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  client: findById(state.clients.clients, props.match.params.id),
+const mapStateToProps = ({ clients }, { match }) => ({
+  client: findById(clients.clients, match.params.id),
+  goal: {
+    text: findById(clients.clients, match.params.id).goals[match.params.goalId],
+    id: match.params.goalId,
+  },
+  // TODO: Use real goal ID instead of index
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -78,4 +90,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withRouter(NewGoal));
+)(withRouter(EditGoal));

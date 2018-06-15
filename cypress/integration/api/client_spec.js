@@ -21,6 +21,7 @@ describe('API endpoints (accessed directly)', () => {
       color: 'blue',
       goals: [],
       status: 'AWAITING_HELP',
+      fb_id: 'mzuckerberg123',
     }).then(resp => {
       clientId = resp.body.id;
 

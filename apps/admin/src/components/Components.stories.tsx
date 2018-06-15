@@ -10,6 +10,7 @@ import { Alert } from './Alert/Alert';
 import { AlertLevel } from './Alert/types';
 import ChatMedia from './Chat/ChatMedia';
 import ChatMessage from './Chat/ChatMessage';
+import ChatMessages from './Chat/ChatMessages';
 import Request from './Chat/Request';
 import NameCard from './Clients/NameCard';
 import TermsModal from './Clients/TermsModal';
@@ -29,6 +30,10 @@ import { TaskList } from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
 import moment from 'moment';
 import Goal from './Goals/Goal';
+import { Reply } from './Chat/Reply';
+import { Resolved } from './Chat/Resolved';
+import ReplyForm from 'forms/ReplyForm';
+import RequestDetail from 'components/Chat/RequestDetail';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -53,6 +58,108 @@ export const Components = storiesOf('Components', module)
       )}
       from={text('From', 'Roo')}
       color={pink}
+    />
+  ))
+  .add('ChatMessages', () => (
+    <ChatMessages
+      fromUser={{
+        id: 1,
+        first_name: 'Roo',
+        last_name: 'Bot',
+        email: 'bot@example.com',
+        phone: null,
+        coach_id: 0,
+        org_id: 0,
+        color: null,
+        goals: [],
+        status: 'WORKING',
+        updated: null,
+        platform: 'SMS',
+        image: null,
+        follow_up_date: null,
+        checkin_times: null,
+        topic: null,
+      }}
+      user={{
+        id: 1,
+        first_name: 'Ron',
+        last_name: 'Donald',
+        email: 'ron@example.com',
+        phone: null,
+        coach_id: 0,
+        org_id: 0,
+        color: null,
+        goals: [],
+        status: 'WORKING',
+        updated: null,
+        platform: 'SMS',
+        image: null,
+        follow_up_date: null,
+        checkin_times: null,
+        topic: null,
+      }}
+      media={[
+        {
+          id: 1,
+          title: "Tres & Tanya's Story",
+          url: 'https://soundcloud.com/bedstuyrestocorp/tres-tanyas-story',
+          image:
+            'https://i1.sndcdn.com/artworks-000311861322-omp1pm-t500x500.jpg',
+        },
+      ]}
+      messages={[
+        {
+          id: 1,
+          to_user: 1,
+          from_user: 2,
+          request_id: null,
+          timestamp: moment(new Date(2018, 4, 21, 1)),
+          text: "Hey there! It's me, Roo. Hoping you're having a great day.",
+        },
+        {
+          id: 2,
+          to_user: 1,
+          from_user: 2,
+          request_id: null,
+          timestamp: moment(new Date(2018, 4, 21, 2)),
+          text: "Here's a short story that might interest you:",
+          media_id: 1,
+        },
+        {
+          id: 3,
+          to_user: 1,
+          from_user: 2,
+          request_id: null,
+          timestamp: moment(new Date(2018, 4, 21, 3)),
+          text: "If you want to hear more of Tres & Tanya's story, text 1.",
+        },
+        {
+          id: 4,
+          to_user: 1,
+          from_user: 2,
+          request_id: null,
+          timestamp: moment(new Date(2018, 4, 22, 4)),
+          text:
+            "Hi hi! How's it going with finishing your task? Text DONE, HELP, or STILL WORKING",
+        },
+        {
+          id: 5,
+          to_user: 2,
+          from_user: 1,
+          request_id: null,
+          timestamp: moment(new Date(2018, 4, 22, 5)),
+          text: 'Still working',
+        },
+        {
+          id: 6,
+          to_user: 1,
+          from_user: 2,
+          request_id: null,
+          timestamp: moment(new Date(2018, 4, 22, 6)),
+          text:
+            "Okay, great! If you need any help just text HELP, if you're done, text DONE.",
+        },
+      ]}
     />
   ))
   .add('NameCard', () => <NameCard title={text('Title', 'Matthew Epler')} />)
@@ -84,6 +191,31 @@ export const Components = storiesOf('Components', module)
       date={moment.utc()}
     />
   ))
+  .add('Reply', () => <Reply message="Rafa, you should do x and y." />)
+  .add('ReplyForm', () => <ReplyForm onSubmit={() => {}} />)
+  .add('RequestDetail', () => (
+    <RequestDetail
+      request={{
+        id: 1,
+        user_id: 1,
+        task_id: 1,
+        status: select(
+          'Status',
+          ['NEEDS_ASSISTANCE', 'REPLIED', 'RESOLVED'],
+          'NEEDS_ASSISTANCE',
+        ),
+      }}
+      message={{
+        id: 1,
+        to_user: 1,
+        from_user: 1,
+        request_id: 1,
+        text: "I tried calling my credit card but couldn't get through to them",
+        timestamp: moment.utc().toISOString(),
+      }}
+    />
+  ))
+  .add('Resolved', () => <Resolved />)
   .add('Sidebar', () => <Sidebar links={[{ to: '', text: '' }]} />)
   .add('Staff List', () => (
     <StaffList

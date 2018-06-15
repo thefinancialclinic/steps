@@ -2,11 +2,34 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Form, Field } from 'react-final-form';
+import Button from 'atoms/Buttons/Button';
 
-import { setUserType } from 'actions/auth';
+import { login } from 'actions/auth';
 import { USER_TYPE } from 'reducers/auth';
 
 import { white, black } from 'styles/colors';
+
+const connectField = (handleSubmit, type) => Component => props => {
+  return <Component {...props} handleSubmit={handleSubmit} value={type} />;
+};
+
+const RadioField: React.SFC<any> = ({ handleSubmit, userType, value }) => {
+  const submitter = () => handleSubmit(userType);
+
+  return (
+    <label>
+      <input
+        type="radio"
+        value={userType}
+        name="user_type"
+        onChange={submitter}
+        checked={value === userType}
+      />{' '}
+      {userType}
+    </label>
+  );
+};
 
 class UserSwitcher extends React.Component<any, any> {
   constructor(props) {
@@ -15,18 +38,6 @@ class UserSwitcher extends React.Component<any, any> {
     this.state = { show: false };
   }
 
-  setAdmin = () => {
-    this.props.actions.setUserType(USER_TYPE.ADMIN);
-  };
-
-  setCoach = () => {
-    this.props.actions.setUserType(USER_TYPE.COACH);
-  };
-
-  setClient = () => {
-    this.props.actions.setUserType(USER_TYPE.CLIENT);
-  };
-
   toggleDisplay = () => {
     this.setState({ show: !this.state.show });
   };
@@ -34,32 +45,24 @@ class UserSwitcher extends React.Component<any, any> {
   render() {
     const { type } = this.props;
 
-    return this.state.show ? (
-      <Wrapper>
-        <label>
-          <input
-            type="checkbox"
-            onChange={this.setAdmin}
-            checked={type === USER_TYPE.ADMIN}
-          />Admin
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            onChange={this.setCoach}
-            checked={type === USER_TYPE.COACH}
-          />Coach
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            onChange={this.setClient}
-            checked={type === USER_TYPE.CLIENT}
-          />Client
-        </label>
-        <button onClick={this.toggleDisplay}>hide</button>
-      </Wrapper>
-    ) : (
+    if (this.state.show) {
+      const ConnectedField = connectField(this.props.actions.login, type)(
+        RadioField,
+      );
+      return (
+        <Wrapper>
+          <h1>Login</h1>
+          <ConnectedField userType={USER_TYPE.SUPER_ADMIN} />
+          <ConnectedField userType={USER_TYPE.ADMIN} />
+          <ConnectedField userType={USER_TYPE.COACH} />
+          <ConnectedField userType={USER_TYPE.CLIENT} />
+          <ConnectedField userType={'null'} />
+          <button onClick={this.toggleDisplay}>hide</button>
+        </Wrapper>
+      );
+    }
+
+    return (
       <Wrapper>
         <a href="#" onClick={this.toggleDisplay}>
           show user switcher
@@ -91,11 +94,11 @@ const Wrapper = styled.div`
 `;
 
 const mapStateToProps = state => ({
-  type: state.auth.type,
+  type: state.auth.user.type,
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ setUserType }, dispatch),
+  actions: bindActionCreators({ login }, dispatch),
 });
 
 export default connect(

@@ -2,7 +2,9 @@ import { shallow } from 'enzyme';
 import 'jest';
 import * as React from 'react';
 import { NewStaff } from './NewStaff';
-import NewStaffForm from 'forms/NewStaffForm';
+import NewStaffForm from '../../../forms/NewStaffForm';
+
+declare var process;
 
 describe('NewStaff.tsx', () => {
   const history = {
@@ -48,7 +50,7 @@ describe('NewStaff.tsx', () => {
     ]);
   });
 
-  it('redirects back to the staff page on success', done => {
+  it('redirects back to the staff page on success', async () => {
     const inviteStaff = jest
       .fn()
       .mockReturnValue(Promise.resolve('some response'));
@@ -61,13 +63,16 @@ describe('NewStaff.tsx', () => {
 
     form.simulate('submit', { emails: 'test@example.com' });
 
-    process.nextTick(() => {
-      expect(history.push).toHaveBeenCalledWith('/admin/staff');
-      done();
-    });
+    try {
+      await process.nextTick(() => {
+        expect(history.push).toHaveBeenCalledWith('/admin/staff');
+      });
+    } catch (error) {
+      return error;
+    }
   });
 
-  it('displays an error message on error', done => {
+  it('displays an error message on error', async () => {
     const inviteStaff = jest
       .fn()
       .mockReturnValue(Promise.reject({ message: 'some error' }));
@@ -77,13 +82,16 @@ describe('NewStaff.tsx', () => {
 
     form.simulate('submit', { emails: 'test@example.com' });
 
-    process.nextTick(() => {
-      expect(addAlert).toHaveBeenCalledWith({
-        message: 'some error',
-        id: 'new-staff-error',
-        level: 'error',
+    try {
+      await process.nextTick(() => {
+        expect(addAlert).toHaveBeenCalledWith({
+          message: 'some error',
+          id: 'new-staff-error',
+          level: 'error',
+        });
       });
-      done();
-    });
+    } catch (error) {
+      return error;
+    }
   });
 });

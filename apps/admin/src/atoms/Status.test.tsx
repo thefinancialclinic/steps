@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import { red } from 'styles/colors';
+import { red } from '../styles/colors';
 import Status from './Status';
 
 describe('Status.tsx', () => {

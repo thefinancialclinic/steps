@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { resolve } from 'path';
 
 import { green, blue, white } from 'styles/colors';
 
@@ -15,7 +16,7 @@ class SidebarItem extends React.Component<Props, {}> {
     const { children, className, to } = this.props;
 
     return (
-      <NavLink to={to} className={className} activeClassName="active">
+      <NavLink to={resolve(to)} className={className} activeClassName="active">
         <span>{children}</span>
         <div className="bar" />
       </NavLink>

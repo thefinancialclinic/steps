@@ -35,7 +35,5 @@ describe('Alert', () => {
         Some alert message
       </Alert>,
     );
-
-    expect(wrapper).toMatchSnapshot();
   });
 });
