@@ -61,10 +61,7 @@ class TaskDetails extends React.Component<Props, {}> {
               <Badge text={'income'} />
             </Box>
             <Box>
-              <Link
-                className="action-link"
-                to={`${location.pathname}/edit`}
-              >
+              <Link className="action-link" to={`${location.pathname}/edit`}>
                 Edit
               </Link>
               <span className="action-link" onClick={this.handleDelete}>

@@ -22,7 +22,7 @@ class Tasks extends React.Component<Props, {}> {
           {/* <Route path="add" component={AddTask} />
           <Route path="new" component={NewTask} />
           <Route path=":taskId/edit" component={EditTask} /> */}
-          <Route path={`${url}/:taskId` } component={TaskShow} />
+          <Route path={`${url}/:taskId`} component={TaskShow} />
           <Route
             path=""
             render={props => <TaskList {...props} client={this.props.client} />}

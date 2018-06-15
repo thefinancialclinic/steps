@@ -44,28 +44,29 @@ interface ListProps {
   url: string;
 }
 
-const SortableList = SortableContainer(({ items, setTaskStatus, url }: ListProps) => {
-  let taskClass = status => {
-    return status === 'COMPLETED' ? 'compelted' : 'active';
-  };
-  return (
-    <Box>
-      {items.map((task, index) => (
-        <TaskContainer key={index} className={taskClass(task.status)}>
-          <div className="number">{index + 1}</div>
-          <TaskListItem
-            key={`item-${index}`}
-            setTaskStatus={setTaskStatus}
-            index={index}
-            task={task}
-            url={url}
-          />
-        </TaskContainer>
-      ))}
-    </Box>
-  );
-});
-
+const SortableList = SortableContainer(
+  ({ items, setTaskStatus, url }: ListProps) => {
+    let taskClass = status => {
+      return status === 'COMPLETED' ? 'compelted' : 'active';
+    };
+    return (
+      <Box>
+        {items.map((task, index) => (
+          <TaskContainer key={index} className={taskClass(task.status)}>
+            <div className="number">{index + 1}</div>
+            <TaskListItem
+              key={`item-${index}`}
+              setTaskStatus={setTaskStatus}
+              index={index}
+              task={task}
+              url={url}
+            />
+          </TaskContainer>
+        ))}
+      </Box>
+    );
+  },
+);
 
 interface Props {
   className?: string;
