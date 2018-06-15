@@ -31,6 +31,8 @@ import moment from 'moment';
 import Goal from './Goals/Goal';
 import { Reply } from './Chat/Reply';
 import { Resolved } from './Chat/Resolved';
+import NewReply from './Chat/NewReply';
+import ReplyForm from 'forms/ReplyForm';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -87,6 +89,7 @@ export const Components = storiesOf('Components', module)
     />
   ))
   .add('Reply', () => <Reply message="Rafa, you should do x and y." />)
+  .add('ReplyForm', () => <ReplyForm onSubmit={() => {}} />)
   .add('Resolved', () => <Resolved />)
   .add('Sidebar', () => <Sidebar links={[{ to: '', text: '' }]} />)
   .add('Staff List', () => (

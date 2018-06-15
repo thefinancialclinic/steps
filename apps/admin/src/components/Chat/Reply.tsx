@@ -34,4 +34,4 @@ const StyledReply = styled.div`
   }
 `;
 
-export default Request;
+export default Reply;
