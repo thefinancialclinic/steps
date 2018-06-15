@@ -5,6 +5,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { yellow } from 'styles/colors';
+import TermsModal from 'components/Clients/TermsModal';
 
 interface Props {
   className?: string;
@@ -17,6 +18,7 @@ class NoTasks extends React.Component<Props, {}> {
 
     return (
       <Box width={1} p={4} className={className}>
+        <TermsModal phoneNumber="6365553226" />
         <Panel>
           <div>
             <i className="material-icons">mood</i>

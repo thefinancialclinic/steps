@@ -4,7 +4,6 @@ import Sidebar from 'components/Sidebar/Sidebar';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import Terms from 'routes/Coach/Clients/Terms';
 import Tasks from 'routes/Coach/Clients/ProfileTasksList';
 import TaskAdd from 'routes/Coach/Clients/ProfileTaskAdd';
 import Goals from 'routes/Coach/Clients/Goals/Goals';
@@ -62,10 +61,6 @@ class Client extends React.Component<Props, {}> {
               <Route
                 path={`${url}/chat`}
                 render={() => <Chat client={client} />}
-              />
-              <Route
-                path={`${url}/terms`}
-                render={() => <Terms client={client} />}
               />
               <Redirect exact from="" to={`${url}/tasks`} />
             </Switch>
