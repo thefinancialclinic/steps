@@ -1,23 +1,18 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { User } from 'reducers/auth';
-
-const apiUrl = process.env.API_URL || 'http://localhost:3001/api';
-
 import NavDropdown from 'components/Dropdowns/NavDropdown';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { User } from 'reducers/auth';
+import styled from 'styled-components';
 import { darkBlue, white } from 'styles/colors';
 
 interface Props {
   color?: string;
-  title?: string;
   user?: User;
 }
 
 class TopBar extends React.Component<Props> {
   render() {
-    const { user, title } = this.props;
+    const { user } = this.props;
 
     return (
       <StyledTopBar>

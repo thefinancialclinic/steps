@@ -1,15 +1,12 @@
+import { login } from 'actions/auth';
+import Button from 'atoms/Buttons/Button';
 import React from 'react';
-import styled from 'styled-components';
+import { Field, Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import { Form, Field } from 'react-final-form';
-
-import Button from 'atoms/Buttons/Button';
-import { login } from 'actions/auth';
 import { USER_TYPE } from 'reducers/auth';
-
-import { white, black } from 'styles/colors';
+import { bindActionCreators } from 'redux';
+import styled from 'styled-components';
 
 const RadioField: React.SFC<any> = ({ userType }) => (
   <Field name="user_type" type="radio" value={userType}>

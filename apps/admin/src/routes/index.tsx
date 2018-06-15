@@ -1,12 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link, Redirect, Route, Switch, withRouter } from 'react-router-dom';
-
-import { connect } from 'react-redux';
-import auth, { USER_TYPE, User } from 'reducers/auth';
-
 import UserSwitcher from 'components/util/UserSwitcher';
-
+import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect, withRouter } from 'react-router-dom';
+import { User, USER_TYPE } from 'reducers/auth';
+import styled from 'styled-components';
 import Admin from './Admin/index';
 import Client from './Client/index';
 import Coach from './Coach/index';
@@ -25,7 +22,7 @@ interface RoutesProps {
   history: any;
 }
 
-type RoutesElement = (RoutesProps) => JSX.Element;
+type RoutesElement = (props: RoutesProps) => JSX.Element;
 
 const Routes: React.SFC = ({ history, user }: Props) => {
   const { type } = user;

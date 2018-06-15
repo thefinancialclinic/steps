@@ -1,10 +1,10 @@
 import { shallow } from 'enzyme';
 import 'jest';
 import React from 'react';
-import GoalForm from '../../forms/GoalForm';
-import { NewGoal } from './NewGoal';
+import GoalForm from 'forms/GoalForm';
+import { EditGoal } from './EditGoal';
 
-describe('NewGoal.tsx', () => {
+describe('EditGoal.tsx', () => {
   const client = {
     id: 123,
     goals: ['It is my goal to get a job'],
@@ -21,7 +21,12 @@ describe('NewGoal.tsx', () => {
       setClientGoals: jest.fn().mockReturnValue(Promise.resolve()),
     };
     const wrapper = shallow(
-      <NewGoal client={client} actions={actions} history={history} />,
+      <EditGoal
+        client={client}
+        actions={actions}
+        history={history}
+        goal={{ id: 1, text: 'my goal' }}
+      />,
     );
 
     expect(wrapper).toMatchSnapshot();
@@ -34,7 +39,12 @@ describe('NewGoal.tsx', () => {
       setClientGoals: jest.fn().mockReturnValue(Promise.resolve()),
     };
     const wrapper = shallow(
-      <NewGoal client={client} actions={actions} history={history} />,
+      <EditGoal
+        client={client}
+        actions={actions}
+        history={history}
+        goal={{ id: 0, text: 'my goal' }}
+      />,
     );
 
     const goalForm = wrapper.find(GoalForm);
@@ -42,7 +52,6 @@ describe('NewGoal.tsx', () => {
     goalForm.simulate('submit', { goal: 'It is my goal to go to the moon' });
 
     expect(actions.setClientGoals).toHaveBeenCalledWith(client, [
-      'It is my goal to get a job',
       'It is my goal to go to the moon',
     ]);
   });
@@ -56,7 +65,12 @@ describe('NewGoal.tsx', () => {
         .mockReturnValue(Promise.reject({ message: 'some error' })),
     };
     const wrapper = shallow(
-      <NewGoal client={client} actions={actions} history={history} />,
+      <EditGoal
+        client={client}
+        actions={actions}
+        history={history}
+        goal={{ id: 1, text: 'my goal' }}
+      />,
     );
 
     const goalForm = wrapper.find(GoalForm);
@@ -66,13 +80,8 @@ describe('NewGoal.tsx', () => {
     });
 
     setTimeout(() => {
-      try {
-        expect(actions.addAlert).toHaveBeenCalled();
-      } catch (err) {
-        fail(err);
-      } finally {
-        done();
-      }
+      expect(actions.addAlert).toHaveBeenCalled();
+      done();
     }, 0);
   });
 
@@ -83,7 +92,12 @@ describe('NewGoal.tsx', () => {
       setClientGoals: jest.fn().mockReturnValue(Promise.resolve()),
     };
     const wrapper = shallow(
-      <NewGoal client={client} actions={actions} history={history} />,
+      <EditGoal
+        client={client}
+        actions={actions}
+        history={history}
+        goal={{ id: 1, text: 'my goal' }}
+      />,
     );
 
     const goalForm = wrapper.find(GoalForm);
