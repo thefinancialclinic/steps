@@ -18,7 +18,7 @@ class NoTasks extends React.Component<Props, {}> {
 
     return (
       <Box width={1} p={4} className={className}>
-        <TermsModal phoneNumber="6365553226" />
+        <TermsModal phoneNumber="+16467988004" />
         <Panel>
           <div>
             <i className="material-icons">mood</i>
