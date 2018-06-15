@@ -1,14 +1,13 @@
-import client from 'client';
+import api from 'api';
+import { Client } from 'reducers/clients';
 
 type DispatchFn = (dispatch?: any, getState?: any) => any;
-
-const apiUrl = process.env.API_URL || 'http://localhost:3001/api';
 
 const GET_CLIENTS = 'GET_CLIENTS';
 export const getClients = (): DispatchFn => async (dispatch, getState) => {
   try {
     const { user } = getState().auth;
-    const allClients = await axios.get(apiUrl + '/clients');
+    const allClients = await api.get('/clients');
     const clients = [...allClients.data].filter(c => c.coach_id === user.id);
 
     return dispatch(setClients(clients));
@@ -26,7 +25,7 @@ export const setClients = clients => {
 };
 
 const tempGetCoach = async () => {
-  const coaches = await client.get('/coaches');
+  const coaches = await api.get('/coaches');
   return coaches.data[0];
 };
 
@@ -44,7 +43,7 @@ export const createClient = (clientData): DispatchFn => async (
     clientData.status = 'AWAITING_HELP';
     clientData.goals = [];
 
-    const clients = await client.post('/clients', clientData);
+    const clients = await api.post('/clients', clientData);
     return dispatch(getClients());
   } catch (error) {
     return Promise.reject(error);
@@ -58,7 +57,7 @@ export const setClientGoals = async (client: Client, goals: string[]) => {
     goals,
   };
   try {
-    await client.put(`/clients/${client.id}`, updatedClient);
+    await api.put(`/clients/${client.id}`, updatedClient);
     return {
       type: SET_CLIENT_GOALS,
       clientId: client.id,
