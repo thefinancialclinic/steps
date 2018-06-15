@@ -22,7 +22,7 @@ interface Props {
 }
 
 const Badge: React.SFC<Props> = props => (
-  <StyledBadge {...props}>{props.text}></StyledBadge>
+  <StyledBadge {...props}>{props.text}</StyledBadge>
 );
 
 const StyledBadge = styled<Props, 'div'>('div')`
