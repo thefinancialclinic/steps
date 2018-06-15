@@ -3,7 +3,6 @@ import Alert from 'containers/Alert';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { User } from 'reducers/auth';
-import Goals from './Clients/Goals/Goals';
 import Clients from './Clients/List';
 import ClientNew from './Clients/New';
 import ClientProfile from './Clients/Profile';
