@@ -52,4 +52,9 @@ describe('User entity operations', () => {
     let actual = await repo.getAll();
     expect(actual.filter(foundUser => foundUser.id == user.id).length).toBe(1);
   });
+
+  it('gets a client plan_url', async () => {
+    let actual = await repo.getOne(user.id);
+    expect(actual.plan_url).toBe('http://plan.example.com');
+  });
 });
