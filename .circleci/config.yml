@@ -60,11 +60,17 @@ jobs:
 
       - run:
           name: "Test: Admin"
-          command: $(npm bin)/lerna run test --scope=steps-admin --stream
+          working_directory: ~/repo/apps/admin/
+          command: |
+            npm test -- --clearCache
+            npm test -- -i
 
       - run:
           name: "Test: Api"
-          command: $(npm bin)/lerna run test --scope=steps-api --stream
+          working_directory: ~/repo/apps/api/
+          command: |
+            npm test -- --clearCache
+            npm test
 
       - run:
           name: build

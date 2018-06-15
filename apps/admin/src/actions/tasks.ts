@@ -3,13 +3,21 @@ import client from 'client';
 type DispatchFn = (any) => any;
 
 export const createTask = async (data): Promise<any> => {
-  await client.post('/tasks', data);
-  return { type: 'foo' };
+  try {
+    await client.post('/tasks', data);
+    return { type: 'foo' };
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const getTasks = (): DispatchFn => async dispatch => {
-  const tasks = await client.get('/tasks');
-  return dispatch(setTasks(tasks.data));
+  try {
+    const tasks = await client.get('/tasks');
+    return dispatch(setTasks(tasks.data));
+  } catch (error) {
+    Promise.reject(error);
+  }
 };
 
 export const SET_TASKS = 'SET_TASKS';
@@ -27,8 +35,8 @@ export const setTaskStatus = (task, status): DispatchFn => async dispatch => {
   try {
     await client.put(`/tasks/${task.id}`, newTask);
     return dispatch({ type: SET_TASK_STATUS, id: task.id, status });
-  } catch (err) {
-    return Promise.reject(err);
+  } catch (error) {
+    return Promise.reject(error);
   }
 };
 
@@ -49,8 +57,8 @@ export const deleteTask = (id): DispatchFn => async dispatch => {
   try {
     const tasks = await client.delete(`/tasks/${id}`);
     return { type: DELETE_TASK, tasks };
-  } catch (err) {
-    return Promise.reject(err);
+  } catch (error) {
+    return Promise.reject(error);
   }
 };
 
@@ -62,7 +70,7 @@ export const addTask = (task): DispatchFn => async dispatch => {
       type: ADD_TASK,
       task,
     };
-  } catch (err) {
-    return Promise.reject(err);
+  } catch (error) {
+    return Promise.reject(error);
   }
 };

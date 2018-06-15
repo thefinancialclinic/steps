@@ -40,8 +40,12 @@ class TaskTemplate extends React.Component<Props, {}> {
   }
 
   private handleClick = async event => {
-    await this.props.addTask(this.props.task);
-    this.props.history.push(`/clients/${this.props.task.user_id}/tasks`);
+    try {
+      await this.props.addTask(this.props.task);
+      this.props.history.push(`/clients/${this.props.task.user_id}/tasks`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 }
 

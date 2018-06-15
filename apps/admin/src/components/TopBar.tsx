@@ -1,36 +1,40 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { User } from 'reducers/auth';
+
+const apiUrl = process.env.API_URL || 'http://localhost:3001/api';
 
 import NavDropdown from 'components/Dropdowns/NavDropdown';
 import { darkBlue, white } from 'styles/colors';
 
 interface Props {
-  className?: string;
   color?: string;
   title?: string;
+  user?: User;
 }
 
-class TopBar extends React.Component<Props, {}> {
+class TopBar extends React.Component<Props> {
   render() {
-    const { className, title } = this.props;
+    const { user, title } = this.props;
 
     return (
-      <div className={className}>
-        <Link to="/">{title}</Link>
+      <StyledTopBar>
+        <Link to="/">{user.org.name}</Link>
         <NavDropdown
-          title="Coach Name"
+          title={`${user.first_name} ${user.last_name}`}
           links={[
             { to: '/clients', text: 'My Clients' },
             { to: '/clients/new', text: 'Add New Client' },
           ]}
         />
-      </div>
+      </StyledTopBar>
     );
   }
 }
 
-const StyledTopBar = styled(TopBar)`
+const StyledTopBar = styled.div`
   background-color: ${props => props.color};
   color: ${white};
   display: flex;
@@ -56,4 +60,4 @@ StyledTopBar.defaultProps = {
   title: 'Some Organization Name',
 };
 
-export default StyledTopBar;
+export default TopBar;

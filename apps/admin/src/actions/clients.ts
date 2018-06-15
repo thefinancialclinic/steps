@@ -1,11 +1,17 @@
 import client from 'client';
 
-type DispatchFn = (any) => any;
+type DispatchFn = (dispatch?: any, getState?: any) => any;
 
-export const getClients = (): DispatchFn => async dispatch => {
+const apiUrl = process.env.API_URL || 'http://localhost:3001/api';
+
+const GET_CLIENTS = 'GET_CLIENTS';
+export const getClients = (): DispatchFn => async (dispatch, getState) => {
   try {
-    const clients = await client.get('/clients');
-    return dispatch(setClients(clients.data));
+    const { user } = getState().auth;
+    const allClients = await axios.get(apiUrl + '/clients');
+    const clients = [...allClients.data].filter(c => c.coach_id === user.id);
+
+    return dispatch(setClients(clients));
   } catch (error) {
     return Promise.reject(error);
   }
@@ -25,12 +31,15 @@ const tempGetCoach = async () => {
 };
 
 export const CREATE_CLIENT = 'CREATE_CLIENT';
-export const createClient = (clientData): DispatchFn => async dispatch => {
+export const createClient = (clientData): DispatchFn => async (
+  dispatch,
+  getState,
+) => {
   try {
     // TODO: Coach should be stored in the auth store, with current user information
-    const coach = await tempGetCoach();
-    clientData.org_id = coach.org_id;
-    clientData.coach_id = coach.id;
+    const { user } = getState().auth;
+    clientData.org_id = user.org_id;
+    clientData.coach_id = user.id;
     clientData.color = 'blue';
     clientData.status = 'AWAITING_HELP';
     clientData.goals = [];

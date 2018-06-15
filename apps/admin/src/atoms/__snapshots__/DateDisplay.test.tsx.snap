@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`DateDisplay.tsx is properly formatted 1`] = `
-<styled.div>
-  2018-01-01
-</styled.div>
-`;

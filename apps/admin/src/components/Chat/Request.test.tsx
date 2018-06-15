@@ -26,8 +26,6 @@ describe('Request', () => {
     const wrapper = shallow(
       <Request status="NEEDS_ASSISTANCE" message="I need help" date={date} />,
     );
-
-    expect(wrapper).toMatchSnapshot();
   });
 
   it('has a date', () => {

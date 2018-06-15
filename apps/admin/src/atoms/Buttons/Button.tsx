@@ -6,7 +6,8 @@ import { darken, green, white } from 'styles/colors';
 
 interface Props {
   white?: boolean;
-  onClick?(event: MouseEvent): void;
+  type?: string;
+  onClick?(event: any): void;
 }
 
 const Button: React.SFC<Props> = ({ white = false, children }) => {
