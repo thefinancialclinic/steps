@@ -32,8 +32,8 @@ import moment from 'moment';
 import Goal from './Goals/Goal';
 import { Reply } from './Chat/Reply';
 import { Resolved } from './Chat/Resolved';
-import NewReply from './Chat/NewReply';
 import ReplyForm from 'forms/ReplyForm';
+import RequestDetail from 'components/Chat/RequestDetail';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -193,6 +193,28 @@ export const Components = storiesOf('Components', module)
   ))
   .add('Reply', () => <Reply message="Rafa, you should do x and y." />)
   .add('ReplyForm', () => <ReplyForm onSubmit={() => {}} />)
+  .add('RequestDetail', () => (
+    <RequestDetail
+      request={{
+        id: 1,
+        user_id: 1,
+        task_id: 1,
+        status: select(
+          'Status',
+          ['NEEDS_ASSISTANCE', 'REPLIED', 'RESOLVED'],
+          'NEEDS_ASSISTANCE',
+        ),
+      }}
+      message={{
+        id: 1,
+        to_user: 1,
+        from_user: 1,
+        request_id: 1,
+        text: "I tried calling my credit card but couldn't get through to them",
+        timestamp: moment.utc().toISOString(),
+      }}
+    />
+  ))
   .add('Resolved', () => <Resolved />)
   .add('Sidebar', () => <Sidebar links={[{ to: '', text: '' }]} />)
   .add('Staff List', () => (
