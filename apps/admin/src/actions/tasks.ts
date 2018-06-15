@@ -1,10 +1,10 @@
-import client from 'client';
+import api from 'api';
 
 type DispatchFn = (any) => any;
 
 export const createTask = async (data): Promise<any> => {
   try {
-    await client.post('/tasks', data);
+    await api.post('/tasks', data);
     return { type: 'foo' };
   } catch (error) {
     console.error(error);
@@ -13,7 +13,7 @@ export const createTask = async (data): Promise<any> => {
 
 export const getTasks = (): DispatchFn => async dispatch => {
   try {
-    const tasks = await client.get('/tasks');
+    const tasks = await api.get('/tasks');
     return dispatch(setTasks(tasks.data));
   } catch (error) {
     Promise.reject(error);
@@ -33,7 +33,7 @@ export const setTaskStatus = (task, status): DispatchFn => async dispatch => {
   const newTask = { ...task, status };
   delete newTask.steps;
   try {
-    await client.put(`/tasks/${task.id}`, newTask);
+    await api.put(`/tasks/${task.id}`, newTask);
     return dispatch({ type: SET_TASK_STATUS, id: task.id, status });
   } catch (error) {
     return Promise.reject(error);
@@ -55,7 +55,7 @@ export const setTaskArchived = (id, status) => {
 export const DELETE_TASK = 'DELETE_TASK';
 export const deleteTask = (id): DispatchFn => async dispatch => {
   try {
-    const tasks = await client.delete(`/tasks/${id}`);
+    const tasks = await api.delete(`/tasks/${id}`);
     return { type: DELETE_TASK, tasks };
   } catch (error) {
     return Promise.reject(error);
@@ -65,7 +65,7 @@ export const deleteTask = (id): DispatchFn => async dispatch => {
 export const ADD_TASK = 'ADD_TASK';
 export const addTask = (task): DispatchFn => async dispatch => {
   try {
-    await client.post('/tasks', task);
+    await api.post('/tasks', task);
     return {
       type: ADD_TASK,
       task,
