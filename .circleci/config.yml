@@ -70,12 +70,12 @@ jobs:
             npm test -- --clearCache
             npm test
 
-      - run:
-          name: build
-          environment:
-            NODE_ENV: production
-          command: |
-            $(npm bin)/lerna run build --stream
+      # - run:
+      #     name: build
+      #     environment:
+      #       NODE_ENV: production
+      #     command: |
+      #       $(npm bin)/lerna run build --stream
 
       # - run:
       #     name: cypress
@@ -84,7 +84,7 @@ jobs:
       #       $(npm bin)/wait-on http://localhost:3000
       #       $(npm bin)/cypress run
 
-      - store_artifacts:
-          path: cypress/videos
-      - store_artifacts:
-          path: cypress/screenshots
+      # - store_artifacts:
+      #     path: cypress/videos
+      # - store_artifacts:
+      #     path: cypress/screenshots
