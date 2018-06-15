@@ -40,9 +40,24 @@ export interface State {
   isAuthenticated: boolean;
 }
 
+const Storage = {
+  get: key => {
+    const data = localStorage.getItem(key);
+    return JSON.parse(data);
+  },
+
+  set: (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
+  },
+
+  remove: key => {
+    localStorage.removeItem(key);
+  },
+};
+
 const initialState: State = {
-  user: { type: null },
-  isAuthenticated: false,
+  user: Storage.get('USER') || { type: null },
+  isAuthenticated: Storage.get('AUTHENTICATED') || false,
 };
 
 export default (state = initialState, action): State => {
@@ -51,9 +66,13 @@ export default (state = initialState, action): State => {
       return { ...state, user: { type: action.userType } };
 
     case LOGIN:
+      Storage.set('USER', action.user);
+      Storage.set('AUTHENTICATED', true);
       return { ...state, user: action.user, isAuthenticated: true };
 
     case LOGOUT:
+      Storage.remove('USER');
+      Storage.remove('AUTHENTICATED');
       return { ...state, user: null, isAuthenticated: false };
 
     default:
