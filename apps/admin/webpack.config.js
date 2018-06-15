@@ -11,8 +11,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 const SRC = path.resolve(__dirname, 'src');
 const BUILD = path.resolve(__dirname, '.build');
 
-const env = [
-].reduce((result, v) => {
+const env = [].reduce((result, v) => {
   result[v] = JSON.stringify(process.env[v]);
   return result;
 }, {});
@@ -55,7 +54,7 @@ const baseConfig = {
       },
       {
         test: /\.svg$/,
-        loader: 'svg-inline-loader'
+        loader: 'svg-inline-loader',
       },
     ],
   },
@@ -71,8 +70,11 @@ const baseConfig = {
         NODE_ENV: isProduction
           ? JSON.stringify('production')
           : JSON.stringify('development'),
-        ...env
-      }
+        API_URL: isProduction
+          ? JSON.stringify('https://steps-admin.herokuapp.com/api')
+          : JSON.stringify('http://localhost:3001/api'),
+        ...env,
+      },
     }),
     new webpack.NamedModulesPlugin(),
   ],
@@ -86,22 +88,26 @@ const baseConfig = {
       cacheGroups: {
         commons: {
           chunks: 'initial',
-          minChunks: 2
+          minChunks: 2,
         },
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           chunks: 'all',
-          priority: -10
-        }
-      }
+          priority: -10,
+        },
+      },
     },
-    runtimeChunk: true
+    runtimeChunk: true,
   },
 };
 
 const devConfig = merge.smart(baseConfig, {
   entry: {
-    app: ['react-hot-loader/patch', 'webpack/hot/only-dev-server', './src/index.tsx'],
+    app: [
+      'react-hot-loader/patch',
+      'webpack/hot/only-dev-server',
+      './src/index.tsx',
+    ],
   },
   output: {
     path: BUILD,
@@ -119,7 +125,7 @@ const devConfig = merge.smart(baseConfig, {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new SimpleProgressPlugin({ format: 'compact' })
+    new SimpleProgressPlugin({ format: 'compact' }),
   ],
   watch: true,
 });
@@ -132,11 +138,7 @@ const productionConfig = merge.smart(baseConfig, {
     filename: '[name].[hash].bundle.js',
     path: BUILD,
   },
-  plugins: [
-    new SimpleProgressPlugin({ format: 'expanded' })
-  ]
+  plugins: [new SimpleProgressPlugin({ format: 'expanded' })],
 });
 
-module.exports = isProduction
-  ? productionConfig
-  : devConfig;
+module.exports = isProduction ? productionConfig : devConfig;

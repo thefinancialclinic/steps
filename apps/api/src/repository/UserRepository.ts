@@ -41,6 +41,7 @@ export type UserOpts = {
   plan_url?: string;
   checkin_times?: Checkin[];
   topic?: string;
+  fb_id?: string;
 };
 
 export class User {
@@ -52,7 +53,7 @@ export class User {
   coach_id?: number;
   org_id: number;
   color: string;
-  goals?: string[];
+  goals: string[];
   status: string;
   type: string;
   updated?: Date;
@@ -62,6 +63,7 @@ export class User {
   plan_url?: string;
   checkin_times?: Checkin[];
   topic?: string;
+  fb_id?: string;
 
   constructor(opts: UserOpts) {
     this.id = opts.id;
@@ -82,6 +84,7 @@ export class User {
     this.plan_url = opts.plan_url;
     this.checkin_times = opts.checkin_times;
     this.topic = opts.topic;
+    this.fb_id = opts.fb_id;
   }
 }
 
@@ -119,8 +122,9 @@ export class UserRepository implements Repository<UserId, User> {
         image,
         follow_up_date,
         plan_url,
-        checkin_times
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+        checkin_times,
+        fb_id 
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
       RETURNING *
     `,
       [
@@ -140,6 +144,7 @@ export class UserRepository implements Repository<UserId, User> {
         user.follow_up_date,
         user.plan_url,
         user.checkin_times,
+        user.fb_id,
       ],
     );
     return new User(res.rows[0]);
@@ -164,9 +169,10 @@ export class UserRepository implements Repository<UserId, User> {
         image,
         follow_up_date,
         plan_url,
-        checkin_times
-      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
-      WHERE id = $17
+        checkin_times,
+        fb_id
+      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+      WHERE id = $18
       RETURNING *
     `,
       [
@@ -186,6 +192,7 @@ export class UserRepository implements Repository<UserId, User> {
         user.follow_up_date,
         user.plan_url,
         user.checkin_times,
+        user.fb_id,
         user.id,
       ],
     );

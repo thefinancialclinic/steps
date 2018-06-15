@@ -7,3 +7,5 @@ user_checkin_times [appschema] 2018-05-29T20:52:54Z Chris Wilson <chris@adorable
 user_topic [appschema] 2018-05-30T21:01:18Z Chris Wilson <chris@adorable.io> # Add "topic" field to user, to be populated by the bot
 task_steps [appschema] 2018-06-07T20:27:54Z Chris Wilson <chris@adorable.io> # Remove step and add them as an array of json on the task table
 viewed_media [appschema] 2018-06-12T21:58:37Z Chris Wilson <chris@adorable.io> # Add table to record user-viewed media
+user_goals_default [appschema] 2018-06-13T23:46:40Z Connor Mendenhall <cmendenhall@8thlight.com> # Add default value to user goals.
+user_fb_id [appschema] 2018-06-14T20:28:39Z Chris Wilson <chris@adorable.io> # Add "fb_id" field to client.

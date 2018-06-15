@@ -1,6 +1,4 @@
-import axios from 'axios';
-import { addAlert } from './alerts';
-import { AlertLevel } from '../components/Alert/types';
+import client from 'client';
 
 type DispatchFn = (dispatch?: any, getState?: any) => any;
 
@@ -15,7 +13,7 @@ export const getClients = (): DispatchFn => async (dispatch, getState) => {
 
     return dispatch(setClients(clients));
   } catch (error) {
-    console.error(error);
+    return Promise.reject(error);
   }
 };
 
@@ -25,6 +23,11 @@ export const setClients = clients => {
     type: SET_CLIENTS,
     clients,
   };
+};
+
+const tempGetCoach = async () => {
+  const coaches = await client.get('/coaches');
+  return coaches.data[0];
 };
 
 export const CREATE_CLIENT = 'CREATE_CLIENT';
@@ -39,10 +42,29 @@ export const createClient = (clientData): DispatchFn => async (
     clientData.coach_id = user.id;
     clientData.color = 'blue';
     clientData.status = 'AWAITING_HELP';
+    clientData.goals = [];
 
-    const clients = await axios.post(apiUrl + '/clients', clientData);
+    const clients = await client.post('/clients', clientData);
     return dispatch(getClients());
   } catch (error) {
     return Promise.reject(error);
+  }
+};
+
+export const SET_CLIENT_GOALS = 'SET_CLIENT_GOALS';
+export const setClientGoals = async (client: Client, goals: string[]) => {
+  const updatedClient = {
+    ...client,
+    goals,
+  };
+  try {
+    await client.put(`/clients/${client.id}`, updatedClient);
+    return {
+      type: SET_CLIENT_GOALS,
+      clientId: client.id,
+      goals,
+    };
+  } catch (err) {
+    return Promise.reject(err);
   }
 };

@@ -41,15 +41,14 @@ class NewTask extends React.Component<Props, {}> {
     );
   }
 }
-const mapStateToProps = state => ({});
+
+const StyledNewTask = styled(NewTask)``;
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ createTask }, dispatch),
 });
 
-const StyledNewTask = styled(NewTask)``;
-
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(StyledNewTask);

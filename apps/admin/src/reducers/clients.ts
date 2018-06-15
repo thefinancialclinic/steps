@@ -1,4 +1,4 @@
-import { SET_CLIENTS } from 'actions/clients';
+import { SET_CLIENTS, SET_CLIENT_GOALS } from 'actions/clients';
 
 export type UserPlatform = 'SMS' | 'FBOOK';
 export type UserStatus = 'AWAITING_HELP' | 'WORKING' | 'NON_RESPONSIVE';
@@ -44,14 +44,14 @@ const initialState: ClientsState = {
   clients: [
     {
       id: 0,
-      first_name: 'string',
-      last_name: 'string',
+      first_name: 'Jane',
+      last_name: 'Smith',
       email: 'user@example.com',
       phone: 'string',
       coach_id: 0,
       org_id: 0,
       color: 'string',
-      goals: ['string'],
+      goals: ['first goal', 'second goal'],
       status: 'AWAITING_HELP',
       updated: '2018-06-04T14:44:20.085Z',
       platform: 'SMS',
@@ -78,12 +78,26 @@ const initialState: ClientsState = {
 };
 
 export default (state = initialState, action) => {
-  if (action.type === SET_CLIENTS) {
-    return {
-      ...state,
-      clients: action.clients,
-    };
+  switch (action.type) {
+    case SET_CLIENTS:
+      return {
+        ...state,
+        clients: action.clients,
+      };
+    case SET_CLIENT_GOALS:
+      return {
+        ...state,
+        clients: state.clients.map(client => {
+          if (client.id === action.clientId) {
+            return {
+              ...client,
+              goals: action.goals,
+            };
+          }
+          return client;
+        }),
+      };
+    default:
+      return state;
   }
-
-  return state;
 };

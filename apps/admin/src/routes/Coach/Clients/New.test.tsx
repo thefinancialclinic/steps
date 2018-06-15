@@ -8,7 +8,7 @@ import { AlertLevel } from '../../../components/Alert/types';
 declare var process;
 
 describe('ClientNew.tsx', () => {
-  xit('displays an error if the client response is an error', async () => {
+  it('displays an error if the client response is an error', async () => {
     const history = { push: jest.fn() };
     const createClient = jest
       .fn()
@@ -35,7 +35,7 @@ describe('ClientNew.tsx', () => {
     }
   });
 
-  xit('redirects to /clients if client response is success', async () => {
+  it('redirects to /clients if client response is success', async () => {
     const history = { push: jest.fn() };
     const createClient = jest.fn().mockReturnValue(Promise.resolve('success!'));
     const actions = {

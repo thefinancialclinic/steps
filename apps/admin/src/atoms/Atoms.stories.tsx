@@ -11,6 +11,7 @@ import Filter from '../components/Filter';
 import Input from './Input/Input';
 import Main from './Main';
 import Panel from './Panel';
+import EditButton from './EditButton';
 
 const Stories = storiesOf('Atoms', module)
   .add('Badge', () => (
@@ -65,6 +66,7 @@ const Stories = storiesOf('Atoms', module)
       <h1>A header child</h1>
       <h2>Another header child</h2>
     </Header>
-  ));
+  ))
+  .add('Edit Button', () => <EditButton component="component" />);
 
 export default Stories;

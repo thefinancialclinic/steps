@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GoalList.tsx renders correctly 1`] = `
+<div>
+  <Styled(Goal)
+    key="0"
+    onEdit={[Function]}
+    text="goal 1"
+  />
+  <Styled(Goal)
+    key="1"
+    onEdit={[Function]}
+    text="goal 2"
+  />
+  <Styled(Goal)
+    key="2"
+    onEdit={[Function]}
+    text="goal 3"
+  />
+</div>
+`;
