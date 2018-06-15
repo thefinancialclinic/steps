@@ -7,6 +7,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Terms from 'routes/Coach/Terms';
 import Tasks from 'routes/Coach/Clients/ProfileTasksList';
+import TaskAdd from 'routes/Coach/Clients/ProfileTaskAdd';
 import styled from 'styled-components';
 
 interface Props {
@@ -53,7 +54,7 @@ class Client extends React.Component<Props, {}> {
               {withAddTask && (
                 <Route
                   path={`${url}/tasks/add`}
-                  component={() => <h2>HOOK ME BACK UP</h2>}
+                  render={() => <TaskAdd clientId={params.id} />}
                 />
               )}
               <Route
