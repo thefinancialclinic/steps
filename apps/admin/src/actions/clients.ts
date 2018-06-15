@@ -8,7 +8,7 @@ const GET_CLIENTS = 'GET_CLIENTS';
 export const getClients = (): DispatchFn => async (dispatch, getState) => {
   try {
     const { user } = getState().auth;
-    const allClients = await axios.get(apiUrl + '/clients');
+    const allClients = await client.get('/clients');
     const clients = [...allClients.data].filter(c => c.coach_id === user.id);
 
     return dispatch(setClients(clients));
