@@ -5,9 +5,12 @@ import Request from './Request';
 import Resolved from './Resolved';
 import Reply from './Reply';
 import ReplyForm from 'forms/ReplyForm';
+import { Request as RequestType, Message } from './types';
+import moment from 'moment';
 
 interface Props {
-  request?: any;
+  request?: RequestType;
+  message?: Message;
 }
 
 export const ReplySection: React.SFC<Props> = ({ request }) => {
@@ -26,13 +29,15 @@ export const ResolvedSection: React.SFC<Props> = ({ request }) => {
   }
 };
 
-export const RequestDetail: React.SFC<Props> = ({ request }) => {
-  const { status, message, date } = request;
+export const RequestDetail: React.SFC<Props> = props => {
+  const { request, message } = props;
+  const { text, timestamp } = message;
+  const { status } = request;
   return (
     <Container>
-      <Request status={status} message={message} date={date} />
-      <ReplySection request={request} />
-      {status === 'RESOLVED' ? <Resolved /> : null}
+      <Request status={status} message={text} date={moment(timestamp)} />
+      <ReplySection {...props} />
+      <ResolvedSection {...props} />
     </Container>
   );
 };
