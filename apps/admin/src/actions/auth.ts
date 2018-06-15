@@ -1,5 +1,5 @@
 import api from 'api';
-import { Org, User, USER_TYPE } from 'reducers/auth';
+import { User, USER_TYPE } from 'reducers/auth';
 
 export const SET_USER_TYPE = 'SET_USER_TYPE';
 export const setUserType = userType => {

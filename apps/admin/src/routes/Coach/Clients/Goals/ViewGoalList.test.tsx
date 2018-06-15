@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import NoGoals from '../../components/Goals/NoGoals';
+import NoGoals from 'components/Goals/NoGoals';
 import { GoalListLayout, ViewGoalList } from './ViewGoalList';
 
 describe('ViewGoalList.tsx', () => {

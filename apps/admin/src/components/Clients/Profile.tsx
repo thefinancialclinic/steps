@@ -8,6 +8,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import Terms from 'routes/Coach/Terms';
 import Tasks from 'routes/Coach/Clients/ProfileTasksList';
 import TaskAdd from 'routes/Coach/Clients/ProfileTaskAdd';
+import Goals from 'routes/Coach/Clients/Goals/Goals';
 import styled from 'styled-components';
 
 interface Props {
@@ -61,8 +62,11 @@ class Client extends React.Component<Props, {}> {
                 path={`${url}/tasks`}
                 render={props => <Tasks client={client} />}
               />
-              <Route path={`${url}/goals`} component={GoalList} />
-              <Route path={`${url}/chat`} component={Chat} />
+              <Route path={`${url}/goals`} component={Goals} />
+              <Route
+                path={`${url}/chat`}
+                render={() => <Chat client={client} />}
+              />
               <Redirect exact from="" to={`${url}/tasks`} />
             </Switch>
           </Box>
