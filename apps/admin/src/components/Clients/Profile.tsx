@@ -59,7 +59,7 @@ class Client extends React.Component<Props, {}> {
               )}
               <Route
                 path={`${url}/tasks`}
-                render={props => <Tasks client={client} />}
+                render={props => <Tasks {...props} client={client} />}
               />
               <Route path={`${url}/goals`} component={GoalList} />
               <Route path={`${url}/chat`} component={Chat} />

@@ -20,9 +20,11 @@ interface Props {
   setTaskStatus;
   index: number;
   task: Task;
+  url: string;
 }
 
-export default ({ setTaskStatus, task }: Props) => {
+export default (props: Props) => {
+  const { setTaskStatus, task, url } = props;
   const toggleTaskStatus = e => {
     const status = task.status === 'COMPLETED' ? 'ACTIVE' : 'COMPLETED';
     setTaskStatus(task, status);
@@ -41,7 +43,7 @@ export default ({ setTaskStatus, task }: Props) => {
         </Box>
         <Box>
           <div>{task.title}</div>
-          <StyledLink to={`/clients/${task.user_id}/tasks/${task.id}`}>
+          <StyledLink to={`${url}/${task.id}`}>
             View Details
           </StyledLink>
         </Box>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Location } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Flex, Box } from 'grid-styled';
@@ -14,6 +14,7 @@ import { deleteTask } from 'actions/tasks';
 interface Props {
   className?: string;
   client: any;
+  location: Location;
   task: any;
   actions: { deleteTask };
 }
@@ -49,7 +50,7 @@ class TaskDetails extends React.Component<Props, {}> {
   };
 
   render() {
-    const { className, client, task } = this.props;
+    const { className, client, location, task } = this.props;
 
     return (
       <div>
@@ -62,7 +63,7 @@ class TaskDetails extends React.Component<Props, {}> {
             <Box>
               <Link
                 className="action-link"
-                to={`/clients/${client.id}/tasks/${task.id}/edit`}
+                to={`${location.pathname}/edit`}
               >
                 Edit
               </Link>
