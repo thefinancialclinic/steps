@@ -196,14 +196,22 @@ export const Components = storiesOf('Components', module)
   .add('RequestDetail', () => (
     <RequestDetail
       request={{
+        id: 1,
+        user_id: 1,
+        task_id: 1,
         status: select(
           'Status',
           ['NEEDS_ASSISTANCE', 'REPLIED', 'RESOLVED'],
           'NEEDS_ASSISTANCE',
         ),
-        message:
-          "I tried calling my credit card but couldn't get through to them",
-        date: moment.utc(),
+      }}
+      message={{
+        id: 1,
+        to_user: 1,
+        from_user: 1,
+        request_id: 1,
+        text: "I tried calling my credit card but couldn't get through to them",
+        timestamp: moment.utc().toISOString(),
       }}
     />
   ))

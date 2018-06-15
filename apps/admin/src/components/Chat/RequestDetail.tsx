@@ -26,6 +26,8 @@ export const ResolvedSection: React.SFC<Props> = ({ request }) => {
   const { status } = request;
   if (status === 'RESOLVED') {
     return <Resolved />;
+  } else {
+    return null;
   }
 };
 
