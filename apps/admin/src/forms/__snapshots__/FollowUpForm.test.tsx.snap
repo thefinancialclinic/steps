@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FollowUpForm.tsx renders correctly 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <Panel>
+    <Flex
+      alignItems="center"
+      flexDirection="column"
+      theme={
+        Object {
+          "breakpoints": Array [
+            "40em",
+            "52em",
+            "64em",
+          ],
+          "fontSizes": Array [
+            12,
+            14,
+            16,
+            20,
+            24,
+            32,
+            48,
+            64,
+            96,
+            128,
+          ],
+          "space": Array [
+            0,
+            4,
+            8,
+            16,
+            32,
+            64,
+            128,
+            256,
+            512,
+          ],
+        }
+      }
+    >
+      <styled.i
+        className="material-icons"
+      >
+        calendar_today
+      </styled.i>
+      <styled.div>
+        Let's follow up in
+        <Field
+          format={[Function]}
+          name="weeks"
+          parse={[Function]}
+        />
+        weeks.
+      </styled.div>
+      <Button>
+        Save
+      </Button>
+    </Flex>
+  </Panel>
+</form>
+`;
