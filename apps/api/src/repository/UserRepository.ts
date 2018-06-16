@@ -123,7 +123,7 @@ export class UserRepository implements Repository<UserId, User> {
         follow_up_date,
         plan_url,
         checkin_times,
-        fb_id 
+        fb_id
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
       RETURNING *
     `,
@@ -248,7 +248,7 @@ export class UserRepository implements Repository<UserId, User> {
     await this.pool.query(`SELECT nextval('user_id_seq');`);
   }
 
-  async tasks(clientId: UserId, currentCoach: UserId): Promise<Task[]> {
+  async tasks(clientId: UserId): Promise<Task[]> {
     const res = await this.pool.query(
       `
       SELECT
@@ -267,14 +267,13 @@ export class UserRepository implements Repository<UserId, User> {
       FROM task
       JOIN "user" usr ON task.user_id = usr.id
       WHERE usr.coach_id = $1
-      AND   usr.id = $2
       AND   usr.type = 'Client'`,
-      [currentCoach, clientId],
+      [clientId],
     );
     return res.rows.map(row => new Task(row));
   }
 
-  async messages(clientId: UserId, currentCoach: UserId): Promise<Message[]> {
+  async messages(clientId: UserId): Promise<Message[]> {
     const res = await this.pool.query(
       `
       SELECT
@@ -290,14 +289,13 @@ export class UserRepository implements Repository<UserId, User> {
       JOIN "user" usr ON (usr.id = msg.from_user OR usr.id = msg.to_user)
       WHERE usr.id = $1
       AND usr.type = 'Client'
-      AND usr.coach_id = $2
     `,
-      [clientId, currentCoach],
+      [clientId],
     );
     return res.rows.map(row => new Message(row));
   }
 
-  async viewed_media(clientId: UserId, currentCoach: UserId): Promise<Media[]> {
+  async viewed_media(clientId: UserId): Promise<Media[]> {
     const res = await this.pool.query(
       `
       SELECT
@@ -315,9 +313,8 @@ export class UserRepository implements Repository<UserId, User> {
       JOIN "user" usr ON usr.id = vm.client_id
       WHERE usr.id = $1
       AND usr.type = 'Client'
-      AND usr.coach_id = $2;
       `,
-      [clientId, currentCoach],
+      [clientId],
     );
     return res.rows.map(row => new Media(row));
   }
@@ -351,7 +348,7 @@ export class UserRepository implements Repository<UserId, User> {
     return res.rowCount;
   }
 
-  async requests(clientId: UserId, coachId: UserId): Promise<RequestItem[]> {
+  async requests(clientId: UserId): Promise<RequestItem[]> {
     const res = await this.pool.query(
       `
       SELECT
@@ -361,11 +358,10 @@ export class UserRepository implements Repository<UserId, User> {
         r.task_id
       FROM request r
       JOIN "user" usr ON usr.id = r.user_id
-      WHERE usr.coach_id = $2
       AND usr.type = 'Client'
       AND usr.id = $1;
       `,
-      [clientId, coachId],
+      [clientId],
     );
     return res.rows.map(row => new RequestItem(row));
   }
