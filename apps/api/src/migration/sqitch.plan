@@ -9,3 +9,4 @@ task_steps [appschema] 2018-06-07T20:27:54Z Chris Wilson <chris@adorable.io> # R
 viewed_media [appschema] 2018-06-12T21:58:37Z Chris Wilson <chris@adorable.io> # Add table to record user-viewed media
 user_goals_default [appschema] 2018-06-13T23:46:40Z Connor Mendenhall <cmendenhall@8thlight.com> # Add default value to user goals.
 user_fb_id [appschema] 2018-06-14T20:28:39Z Chris Wilson <chris@adorable.io> # Add "fb_id" field to client.
+message_request_id_nullable [appschema] 2018-06-16T15:49:12Z Connor Mendenhall <connor@8thlight.com> # Make message.request_id nullable.
