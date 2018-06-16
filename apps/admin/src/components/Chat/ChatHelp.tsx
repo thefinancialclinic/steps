@@ -2,7 +2,6 @@ import React from 'react';
 import { Box } from 'grid-styled';
 import styled from 'styled-components';
 import NoChat from './NoChat';
-import NavGroup from 'components/NavGroup/NavGroup';
 
 interface Props {
   className?: string;

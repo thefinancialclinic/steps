@@ -1,5 +1,5 @@
 import 'jest';
-import { SET_CLIENT_GOALS } from './../actions/clients';
+import { SET_CLIENT_GOALS, SET_CLIENT_MESSAGES } from './../actions/clients';
 import reducer, { ClientsState } from './clients';
 
 const initialState: ClientsState = {
@@ -28,15 +28,7 @@ const initialState: ClientsState = {
       ],
       topic: 'string',
     },
-  ],
-  orgs: [
-    {
-      id: 0,
-      name: 'string',
-      sms_number: 'string',
-      logo: 'string',
-    },
-  ],
+  ]
 };
 
 describe('clients reducer', () => {
@@ -49,5 +41,17 @@ describe('clients reducer', () => {
 
     const updatedState = reducer(initialState, mockAction);
     expect(updatedState.clients[0].goals).toEqual(['new goal']);
+  });
+
+  it('sets messages by client', () => {
+    const messages = [{ id: 1 }, { id: 2 }];
+    const mockAction = {
+      type: SET_CLIENT_MESSAGES,
+      clientId: 0,
+      messages: [{ id: 1 }, { id: 2 }],
+    };
+
+    const updatedState = reducer(initialState, mockAction);
+    expect(updatedState.clients[0].messages).toEqual(messages);
   });
 });

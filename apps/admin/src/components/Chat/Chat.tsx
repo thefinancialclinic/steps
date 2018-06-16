@@ -25,8 +25,12 @@ class Chat extends React.Component<Props, {}> {
           />
         </Box>
         <Switch>
-          <Route path="/clients/:id/chat/log" component={ChatLog} />
-          <Route path="/clients/:id/chat/help" component={ChatHelp} />
+          <Route path="/clients/:id/chat/log">
+            <ChatLog client={client} />
+          </Route>
+          <Route path="/clients/:id/chat/help">
+            <ChatHelp />
+          </Route>
           <Redirect exact from="" to={`/clients/${client.id}/chat/log`} />
         </Switch>
       </div>

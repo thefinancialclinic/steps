@@ -23,9 +23,12 @@ class Client extends React.Component<Props, {}> {
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  client: state.clients.clients.find(c => c.id == props.match.params.id),
-});
+const mapStateToProps = (state, props) => {
+  console.log(state);
+  return {
+    client: state.clients.clients.find(c => c.id == props.match.params.id),
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ getClients }, dispatch),

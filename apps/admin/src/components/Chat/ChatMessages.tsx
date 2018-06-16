@@ -35,7 +35,6 @@ interface Props {
   className?: string;
   messages: Message[];
   media: Media[];
-  fromUser: Client;
   user: Client;
 }
 
@@ -53,7 +52,9 @@ class ChatMessages extends React.Component<Props, {}> {
 
   groupByDate(messages) {
     return messages.reduce((acc, curr) => {
-      const date = curr.timestamp.startOf('day').format();
+      const date = moment(curr.timestamp)
+        .startOf('day')
+        .format();
       const messagesByDate = acc.find(m => m.date === date);
       if (messagesByDate) {
         messagesByDate.messages.push(curr);
@@ -76,11 +77,9 @@ class ChatMessages extends React.Component<Props, {}> {
   }
 
   getSenderName(message) {
-    const user =
-      message.to_user === this.props.user.id
-        ? this.props.fromUser
-        : this.props.user;
-    return user.first_name;
+    return message.to_user === this.props.user.id
+      ? 'Roo'
+      : this.props.user.first_name;
   }
 
   renderChatMedia(mediaItem) {
