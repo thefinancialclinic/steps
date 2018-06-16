@@ -5,6 +5,7 @@ info:
 
 servers:
   - url: http://localhost:3001/api
+  - url: https://steps-admin.herokuapp.com/api
 
 components:
   schemas:
@@ -554,7 +555,7 @@ paths:
                 properties:
                   deleted:
                     type: number
-              
+
   /tasks:
     get:
       summary: Return a list of Tasks
