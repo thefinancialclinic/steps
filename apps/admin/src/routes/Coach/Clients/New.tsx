@@ -38,8 +38,8 @@ export class ClientNew extends React.Component<Props, State> {
   createClient = clientData => {
     this.props.actions
       .createClient(clientData)
-      .then(res => {
-        this.props.history.push('/clients');
+      .then(({ client }) => {
+        this.props.history.push(`/clients/${client.id}`);
       })
       .catch(error => {
         this.props.actions.addAlert({

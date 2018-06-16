@@ -35,9 +35,11 @@ describe('ClientNew.tsx', () => {
     }
   });
 
-  it('redirects to /clients if client response is success', async () => {
+  it('redirects to client profile if client response is success', async () => {
     const history = { push: jest.fn() };
-    const createClient = jest.fn().mockReturnValue(Promise.resolve('success!'));
+    const createClient = jest
+      .fn()
+      .mockReturnValue(Promise.resolve({ client: { id: 1 } }));
     const actions = {
       addAlert: jest.fn(),
       createClient,
@@ -49,7 +51,7 @@ describe('ClientNew.tsx', () => {
 
     try {
       await process.nextTick(() => {
-        expect(history.push).toHaveBeenCalledWith('/clients');
+        expect(history.push).toHaveBeenCalledWith('/clients/1');
       });
     } catch (error) {
       return error;

@@ -29,6 +29,14 @@ const tempGetCoach = async () => {
   return coaches.data[0];
 };
 
+export const ADD_CLIENT = 'ADD_CLIENT';
+export const addClient = client => {
+  return {
+    type: ADD_CLIENT,
+    client,
+  };
+};
+
 export const CREATE_CLIENT = 'CREATE_CLIENT';
 export const createClient = (clientData): DispatchFn => async (
   dispatch,
@@ -43,8 +51,9 @@ export const createClient = (clientData): DispatchFn => async (
     clientData.status = 'AWAITING_HELP';
     clientData.goals = [];
 
-    const clients = await api.post('/clients', clientData);
-    return dispatch(getClients());
+    const client = await api.post('/clients', clientData);
+
+    return dispatch(addClient(client.data));
   } catch (error) {
     return Promise.reject(error);
   }
