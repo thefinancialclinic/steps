@@ -237,6 +237,12 @@ export const Routes = [
     action: 'one',
   },
   {
+    method: 'put',
+    route: '/api/requests/:id',
+    controller: RequestController,
+    action: 'update',
+  },
+  {
     method: 'post',
     route: '/api/requests',
     controller: RequestController,

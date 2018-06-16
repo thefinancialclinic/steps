@@ -9,6 +9,7 @@ describe('API endpoints (accessed directly)', () => {
   const messageText = 'Message text';
   const mediaTitle = 'Media title';
   const requestStatus = 'NEEDS_ASSISTANCE';
+  const newRequestStatus = 'RESOLVED';
 
   before(() => {
     // org and coach aldready created
@@ -136,6 +137,15 @@ describe('API endpoints (accessed directly)', () => {
     });
   });
 
+  it('GET Task', () => {
+    cy.request('GET', `http://localhost:3001/api/tasks/${taskId}`).then(
+      response => {
+        expect(response.body).to.have.property('title', taskTitle);
+        expect(response.body.user_id).to.equal(clientId);
+      },
+    );
+  });
+
   it('GET Client Tasks', () => {
     cy.request(
       'GET',
@@ -169,6 +179,16 @@ describe('API endpoints (accessed directly)', () => {
       `http://localhost:3001/api/clients/${clientId}/requests`,
     ).then(response => {
       expect(response.body[0]).to.have.property('status', requestStatus);
+    });
+  });
+
+  it('PUT Request (update)', () => {
+    cy.request('PUT', `http://localhost:3001/api/requests/${requestId}`, {
+      status: newRequestStatus,
+      user_id: clientId,
+      task_id: taskId,
+    }).then(response => {
+      expect(response.body).to.have.property('status', newRequestStatus);
     });
   });
 });

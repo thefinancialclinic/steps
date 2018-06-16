@@ -880,6 +880,30 @@ paths:
             application/json:
               schema:
                 $ref: '#components/schemas/Request'
+    put:
+      summary: Update a single Request by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [requests]
+      requestBody:
+        description: New Request to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+      responses:
+        '200':
+          description: A JSON object representing a single Request
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Request'
     delete:
       summary: Delete an Request by the given id
       parameters:
