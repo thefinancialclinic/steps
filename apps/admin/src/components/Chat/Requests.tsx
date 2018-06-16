@@ -35,7 +35,7 @@ class Requests extends React.Component<Props, {}> {
             return (
               <Link
                 key={request.id}
-                to={`/clients/${client.id}/chat/help/requests/${request.id}`}
+                to={`/clients/${client.id}/chat/requests/${request.id}`}
               >
                 <Request
                   status={request.status}
