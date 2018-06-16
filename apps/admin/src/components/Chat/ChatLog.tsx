@@ -13,10 +13,9 @@ class ChatList extends React.Component<Props, {}> {
   render() {
     const { client } = this.props;
     const { messages } = client;
-    console.log(messages);
 
     const chatDisplay =
-      messages.length > 0 ? (
+      messages && messages.length > 0 ? (
         <Box width={1}>
           <ChatMessages messages={messages} user={client} media={[]} />
         </Box>
