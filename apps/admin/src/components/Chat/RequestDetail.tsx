@@ -8,17 +8,46 @@ import ReplyForm from 'forms/ReplyForm';
 import { Request as RequestType, Message } from './types';
 import moment from 'moment';
 
+type RequestWithMessages = RequestType & { messages: Message[] };
+
 interface Props {
-  request?: RequestType;
-  message?: Message;
+  request?: RequestWithMessages;
 }
 
-export const ReplySection: React.SFC<Props> = ({ request }) => {
+export const RequestMessages: React.SFC<Props> = ({ request }) => {
+  const { status } = request;
+  const requests = request.messages.map(message => {
+    if (message.from_user === request.user_id) {
+      const { text, timestamp } = message;
+      return (
+        <Request
+          key={message.id}
+          status={status}
+          message={text}
+          date={moment(timestamp)}
+        />
+      );
+    }
+  });
+  return <div>{requests}</div>;
+};
+
+export const ReplyMessages: React.SFC<Props> = ({ request }) => {
+  const replies = request.messages.map(message => {
+    if (message.from_user != request.user_id) {
+      const { text, timestamp } = message;
+      return <Reply key={message.id} message={text} />;
+    }
+  });
+  return <div>{replies}</div>;
+};
+
+export const ReplyFormSection: React.SFC<Props> = ({ request }) => {
   const { status } = request;
   if (status === 'NEEDS_ASSISTANCE') {
     return <ReplyForm onSubmit={() => {}} />;
   } else {
-    return <Reply message="Rafa, you should do x and y" />;
+    return null;
   }
 };
 
@@ -32,14 +61,14 @@ export const ResolvedSection: React.SFC<Props> = ({ request }) => {
 };
 
 export const RequestDetail: React.SFC<Props> = props => {
-  const { request, message } = props;
-  const { text, timestamp } = message;
-  const { status } = request;
+  const { request } = props;
+
   return (
     <Container>
-      <Request status={status} message={text} date={moment(timestamp)} />
-      <ReplySection {...props} />
-      <ResolvedSection {...props} />
+      <RequestMessages request={request} />
+      <ReplyMessages request={request} />
+      <ReplyFormSection request={request} />
+      <ResolvedSection request={request} />
     </Container>
   );
 };

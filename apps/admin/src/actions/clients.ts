@@ -67,3 +67,50 @@ export const setClientGoals = async (client: Client, goals: string[]) => {
     return Promise.reject(err);
   }
 };
+
+export const getClientMessages = (
+  clientId: number,
+): DispatchFn => async dispatch => {
+  try {
+    const messages = await api.get(`/clients/${clientId}/messages`);
+    return dispatch(setClientMessages(clientId, messages.data));
+  } catch (error) {
+    Promise.reject(error);
+  }
+};
+
+export const SET_CLIENT_MESSAGES = 'SET_CLIENT_MESSAGES';
+export const setClientMessages = (clientId, messages) => {
+  return {
+    type: SET_CLIENT_MESSAGES,
+    clientId: clientId,
+    messages: messages,
+  };
+};
+
+export const getClientRequests = (
+  clientId: number,
+): DispatchFn => async dispatch => {
+  try {
+    const requests = await api.get(`/clients/${clientId}/requests`);
+    return dispatch(setClientRequests(clientId, requests.data));
+  } catch (error) {
+    Promise.reject(error);
+  }
+};
+
+export const SET_CLIENT_REQUESTS = 'SET_CLIENT_REQUESTS';
+export const setClientRequests = (clientId, requests) => {
+  return {
+    type: SET_CLIENT_REQUESTS,
+    clientId: clientId,
+    requests: requests,
+  };
+};
+
+export const getClientMessagesAndRequests = (
+  clientId: number,
+): DispatchFn => async dispatch => {
+  dispatch(getClientMessages(clientId));
+  dispatch(getClientRequests(clientId));
+};
