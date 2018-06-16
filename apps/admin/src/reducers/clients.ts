@@ -2,6 +2,7 @@ import {
   SET_CLIENTS,
   SET_CLIENT_GOALS,
   SET_CLIENT_MESSAGES,
+  SET_CLIENT_REQUESTS,
 } from 'actions/clients';
 
 export type UserPlatform = 'SMS' | 'FBOOK';
@@ -75,6 +76,19 @@ export default (state = initialState, action) => {
             return {
               ...client,
               messages: action.messages,
+            };
+          }
+          return client;
+        }),
+      };
+    case SET_CLIENT_REQUESTS:
+      return {
+        ...state,
+        clients: state.clients.map(client => {
+          if (client.id === action.clientId) {
+            return {
+              ...client,
+              requests: action.requests,
             };
           }
           return client;

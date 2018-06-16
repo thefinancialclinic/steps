@@ -4,15 +4,18 @@ import { Box } from 'grid-styled';
 import ChatHelp from './ChatHelp';
 import ChatLog from './ChatLog';
 import NavGroup from 'components/NavGroup/NavGroup';
+import RequestDetail from './RequestDetail';
 
 interface Props extends RouteComponentProps {
   className?: string;
   client: any;
+  match?: any;
 }
 
 class Chat extends React.Component<Props, {}> {
   render() {
-    const { className, client } = this.props;
+    const { className, client, match } = this.props;
+    const { url, params } = match;
 
     return (
       <div className={className}>
@@ -25,12 +28,17 @@ class Chat extends React.Component<Props, {}> {
           />
         </Box>
         <Switch>
-          <Route path="/clients/:id/chat/log">
-            <ChatLog client={client} />
+          <Route path={`${url}/help/requests/:requestId/`}>
+            <RequestDetail />
           </Route>
-          <Route path="/clients/:id/chat/help">
-            <ChatHelp />
-          </Route>
+          <Route
+            path={`${url}/log`}
+            render={() => <ChatLog client={client} />}
+          />
+          <Route
+            path={`${url}/help`}
+            render={() => <ChatHelp client={client} />}
+          />
           <Redirect exact from="" to={`/clients/${client.id}/chat/log`} />
         </Switch>
       </div>

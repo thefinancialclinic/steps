@@ -60,7 +60,7 @@ class Client extends React.Component<Props, {}> {
               <Route path={`${url}/goals`} component={Goals} />
               <Route
                 path={`${url}/chat`}
-                render={() => <Chat client={client} />}
+                render={({ match }) => <Chat client={client} match={match} />}
               />
               <Redirect exact from="" to={`${url}/tasks`} />
             </Switch>
