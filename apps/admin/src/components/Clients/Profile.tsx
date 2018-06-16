@@ -1,11 +1,11 @@
 import BackButton from 'atoms/Buttons/BackButton';
-import Chat from 'components/Chat/Chat';
 import Sidebar from 'components/Sidebar/Sidebar';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Tasks from 'routes/Coach/Clients/ProfileTasksList';
 import TaskAdd from 'routes/Coach/Clients/ProfileTaskAdd';
+import Chat from 'routes/Coach/Clients/ProfileChat';
 import Goals from 'routes/Coach/Clients/Goals/Goals';
 import styled from 'styled-components';
 
