@@ -8,7 +8,7 @@ import { Media } from '../repository/MediaRepository';
 
 export class ClientController {
   private repo = new UserRepository(pool);
-  private currentCoach = 15;
+  private currentCoach = 1;
 
   async all(request: Request, response: Response, next: NextFunction) {
     return this.repo.getAllByType('Client');

@@ -28,15 +28,7 @@ const initialState: ClientsState = {
       ],
       topic: 'string',
     },
-  ],
-  orgs: [
-    {
-      id: 0,
-      name: 'string',
-      sms_number: 'string',
-      logo: 'string',
-    },
-  ],
+  ]
 };
 
 describe('clients reducer', () => {
