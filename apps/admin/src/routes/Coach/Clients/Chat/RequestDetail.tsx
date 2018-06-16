@@ -9,16 +9,22 @@ interface Props {
   match: any;
 }
 
+export const addMessagesToRequest = (request, messages) => {
+  const requestMessages = messages.filter(m => m.request_id === request.id);
+  request.messages = requestMessages;
+  return request;
+};
+
 export class RequestDetailRoute extends React.Component<Props> {
   render() {
     const { client, match } = this.props;
     const { messages, requests } = client;
     const request = findById(requests, match.params.requestId);
-    const message = messages.find(m => m.request_id === request.id);
+    const withMessages = addMessagesToRequest(request, messages);
     return (
       <Main>
         <BackButton to={`/clients/${client.id}/chat/help`} />
-        <RequestDetail request={request} message={message} />
+        <RequestDetail request={withMessages} />
       </Main>
     );
   }

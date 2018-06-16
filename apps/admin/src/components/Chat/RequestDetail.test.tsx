@@ -1,5 +1,10 @@
 import { shallow } from 'enzyme';
-import RequestDetail, { ReplySection, ResolvedSection } from './RequestDetail';
+import RequestDetail, {
+  RequestMessages,
+  ReplyMessages,
+  ReplyFormSection,
+  ResolvedSection,
+} from './RequestDetail';
 import * as React from 'react';
 import 'jest';
 import { RequestStatus } from './types';
@@ -13,11 +18,20 @@ const replied: RequestStatus = 'REPLIED';
 const resolved: RequestStatus = 'RESOLVED';
 let request;
 
-const message = {
+const requestMessage = {
   id: 1,
   text: 'Help me!',
   to_user: 1,
   from_user: 2,
+  request_id: 1,
+  timestamp: '2018-01-01',
+};
+
+const replyMessage = {
+  id: 1,
+  text: 'Help me!',
+  to_user: 2,
+  from_user: 1,
   request_id: 1,
   timestamp: '2018-01-01',
 };
@@ -30,23 +44,25 @@ describe('RequestDetail', () => {
         status: needsAssistance,
         user_id: 2,
         task_id: 1,
+        messages: [requestMessage],
       };
     });
 
     it('shows message', () => {
-      const wrapper = shallow(
-        <RequestDetail request={request} message={message} />,
-      );
-      expect(wrapper.find(Request)).toHaveLength(1);
+      const wrapper = shallow(<RequestDetail request={request} />);
+      expect(
+        wrapper
+          .find(RequestMessages)
+          .shallow()
+          .find(Request),
+      ).toHaveLength(1);
     });
 
     it('shows reply form', () => {
-      const wrapper = shallow(
-        <RequestDetail request={request} message={message} />,
-      );
+      const wrapper = shallow(<RequestDetail request={request} />);
       expect(
         wrapper
-          .find(ReplySection)
+          .find(ReplyFormSection)
           .shallow()
           .find(ReplyForm),
       ).toHaveLength(1);
@@ -60,23 +76,25 @@ describe('RequestDetail', () => {
         status: replied,
         user_id: 2,
         task_id: 1,
+        messages: [requestMessage, replyMessage],
       };
     });
 
     it('shows message', () => {
-      const wrapper = shallow(
-        <RequestDetail request={request} message={message} />,
-      );
-      expect(wrapper.find(Request)).toHaveLength(1);
+      const wrapper = shallow(<RequestDetail request={request} />);
+      expect(
+        wrapper
+          .find(RequestMessages)
+          .shallow()
+          .find(Request),
+      ).toHaveLength(1);
     });
 
     it('shows reply', () => {
-      const wrapper = shallow(
-        <RequestDetail request={request} message={message} />,
-      );
+      const wrapper = shallow(<RequestDetail request={request} />);
       expect(
         wrapper
-          .find(ReplySection)
+          .find(ReplyMessages)
           .shallow()
           .find(Reply),
       ).toHaveLength(1);
@@ -90,32 +108,32 @@ describe('RequestDetail', () => {
         status: resolved,
         user_id: 2,
         task_id: 1,
+        messages: [requestMessage, replyMessage],
       };
     });
 
     it('shows message', () => {
-      const wrapper = shallow(
-        <RequestDetail request={request} message={message} />,
-      );
-      expect(wrapper.find(Request)).toHaveLength(1);
+      const wrapper = shallow(<RequestDetail request={request} />);
+      expect(
+        wrapper
+          .find(RequestMessages)
+          .shallow()
+          .find(Request),
+      ).toHaveLength(1);
     });
 
     it('shows reply', () => {
-      const wrapper = shallow(
-        <RequestDetail request={request} message={message} />,
-      );
+      const wrapper = shallow(<RequestDetail request={request} />);
       expect(
         wrapper
-          .find(ReplySection)
+          .find(ReplyMessages)
           .shallow()
           .find(Reply),
       ).toHaveLength(1);
     });
 
     it('shows resolved', () => {
-      const wrapper = shallow(
-        <RequestDetail request={request} message={message} />,
-      );
+      const wrapper = shallow(<RequestDetail request={request} />);
       expect(
         wrapper
           .find(ResolvedSection)
