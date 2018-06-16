@@ -81,7 +81,7 @@ const Wrapper = styled.div`
   position: fixed;
   bottom: 10px;
   padding: 20px;
-  right: 10px;
+  left: 10px;
   z-index: 1000;
 
   input {
