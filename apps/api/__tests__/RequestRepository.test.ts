@@ -35,4 +35,12 @@ describe('media entity operations', () => {
     let actual = await repo.getAll();
     expect(actual.filter(x => x.id == request.id).length).toBe(1);
   });
+
+  it('updates', async () => {
+    let requestItem = await repo.getOne(request.id);
+    requestItem.status = 'RESOLVED';
+    await repo.update(requestItem);
+    let reloadedItem = await repo.getOne(request.id);
+    expect(reloadedItem.status).toBe('RESOLVED');
+  });
 });

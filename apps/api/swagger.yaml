@@ -5,6 +5,7 @@ info:
 
 servers:
   - url: http://localhost:3001/api
+  - url: https://steps-admin.herokuapp.com/api
 
 components:
   schemas:
@@ -25,7 +26,7 @@ components:
           type: string
         to_user:
           type: integer
-        from_-user:
+        from_user:
           type: integer
         media_id:
           type: integer
@@ -554,7 +555,7 @@ paths:
                 properties:
                   deleted:
                     type: number
-              
+
   /tasks:
     get:
       summary: Return a list of Tasks
@@ -872,6 +873,30 @@ paths:
           required: true
           description: Numeric id
       tags: [requests]
+      responses:
+        '200':
+          description: A JSON object representing a single Request
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Request'
+    put:
+      summary: Update a single Request by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id
+      tags: [requests]
+      requestBody:
+        description: New Request to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
       responses:
         '200':
           description: A JSON object representing a single Request

@@ -23,6 +23,13 @@ export class RequestController {
     return req;
   }
 
+  async update(request: Request, response: Response, next: NextFunction) {
+    const requestItem = new RequestItem(request.body);
+    requestItem.id = request.params.id;
+    const req = await this.repo.update(requestItem);
+    return req;
+  }
+
   async remove(request: Request, response: Response, next: NextFunction) {
     const num = await this.repo.delete(request.params.id);
     return { deleted: num };

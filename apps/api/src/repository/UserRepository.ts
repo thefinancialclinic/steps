@@ -266,7 +266,7 @@ export class UserRepository implements Repository<UserId, User> {
         task.steps
       FROM task
       JOIN "user" usr ON task.user_id = usr.id
-      WHERE usr.coach_id = $1
+      WHERE usr.id = $1
       AND   usr.type = 'Client'`,
       [clientId],
     );
