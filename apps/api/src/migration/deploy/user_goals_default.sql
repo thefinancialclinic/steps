@@ -1,4 +1,5 @@
 -- Deploy steps:user_goals_default to pg
+-- requires: appschema
 
 BEGIN;
 
