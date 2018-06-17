@@ -1,12 +1,8 @@
 import BackButton from 'atoms/Buttons/BackButton';
-import Chat from 'components/Chat/Chat';
-import GoalList from 'components/Goals/GoalList';
 import Sidebar from 'components/Sidebar/Sidebar';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import Terms from 'routes/Coach/Terms';
-import Tasks from 'routes/Coach/Clients/ProfileTasksList';
+import { Route, Switch } from 'react-router-dom';
 import TaskAdd from 'routes/Coach/Clients/ProfileTaskAdd';
 import styled from 'styled-components';
 
@@ -14,9 +10,11 @@ interface Props {
   actions?: any;
   children?: any;
   client: any;
-  match?: any;
+  links: any;
+  role: any;
+  routes: any;
   user?: any;
-  withAddTask: boolean;
+  component: React.Component | React.SFC | any;
 }
 
 class Client extends React.Component<Props, {}> {
@@ -25,21 +23,14 @@ class Client extends React.Component<Props, {}> {
   };
 
   render() {
-    const { client, match, withAddTask } = this.props;
+    const { client, links, routes, component: Component, ...rest } = this.props;
     if (!client) return null;
-    const { url, params } = match;
 
     return (
       <StyledClient>
         <Flex>
           <Box width={[1, 1 / 3]}>
-            <Sidebar
-              links={[
-                { text: 'Tasks', to: `${url}/tasks` },
-                { text: 'Goals', to: `${url}/goals` },
-                { text: 'Chat', to: `${url}/chat` },
-              ]}
-            >
+            <Sidebar links={links}>
               <BackButton to="/clients" />
               <h2>
                 {client.first_name} {client.last_name}
@@ -47,24 +38,7 @@ class Client extends React.Component<Props, {}> {
             </Sidebar>
           </Box>
           <Box width={[1, 2 / 3]} m={4}>
-            <Switch>
-              <Route path={`${url}/terms`}>
-                <Terms client={client} />
-              </Route>
-              {withAddTask && (
-                <Route
-                  path={`${url}/tasks/add`}
-                  render={() => <TaskAdd clientId={params.id} />}
-                />
-              )}
-              <Route
-                path={`${url}/tasks`}
-                render={props => <Tasks {...props} client={client} />}
-              />
-              <Route path={`${url}/goals`} component={GoalList} />
-              <Route path={`${url}/chat`} component={Chat} />
-              <Redirect exact from="" to={`${url}/tasks`} />
-            </Switch>
+            <Component {...rest} />
           </Box>
         </Flex>
       </StyledClient>

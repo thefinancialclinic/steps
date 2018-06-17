@@ -78,26 +78,24 @@ const initialState: ClientsState = {
 };
 
 export default (state = initialState, action) => {
-  switch (action.type) {
-    case SET_CLIENTS:
-      return {
-        ...state,
-        clients: action.clients,
-      };
-    case SET_CLIENT_GOALS:
-      return {
-        ...state,
-        clients: state.clients.map(client => {
-          if (client.id === action.clientId) {
-            return {
-              ...client,
-              goals: action.goals,
-            };
-          }
-          return client;
-        }),
-      };
-    default:
-      return state;
+  if (action.type === SET_CLIENTS) {
+    return {
+      ...state,
+      clients: action.clients,
+    };
+  } else if (action.type === SET_CLIENT_GOALS) {
+    return {
+      ...state,
+      clients: state.clients.map(client => {
+        if (client.id === action.clientId) {
+          return {
+            ...client,
+            goals: action.goals,
+          };
+        }
+        return client;
+      }),
+    };
   }
+  return state;
 };

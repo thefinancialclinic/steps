@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Location } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { deleteTask } from 'actions/tasks';
@@ -9,6 +9,7 @@ interface Props {
   className?: string;
   client: any;
   task: any;
+  location: Location;
   actions: { deleteTask };
 }
 
@@ -18,7 +19,16 @@ const steps = task => {
   ));
 };
 
-const TaskShow: React.SFC<Props> = props => <TaskDetails {...props} />;
+const TaskShow: React.SFC<Props> = props => {
+  return (
+    <TaskDetails
+      client={props.client}
+      task={props.task}
+      actions={props.actions}
+      location={props.location}
+    />
+  );
+};
 
 const mapStateToProps = (state, props) => ({
   task: state.tasks.tasks.find(t => (t.id = props.match.params.taskId)),

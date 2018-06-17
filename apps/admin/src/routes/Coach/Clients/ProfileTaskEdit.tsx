@@ -1,5 +1,5 @@
 import Main from 'atoms/Main';
-import TaskForm from 'components/Tasks/TaskForm';
+import TaskForm from 'forms/TaskForm';
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
