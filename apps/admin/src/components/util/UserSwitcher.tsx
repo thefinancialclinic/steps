@@ -2,34 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Form, Field } from 'react-final-form';
-import Button from 'atoms/Buttons/Button';
-
 import { login } from 'actions/auth';
-import { USER_TYPE } from 'reducers/auth';
-
 import { white, black } from 'styles/colors';
-
-const connectField = (handleSubmit, type) => Component => props => {
-  return <Component {...props} handleSubmit={handleSubmit} value={type} />;
-};
-
-const RadioField: React.SFC<any> = ({ handleSubmit, userType, value }) => {
-  const submitter = () => handleSubmit(userType);
-
-  return (
-    <label>
-      <input
-        type="radio"
-        value={userType}
-        name="user_type"
-        onChange={submitter}
-        checked={value === userType}
-      />{' '}
-      {userType}
-    </label>
-  );
-};
+import LoginForm from 'forms/LoginForm';
 
 class UserSwitcher extends React.Component<any, any> {
   constructor(props) {
@@ -37,6 +12,10 @@ class UserSwitcher extends React.Component<any, any> {
 
     this.state = { show: false };
   }
+
+  private onSubmit = async ({ user_type, user_email }) => {
+    await this.props.actions.login(user_type, user_email);
+  };
 
   toggleDisplay = () => {
     this.setState({ show: !this.state.show });
@@ -46,18 +25,12 @@ class UserSwitcher extends React.Component<any, any> {
     const { type } = this.props;
 
     if (this.state.show) {
-      const ConnectedField = connectField(this.props.actions.login, type)(
-        RadioField,
-      );
       return (
         <Wrapper>
-          <h1>Login</h1>
-          <ConnectedField userType={USER_TYPE.SUPER_ADMIN} />
-          <ConnectedField userType={USER_TYPE.ADMIN} />
-          <ConnectedField userType={USER_TYPE.COACH} />
-          <ConnectedField userType={USER_TYPE.CLIENT} />
-          <ConnectedField userType={'null'} />
-          <button onClick={this.toggleDisplay}>hide</button>
+          <LoginForm onSubmit={this.onSubmit} />
+          <a href="#" onClick={this.toggleDisplay}>
+            hide user switcher
+          </a>
         </Wrapper>
       );
     }
@@ -83,6 +56,10 @@ const Wrapper = styled.div`
   padding: 20px;
   left: 10px;
   z-index: 1000;
+
+  button {
+    margin: 10px 0;
+  }
 
   input {
     margin-right: 10px;
