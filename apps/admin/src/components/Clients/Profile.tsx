@@ -36,7 +36,7 @@ class Client extends React.Component<Props, {}> {
             </Sidebar>
           </Box>
           <Box width={[1, 2 / 3]} m={4}>
-            <Component {...rest} />
+            <Component client={client} {...rest} />
           </Box>
         </Flex>
       </StyledClient>

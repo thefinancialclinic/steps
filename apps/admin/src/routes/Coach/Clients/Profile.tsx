@@ -9,6 +9,7 @@ import TaskAdd from './ProfileTaskAdd';
 import TaskShow from './ProfileTaskShow';
 import TaskEdit from './ProfileTaskEdit';
 import Chat from './ProfileChat';
+import Goals from './Goals/Goals';
 
 type Params = {
   id: number;
@@ -30,26 +31,29 @@ class Client extends React.Component<Props, {}> {
   render() {
     const { client, match, role } = this.props;
     if (!client) return null;
-    const { url } = match;
 
     const links = [
-      { text: 'Tasks', to: `${url}/tasks` },
-      { text: 'Goals', to: `${url}/goals` },
-      { text: 'Chat', to: `${url}/chat` },
+      { text: 'Tasks', to: `/clients/${client.id}/tasks` },
+      { text: 'Goals', to: `/clients/${client.id}/goals` },
+      { text: 'Chat', to: `/clients/${client.id}/chat` },
     ];
 
-    const composeProfile = Component => matchProps => (
+    const composeProfile = Component => matchProps => {
+      console.log(client);
+      return(
       <Profile
+        {...matchProps}
         component={Component}
         links={links}
         client={client}
         role={role}
-        {...matchProps}
       />
-    );
+    )};
 
     return (
       <Switch>
+        <Route path={`/clients/:id/chat`} render={composeProfile(Chat)} />
+        <Route path={`/clients/:id/goals`} render={composeProfile(Goals)} />
         <Route
           path={`/clients/:id/tasks/:taskId/edit`}
           render={composeProfile(TaskEdit)}
@@ -63,7 +67,6 @@ class Client extends React.Component<Props, {}> {
           render={composeProfile(TaskAdd)}
         />
         <Route path={`/clients/:id`} render={composeProfile(Tasks)} />
-        {/* <Route path={`${url}/chat`} render={composeProfile(Chat)} /> */}
       </Switch>
     );
   }
