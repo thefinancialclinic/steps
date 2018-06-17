@@ -83,7 +83,8 @@ describe('ChatMessages', () => {
     const wrapper = shallow(
       <ChatMessages media={media} messages={messages} user={user} />,
     );
-    expect(wrapper.instance().groupByDate(messages)).toEqual([
+    const instance = wrapper.instance() as ChatMessages;
+    expect(instance.groupByDate(messages)).toEqual([
       { date: '2018-05-21T00:00:00Z', messages: messages.slice(0, 3) },
       { date: '2018-05-22T00:00:00Z', messages: messages.slice(3) },
     ]);
