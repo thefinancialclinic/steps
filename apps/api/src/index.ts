@@ -76,8 +76,8 @@ const app = express();
 app.use(bodyParser.json());
 
 if (isProduction) {
-  app.use(express.static(resolve(__dirname, '..', '..', 'admin', '.build')));
   app.use(httpsRedirect);
+  app.use(express.static(resolve(__dirname, '..', '..', 'admin', '.build')));
 } else {
   app.use(cors());
 
