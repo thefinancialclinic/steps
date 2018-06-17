@@ -12,8 +12,8 @@ export const authenticate = async userType => {
 };
 
 export const LOGIN = 'LOGIN';
-export const login = userType => async dispatch => {
-  let user: User = { type: userType };
+export const login = (userType, userEmail) => async dispatch => {
+  let user: User = { type: userType, email: userEmail };
   let org: any = {};
 
   try {
@@ -21,12 +21,12 @@ export const login = userType => async dispatch => {
     } else if (userType === USER_TYPE.ADMIN) {
     } else if (userType === USER_TYPE.COACH) {
       const coaches = await api.get('/coaches');
-      user = coaches.data[0];
+      user = coaches.data.find(c => c.email === userEmail) || coaches.data[0];
       org = await api.get(`/orgs/${user.org_id}`);
       user.org = org.data;
     } else if (userType === USER_TYPE.CLIENT) {
       const clients = await api.get('/clients');
-      user = clients.data[1];
+      user = clients.data.find(c => c.email === userEmail) || clients.data[0];
     }
 
     dispatch({ type: LOGIN, user });
