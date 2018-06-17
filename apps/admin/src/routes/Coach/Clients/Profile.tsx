@@ -2,7 +2,7 @@ import React from 'react';
 import { getClients } from 'actions/clients';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Match, Route, Switch } from 'react-router-dom';
+import { Match, Redirect, Route, Switch } from 'react-router-dom';
 import Profile from 'components/Clients/Profile';
 import Tasks from './ProfileTasksList';
 import TaskAdd from './ProfileTaskAdd';
@@ -52,25 +52,24 @@ class Client extends React.Component<Props, {}> {
 
     return (
       <Switch>
-        <Route path={`/clients/:id/chat`} render={composeProfile(Chat)} />
-        <Route path={`/clients/:id/goals`} render={composeProfile(Goals)} />
+        <Route path="/clients/:id/chat" render={composeProfile(Chat)} />
+        <Route path="/clients/:id/goals" render={composeProfile(Goals)} />
         <Route
-          path={`/clients/:id/tasks/:taskId/edit`}
+          path="/clients/:id/tasks/:taskId/edit"
           render={composeProfile(TaskEdit)}
         />
         <Route
-          path={`/clients/:id/tasks/:taskId`}
+          path="/clients/:id/tasks/:taskId"
           render={composeProfile(TaskShow)}
         />
-        <Route
-          path={`/clients/:id/tasks/add`}
-          render={composeProfile(TaskAdd)}
-        />
-        <Route path={`/clients/:id`} render={composeProfile(Tasks)} />
+        <Route path="/clients/:id/tasks/add" render={composeProfile(TaskAdd)} />
+        <Route path="/clients/:id/tasks" render={composeProfile(Tasks)} />
+        <Route render={() => <Redirect to={`/clients/${client.id}/tasks`} />} />
       </Switch>
     );
   }
 }
+
 const mapStateToProps = (state, props: Props) => {
   return {
     client: state.clients.clients.find(
