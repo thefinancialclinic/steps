@@ -2,12 +2,13 @@ import React from 'react';
 import { getClients } from 'actions/clients';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Match, Redirect, Route, Switch } from 'react-router-dom';
+import { Match, Route, Switch } from 'react-router-dom';
 import Profile from 'components/Clients/Profile';
 import Tasks from './ProfileTasksList';
 import TaskAdd from './ProfileTaskAdd';
 import TaskShow from './ProfileTaskShow';
 import TaskEdit from './ProfileTaskEdit';
+import Chat from './ProfileChat';
 
 type Params = {
   id: number;
@@ -62,6 +63,7 @@ class Client extends React.Component<Props, {}> {
           render={composeProfile(TaskAdd)}
         />
         <Route path={`/clients/:id`} render={composeProfile(Tasks)} />
+        {/* <Route path={`${url}/chat`} render={composeProfile(Chat)} /> */}
       </Switch>
     );
   }

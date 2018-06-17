@@ -1,5 +1,6 @@
 import React from 'react';
+import { RoutesElement } from '../index';
 
-const Superadmin = props => <div>Superadmin</div>;
+const Superadmin: RoutesElement = props => <div>Superadmin</div>;
 
 export default Superadmin;

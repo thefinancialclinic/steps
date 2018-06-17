@@ -8,7 +8,6 @@ import { Media } from '../repository/MediaRepository';
 
 export class ClientController {
   private repo = new UserRepository(pool);
-  private currentCoach = 1;
 
   async all(request: Request, response: Response, next: NextFunction) {
     return this.repo.getAllByType('Client');
@@ -39,15 +38,15 @@ export class ClientController {
   }
 
   async tasks(request: Request, response: Response, next: NextFunction) {
-    return this.repo.tasks(request.params.id, this.currentCoach);
+    return this.repo.tasks(request.params.id);
   }
 
   async messages(request: Request, response: Response, next: NextFunction) {
-    return this.repo.messages(request.params.id, this.currentCoach);
+    return this.repo.messages(request.params.id);
   }
 
   async viewed_media(request: Request, response: Response, next: NextFunction) {
-    return this.repo.viewed_media(request.params.id, this.currentCoach);
+    return this.repo.viewed_media(request.params.id);
   }
 
   async create_viewed_media(
@@ -76,6 +75,6 @@ export class ClientController {
   }
 
   async requests(request: Request, response: Response, next: NextFunction) {
-    return this.repo.requests(request.params.id, this.currentCoach);
+    return this.repo.requests(request.params.id);
   }
 }

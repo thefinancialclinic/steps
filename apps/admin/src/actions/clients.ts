@@ -29,6 +29,14 @@ const tempGetCoach = async () => {
   return coaches.data[0];
 };
 
+export const ADD_CLIENT = 'ADD_CLIENT';
+export const addClient = client => {
+  return {
+    type: ADD_CLIENT,
+    client,
+  };
+};
+
 export const CREATE_CLIENT = 'CREATE_CLIENT';
 export const createClient = (clientData): DispatchFn => async (
   dispatch,
@@ -43,8 +51,9 @@ export const createClient = (clientData): DispatchFn => async (
     clientData.status = 'AWAITING_HELP';
     clientData.goals = [];
 
-    const clients = await api.post('/clients', clientData);
-    return dispatch(getClients());
+    const client = await api.post('/clients', clientData);
+
+    return dispatch(addClient(client.data));
   } catch (error) {
     return Promise.reject(error);
   }
@@ -66,4 +75,51 @@ export const setClientGoals = async (client: Client, goals: string[]) => {
   } catch (err) {
     return Promise.reject(err);
   }
+};
+
+export const getClientMessages = (
+  clientId: number,
+): DispatchFn => async dispatch => {
+  try {
+    const messages = await api.get(`/clients/${clientId}/messages`);
+    return dispatch(setClientMessages(clientId, messages.data));
+  } catch (error) {
+    Promise.reject(error);
+  }
+};
+
+export const SET_CLIENT_MESSAGES = 'SET_CLIENT_MESSAGES';
+export const setClientMessages = (clientId, messages) => {
+  return {
+    type: SET_CLIENT_MESSAGES,
+    clientId: clientId,
+    messages: messages,
+  };
+};
+
+export const getClientRequests = (
+  clientId: number,
+): DispatchFn => async dispatch => {
+  try {
+    const requests = await api.get(`/clients/${clientId}/requests`);
+    return dispatch(setClientRequests(clientId, requests.data));
+  } catch (error) {
+    Promise.reject(error);
+  }
+};
+
+export const SET_CLIENT_REQUESTS = 'SET_CLIENT_REQUESTS';
+export const setClientRequests = (clientId, requests) => {
+  return {
+    type: SET_CLIENT_REQUESTS,
+    clientId: clientId,
+    requests: requests,
+  };
+};
+
+export const getClientMessagesAndRequests = (
+  clientId: number,
+): DispatchFn => async dispatch => {
+  dispatch(getClientMessages(clientId));
+  dispatch(getClientRequests(clientId));
 };

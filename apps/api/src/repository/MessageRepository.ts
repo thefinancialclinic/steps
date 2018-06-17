@@ -15,7 +15,7 @@ export type MessageOpts = {
   to_user: UserId;
   from_user: UserId;
   media_id?: MediaId;
-  request_id: RequestId;
+  request_id?: RequestId;
   timestamp: Date;
   responses?: ObjectType;
 };
@@ -26,7 +26,7 @@ export class Message {
   to_user: UserId;
   from_user: UserId;
   media_id?: MediaId;
-  request_id: RequestId;
+  request_id?: RequestId;
   timestamp: Date;
   responses?: ObjectType;
 

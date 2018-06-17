@@ -34,7 +34,12 @@ const baseConfig = {
       {
         test: /\.tsx?$/,
         use: ['babel-loader', 'awesome-typescript-loader'],
-        exclude: ['node_modules', '__tests__', /\.story\.tsx?$/],
+        exclude: [
+          'node_modules',
+          '__tests__',
+          /\.story\.tsx?$/,
+          /\.stories\.tsx?$/,
+        ],
       },
       {
         test: /\.(ttf|otf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
@@ -71,7 +76,7 @@ const baseConfig = {
           ? JSON.stringify('production')
           : JSON.stringify('development'),
         API_URL: isProduction
-          ? JSON.stringify('https://steps-admin.herokuapp.com/api')
+          ? JSON.stringify('/api')
           : JSON.stringify('http://localhost:3001/api'),
         ...env,
       },

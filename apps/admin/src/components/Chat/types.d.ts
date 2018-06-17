@@ -18,6 +18,6 @@ export type Message = {
   from_user: number;
   media_id?: number;
   request_id: number;
-  timestamp: Date;
+  timestamp: string;
   responses?: ObjectType;
 };

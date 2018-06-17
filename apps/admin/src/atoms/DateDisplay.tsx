@@ -9,7 +9,7 @@ interface Props {
 }
 
 const DateDisplay: React.SFC<Props> = ({ date }) => (
-  <StyledDate>{date.format('YYYY-MM-DD')}</StyledDate>
+  <StyledDate>{date.format('MM/DD/YYYY')}</StyledDate>
 );
 
 const StyledDate = styled.div`

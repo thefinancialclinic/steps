@@ -1,20 +1,21 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Route, RouteComponentProps, Switch } from 'react-router-dom';
+import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { Box } from 'grid-styled';
-import styled from 'styled-components';
 import ChatHelp from './ChatHelp';
 import ChatLog from './ChatLog';
 import NavGroup from 'components/NavGroup/NavGroup';
+import RequestDetail from 'routes/Coach/Clients/Chat/RequestDetail';
 
 interface Props extends RouteComponentProps {
   className?: string;
   client: any;
+  match?: any;
 }
 
 class Chat extends React.Component<Props, {}> {
   render() {
-    const { className, client } = this.props;
+    const { className, client, match } = this.props;
+    const { url, params } = match;
 
     return (
       <div className={className}>
@@ -27,16 +28,25 @@ class Chat extends React.Component<Props, {}> {
           />
         </Box>
         <Switch>
-          <Route path="/clients/:id/chat/log" component={ChatLog} />
-          <Route path="/clients/:id/chat/help" component={ChatHelp} />
+          <Route
+            path={`${url}/help/requests/:requestId/`}
+            render={props => (
+              <RequestDetail client={client} match={props.match} />
+            )}
+          />
+          <Route
+            path={`${url}/log`}
+            render={() => <ChatLog client={client} />}
+          />
+          <Route
+            path={`${url}/help`}
+            render={() => <ChatHelp client={client} />}
+          />
+          <Redirect exact from="" to={`/clients/${client.id}/chat/log`} />
         </Switch>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  client: state.clients.clients.find(c => c.id == props.match.params.id),
-});
-
-export default connect(mapStateToProps)(Chat);
+export default Chat;

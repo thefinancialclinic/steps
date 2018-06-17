@@ -2,8 +2,6 @@ import BackButton from 'atoms/Buttons/BackButton';
 import Sidebar from 'components/Sidebar/Sidebar';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import TaskAdd from 'routes/Coach/Clients/ProfileTaskAdd';
 import styled from 'styled-components';
 
 interface Props {

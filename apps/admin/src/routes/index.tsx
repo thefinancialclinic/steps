@@ -1,17 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import auth, { USER_TYPE, User } from 'reducers/auth';
-
-import UserSwitcher from 'components/util/UserSwitcher';
+import { User, USER_TYPE } from 'reducers/auth';
 
 import Admin from './Admin/index';
 import Client from './Client/index';
 import Coach from './Coach/index';
 import Login from './Login';
 import Superadmin from './Superadmin/index';
+import UserSwitcher from 'components/util/UserSwitcher';
 
 interface Props {
   children?: any;
@@ -25,26 +24,26 @@ interface RoutesProps {
   history: any;
 }
 
-type RoutesElement = (RoutesProps) => JSX.Element;
+export type RoutesElement = (props: RoutesProps) => any;
 
-const Routes: React.SFC = ({ history, user }: Props) => {
+const Routes: React.SFC<Props> = ({ history, user }) => {
   const { type } = user;
-  let Routes: RoutesElement = DefaultRoutes;
+  let RoleRoutes: RoutesElement = DefaultRoutes;
 
-  if (type === USER_TYPE.SUPER_ADMIN) Routes = Superadmin;
-  else if (type === USER_TYPE.ADMIN) Routes = Admin;
-  else if (type === USER_TYPE.COACH) Routes = Coach;
-  else if (type === USER_TYPE.CLIENT) Routes = Client;
+  if (type === USER_TYPE.SUPER_ADMIN) RoleRoutes = Superadmin;
+  else if (type === USER_TYPE.ADMIN) RoleRoutes = Admin;
+  else if (type === USER_TYPE.COACH) RoleRoutes = Coach;
+  else if (type === USER_TYPE.CLIENT) RoleRoutes = Client;
 
   return (
     <Wrapper>
       {process.env.NODE_ENV === 'development' && <UserSwitcher />}
-      <Routes user={user} history={history} />
+      <RoleRoutes user={user} history={history} />
     </Wrapper>
   );
 };
 
-const DefaultRoutes = ({ history }) =>
+const DefaultRoutes: RoutesElement = ({ history }) =>
   history.location.pathname !== '/' ? <Redirect to="/" /> : <Login />;
 
 const Wrapper = styled.div`
