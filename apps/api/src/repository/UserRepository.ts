@@ -67,7 +67,6 @@ export class User {
   fb_id?: string;
   temp_help_response?: string;
 
-
   constructor(opts: UserOpts) {
     this.id = opts.id;
     this.first_name = opts.first_name;

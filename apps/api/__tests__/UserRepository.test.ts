@@ -33,7 +33,7 @@ describe('User entity operations', () => {
             time: new Date(),
           },
         ],
-        temp_help_response: 'RESPONSE'
+        temp_help_response: 'RESPONSE',
       }),
     );
   });
