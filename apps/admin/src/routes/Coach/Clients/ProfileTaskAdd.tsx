@@ -54,7 +54,6 @@ class AddTask extends React.Component<Props, {}> {
         <h3>Task</h3>
         {/* TODO: Extract to TaskList */}
         {this.props.tasks.map((task, i) => {
-          console.log(task);
           const userTask = {
             ...task,
             user_id: this.props.client.id,
@@ -79,8 +78,6 @@ class AddTask extends React.Component<Props, {}> {
 }
 
 const mapStateToProps = (state, props) => {
-  console.log(state.tasks);
-  console.log(props);
   return {
     tasks: state.tasks.tasks.filter(t => !t.user_id),
     client: state.clients.clients.find(

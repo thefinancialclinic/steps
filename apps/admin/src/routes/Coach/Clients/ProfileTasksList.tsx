@@ -1,34 +1,28 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Match } from 'react-router-dom';
 
-// import AddTask from './AddTask';
-// import EditTask from './EditTask';
-// import NewTask from './NewTask';
 import TaskList from 'components/Tasks/TaskList';
-// import ViewTask from './ViewTask';
 import { Client } from 'reducers/clients';
 
 interface Props {
   client: Client;
+  location: Location;
+  match: Match;
 }
 
 class Tasks extends React.Component<Props, {}> {
   render() {
+    const { location, match } = this.props;
     return (
-      <div>
-        <Switch>
-          {/* <Route path="add" component={AddTask} />
-          <Route path="new" component={NewTask} />
-          <Route path=":taskId/edit" component={EditTask} />
-          <Route path=":taskId" component={ViewTask} /> */}
-          <Route
-            path=""
-            render={props => <TaskList client={this.props.client} />}
-          />
-        </Switch>
-      </div>
+      <TaskList client={this.props.client} location={location} match={match} />
     );
   }
 }
 
-export default Tasks;
+const mapStateToProps = (state, props) => ({
+  tasks: state.tasks.tasks.find(t => (t.user_id = props.match.params.id)),
+  client: state.clients.clients.find(c => (c.id = props.match.params.id)),
+});
+
+export default connect(mapStateToProps)(Tasks);

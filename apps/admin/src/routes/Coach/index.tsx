@@ -7,13 +7,14 @@ import Clients from './Clients/List';
 import ClientNew from './Clients/New';
 import ClientProfile from './Clients/Profile';
 import Home from './Home';
+import { RoutesElement } from '../index';
 
 type Props = {
   history: any;
   user: User;
 };
 
-const Coach: React.SFC<Props> = ({ user }) => {
+const Coach: RoutesElement = ({ user }) => {
   return (
     <div>
       <TopBar user={user} />

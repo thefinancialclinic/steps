@@ -6,25 +6,6 @@ import moment from 'moment';
 
 const media = [];
 
-const fromUser = {
-  id: 1,
-  first_name: 'Roo',
-  last_name: 'Bot',
-  email: 'bot@example.com',
-  phone: null,
-  coach_id: 0,
-  org_id: 0,
-  color: null,
-  goals: [],
-  status: 'WORKING',
-  updated: null,
-  platform: 'SMS',
-  image: null,
-  follow_up_date: null,
-  checkin_times: null,
-  topic: null,
-};
-
 const user = {
   id: 1,
   first_name: 'Ron',
@@ -100,14 +81,10 @@ const messages = [
 describe('ChatMessages', () => {
   it('chunks messages by date', () => {
     const wrapper = shallow(
-      <ChatMessages
-        media={media}
-        messages={messages}
-        fromUser={fromUser}
-        user={user}
-      />,
+      <ChatMessages media={media} messages={messages} user={user} />,
     );
-    expect(wrapper.instance().groupByDate(messages)).toEqual([
+    const instance = wrapper.instance() as ChatMessages;
+    expect(instance.groupByDate(messages)).toEqual([
       { date: '2018-05-21T00:00:00Z', messages: messages.slice(0, 3) },
       { date: '2018-05-22T00:00:00Z', messages: messages.slice(3) },
     ]);

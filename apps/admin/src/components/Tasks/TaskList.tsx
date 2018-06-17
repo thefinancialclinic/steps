@@ -2,7 +2,7 @@ import Button from 'atoms/Buttons/Button';
 import { Box } from 'grid-styled';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Match } from 'react-router-dom';
 import { SortableContainer, arrayMove } from 'react-sortable-hoc';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
@@ -11,13 +11,6 @@ import NoTasks from './NoTasks';
 import TaskListItem from './TaskListItem';
 import { getTasks, setTasks, setTaskStatus } from 'actions/tasks';
 import { Flex } from 'grid-styled';
-
-interface Props {
-  className?: string;
-  actions?: any;
-  tasks?: any;
-  client: any;
-}
 
 const TaskContainer = styled.div`
   border: 1px solid ${grey};
@@ -45,26 +38,43 @@ const TaskContainer = styled.div`
   }
 `;
 
-const SortableList = SortableContainer(({ items, setTaskStatus }) => {
-  let taskClass = status => {
-    return status === 'COMPLETED' ? 'compelted' : 'active';
-  };
-  return (
-    <Box>
-      {items.map((task, index) => (
-        <TaskContainer key={index} className={taskClass(task.status)}>
-          <div className="number">{index + 1}</div>
-          <TaskListItem
-            key={`item-${index}`}
-            setTaskStatus={setTaskStatus}
-            index={index}
-            task={task}
-          />
-        </TaskContainer>
-      ))}
-    </Box>
-  );
-});
+interface ListProps {
+  setTaskStatus;
+  items: any;
+  url: string;
+}
+
+const SortableList = SortableContainer(
+  ({ items, setTaskStatus, url }: ListProps) => {
+    let taskClass = status => {
+      return status === 'COMPLETED' ? 'compelted' : 'active';
+    };
+    return (
+      <Box>
+        {items.map((task, index) => (
+          <TaskContainer key={index} className={taskClass(task.status)}>
+            <div className="number">{index + 1}</div>
+            <TaskListItem
+              key={`item-${index}`}
+              setTaskStatus={setTaskStatus}
+              index={index}
+              task={task}
+              url={url}
+            />
+          </TaskContainer>
+        ))}
+      </Box>
+    );
+  },
+);
+
+interface Props {
+  className?: string;
+  actions?: any;
+  tasks?: any;
+  client: any;
+  match: Match;
+}
 
 export class TaskList extends React.Component<Props, {}> {
   componentWillMount() {
@@ -87,7 +97,7 @@ export class TaskList extends React.Component<Props, {}> {
   };
 
   render() {
-    const { className, tasks, client } = this.props;
+    const { tasks, client, match } = this.props;
 
     const taskDisplay =
       tasks.length > 0 ? (
@@ -98,6 +108,7 @@ export class TaskList extends React.Component<Props, {}> {
             onSortEnd={this.onSortEnd}
             shouldCancelStart={this.shouldCancelStart}
             setTaskStatus={this.props.actions.setTaskStatus}
+            url={match.url}
           />
           <Flex justifyContent="center">
             <Link to={`/clients/${client.id}/tasks/add`}>
