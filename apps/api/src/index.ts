@@ -55,6 +55,15 @@ const checkJwt = jwt({
   complete: true,
 });
 
+// Redirect HTTP requests to HTTPS
+const httpsRedirect = (req, res, next) => {
+  if (req.headers['x-forwarded-proto'] != 'https') {
+    res.redirect(302, `https://${req.hostname}${req.originalUrl}`);
+  } else {
+    next();
+  }
+};
+
 // TEMPORARY: Seed Org (id: 1) and Coach (id: 1) needed for Client creation
 new OrgRepository(pool).seed();
 new UserRepository(pool).seed();
@@ -68,6 +77,7 @@ app.use(bodyParser.json());
 
 if (isProduction) {
   app.use(express.static(resolve(__dirname, '..', '..', 'admin', '.build')));
+  app.use(httpsRedirect);
 } else {
   app.use(cors());
 
