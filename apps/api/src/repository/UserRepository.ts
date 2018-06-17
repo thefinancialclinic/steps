@@ -123,8 +123,9 @@ export class UserRepository implements Repository<UserId, User> {
         follow_up_date,
         plan_url,
         checkin_times,
+        topic,
         fb_id
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
       RETURNING *
     `,
       [
@@ -144,6 +145,7 @@ export class UserRepository implements Repository<UserId, User> {
         user.follow_up_date,
         user.plan_url,
         user.checkin_times,
+        user.topic,
         user.fb_id,
       ],
     );
@@ -170,9 +172,10 @@ export class UserRepository implements Repository<UserId, User> {
         follow_up_date,
         plan_url,
         checkin_times,
+        topic,
         fb_id
-      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
-      WHERE id = $18
+      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
+      WHERE id = $19
       RETURNING *
     `,
       [
@@ -192,6 +195,7 @@ export class UserRepository implements Repository<UserId, User> {
         user.follow_up_date,
         user.plan_url,
         user.checkin_times,
+        user.topic,
         user.fb_id,
         user.id,
       ],
