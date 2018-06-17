@@ -57,4 +57,12 @@ describe('User entity operations', () => {
     let actual = await repo.getOne(user.id);
     expect(actual.plan_url).toBe('http://plan.example.com');
   });
+
+  it('updates user topic', async () => {
+    let actual = await repo.getOne(user.id);
+    expect(actual.topic).toBe(null);
+    actual.topic = 'New topic';
+    await repo.update(actual);
+    expect(actual.topic).toBe('New topic');
+  });
 });
