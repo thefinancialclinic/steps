@@ -70,7 +70,7 @@ export const addTask = (task): DispatchFn => async dispatch => {
       title: task.title,
       description: task.description || '',
       steps: task.steps || {},
-      category: 'custom',
+      category: task.category || 'custom',
       date_created:
         task.date_created ||
         new Date()
