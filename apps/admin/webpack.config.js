@@ -34,7 +34,12 @@ const baseConfig = {
       {
         test: /\.tsx?$/,
         use: ['babel-loader', 'awesome-typescript-loader'],
-        exclude: ['node_modules', '__tests__', /\.story\.tsx?$/],
+        exclude: [
+          'node_modules',
+          '__tests__',
+          /\.story\.tsx?$/,
+          /\.stories\.tsx?$/,
+        ],
       },
       {
         test: /\.(ttf|otf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,

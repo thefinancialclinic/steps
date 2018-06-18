@@ -20,16 +20,15 @@ class ProfileChat extends React.Component<Props, {}> {
 
   render() {
     const { client, match } = this.props;
-    const { url, params } = match;
     return (
       <Switch>
         <Route
-          path={`${url}/requests/:requestId`}
+          path={`/clients/:id/requests/:requestId`}
           render={props => (
             <RequestDetail client={client} match={props.match} />
           )}
         />
-        <Route path={url}>
+        <Route path="/clients/:id">
           <Chat client={client} match={match} />
         </Route>
       </Switch>

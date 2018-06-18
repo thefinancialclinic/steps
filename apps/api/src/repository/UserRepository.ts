@@ -42,6 +42,7 @@ export type UserOpts = {
   checkin_times?: Checkin[];
   topic?: string;
   fb_id?: string;
+  temp_help_response?: string;
 };
 
 export class User {
@@ -64,6 +65,7 @@ export class User {
   checkin_times?: Checkin[];
   topic?: string;
   fb_id?: string;
+  temp_help_response?: string;
 
   constructor(opts: UserOpts) {
     this.id = opts.id;
@@ -85,6 +87,7 @@ export class User {
     this.checkin_times = opts.checkin_times;
     this.topic = opts.topic;
     this.fb_id = opts.fb_id;
+    this.temp_help_response = opts.temp_help_response;
   }
 }
 
@@ -124,8 +127,9 @@ export class UserRepository implements Repository<UserId, User> {
         plan_url,
         checkin_times,
         topic,
-        fb_id
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
+        fb_id,
+        temp_help_response
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
       RETURNING *
     `,
       [
@@ -147,6 +151,7 @@ export class UserRepository implements Repository<UserId, User> {
         user.checkin_times,
         user.topic,
         user.fb_id,
+        user.temp_help_response,
       ],
     );
     return new User(res.rows[0]);
@@ -173,9 +178,10 @@ export class UserRepository implements Repository<UserId, User> {
         plan_url,
         checkin_times,
         topic,
-        fb_id
-      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
-      WHERE id = $19
+        fb_id,
+        temp_help_response
+      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
+      WHERE id = $20
       RETURNING *
     `,
       [
@@ -197,6 +203,7 @@ export class UserRepository implements Repository<UserId, User> {
         user.checkin_times,
         user.topic,
         user.fb_id,
+        user.temp_help_response,
         user.id,
       ],
     );

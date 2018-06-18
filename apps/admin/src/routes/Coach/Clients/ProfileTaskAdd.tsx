@@ -15,7 +15,7 @@ import { Task } from 'reducers/tasks';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import { grey } from 'styles/colors';
-import faker from 'faker';
+import { findById } from 'helpers';
 
 interface Props {
   className?: string;
@@ -54,13 +54,12 @@ class AddTask extends React.Component<Props, {}> {
         <h3>Task</h3>
         {/* TODO: Extract to TaskList */}
         {this.props.tasks.map((task, i) => {
-          console.log(task);
           const userTask = {
             ...task,
             user_id: this.props.client.id,
-            title: faker.lorem.sentence(),
-            category: sample(['income', 'expenses', 'credit', 'debt']),
-            description: faker.lorem.paragraph(),
+            title: task.title,
+            category: task.category,
+            description: task.description,
           };
           delete userTask.steps;
 
@@ -79,12 +78,11 @@ class AddTask extends React.Component<Props, {}> {
 }
 
 const mapStateToProps = (state, props) => {
-  console.log(state.tasks);
-  console.log(props);
   return {
     tasks: state.tasks.tasks.filter(t => !t.user_id),
-    client: state.clients.clients.find(
-      c => (c.id = props.clientId || props.match.params.id),
+    client: findById(
+      state.clients.clients,
+      props.clientId || props.match.params.id,
     ),
   };
 };

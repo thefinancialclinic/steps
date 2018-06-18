@@ -51,17 +51,19 @@ const initialState: ClientsState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_CLIENTS:
+    case SET_CLIENTS: {
       return {
         ...state,
         clients: action.clients,
       };
-    case ADD_CLIENT:
+    }
+    case ADD_CLIENT: {
       return {
         ...state,
         clients: [...state.clients, action.client],
       };
-    case SET_CLIENT_GOALS:
+    }
+    case SET_CLIENT_GOALS: {
       return {
         ...state,
         clients: state.clients.map(client => {
@@ -74,7 +76,8 @@ export default (state = initialState, action) => {
           return client;
         }),
       };
-    case SET_CLIENT_MESSAGES:
+    }
+    case SET_CLIENT_MESSAGES: {
       return {
         ...state,
         clients: state.clients.map(client => {
@@ -87,7 +90,8 @@ export default (state = initialState, action) => {
           return client;
         }),
       };
-    case SET_CLIENT_REQUESTS:
+    }
+    case SET_CLIENT_REQUESTS: {
       return {
         ...state,
         clients: state.clients.map(client => {
@@ -100,7 +104,9 @@ export default (state = initialState, action) => {
           return client;
         }),
       };
-    default:
+    }
+    default: {
       return state;
+    }
   }
 };

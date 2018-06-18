@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import Panel from 'atoms/Panel';
 import { white, mediumBlue } from 'styles/colors';
+import { serif } from 'styles/type';
 
 type ChatMessageType = 'sent' | 'received';
 
@@ -32,7 +33,7 @@ class ChatMessage extends React.Component<Props, {}> {
 }
 
 const StyledChatMessage = styled<Props>(ChatMessage)`
-    font-family: 'Tiempos', serif;
+    font-family: ${serif};
     font-size: 21px;
     display: flex;
     justify-content: flex-end;
@@ -41,11 +42,13 @@ const StyledChatMessage = styled<Props>(ChatMessage)`
       type === 'received' ? 'row-reverse' : 'row'}
 
     .message {
+      text-align: left;
       background-color: ${({ type, color }) =>
         type === 'received' ? color : white};
       display: inline-block;
       padding: 20px;
       line-height: 25px;
+      max-width: 66%;
     }
 
     .from {

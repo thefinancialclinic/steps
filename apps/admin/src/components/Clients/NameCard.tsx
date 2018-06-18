@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Panel from 'atoms/Panel';
 
 import {
+  black,
   blue,
   brown,
   green,
@@ -12,6 +13,7 @@ import {
   yellow,
   white,
   colorFromString,
+  darkBlue,
 } from 'styles/colors';
 
 interface Props {
@@ -40,6 +42,7 @@ const BaseNameCard = styled.div`
   height: 180px;
   text-align: center;
   padding: 10px;
+  margin: 8px;
 
   .title {
     font-family: serif;

@@ -11,6 +11,7 @@ export const createTask = async (data): Promise<any> => {
   }
 };
 
+export const GET_TASKS = 'GET_TASKS';
 export const getTasks = (): DispatchFn => async dispatch => {
   try {
     const tasks = await api.get('/tasks');
@@ -73,4 +74,21 @@ export const addTask = (task): DispatchFn => async dispatch => {
   } catch (error) {
     return Promise.reject(error);
   }
+};
+
+export const UPDATE_TASK = 'UPDATE_TASK';
+export const updateTask = (task): DispatchFn => async dispatch => {
+  const values = {
+    id: parseInt(task.id),
+    title: task.title,
+    description: task.description,
+    steps: task.steps,
+    category: task.category,
+    date_created: task.date_created,
+    status: task.status,
+    user_id: parseInt(task.user_id),
+  };
+
+  await api.put(`/tasks/${task.id}`, values);
+  return { type: GET_TASKS };
 };

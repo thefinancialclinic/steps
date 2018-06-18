@@ -62,24 +62,6 @@ export const Components = storiesOf('Components', module)
   ))
   .add('ChatMessages', () => (
     <ChatMessages
-      fromUser={{
-        id: 1,
-        first_name: 'Roo',
-        last_name: 'Bot',
-        email: 'bot@example.com',
-        phone: null,
-        coach_id: 0,
-        org_id: 0,
-        color: null,
-        goals: [],
-        status: 'WORKING',
-        updated: null,
-        platform: 'SMS',
-        image: null,
-        follow_up_date: null,
-        checkin_times: null,
-        topic: null,
-      }}
       user={{
         id: 1,
         first_name: 'Ron',
@@ -204,14 +186,17 @@ export const Components = storiesOf('Components', module)
           ['NEEDS_ASSISTANCE', 'REPLIED', 'RESOLVED'],
           'NEEDS_ASSISTANCE',
         ),
-      }}
-      message={{
-        id: 1,
-        to_user: 1,
-        from_user: 1,
-        request_id: 1,
-        text: "I tried calling my credit card but couldn't get through to them",
-        timestamp: moment.utc().toISOString(),
+        messages: [
+          {
+            id: 1,
+            to_user: 1,
+            from_user: 1,
+            request_id: 1,
+            text:
+              "I tried calling my credit card but couldn't get through to them",
+            timestamp: moment.utc().toISOString(),
+          },
+        ],
       }}
     />
   ))
@@ -238,7 +223,7 @@ export const Components = storiesOf('Components', module)
       <div>This is a child in a panel.</div>
     </Modal>
   ))
-  .add('TermsModal', () => <TermsModal phoneNumber="+15558675309" link="#" />)
+  .add('TermsModal', () => <TermsModal phoneNumber="+15558675309" />)
   .add('VideoModal', () => (
     <VideoModal
       embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q"
@@ -264,23 +249,27 @@ export const Components = storiesOf('Components', module)
   //   description: 'A sample description',
   //   category: 'income'
   // }}/>);
-  .add('Task List', () => (
-    <TaskList
-      tasks={[
-        {
-          id: 1,
-          title: 'Task #1',
-          description: 'A helpful description',
-        },
-        {
-          id: 2,
-          title: 'Task #2',
-          description: 'A helpful description',
-        },
-      ]}
-      client={{ id: 1 }}
-    />
-  ))
+  .add('Task List', () => {
+    const match = { url: 'foo' };
+    return (
+      <TaskList
+        match={match}
+        tasks={[
+          {
+            id: 1,
+            title: 'Task #1',
+            description: 'A helpful description',
+          },
+          {
+            id: 2,
+            title: 'Task #2',
+            description: 'A helpful description',
+          },
+        ]}
+        client={{ id: 1 }}
+      />
+    );
+  })
   .add('Error Alert', () => (
     <Alert onClose={() => {}} level={AlertLevel.Error}>
       This is an error alert

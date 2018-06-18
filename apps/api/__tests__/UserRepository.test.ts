@@ -33,6 +33,7 @@ describe('User entity operations', () => {
             time: new Date(),
           },
         ],
+        temp_help_response: 'RESPONSE',
       }),
     );
   });
@@ -64,5 +65,13 @@ describe('User entity operations', () => {
     actual.topic = 'New topic';
     await repo.update(actual);
     expect(actual.topic).toBe('New topic');
+  });
+
+  it('updates temp help response', async () => {
+    let actual = await repo.getOne(user.id);
+    expect(actual.temp_help_response).toBe('RESPONSE');
+    actual.temp_help_response = 'NEW RESPONSE';
+    await repo.update(actual);
+    expect(actual.temp_help_response).toBe('NEW RESPONSE');
   });
 });

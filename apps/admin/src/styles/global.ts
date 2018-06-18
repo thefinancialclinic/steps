@@ -1,6 +1,6 @@
 import styledNormalize from 'styled-normalize';
 import { injectGlobal } from 'styled-components';
-import { baseSize, remCalc } from './type';
+import { baseSize, remCalc, serif, sansSerif } from './type';
 
 export default () => injectGlobal`
   ${styledNormalize}
@@ -13,7 +13,7 @@ export default () => injectGlobal`
   body {
     background-color: #e8f5f9;
     color: #464646;
-    font-family: 'Calibre', sans-serif;
+    font-family: ${sansSerif};
     font-size: ${baseSize}px;
   }
 
@@ -26,7 +26,7 @@ export default () => injectGlobal`
   }
 
   h1, h2, h3, h4, h5 {
-    font-family: 'Tiempos', serif;
+    font-family: ${serif};
   }
 
   h2 {

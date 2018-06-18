@@ -197,6 +197,9 @@ components:
         fb_id:
           type: string
           nullable: true
+        temp_help_response:
+          type: string
+          nullable: true
 
 
 paths:

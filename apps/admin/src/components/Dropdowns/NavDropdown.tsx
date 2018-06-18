@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import Dropdown from './Dropdown';
 import { blue, lightBlue, grey, green } from 'styles/colors';
+import { sansSerif } from 'styles/type';
 
 interface Link {
   to: string;
@@ -62,7 +63,7 @@ const StyledNavDropdown = styled(NavDropdown)`
   text-transform: uppercase;
   font-size: 16px;
   font-weight: 500;
-  font-family: 'Calibre', sans-serif;
+  font-family: ${sansSerif};
   letter-spacing: 1px;
 
   .dropdown-toggle {
@@ -75,7 +76,7 @@ const StyledNavDropdown = styled(NavDropdown)`
   }
 
   .arrow-up {
-    margin-left: 174px;
+    margin-left: 180px;
   }
 
   .dropdown-content {
@@ -94,7 +95,7 @@ const StyledNavDropdown = styled(NavDropdown)`
     }
 
     a {
-      font-family: 'Calibre', sans-serif;
+      font-family: ${sansSerif};
       font-size: 16px;
       font-weight: 500;
       text-decoration: none;
