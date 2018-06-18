@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Form, Field } from 'react-final-form';
 import Panel from 'atoms/Panel';
-import { Flex } from 'grid-styled';
+import { Flex, Box } from 'grid-styled';
 import Button from 'atoms/Buttons/Button';
 import { remCalc } from 'styles/type';
 import { pink, green } from 'styles/colors';
@@ -44,6 +44,7 @@ const CalendarIcon = styled.i`
 const StyledText = styled.div`
   font-size: ${remCalc(64)};
   margin-bottom: 1rem;
+  text-align: center;
 `;
 
 const NumberInput = styled.input`

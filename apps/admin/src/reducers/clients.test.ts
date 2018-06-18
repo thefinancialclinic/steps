@@ -3,8 +3,10 @@ import {
   SET_CLIENT_GOALS,
   SET_CLIENT_MESSAGES,
   SET_CLIENT_REQUESTS,
+  SET_CLIENT_FOLLOW_UP_DATE,
 } from './../actions/clients';
 import reducer, { ClientsState } from './clients';
+import moment from 'moment';
 
 const initialState: ClientsState = {
   clients: [

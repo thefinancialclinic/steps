@@ -13,6 +13,7 @@ import TaskEdit from './ProfileTaskEdit';
 import Chat from './ProfileChat';
 import Goals from './Goals/Goals';
 import { findById } from 'helpers';
+import FollowUp from './FollowUp';
 
 type Params = {
   id: number;
@@ -39,6 +40,7 @@ class Client extends React.Component<Props, {}> {
       { text: 'Tasks', to: `/clients/${client.id}/tasks` },
       { text: 'Goals', to: `/clients/${client.id}/goals` },
       { text: 'Chat', to: `/clients/${client.id}/chat` },
+      { text: 'Follow Up', to: `/clients/${client.id}/follow-up` },
     ];
 
     const composeProfile = Component => matchProps => (
@@ -73,6 +75,10 @@ class Client extends React.Component<Props, {}> {
           render={composeProfile(TaskShow)}
         />
         <Route path="/clients/:id/tasks" render={composeProfile(Tasks)} />
+        <Route
+          path="/clients/:id/follow-up"
+          render={composeProfile(FollowUp)}
+        />
         <Route render={() => <Redirect to={`/clients/${client.id}/tasks`} />} />
       </Switch>
     );

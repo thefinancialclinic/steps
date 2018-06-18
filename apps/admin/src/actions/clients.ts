@@ -1,5 +1,6 @@
 import api from 'api';
 import { Client } from 'reducers/clients';
+import moment from 'moment';
 
 type DispatchFn = (dispatch?: any, getState?: any) => any;
 
@@ -115,6 +116,28 @@ export const setClientRequests = (clientId, requests) => {
     clientId: clientId,
     requests: requests,
   };
+};
+
+export const SET_CLIENT_FOLLOW_UP_DATE = 'SET_CLIENT_FOLLOW_UP_DATE';
+export const setClientFollowUpDate = async (
+  client: Client,
+  date: moment.Moment,
+) => {
+  const followUpDate = date.toISOString();
+  const updatedClient = {
+    ...client,
+    follow_up_date: followUpDate,
+  };
+  try {
+    await api.put(`/clients/${client.id}`, updatedClient);
+    return {
+      type: SET_CLIENT_FOLLOW_UP_DATE,
+      clientId: client.id,
+      followUpDate,
+    };
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
 
 export const getClientMessagesAndRequests = (
