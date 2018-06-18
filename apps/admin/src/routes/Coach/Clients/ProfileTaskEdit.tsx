@@ -2,7 +2,9 @@ import Main from 'atoms/Main';
 import TaskForm from 'forms/TaskForm';
 import React from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import { bindActionCreators } from 'redux';
+import { updateTask } from 'actions/tasks';
+import { findById } from 'helpers';
 
 interface Props {
   className?: string;
@@ -13,7 +15,7 @@ interface Props {
 
 class EditTask extends React.Component<Props, {}> {
   render() {
-    const { client, task } = this.props;
+    const { client, task, actions } = this.props;
 
     return (
       <Main>
@@ -22,18 +24,23 @@ class EditTask extends React.Component<Props, {}> {
           Personalize this task better for your client by editing, adding, or
           deleting steps.
         </p>
-        <TaskForm task={task} client={client} />
+        <TaskForm task={task} client={client} onSubmit={actions.updateTask} />
       </Main>
     );
   }
 }
 
-const StyledEditTask = styled(EditTask)``;
-
 // TODO: Need to request the specific task in order to get the steps
 const mapStateToProps = (state, props) => ({
-  task: state.tasks.tasks.find(t => (t.id = props.match.params.taskId)),
-  client: state.clients.clients.find(c => (c.id = props.match.params.id)),
+  task: findById(state.tasks.tasks, props.match.params.taskId),
+  client: findById(state.clients.clients, props.match.params.id),
 });
 
-export default connect(mapStateToProps)(StyledEditTask);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ updateTask }, dispatch),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EditTask);

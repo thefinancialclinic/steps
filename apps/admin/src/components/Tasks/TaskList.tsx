@@ -11,6 +11,7 @@ import NoTasks from './NoTasks';
 import TaskListItem from './TaskListItem';
 import { getTasks, setTasks, setTaskStatus } from 'actions/tasks';
 import { Flex } from 'grid-styled';
+import { filterById, findById } from 'helpers';
 
 const TaskContainer = styled.div`
   border: 1px solid ${grey};
@@ -77,10 +78,6 @@ interface Props {
 }
 
 export class TaskList extends React.Component<Props, {}> {
-  componentWillMount() {
-    this.props.actions.getTasks();
-  }
-
   onSortEnd = ({ oldIndex, newIndex }) => {
     this.props.actions.setTasks(
       arrayMove(this.props.tasks, oldIndex, newIndex),
@@ -140,11 +137,14 @@ export class ConnectedTaskList extends React.Component<Props, {}> {
 
 const mapStateToProps = (state, props) => {
   return {
-    tasks: state.tasks.tasks.filter(
-      t => t.user_id == (props.client.id || props.match.params.id),
+    tasks: filterById(
+      state.tasks.tasks,
+      props.client.id || props.match.params.id,
+      'user_id',
     ),
-    client: state.clients.clients.find(
-      c => c.id == (props.client.id || props.match.params.id),
+    client: findById(
+      state.clients.clients,
+      props.client.id || props.match.params.id,
     ),
   };
 };

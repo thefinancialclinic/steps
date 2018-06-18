@@ -51,6 +51,7 @@ class TaskDetails extends React.Component<Props, {}> {
 
   render() {
     const { className, client, location, task } = this.props;
+    if (!task) return null;
 
     return (
       <div>

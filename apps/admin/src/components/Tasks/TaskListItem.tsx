@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { SortableElement } from 'react-sortable-hoc';
 import { Flex, Box } from 'grid-styled';
 import { green } from 'styles/colors';
 import Panel from 'atoms/Panel';
 import { Link } from 'react-router-dom';
-import { setTaskStatus } from 'actions/tasks';
 import { Task } from 'reducers/tasks';
 
 const StyledLink = styled(Link)`
@@ -23,7 +23,7 @@ interface Props {
   url: string;
 }
 
-export default (props: Props) => {
+export default SortableElement((props: Props) => {
   const { setTaskStatus, task, url } = props;
   const toggleTaskStatus = e => {
     const status = task.status === 'COMPLETED' ? 'ACTIVE' : 'COMPLETED';
@@ -43,9 +43,9 @@ export default (props: Props) => {
         </Box>
         <Box>
           <div>{task.title}</div>
-          <StyledLink to={`${url}/tasks/${task.id}`}>View Details</StyledLink>
+          <StyledLink to={`${url}/${task.id}`}>View Details</StyledLink>
         </Box>
       </Flex>
     </Panel>
   );
-};
+});

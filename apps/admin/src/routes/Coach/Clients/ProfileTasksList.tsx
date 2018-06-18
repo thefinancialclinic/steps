@@ -4,6 +4,7 @@ import { Match } from 'react-router-dom';
 
 import TaskList from 'components/Tasks/TaskList';
 import { Client } from 'reducers/clients';
+import { filterById, findById } from 'helpers';
 
 interface Props {
   client: Client;
@@ -21,8 +22,8 @@ class Tasks extends React.Component<Props, {}> {
 }
 
 const mapStateToProps = (state, props) => ({
-  tasks: state.tasks.tasks.find(t => (t.user_id = props.match.params.id)),
-  client: state.clients.clients.find(c => (c.id = props.match.params.id)),
+  tasks: filterById(state.tasks.tasks, props.match.params.id, 'user_id'),
+  client: findById(state.clients.clients, props.match.params.id),
 });
 
 export default connect(mapStateToProps)(Tasks);
