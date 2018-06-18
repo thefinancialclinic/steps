@@ -4,6 +4,43 @@ exports[`FollowUpForm.tsx renders correctly 1`] = `
 <form
   onSubmit={[Function]}
 >
+  <Flex
+    justifyContent="center"
+    theme={
+      Object {
+        "breakpoints": Array [
+          "40em",
+          "52em",
+          "64em",
+        ],
+        "fontSizes": Array [
+          12,
+          14,
+          16,
+          20,
+          24,
+          32,
+          48,
+          64,
+          96,
+          128,
+        ],
+        "space": Array [
+          0,
+          4,
+          8,
+          16,
+          32,
+          64,
+          128,
+          256,
+          512,
+        ],
+      }
+    }
+  >
+    <styled.div />
+  </Flex>
   <Panel>
     <Flex
       alignItems="center"

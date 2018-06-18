@@ -1,25 +1,15 @@
 import { addAlert } from 'actions/alerts';
 import { setClientFollowUpDate } from 'actions/clients';
-import Main from 'atoms/Main';
 import { AlertLevel } from 'components/Alert/types';
 import FollowUpForm from 'forms/FollowUpForm';
-import { findById } from 'helpers';
-import moment from 'moment';
+import { Box } from 'grid-styled';
+import { findById, DateProvider, DefaultDateProvider } from 'helpers';
 import React from 'react';
 import { connect } from 'react-redux';
 import { History } from 'react-router-dom';
 import { Client } from 'reducers/clients';
 import { bindActionCreators } from 'redux';
-
-export interface DateProvider {
-  today(): moment.Moment;
-}
-
-class DefaultDateProvider implements DateProvider {
-  today(): moment.Moment {
-    return moment.utc();
-  }
-}
+import moment from 'moment';
 
 interface Props {
   client?: Client;
@@ -28,9 +18,23 @@ interface Props {
   history: History;
 }
 
-export class FollowUp extends React.Component<Props> {
+interface State {
+  saved: boolean;
+}
+
+export class FollowUp extends React.Component<Props, State> {
+  state = {
+    saved: false,
+  };
+
   get dateProvider(): DateProvider {
     return this.props.dateProvider || new DefaultDateProvider();
+  }
+
+  get followUpDate(): moment.Moment | undefined {
+    if (this.props.client && this.props.client.follow_up_date) {
+      return moment.utc(this.props.client.follow_up_date);
+    }
   }
 
   onSubmit = ({ weeks }) => {
@@ -38,12 +42,7 @@ export class FollowUp extends React.Component<Props> {
     this.props.actions
       .setClientFollowUpDate(this.props.client, date)
       .then(() => {
-        this.props.history.push(`/clients/${this.props.client.id}`);
-        this.props.actions.addAlert({
-          level: AlertLevel.Success,
-          message: 'Success!',
-          id: 'client-follow-up-success',
-        });
+        this.setState({ saved: true });
       })
       .catch(err => {
         this.props.actions.addAlert({
@@ -56,12 +55,17 @@ export class FollowUp extends React.Component<Props> {
 
   render() {
     const { client } = this.props;
+    const { saved } = this.state;
     if (!client) return null;
 
     return (
-      <Main>
-        <FollowUpForm onSubmit={this.onSubmit} />
-      </Main>
+      <Box width={1} p={4}>
+        <FollowUpForm
+          onSubmit={this.onSubmit}
+          saved={saved}
+          followUpDate={this.followUpDate}
+        />
+      </Box>
     );
   }
 }
