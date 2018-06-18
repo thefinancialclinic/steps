@@ -2,7 +2,7 @@ import React from 'react';
 import { Location } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { deleteTask } from 'actions/tasks';
+import { deleteTask, getTasks } from 'actions/tasks';
 import TaskDetails from 'components/Tasks/TaskDetails';
 import { findById } from 'helpers';
 
@@ -11,7 +11,7 @@ interface Props {
   client: any;
   task: any;
   location: Location;
-  actions: { deleteTask };
+  actions: { deleteTask; getTasks };
 }
 
 const steps = task => {
@@ -20,16 +20,23 @@ const steps = task => {
   ));
 };
 
-const TaskShow: React.SFC<Props> = props => {
-  return (
-    <TaskDetails
-      client={props.client}
-      task={props.task}
-      actions={props.actions}
-      location={props.location}
-    />
-  );
-};
+class TaskShow extends React.Component<Props> {
+  componentWillMount() {
+    this.props.actions.getTasks();
+  }
+
+  render() {
+    const { client, task, actions, location } = this.props;
+    return (
+      <TaskDetails
+        client={client}
+        task={task}
+        actions={actions}
+        location={location}
+      />
+    );
+  }
+}
 
 const mapStateToProps = (state, props) => ({
   task: findById(state.tasks.tasks, props.match.params.taskId),
@@ -37,7 +44,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ deleteTask }, dispatch),
+  actions: bindActionCreators({ deleteTask, getTasks }, dispatch),
 });
 
 export default connect(

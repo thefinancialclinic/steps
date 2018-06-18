@@ -11,11 +11,23 @@ interface Props {
   actions: any;
   task: any;
   client: any;
+  history: any;
 }
 
 class EditTask extends React.Component<Props, {}> {
+  handleSubmit = async task => {
+    try {
+      await this.props.actions.updateTask(task);
+      this.props.history.push(
+        `/clients/${this.props.client.id}/tasks/${task.id}`,
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   render() {
-    const { client, task, actions } = this.props;
+    const { client, task } = this.props;
 
     return (
       <Main>
@@ -24,7 +36,7 @@ class EditTask extends React.Component<Props, {}> {
           Personalize this task better for your client by editing, adding, or
           deleting steps.
         </p>
-        <TaskForm task={task} client={client} onSubmit={actions.updateTask} />
+        <TaskForm task={task} client={client} onSubmit={this.handleSubmit} />
       </Main>
     );
   }
