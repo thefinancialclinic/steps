@@ -6,6 +6,7 @@ import { formatNumber } from 'libphonenumber-js';
 import Modal from 'components/Modal';
 import { black, green } from 'styles/colors';
 import Button from 'atoms/Buttons/Button';
+import { serif, sansSerif } from 'styles/type';
 
 interface Props {
   phoneNumber: string;
@@ -107,12 +108,12 @@ const Container = styled.div`
   }
 
   h1 {
-    font-family: 'Tiempos', serif;
+    font-family: ${serif};
     font-weight: 600;
   }
 
   p {
-    font-family: 'Calibre', sans-serif;
+    font-family: ${sansSerif};
     text-align: left;
 
     a {

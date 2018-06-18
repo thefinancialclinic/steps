@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { User } from 'reducers/auth';
 import styled from 'styled-components';
 import { darkBlue, white } from 'styles/colors';
+import { serif } from 'styles/type';
 
 interface Props {
   color?: string;
@@ -43,7 +44,7 @@ const StyledTopBar = styled.div`
 
   a {
     color: ${white};
-    font-family: 'Tiempos', serif;
+    font-family: ${serif};
     font-size: 20px;
     font-weight: 600;
     text-decoration: none;

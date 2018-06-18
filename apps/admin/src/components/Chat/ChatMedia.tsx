@@ -11,6 +11,7 @@ import {
   white,
   colorFromString,
 } from 'styles/colors';
+import { serif, sansSerif } from 'styles/type';
 
 const backgroundColors = [blue, brown, green, pink, yellow];
 
@@ -62,7 +63,7 @@ const Container = styled<Props, 'div'>('div')`
 
     .title {
       color: ${white};
-      font-family: 'Tiempos', serif;
+      font-family: ${serif};
       font-size: 26px;
       font-weight: 600;
       max-width: 50%;
@@ -70,7 +71,7 @@ const Container = styled<Props, 'div'>('div')`
   }
 
   .domain {
-    font-family: 'Calibre', sans-serif;
+    font-family: ${sansSerif};
     font-size: 14px;
     color: ${grey};
     background-color: ${white};
