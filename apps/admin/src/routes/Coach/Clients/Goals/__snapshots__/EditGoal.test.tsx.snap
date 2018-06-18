@@ -2,7 +2,7 @@
 
 exports[`EditGoal.tsx renders correctly 1`] = `
 <Main>
-  <BackButton
+  <Styled(BackButton)
     to="/clients/123/goals"
   />
   <GoalForm

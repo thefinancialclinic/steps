@@ -56,7 +56,7 @@ export class TermsModal extends React.Component<Props, State> {
             <p>
               The information you provide to this application (such as chat
               content, your financial plan, etc) may be used by your financial
-              coach and <a href="https://ideo.org">IDEO.org</a>, the Step
+              coach and <a href="https://www.ideo.org">IDEO.org</a>, the Step
               application’s creators (a non-profit) to evaluate the
               effectiveness of the app. Your information may also be used in
               promotional materials; but if we do so, your information will be
@@ -71,7 +71,7 @@ export class TermsModal extends React.Component<Props, State> {
             </p>
 
             <p>
-              By texting the number, you agree to these terms and conditions
+              By texting the number, you agree to these terms and conditions.
             </p>
             <a onClick={this.close}>
               <Button>Next</Button>
@@ -86,8 +86,8 @@ export class TermsModal extends React.Component<Props, State> {
 const StyledModal = styled(Modal)`
   div {
     position: relative;
-    min-width: 400px;
-    max-width: 840px;
+    width: 900px;
+    max-width: 100%;
     margin: auto;
   }
   margin: auto;
@@ -103,6 +103,7 @@ const Container = styled.div`
     position: absolute;
     top: 0;
     left: 0;
+    cursor: pointer;
   }
 
   h1 {
