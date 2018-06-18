@@ -73,7 +73,7 @@ export default (state = initialState, action): State => {
     case LOGOUT:
       Storage.remove('USER');
       Storage.remove('AUTHENTICATED');
-      return { ...state, user: null, isAuthenticated: false };
+      return { ...state, user: { type: null }, isAuthenticated: false };
 
     default:
       return state;

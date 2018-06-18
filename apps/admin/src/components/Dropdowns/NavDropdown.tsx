@@ -50,7 +50,7 @@ export class NavDropdown extends React.Component<Props, {}> {
           className="global-links"
           links={[
             { to: '#my-profile', text: 'My Profile', className: 'my-profile' },
-            { to: '#log-out', text: 'Log Out', className: 'log-out' },
+            { to: '/logout', text: 'Log Out', className: 'log-out' },
           ]}
         />
       </Dropdown>

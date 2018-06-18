@@ -37,5 +37,5 @@ export const login = (userType, userEmail) => async dispatch => {
 
 export const LOGOUT = 'LOGOUT';
 export const logout = userType => dispatch => {
-  return dispatch({ type: SET_USER_TYPE, userType: null });
+  return dispatch({ type: LOGOUT, user: null });
 };
