@@ -77,10 +77,6 @@ interface Props {
 }
 
 export class TaskList extends React.Component<Props, {}> {
-  componentWillMount() {
-    this.props.actions.getTasks();
-  }
-
   onSortEnd = ({ oldIndex, newIndex }) => {
     this.props.actions.setTasks(
       arrayMove(this.props.tasks, oldIndex, newIndex),

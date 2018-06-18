@@ -38,9 +38,7 @@ class Client extends React.Component<Props, {}> {
       { text: 'Chat', to: `/clients/${client.id}/chat` },
     ];
 
-    const composeProfile = Component => matchProps => {
-      console.log(client);
-      return(
+    const composeProfile = Component => matchProps => (
       <Profile
         {...matchProps}
         component={Component}
@@ -48,7 +46,7 @@ class Client extends React.Component<Props, {}> {
         client={client}
         role={role}
       />
-    )};
+    );
 
     return (
       <Switch>
