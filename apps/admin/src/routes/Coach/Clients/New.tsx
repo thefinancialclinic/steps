@@ -4,6 +4,7 @@ import { connect, History } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import React from 'react';
 import styled from 'styled-components';
+import { black } from 'styles/colors';
 
 import { addAlert } from 'actions/alerts';
 import { Alert, AlertLevel } from 'components/Alert/types';
@@ -67,32 +68,37 @@ export class ClientNew extends React.Component<Props, State> {
 
   render() {
     return (
-      <Main className="new-client">
-        {this.renderModal()}
-        <Flex flexWrap="wrap">
-          <Box width={[1, 1 / 2]} px={2}>
-            <Content>
-              <h2>Meet Roo</h2>
-              <Box>
-                Learn how this digital helper can help you achieve your dreams.
-                It's a text message based program and will reach out to you once
-                a day with reminders, content, and encouragement.
-              </Box>
-              <a onClick={this.toggleVideo}>
-                <Button>
-                  Play Video<i className="material-icons">play_arrow</i>
-                </Button>
-              </a>
-            </Content>
-          </Box>
-          <Box width={[1, 1 / 2]} px={2}>
-            <Content>
-              <NewClientForm onSubmit={this.createClient} />
-            </Content>
-          </Box>
-        </Flex>
-        <Link to="/">Home</Link>
-      </Main>
+      <Wrapper width={[1]}>
+        <Main className="new-client">
+          {this.renderModal()}
+          <Flex flexWrap="wrap">
+            <Box width={[1, 1 / 2]} px={2}>
+              <ContentLeft>
+                <h2>Meet Roo</h2>
+                <Box>
+                  <p>
+                    Learn how this digital helper can help you achieve your
+                    dreams. It's a text message based program and will reach out
+                    to you once a day with reminders, content, and
+                    encouragement.
+                  </p>
+                </Box>
+                <a onClick={this.toggleVideo}>
+                  <Button>
+                    Play Video<i className="material-icons">play_arrow</i>
+                  </Button>
+                </a>
+              </ContentLeft>
+            </Box>
+            <Box width={[1, 1 / 2]} px={2}>
+              <Content>
+                <NewClientForm onSubmit={this.createClient} />
+              </Content>
+            </Box>
+          </Flex>
+          <Link to="/">Home</Link>
+        </Main>
+      </Wrapper>
     );
   }
 }
@@ -111,6 +117,74 @@ const Content = styled.div`
     i {
       font-size: 14px;
       vertical-align: top;
+    }
+  }
+`;
+
+const gradient = `
+  background: -webkit-linear-gradient(
+    top,
+    rgb(55, 118, 199) 0%,
+    rgb(81, 175, 236) 20%,
+    rgb(139, 212, 248) 45%,
+    rgb(196, 230, 247) 65%,
+    rgb(222, 180, 212) 100%
+  );
+  background: -o-linear-gradient(
+    top,
+    rgb(55, 118, 199) 0%,
+    rgb(81, 175, 236) 20%,
+    rgb(139, 212, 248) 45%,
+    rgb(196, 230, 247) 65%,
+    rgb(222, 180, 212) 100%
+  );
+  background: -ms-linear-gradient(
+    top,
+    rgb(55, 118, 199) 0%,
+    rgb(81, 175, 236) 20%,
+    rgb(139, 212, 248) 45%,
+    rgb(196, 230, 247) 65%,
+    rgb(222, 180, 212) 100%
+  );
+  background: -moz-linear-gradient(
+    top,
+    rgb(55, 118, 199) 0%,
+    rgb(81, 175, 236) 20%,
+    rgb(139, 212, 248) 45%,
+    rgb(196, 230, 247) 65%,
+    rgb(222, 180, 212) 100%
+  );
+  background: linear-gradient(
+    to bottom,
+    rgb(55, 118, 199) 0%,
+    rgb(81, 175, 236) 20%,
+    rgb(139, 212, 248) 45%,
+    rgb(196, 230, 247) 65%,
+    rgb(222, 180, 212) 100%
+  );
+`;
+
+const ContentLeft = Content.extend`
+  color: ${black};
+
+  @media screen and (min-width: 40em) {
+    color: white;
+  }
+`;
+
+const Wrapper = styled.div`
+  &:before {
+    ${gradient} bottom: 0;
+    content: '';
+    display: none;
+    left: 0;
+    position: fixed;
+    right: 50%;
+    top: 0;
+    z-index: -1;
+
+    @media screen and (min-width: 40em) {
+      display: block;
     }
   }
 `;
