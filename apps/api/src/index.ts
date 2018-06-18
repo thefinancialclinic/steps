@@ -76,8 +76,10 @@ const app = express();
 app.use(bodyParser.json());
 
 if (isProduction) {
+  const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
   app.use(httpsRedirect);
-  app.use(express.static(resolve(__dirname, '..', '..', 'admin', '.build')));
+  app.use(express.static(buildPath));
+  app.all('*', (_, res) => res.sendfile(resolve(buildPath, 'index.html')));
 } else {
   app.use(cors());
 
