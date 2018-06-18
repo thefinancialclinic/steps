@@ -116,6 +116,7 @@ export default (state = initialState, action) => {
               follow_up_date: action.followUpDate,
             };
           }
+          return client;
         }),
       };
     }

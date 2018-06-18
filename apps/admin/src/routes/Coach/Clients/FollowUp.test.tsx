@@ -12,21 +12,9 @@ class MockDateProvider implements DateProvider {
 
 describe('FollowUp.tsx', () => {
   const history = { push: jest.fn() };
-  it('gets clients', () => {
-    const actions = {
-      getClients: jest.fn(),
-      addAlert: jest.fn(),
-    };
-
-    const wrapper = shallow(<FollowUp actions={actions} history={history} />);
-
-    expect(actions.getClients).toHaveBeenCalled();
-  });
-
   it('sets a follow up date', () => {
     const setClientFollowUpDate = jest.fn().mockReturnValue(Promise.resolve());
     const actions = {
-      getClients: jest.fn(),
       setClientFollowUpDate,
       addAlert: jest.fn(),
     };
@@ -54,7 +42,6 @@ describe('FollowUp.tsx', () => {
   it('navigates back to the client profile on success', () => {
     const setClientFollowUpDate = jest.fn().mockReturnValue(Promise.resolve());
     const actions = {
-      getClients: jest.fn(),
       setClientFollowUpDate,
       addAlert: jest.fn(),
     };
@@ -81,7 +68,6 @@ describe('FollowUp.tsx', () => {
       .fn()
       .mockReturnValue(Promise.reject({ message: 'some error' }));
     const actions = {
-      getClients: jest.fn(),
       setClientFollowUpDate,
       addAlert: jest.fn(),
     };

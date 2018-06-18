@@ -1,15 +1,15 @@
-import { getClients, setClientFollowUpDate } from 'actions/clients';
+import { addAlert } from 'actions/alerts';
+import { setClientFollowUpDate } from 'actions/clients';
 import Main from 'atoms/Main';
+import { AlertLevel } from 'components/Alert/types';
 import FollowUpForm from 'forms/FollowUpForm';
+import { findById } from 'helpers';
 import moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
+import { History } from 'react-router-dom';
 import { Client } from 'reducers/clients';
 import { bindActionCreators } from 'redux';
-import { History } from 'react-router-dom';
-import { AlertLevel } from 'components/Alert/types';
-import { addAlert } from 'actions/alerts';
-import { findById } from 'helpers';
 
 export interface DateProvider {
   today(): moment.Moment;
@@ -31,10 +31,6 @@ interface Props {
 export class FollowUp extends React.Component<Props> {
   get dateProvider(): DateProvider {
     return this.props.dateProvider || new DefaultDateProvider();
-  }
-
-  componentWillMount() {
-    this.props.actions.getClients();
   }
 
   onSubmit = ({ weeks }) => {
@@ -75,10 +71,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    { addAlert, getClients, setClientFollowUpDate },
-    dispatch,
-  ),
+  actions: bindActionCreators({ addAlert, setClientFollowUpDate }, dispatch),
 });
 
 export default connect(
