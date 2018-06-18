@@ -25,7 +25,6 @@ import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
 import { PermissionLevel } from './StaffList/types';
-import TaskForm from './Tasks/TaskForm';
 import { TaskList } from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
 import moment from 'moment';
@@ -228,17 +227,6 @@ export const Components = storiesOf('Components', module)
     <VideoModal
       embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q"
       onClose={() => {}}
-    />
-  ))
-  .add('Task Form', () => (
-    <TaskForm
-      task={{
-        id: 1,
-        title: 'A task',
-        description: 'You should do this',
-        category: 'debt',
-      }}
-      client={{ id: 2 }}
     />
   ))
   .add('Task Step', () => <TaskStep count={1} />)
