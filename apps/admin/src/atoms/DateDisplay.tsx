@@ -13,7 +13,7 @@ const DateDisplay: React.SFC<Props> = ({ date }) => (
 );
 
 const StyledDate = styled.div`
-  color ${grey};
+  color: ${grey};
 `;
 
 export default DateDisplay;

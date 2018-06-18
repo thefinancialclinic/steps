@@ -1,13 +1,13 @@
 import { bindActionCreators } from 'redux';
 import { Box, Flex } from 'grid-styled';
 import { connect, History } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import React from 'react';
 import styled from 'styled-components';
 import { black, white, green } from 'styles/colors';
 
 import { addAlert } from 'actions/alerts';
-import { Alert, AlertLevel } from 'components/Alert/types';
+import { AlertLevel } from 'components/Alert/types';
 import { createClient } from 'actions/clients';
 import Button from 'atoms/Buttons/Button';
 import Main from 'atoms/Main';
@@ -68,7 +68,7 @@ export class ClientNew extends React.Component<Props, State> {
 
   render() {
     return (
-      <Wrapper width={[1]}>
+      <Wrapper>
         <Main className="new-client">
           {this.renderModal()}
           <Flex flexWrap="wrap">
@@ -167,7 +167,7 @@ const ContentLeft = Content.extend`
   color: ${black};
   button {
     color: ${green};
-    background-color: ${white}
+    background-color: ${white};
 
     &:hover {
       color: ${white};
