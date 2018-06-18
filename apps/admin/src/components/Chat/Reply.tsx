@@ -4,6 +4,7 @@ import { Flex } from 'grid-styled';
 import React from 'react';
 import styled from 'styled-components';
 import { grey } from 'styles/colors';
+import { sansSerif } from 'styles/type';
 
 interface Props {
   className?: string;
@@ -26,7 +27,7 @@ export const Message = styled.div`
 `;
 
 const StyledReply = styled.div`
-  font-family: 'Calibre', sans-serif;
+  font-family: ${sansSerif}
   margin: 20px;
 
   .container {

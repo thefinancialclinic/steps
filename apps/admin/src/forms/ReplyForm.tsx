@@ -7,6 +7,7 @@ import React from 'react';
 import { Form } from 'react-final-form';
 import { grey } from 'styles/colors';
 import Status from 'atoms/Status';
+import { sansSerif } from 'styles/type';
 
 interface Props {
   onSubmit: (data) => void;
@@ -31,7 +32,7 @@ const GoalForm: React.SFC<Props> = ({ onSubmit }) => (
 
 const StyledForm = styled.form`
   border-radius: 4px;
-  font-family: 'Calibre', sans-serif;
+  font-family: ${sansSerif};
   color: ${grey};
 
   textarea {
