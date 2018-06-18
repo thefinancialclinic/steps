@@ -41,11 +41,13 @@ const StyledChatMessage = styled<Props>(ChatMessage)`
       type === 'received' ? 'row-reverse' : 'row'}
 
     .message {
+      text-align: left;
       background-color: ${({ type, color }) =>
         type === 'received' ? color : white};
       display: inline-block;
       padding: 20px;
       line-height: 25px;
+      max-width: 66%;
     }
 
     .from {

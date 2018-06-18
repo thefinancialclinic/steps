@@ -79,7 +79,7 @@ class ChatMessages extends React.Component<Props, {}> {
   getSenderName(message) {
     return message.to_user === this.props.user.id
       ? 'Roo'
-      : this.props.user.first_name;
+      : this.props.user.first_name[0];
   }
 
   renderChatMedia(mediaItem) {
