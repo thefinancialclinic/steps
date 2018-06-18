@@ -8,7 +8,7 @@ import PageHeader from 'components/Headers/PageHeader';
 import TaskTemplate from 'components/Tasks/TaskTemplate';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Client } from 'reducers/clients';
 import { Task } from 'reducers/tasks';
 import { bindActionCreators } from 'redux';
@@ -41,7 +41,9 @@ class AddTask extends React.Component<Props, {}> {
       <Main>
         <Header>
           <BackButton to={`/clients/${this.props.client.id}/tasks`} />
-          <Button>Create New Task</Button>
+          <Link to={`/clients/${this.props.client.id}/tasks/create`}>
+            <Button>Create New Task</Button>
+          </Link>
         </Header>
         <PageHeader label="Add New Task" />
         <Filter

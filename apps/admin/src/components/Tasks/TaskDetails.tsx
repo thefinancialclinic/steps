@@ -59,7 +59,7 @@ class TaskDetails extends React.Component<Props, {}> {
         <Panel className={className}>
           <Flex alignItems="center" justifyContent="space-between">
             <Box>
-              <Badge text={'income'} />
+              <Badge text={task.category} />
             </Box>
             <Box>
               <Link className="action-link" to={`${location.pathname}/edit`}>
