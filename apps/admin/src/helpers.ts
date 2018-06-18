@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const findById = (collection, id, key = 'id') => {
   return collection.find(item => ensureInt(item[key], id));
 };
@@ -7,3 +9,13 @@ export const filterById = (collection, id, key = 'id') => {
 };
 
 export const ensureInt = (a, b) => parseInt(a) === parseInt(b);
+
+export interface DateProvider {
+  today(): moment.Moment;
+}
+
+export class DefaultDateProvider implements DateProvider {
+  today(): moment.Moment {
+    return moment.utc();
+  }
+}

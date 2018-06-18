@@ -1,8 +1,9 @@
-import { FollowUp, DateProvider } from './FollowUp';
+import { FollowUp } from './FollowUp';
 import { shallow } from 'enzyme';
 import React from 'react';
 import FollowUpForm from 'forms/FollowUpForm';
 import moment from 'moment';
+import { DateProvider } from '../../../helpers';
 
 class MockDateProvider implements DateProvider {
   today(): moment.Moment {
@@ -37,30 +38,6 @@ describe('FollowUp.tsx', () => {
       client,
       moment.utc('2018-01-01').add(1, 'weeks'),
     );
-  });
-
-  it('navigates back to the client profile on success', () => {
-    const setClientFollowUpDate = jest.fn().mockReturnValue(Promise.resolve());
-    const actions = {
-      setClientFollowUpDate,
-      addAlert: jest.fn(),
-    };
-    const client = {
-      id: 1,
-    };
-    const wrapper = shallow(
-      <FollowUp
-        history={history}
-        actions={actions}
-        client={client}
-        dateProvider={new MockDateProvider()}
-      />,
-    );
-    const form = wrapper.find(FollowUpForm);
-
-    form.simulate('submit', { weeks: '1' });
-
-    expect(history.push).toHaveBeenCalledWith('/clients/1');
   });
 
   it('displays an error message on failure', () => {
