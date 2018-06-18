@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Redirect, withRouter } from 'react-router-dom';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { User, USER_TYPE } from 'reducers/auth';
@@ -11,6 +11,7 @@ import Coach from './Coach/index';
 import Login from './Login';
 import Superadmin from './Superadmin/index';
 import UserSwitcher from 'components/util/UserSwitcher';
+import Logout from 'routes/Logout';
 
 interface Props {
   children?: any;
@@ -38,6 +39,7 @@ const Routes: React.SFC<Props> = ({ history, user }) => {
   return (
     <Wrapper>
       {process.env.NODE_ENV === 'development' && <UserSwitcher />}
+      <Route path="/logout" component={Logout} />
       <RoleRoutes user={user} history={history} />
     </Wrapper>
   );
