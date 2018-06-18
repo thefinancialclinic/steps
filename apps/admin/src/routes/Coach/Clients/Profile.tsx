@@ -10,6 +10,7 @@ import TaskShow from './ProfileTaskShow';
 import TaskEdit from './ProfileTaskEdit';
 import Chat from './ProfileChat';
 import Goals from './Goals/Goals';
+import { findById } from 'helpers';
 
 type Params = {
   id: number;
@@ -56,11 +57,11 @@ class Client extends React.Component<Props, {}> {
           path="/clients/:id/tasks/:taskId/edit"
           render={composeProfile(TaskEdit)}
         />
+        <Route path="/clients/:id/tasks/add" render={composeProfile(TaskAdd)} />
         <Route
           path="/clients/:id/tasks/:taskId"
           render={composeProfile(TaskShow)}
         />
-        <Route path="/clients/:id/tasks/add" render={composeProfile(TaskAdd)} />
         <Route path="/clients/:id/tasks" render={composeProfile(Tasks)} />
         <Route render={() => <Redirect to={`/clients/${client.id}/tasks`} />} />
       </Switch>
@@ -70,9 +71,7 @@ class Client extends React.Component<Props, {}> {
 
 const mapStateToProps = (state, props: Props) => {
   return {
-    client: state.clients.clients.find(
-      c => c.id === parseInt(props.match.params.id),
-    ),
+    client: findById(state.clients.clients, props.match.params.id),
     role: state.auth.user.role,
   };
 };

@@ -2,54 +2,28 @@ import React from 'react';
 import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import { grey, mediumBlue } from 'styles/colors';
-import { remCalc } from 'styles/type';
 import Badge from 'atoms/Badge';
 import Button from 'atoms/Buttons/Button';
 import Text from 'components/Form/Text';
 import { Link } from 'react-router-dom';
 import Panel from 'atoms/Panel';
-import { Field, Form } from 'react-final-form';
+import { Form } from 'react-final-form';
 import TaskStep from 'components/Tasks/TaskStep';
+import api from 'api';
 
 interface Props {
   client: any;
+  onSubmit: any;
   task?: any;
 }
 
-const BaseInputRow = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: ${remCalc(20)};
-
-  label {
-    margin-bottom: ${remCalc(5)};
-    text-transform: uppercase;
-  }
-
-  input {
-    border: none;
-    background: none;
-    box-shadow: 0 0 0 1px ${mediumBlue};
-    font-size: ${remCalc(18)};
-    padding-bottom: ${remCalc(21)};
-    padding-left: ${remCalc(20)};
-    padding-right: ${remCalc(20)};
-    padding-top: ${remCalc(21)};
-    width: 100%;
-  }
-`;
-
 class TaskForm extends React.Component<Props, {}> {
-  onSubmit = values => {
-    console.log('hello', values);
-  };
-
   render() {
-    const { children, task } = this.props;
+    const { children, onSubmit, task } = this.props;
 
     const steps = task.steps ? (
       task.steps.map((item, index) => (
-        <TaskStep count={index + 1} step={item} />
+        <TaskStep count={index + 1} step={item} key={index} />
       ))
     ) : (
       <TaskStep count={1} />
@@ -57,7 +31,8 @@ class TaskForm extends React.Component<Props, {}> {
 
     return (
       <Form
-        onSubmit={this.onSubmit}
+        onSubmit={onSubmit}
+        initialValues={task}
         render={({ handleSubmit }) => (
           <StyledTaskForm onSubmit={handleSubmit}>
             <Panel>
@@ -69,16 +44,10 @@ class TaskForm extends React.Component<Props, {}> {
               </Box>
               <Flex flexWrap="wrap">
                 <Box width={[1]} px={2}>
-                  <Text name="task" label="Task" />
+                  <Text name="title" label="Task" />
                 </Box>
                 <Box width={[1]} px={2}>
-                  <Text
-                    name="why"
-                    label="Why This Matters"
-                    defaultValue={
-                      task && task.description ? task.description : ''
-                    }
-                  />
+                  <Text name="description" label="Why This Matters" />
                 </Box>
               </Flex>
 
