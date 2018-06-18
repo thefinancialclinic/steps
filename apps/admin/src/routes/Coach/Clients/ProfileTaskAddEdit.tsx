@@ -22,9 +22,7 @@ class EditTask extends React.Component<Props, {}> {
         user_id: this.props.client.id,
       });
 
-      this.props.history.push(
-        `/clients/${this.props.client.id}/tasks`,
-      );
+      this.props.history.push(`/clients/${this.props.client.id}/tasks`);
     } catch (error) {
       console.error(error);
     }
