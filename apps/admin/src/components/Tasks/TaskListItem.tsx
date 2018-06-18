@@ -43,7 +43,7 @@ export default SortableElement((props: Props) => {
         </Box>
         <Box>
           <div>{task.title}</div>
-          <StyledLink to={`${url}/tasks/${task.id}`}>View Details</StyledLink>
+          <StyledLink to={`${url}/${task.id}`}>View Details</StyledLink>
         </Box>
       </Flex>
     </Panel>
