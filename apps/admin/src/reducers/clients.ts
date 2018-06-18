@@ -1,9 +1,10 @@
 import {
+  ADD_CLIENT,
   SET_CLIENTS,
+  SET_CLIENT_FOLLOW_UP_DATE,
   SET_CLIENT_GOALS,
   SET_CLIENT_MESSAGES,
   SET_CLIENT_REQUESTS,
-  ADD_CLIENT,
 } from 'actions/clients';
 
 export type UserPlatform = 'SMS' | 'FBOOK';
@@ -99,6 +100,20 @@ export default (state = initialState, action) => {
             return {
               ...client,
               requests: action.requests,
+            };
+          }
+          return client;
+        }),
+      };
+    }
+    case SET_CLIENT_FOLLOW_UP_DATE: {
+      return {
+        ...state,
+        clients: state.clients.map(client => {
+          if (client.id === action.clientId) {
+            return {
+              ...client,
+              follow_up_date: action.followUpDate,
             };
           }
           return client;
