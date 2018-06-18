@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import { grey, mediumBlue } from 'styles/colors';
 import { remCalc } from 'styles/type';
 import Badge from 'atoms/Badge';
 import Button from 'atoms/Buttons/Button';
+import Text from 'components/Form/Text';
 import { Link } from 'react-router-dom';
 import Panel from 'atoms/Panel';
+import { Field, Form } from 'react-final-form';
 import TaskStep from 'components/Tasks/TaskStep';
 
 interface Props {
-  className?: string;
   client: any;
   task?: any;
 }
@@ -39,8 +40,12 @@ const BaseInputRow = styled.div`
 `;
 
 class TaskForm extends React.Component<Props, {}> {
+  onSubmit = values => {
+    console.log('hello', values);
+  };
+
   render() {
-    const { className, children, task } = this.props;
+    const { children, task } = this.props;
 
     const steps = task.steps ? (
       task.steps.map((item, index) => (
@@ -51,48 +56,52 @@ class TaskForm extends React.Component<Props, {}> {
     );
 
     return (
-      <div className={className}>
-        <Panel>
-          <Box>
-            <Badge
-              className="task-badge"
-              text={task && task.category ? task.category : 'custom'}
-            />
-          </Box>
-          <form>
-            <BaseInputRow>
-              <label>Task</label>
-              <input
-                type="text"
-                defaultValue={task && task.title ? task.title : ''}
-              />
-            </BaseInputRow>
-            <BaseInputRow>
-              <label>Why This Matters</label>
-              <input
-                type="text"
-                defaultValue={task && task.description ? task.description : ''}
-              />
-            </BaseInputRow>
-          </form>
-          <label>STEPS</label>
+      <Form
+        onSubmit={this.onSubmit}
+        render={({ handleSubmit }) => (
+          <StyledTaskForm onSubmit={handleSubmit}>
+            <Panel>
+              <Box>
+                <Badge
+                  className="task-badge"
+                  text={task && task.category ? task.category : 'custom'}
+                />
+              </Box>
+              <Flex flexWrap="wrap">
+                <Box width={[1]} px={2}>
+                  <Text name="task" label="Task" />
+                </Box>
+                <Box width={[1]} px={2}>
+                  <Text
+                    name="why"
+                    label="Why This Matters"
+                    defaultValue={
+                      task && task.description ? task.description : ''
+                    }
+                  />
+                </Box>
+              </Flex>
 
-          {steps}
+              <label>STEPS</label>
 
-          {/* TODO: What happens when this is clicked? */}
-          <div className="add-step-link">
-            <Link to="/">Add a step</Link>
-          </div>
-          <Flex justifyContent="center">
-            <Button>SAVE TO WORKPLAN</Button>
-          </Flex>
-        </Panel>
-      </div>
+              {steps}
+
+              {/* TODO: What happens when this is clicked? */}
+              <div className="add-step-link">
+                <Link to="/">Add a step</Link>
+              </div>
+              <Flex justifyContent="center">
+                <Button type="submit">SAVE TO WORKPLAN</Button>
+              </Flex>
+            </Panel>
+          </StyledTaskForm>
+        )}
+      />
     );
   }
 }
 
-const StyledTaskForm = styled(TaskForm)`
+const StyledTaskForm = styled.form`
   .task-badge {
     margin-bottom: 1em;
   }
@@ -125,4 +134,4 @@ const StyledTaskForm = styled(TaskForm)`
   }
 `;
 
-export default StyledTaskForm;
+export default TaskForm;
