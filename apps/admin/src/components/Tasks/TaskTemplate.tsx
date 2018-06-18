@@ -12,6 +12,7 @@ interface Props {
   task: Task;
   addTask(task: Task): void;
   history: any;
+  client?: any;
 }
 
 class TaskTemplate extends React.Component<Props, {}> {
@@ -41,8 +42,9 @@ class TaskTemplate extends React.Component<Props, {}> {
 
   private handleClick = async event => {
     try {
-      await this.props.addTask(this.props.task);
-      this.props.history.push(`/clients/${this.props.task.user_id}/tasks`);
+      this.props.history.push(
+        `/clients/${this.props.client.id}/tasks/${this.props.task.id}/add`,
+      );
     } catch (error) {
       console.error(error);
     }

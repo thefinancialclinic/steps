@@ -6,7 +6,6 @@ import Main from 'atoms/Main';
 import Filter from 'components/Filter';
 import PageHeader from 'components/Headers/PageHeader';
 import TaskTemplate from 'components/Tasks/TaskTemplate';
-import sample from 'lodash/sample';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -67,6 +66,7 @@ class AddTask extends React.Component<Props, {}> {
             <TaskTemplate
               task={userTask}
               key={i}
+              client={this.props.client}
               addTask={this.props.actions.addTask}
               history={this.props.history}
             />

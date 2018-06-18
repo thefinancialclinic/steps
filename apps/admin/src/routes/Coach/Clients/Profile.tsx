@@ -7,6 +7,7 @@ import Profile from 'components/Clients/Profile';
 import Tasks from './ProfileTasksList';
 import TaskAdd from './ProfileTaskAdd';
 import TaskShow from './ProfileTaskShow';
+import TaskAddEdit from './ProfileTaskAddEdit';
 import TaskEdit from './ProfileTaskEdit';
 import Chat from './ProfileChat';
 import Goals from './Goals/Goals';
@@ -58,6 +59,10 @@ class Client extends React.Component<Props, {}> {
           render={composeProfile(TaskEdit)}
         />
         <Route path="/clients/:id/tasks/add" render={composeProfile(TaskAdd)} />
+        <Route
+          path="/clients/:id/tasks/:taskId/add"
+          render={composeProfile(TaskAddEdit)}
+        />
         <Route
           path="/clients/:id/tasks/:taskId"
           render={composeProfile(TaskShow)}

@@ -49,7 +49,7 @@ class Clients extends React.Component<Props, {}> {
 
     return (
       <Main className={className}>
-        <BackButtonContainer width={1}>
+        <BackButtonContainer>
           <BackButton to="/" />
         </BackButtonContainer>
         <PageHeader label="My Clients">
