@@ -66,10 +66,24 @@ export const deleteTask = (id): DispatchFn => async dispatch => {
 export const ADD_TASK = 'ADD_TASK';
 export const addTask = (task): DispatchFn => async dispatch => {
   try {
-    await api.post('/tasks', task);
+    const contents = {
+      title: task.title,
+      description: task.description || '',
+      steps: task.steps || {},
+      category: task.category || 'custom',
+      date_created:
+        task.date_created ||
+        new Date()
+          .toISOString()
+          .slice(0, 19)
+          .replace('T', ' '),
+      status: task.status || 'ACTIVE',
+      user_id: parseInt(task.user_id) || null,
+    };
+    const newTask = await api.post('/tasks', contents);
     return {
       type: ADD_TASK,
-      task,
+      newTask,
     };
   } catch (error) {
     return Promise.reject(error);

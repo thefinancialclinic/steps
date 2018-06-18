@@ -6,10 +6,9 @@ import Main from 'atoms/Main';
 import Filter from 'components/Filter';
 import PageHeader from 'components/Headers/PageHeader';
 import TaskTemplate from 'components/Tasks/TaskTemplate';
-import sample from 'lodash/sample';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Client } from 'reducers/clients';
 import { Task } from 'reducers/tasks';
 import { bindActionCreators } from 'redux';
@@ -42,7 +41,9 @@ class AddTask extends React.Component<Props, {}> {
       <Main>
         <Header>
           <BackButton to={`/clients/${this.props.client.id}/tasks`} />
-          <Button>Create New Task</Button>
+          <Link to={`/clients/${this.props.client.id}/tasks/create`}>
+            <Button>Create New Task</Button>
+          </Link>
         </Header>
         <PageHeader label="Add New Task" />
         <Filter
@@ -67,6 +68,7 @@ class AddTask extends React.Component<Props, {}> {
             <TaskTemplate
               task={userTask}
               key={i}
+              client={this.props.client}
               addTask={this.props.actions.addTask}
               history={this.props.history}
             />
