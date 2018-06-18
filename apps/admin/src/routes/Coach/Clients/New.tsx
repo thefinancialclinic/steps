@@ -4,7 +4,7 @@ import { connect, History } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import React from 'react';
 import styled from 'styled-components';
-import { black } from 'styles/colors';
+import { black, white, green } from 'styles/colors';
 
 import { addAlert } from 'actions/alerts';
 import { Alert, AlertLevel } from 'components/Alert/types';
@@ -96,7 +96,6 @@ export class ClientNew extends React.Component<Props, State> {
               </Content>
             </Box>
           </Flex>
-          <Link to="/">Home</Link>
         </Main>
       </Wrapper>
     );
@@ -166,6 +165,14 @@ const gradient = `
 
 const ContentLeft = Content.extend`
   color: ${black};
+  button {
+    color: ${green};
+    background-color: ${white}
+
+    &:hover {
+      color: ${white};
+    }
+  }
 
   @media screen and (min-width: 40em) {
     color: white;

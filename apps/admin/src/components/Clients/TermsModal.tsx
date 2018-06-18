@@ -96,7 +96,6 @@ const StyledModal = styled(Modal)`
 
 const Container = styled.div`
   text-align: center;
-  padding: 54px 54px 30px 54px;
 
   i.close {
     color: ${black};
