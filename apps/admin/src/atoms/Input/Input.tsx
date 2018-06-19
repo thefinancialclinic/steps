@@ -4,13 +4,6 @@ import styled, { css } from 'styled-components';
 import { remCalc } from 'styles/type';
 import { black, mediumBlue, white } from 'styles/colors';
 
-interface Props {
-  rounded?: boolean;
-  type?: string;
-  name?: string;
-  defaultValue?: string;
-}
-
 enum INPUT_TYPE {
   email = 'email',
   number = 'number',
@@ -19,10 +12,17 @@ enum INPUT_TYPE {
   textarea = 'textarea',
 }
 
+interface Props {
+  rounded?: boolean;
+  type?: INPUT_TYPE.email | INPUT_TYPE.number | INPUT_TYPE.password | INPUT_TYPE.text | INPUT_TYPE.textarea;
+  name?: string;
+  defaultValue?: string;
+}
+
 const Input: React.SFC<Props> = ({
   defaultValue,
   rounded = false,
-  type = 'input',
+  type = INPUT_TYPE.text,
   name,
 }) => {
   const InputWrapper = rounded ? RoundInputWrapper : BaseInputWrapper;
@@ -50,11 +50,11 @@ const baseStyle = css`
 
 const Textarea = styled.textarea`
   resize: none;
-  ${baseStyle}
+  ${baseStyle};
 `;
 
 const BaseInput = styled.input`
-  ${baseStyle}
+  ${baseStyle};
 `;
 
 const BaseInputWrapper = styled.div`
@@ -65,22 +65,6 @@ const BaseInputWrapper = styled.div`
   color: ${black};
   display: inline-block;
   min-width: 180px;
-
-  textarea {
-  }
-
-  input,
-  textarea {
-    border: none;
-    background: none;
-    box-shadow: none;
-    font-size: ${remCalc(18)};
-    padding-bottom: ${remCalc(21)};
-    padding-left: ${remCalc(20)};
-    padding-right: ${remCalc(20)};
-    padding-top: ${remCalc(21)};
-    width: 100%;
-  }
 `;
 
 const RoundInputWrapper = BaseInputWrapper.extend`
