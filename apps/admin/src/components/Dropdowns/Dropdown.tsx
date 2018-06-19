@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Color from 'color';
+import onClickOutside from 'react-onclickoutside';
 
 import Panel from 'atoms/Panel';
 import { darkBlue, white } from 'styles/colors';
@@ -21,6 +22,12 @@ export class Dropdown extends React.Component<Props, State> {
       open: false,
     };
     this.toggle = this.toggle.bind(this);
+  }
+
+  handleClickOutside(_event) {
+    this.setState({
+      open: false,
+    });
   }
 
   toggle() {
@@ -67,7 +74,9 @@ const StyledPanel = styled(Panel)`
       .string()};
 `;
 
-const StyledDropdown = styled<Props>(Dropdown)`
+const CloseOnOutsideClickDropdown = onClickOutside(Dropdown);
+
+const StyledDropdown = styled<Props>(CloseOnOutsideClickDropdown)`
   .dropdown {
     position: absolute;
     z-index: 1;
