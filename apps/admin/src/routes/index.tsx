@@ -51,7 +51,13 @@ const DefaultRoutes: RoutesElement = ({ history }) =>
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+  align-content: stretch;
   min-height: 100%;
+  > div {
+    flex: 1;
+  }
 `;
 
 const mapStateToProps = state => ({

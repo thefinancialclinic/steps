@@ -19,20 +19,18 @@ class Login extends React.Component<any, any> {
 
   render() {
     return (
-      <div>
-        <Flex flexWrap="wrap">
-          <Box width={[1, 3 / 4]}>
-            <Header>A brighter financial future starts today</Header>
-            <BackgroundImage />
-          </Box>
-          <Box width={[1, 1 / 4]}>
-            <FormContainer>
-              <h1>Log In</h1>
-              <LoginForm onSubmit={this.onSubmit} />
-            </FormContainer>
-          </Box>
-        </Flex>
-      </div>
+      <Flex flexWrap="wrap">
+        <Box width={[1, 3 / 4]}>
+          <Header>A brighter financial future starts today</Header>
+          <BackgroundImage />
+        </Box>
+        <Box width={[1, 1 / 4]}>
+          <FormContainer>
+            <h1>Log In</h1>
+            <LoginForm onSubmit={this.onSubmit} />
+          </FormContainer>
+        </Box>
+      </Flex>
     );
   }
 }
