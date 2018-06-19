@@ -63,7 +63,7 @@ describe('User entity operations', () => {
     let actual = await repo.getOne(user.id);
     expect(actual.topic).toBe(null);
     actual.topic = 'New topic';
-    await repo.update(actual);
+    await repo.update(actual, user.id);
     expect(actual.topic).toBe('New topic');
   });
 
@@ -71,7 +71,13 @@ describe('User entity operations', () => {
     let actual = await repo.getOne(user.id);
     expect(actual.temp_help_response).toBe('RESPONSE');
     actual.temp_help_response = 'NEW RESPONSE';
-    await repo.update(actual);
+    await repo.update(actual, user.id);
     expect(actual.temp_help_response).toBe('NEW RESPONSE');
+  });
+
+  it('can partially update a user', async () => {
+    const subject = await repo.update({ first_name: 'Fred' }, user.id);
+    expect(subject.first_name).toBe('Fred');
+    expect(subject.last_name).toBe('LAST'); // unchanged
   });
 });

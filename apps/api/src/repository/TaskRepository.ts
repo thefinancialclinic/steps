@@ -1,5 +1,6 @@
 import { Repository } from './Repository';
 import { Pool, Client } from 'pg';
+import { placeholders } from '../util';
 
 export type TaskId = number;
 export type TaskStatus = 'ACTIVE' | 'COMPLETED' | 'ARCHIVED';
@@ -13,21 +14,6 @@ export type ObjectType = {
 export type Step = {
   text: string;
   note?: string;
-};
-
-export type TaskOpts = {
-  id?: number;
-  title: string;
-  category: string;
-  description?: string;
-  status?: TaskStatus;
-  created_by?: number;
-  user_id?: number;
-  difficulty?: TaskDifficulty;
-  date_created: Date;
-  date_completed?: Date;
-  recurring?: ObjectType;
-  steps?: Step[];
 };
 
 export class Task {
@@ -44,7 +30,7 @@ export class Task {
   recurring?: ObjectType;
   steps?: Step[];
 
-  constructor(opts: TaskOpts) {
+  constructor(opts: Partial<Task>) {
     this.id = opts.id;
     this.title = opts.title;
     this.category = opts.category;
@@ -145,40 +131,25 @@ export class TaskRepository implements Repository<TaskId, Task> {
     return res.rowCount;
   }
 
-  async update(task: Task): Promise<Task> {
-    const result = await this.pool.query(
-      `
-      UPDATE task SET (
-        title,
-        category,
-        description,
-        status,
-        created_by,
-        user_id,
-        difficulty,
-        date_created,
-        date_completed,
-        recurring,
-        steps
-      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-      WHERE id = $12
-      RETURNING *
-      `,
-      [
-        task.title,
-        task.category,
-        task.description,
-        task.status,
-        task.created_by,
-        task.user_id,
-        task.difficulty,
-        task.date_created,
-        task.date_completed,
-        task.recurring,
-        task.steps,
-        task.id,
-      ],
-    );
-    return new Task(result.rows[0]);
+  async update(taskOpts, taskId: TaskId): Promise<Task> {
+    const client = await this.pool.connect();
+    const rawColumns = Object.keys(taskOpts);
+    const columns = rawColumns.map(col => client.escapeIdentifier(col));
+    const values = rawColumns.map(col => taskOpts[col]);
+    const valPlaceholders = placeholders(2, values.length);
+    try {
+      const result = await client.query(
+        `UPDATE task SET (${columns.join(', ')}) = ROW(${valPlaceholders})
+        WHERE id = $1
+        RETURNING *`,
+        [taskId, ...values],
+      );
+      return new Task(result.rows[0]);
+    } catch (err) {
+      console.log(err);
+      throw `Could not update Task (${err})`;
+    } finally {
+      client.release();
+    }
   }
 }
