@@ -23,7 +23,7 @@ class ProfileChat extends React.Component<Props, {}> {
     return (
       <Switch>
         <Route
-          path={`/clients/:id/requests/:requestId`}
+          path={`/clients/:id/chat/requests/:requestId`}
           render={props => (
             <RequestDetail client={client} match={props.match} />
           )}
