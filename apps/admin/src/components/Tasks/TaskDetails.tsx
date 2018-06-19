@@ -13,7 +13,7 @@ import { deleteTask } from 'actions/tasks';
 
 interface Props {
   className?: string;
-  client: any;
+  user: any;
   location: Location;
   task: any;
   actions: { deleteTask };
@@ -34,9 +34,9 @@ class TaskDetails extends React.Component<Props, {}> {
     this.setState({ showModal });
   };
 
-  renderModal = client => {
+  renderModal = user => {
     if (this.state.showModal) {
-      return <DeleteTask client={client} />;
+      return <DeleteTask user={user} />;
     }
   };
 
@@ -50,12 +50,12 @@ class TaskDetails extends React.Component<Props, {}> {
   };
 
   render() {
-    const { className, client, location, task } = this.props;
+    const { className, user, location, task } = this.props;
     if (!task) return null;
 
     return (
       <div>
-        {this.renderModal(client)}
+        {this.renderModal(user)}
         <Panel className={className}>
           <Flex alignItems="center" justifyContent="space-between">
             <Box>

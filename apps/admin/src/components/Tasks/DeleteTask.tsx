@@ -8,12 +8,12 @@ import { Link } from 'react-router-dom';
 
 interface Props {
   className?: string;
-  client: any;
+  user: any;
 }
 
 class DeleteTask extends React.Component<Props, {}> {
   render() {
-    const { className, client } = this.props;
+    const { className, user } = this.props;
 
     return (
       <Modal className={className}>
@@ -21,12 +21,12 @@ class DeleteTask extends React.Component<Props, {}> {
         <Button white>UNDO</Button>
         <Flex className="actions" justifyContent="center">
           <Box>
-            <Link to={`/clients/${client.id}/tasks/new`}>
+            <Link to={`/clients/${user.id}/tasks/new`}>
               <Button>Add New Task</Button>
             </Link>
           </Box>
           <Box>
-            <Link to={`/clients/${client.id}`}>
+            <Link to={`/clients/${user.id}`}>
               <Button>Go To Workplan</Button>
             </Link>
           </Box>

@@ -7,11 +7,10 @@ import styled from 'styled-components';
 interface Props {
   actions?: any;
   children?: any;
-  client: any;
+  user: any;
   links: any;
   role: any;
   routes: any;
-  user?: any;
   component: React.Component | React.SFC | any;
 }
 
@@ -21,8 +20,10 @@ class Client extends React.Component<Props, {}> {
   };
 
   render() {
-    const { client, links, routes, component: Component, ...rest } = this.props;
-    if (!client) return null;
+    const { user, links, routes, component: Component, ...rest } = this.props;
+    if (!user) return null;
+
+    console.log('hello');
 
     return (
       <StyledClient>
@@ -31,12 +32,12 @@ class Client extends React.Component<Props, {}> {
             <Sidebar links={links}>
               <BackButton to="/clients" />
               <h2>
-                {client.first_name} {client.last_name}
+                {user.first_name} {user.last_name}
               </h2>
             </Sidebar>
           </Box>
           <Box width={[1, 2 / 3]} m={4}>
-            <Component client={client} {...rest} />
+            <Component user={user} {...rest} />
           </Box>
         </Flex>
       </StyledClient>

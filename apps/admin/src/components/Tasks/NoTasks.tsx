@@ -9,12 +9,12 @@ import TermsModal from 'components/Clients/TermsModal';
 
 interface Props {
   className?: string;
-  client: any;
+  user: any;
 }
 
 class NoTasks extends React.Component<Props, {}> {
   render() {
-    const { className, client } = this.props;
+    const { className, user } = this.props;
 
     return (
       <Box width={1} p={4} className={className}>
@@ -26,7 +26,7 @@ class NoTasks extends React.Component<Props, {}> {
           <div>Profile created!</div>
           <div>Now let's add some tasks.</div>
           <Box m={2}>
-            <Link to={{ pathname: `/clients/${client.id}/tasks/add` }}>
+            <Link to={{ pathname: `/clients/${user.id}/tasks/add` }}>
               <Button>Add New Task</Button>
             </Link>
           </Box>

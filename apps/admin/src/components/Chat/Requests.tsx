@@ -8,7 +8,7 @@ import { black } from 'styles/colors';
 
 interface Props {
   className?: string;
-  client: any;
+  user: any;
 }
 
 export const joinRequestsAndMessages = (requests, messages) => {
@@ -25,8 +25,8 @@ export const joinRequestsAndMessages = (requests, messages) => {
 
 class Requests extends React.Component<Props, {}> {
   render() {
-    const { client } = this.props;
-    const { requests, messages } = client;
+    const { user } = this.props;
+    const { requests, messages } = user;
     const joined = joinRequestsAndMessages(requests, messages);
     return (
       <Container>
@@ -35,7 +35,7 @@ class Requests extends React.Component<Props, {}> {
             return (
               <Link
                 key={request.id}
-                to={`/clients/${client.id}/chat/requests/${request.id}`}
+                to={`/clients/${user.id}/chat/requests/${request.id}`}
               >
                 <Request
                   status={request.status}
