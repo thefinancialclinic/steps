@@ -1,38 +1,48 @@
 import React from 'react';
 import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
-import { grey, mediumBlue } from 'styles/colors';
+import { grey } from 'styles/colors';
 import Badge from 'atoms/Badge';
 import Button from 'atoms/Buttons/Button';
 import Text from 'components/Form/Text';
-import { Link } from 'react-router-dom';
 import Panel from 'atoms/Panel';
-import { Form } from 'react-final-form';
+import { Form, Field } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
+import { FieldArray } from 'react-final-form-arrays';
+import { Task } from 'reducers/tasks';
 import TaskStep from 'components/Tasks/TaskStep';
-import api from 'api';
 
 interface Props {
   user: any;
   onSubmit: any;
-  task?: any;
+  task?: Task;
 }
 
-class TaskForm extends React.Component<Props, {}> {
-  render() {
-    const { children, onSubmit, task } = this.props;
+const defaultStep = {
+  task_id: null,
+  text: '',
+  note: null,
+};
 
-    const steps = task.steps ? (
-      task.steps.map((item, index) => (
-        <TaskStep count={index + 1} step={item} key={index} />
-      ))
-    ) : (
-      <TaskStep count={1} />
-    );
+class TaskForm extends React.Component<Props, null> {
+  static defaultProps = {
+    task: {
+      steps: [null],
+    },
+  };
+
+  private addStep = fields => {
+    fields.push({ task_id: this.props.task.id });
+  };
+
+  render() {
+    const { onSubmit, task } = this.props;
 
     return (
       <Form
         onSubmit={onSubmit}
         initialValues={task}
+        mutators={{ ...arrayMutators }}
         render={({ handleSubmit }) => (
           <StyledTaskForm onSubmit={handleSubmit}>
             <Panel>
@@ -53,12 +63,33 @@ class TaskForm extends React.Component<Props, {}> {
 
               <label>STEPS</label>
 
-              {steps}
+              <FieldArray name="steps">
+                {({ fields }) => {
+                  const addStep = this.addStep.bind(this, fields);
+
+                  return (
+                    <div>
+                      {fields.map((name, index) => (
+                        <TaskStep
+                          name={name}
+                          key={name}
+                          count={index + 1}
+                          step={{
+                            ...fields.value[index],
+                            task_id: task.id || null,
+                          }}
+                          taskId={task.id}
+                        />
+                      ))}
+                      <div className="add-step-link" onClick={addStep}>
+                        Add a step
+                      </div>
+                    </div>
+                  );
+                }}
+              </FieldArray>
 
               {/* TODO: What happens when this is clicked? */}
-              <div className="add-step-link">
-                <Link to="/">Add a step</Link>
-              </div>
               <Flex justifyContent="center">
                 <Button type="submit">SAVE TO WORKPLAN</Button>
               </Flex>

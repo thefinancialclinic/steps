@@ -12,16 +12,17 @@ enum INPUT_TYPE {
   textarea = 'textarea',
 }
 
+type InputType = 'email' | 'number' | 'password' | 'text' | 'textarea';
+
 interface Props {
   rounded?: boolean;
-  type?:
-    | INPUT_TYPE.email
-    | INPUT_TYPE.number
-    | INPUT_TYPE.password
-    | INPUT_TYPE.text
-    | INPUT_TYPE.textarea;
+  type?: InputType;
   name?: string;
   defaultValue?: string;
+  value?: string;
+  onBlur?: any;
+  onChange?: any;
+  onFocus?: any;
 }
 
 const Input: React.SFC<Props> = ({
@@ -29,13 +30,22 @@ const Input: React.SFC<Props> = ({
   rounded = false,
   type = INPUT_TYPE.text,
   name,
+  ...rest
 }) => {
   const InputWrapper = rounded ? RoundInputWrapper : BaseInputWrapper;
 
   let input;
   if (type === INPUT_TYPE.textarea)
-    input = <Textarea name={name} defaultValue={defaultValue} />;
-  else input = <BaseInput type={type} defaultValue={defaultValue} />;
+    input = <Textarea name={name} defaultValue={defaultValue} {...rest} />;
+  else
+    input = (
+      <BaseInput
+        type={type}
+        name={name}
+        defaultValue={defaultValue}
+        {...rest}
+      />
+    );
 
   return <InputWrapper>{input}</InputWrapper>;
 };

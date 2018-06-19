@@ -1,18 +1,22 @@
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import styled from 'styled-components';
+import { Field } from 'react-final-form';
 import { green, white } from 'styles/colors';
 import Input from 'atoms/Input/Input';
+import { Step } from 'reducers/tasks';
 
 interface Props {
   className?: string;
   count: number;
-  step?: any;
+  name: string;
+  step?: Step;
+  taskId: number;
 }
 
 class TaskStep extends React.Component<Props, {}> {
   render() {
-    const { className, count, step } = this.props;
+    const { className, count, name, step, taskId } = this.props;
 
     return (
       <Flex className={className}>
@@ -27,7 +31,16 @@ class TaskStep extends React.Component<Props, {}> {
           </Flex>
         </Box>
         <Box width={7 / 8} className="step-text">
-          <Input type="textarea" defaultValue={step ? step.text : ''} />
+          <Field name={`${name}.task_id`} component="text" />
+          <Field name={`${name}.text`}>
+            {({ input }) => (
+              <Input
+                type="textarea"
+                {...input}
+                defaultValue={step ? step.text : ''}
+              />
+            )}
+          </Field>
         </Box>
       </Flex>
     );
