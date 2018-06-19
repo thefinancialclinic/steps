@@ -7,8 +7,7 @@ import AdminProfile from './Profile';
 import AdminOrganization from './Organization';
 import AdminStaff from './Staff';
 
-const Admin: RoutesElement = () => {
-  const { user } = this.props;
+const Admin: RoutesElement = ({ user }) => {
   if (!user) return null;
 
   const links = [
