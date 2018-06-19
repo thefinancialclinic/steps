@@ -7,9 +7,7 @@ import { Flex } from 'grid-styled';
 import React from 'react';
 import PhotoUpload from 'components/PhotoUpload';
 
-interface Props {
-  className?: string;
-}
+interface Props {}
 
 class Profile extends React.Component<Props, {}> {
   render() {

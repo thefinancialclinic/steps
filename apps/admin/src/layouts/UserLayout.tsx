@@ -14,7 +14,7 @@ interface Props {
   component: React.Component | React.SFC | any;
 }
 
-class Client extends React.Component<Props, {}> {
+class UserLayout extends React.Component<Props, {}> {
   private static defaultProps = {
     withAddTask: false,
   };
@@ -22,8 +22,6 @@ class Client extends React.Component<Props, {}> {
   render() {
     const { user, links, routes, component: Component, ...rest } = this.props;
     if (!user) return null;
-
-    console.log('hello');
 
     return (
       <StyledClient>
@@ -46,4 +44,4 @@ class Client extends React.Component<Props, {}> {
 }
 const StyledClient = styled.div``;
 
-export default Client;
+export default UserLayout;

@@ -254,7 +254,7 @@ export const Components = storiesOf('Components', module)
             description: 'A helpful description',
           },
         ]}
-        client={{ id: 1 }}
+        user={{ id: 1 }}
       />
     );
   })

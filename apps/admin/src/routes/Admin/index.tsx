@@ -1,8 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { RoutesProps } from '../index';
 import { composeUserLayout } from 'layouts';
+
 import AdminProfile from './Profile';
 import AdminOrganization from './Organization';
 import AdminStaff from './Staff';
@@ -21,7 +21,7 @@ class Admin extends React.Component<RoutesProps, {}> {
     ];
 
     const composeLayout = Component =>
-      composeUserLayout(Component, { links, client: user, role: user.type });
+      composeUserLayout(Component, { links, user, role: user.type });
 
     return (
       <Switch>
@@ -34,6 +34,4 @@ class Admin extends React.Component<RoutesProps, {}> {
   }
 }
 
-const mapStateToProps = () => ({});
-
-export default connect(mapStateToProps)(Admin);
+export default Admin;
