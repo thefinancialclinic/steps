@@ -12,7 +12,7 @@ import TaskStep from 'components/Tasks/TaskStep';
 import api from 'api';
 
 interface Props {
-  client: any;
+  user: any;
   onSubmit: any;
   task?: any;
 }
