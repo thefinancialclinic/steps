@@ -11,31 +11,29 @@ describe('User entity operations', () => {
   beforeAll(async () => {
     pool = await getTestConnectionPool({ createFixtures: true });
     repo = new UserRepository(pool);
-    user = await repo.save(
-      new User({
-        first_name: 'FIRST',
-        last_name: 'LAST',
-        email: 'EMAIL',
-        phone: 'PHONE',
-        org_id: fixtures.org.id,
-        color: 'COLOR',
-        goals: ['walk', 'run'],
-        status: 'AWAITING_HELP',
-        type: 'Client',
-        updated: new Date(),
-        platform: 'SMS',
-        follow_up_date: new Date(),
-        plan_url: 'http://plan.example.com',
-        checkin_times: [
-          {
-            topic: 'TOPIC',
-            message: 'MESSAGE',
-            time: new Date(),
-          },
-        ],
-        temp_help_response: 'RESPONSE',
-      }),
-    );
+    user = await repo.save({
+      first_name: 'FIRST',
+      last_name: 'LAST',
+      email: 'EMAIL',
+      phone: 'PHONE',
+      org_id: fixtures.org.id,
+      color: 'COLOR',
+      goals: ['walk', 'run'],
+      status: 'AWAITING_HELP',
+      type: 'Client',
+      updated: new Date(),
+      platform: 'SMS',
+      follow_up_date: new Date(),
+      plan_url: 'http://plan.example.com',
+      checkin_times: [
+        {
+          topic: 'TOPIC',
+          message: 'MESSAGE',
+          time: new Date(),
+        },
+      ],
+      temp_help_response: 'RESPONSE',
+    });
   });
 
   afterAll(async () => {
@@ -44,45 +42,45 @@ describe('User entity operations', () => {
   });
 
   it('find a user', async () => {
-    let actual = await repo.getOne(user.id);
-    expect(actual.id).toBe(user.id);
-    expect(actual.checkin_times[0].topic).toBe('TOPIC');
+    let actual = await repo.get({ id: user.id });
+    expect(actual[0].id).toBe(user.id);
+    expect(actual[0].checkin_times[0].topic).toBe('TOPIC');
   });
 
   it('gets all users', async () => {
-    let actual = await repo.getAll();
+    let actual = await repo.get({});
     expect(actual.filter(foundUser => foundUser.id == user.id).length).toBe(1);
   });
 
   it('gets a client plan_url', async () => {
-    let actual = await repo.getOne(user.id);
-    expect(actual.plan_url).toBe('http://plan.example.com');
+    let actual = await repo.get({ id: user.id });
+    expect(actual[0].plan_url).toBe('http://plan.example.com');
   });
 
   it('updates user topic', async () => {
-    let actual = await repo.getOne(user.id);
-    expect(actual.topic).toBe(null);
-    actual.topic = 'New topic';
-    await repo.update(actual, user.id);
-    expect(actual.topic).toBe('New topic');
+    let actual = await repo.get({ id: user.id });
+    expect(actual[0].topic).toBe(null);
+    actual[0].topic = 'New topic';
+    await repo.update(actual[0], { id: user.id });
+    expect(actual[0].topic).toBe('New topic');
   });
 
   it('updates temp help response', async () => {
-    let actual = await repo.getOne(user.id);
-    expect(actual.temp_help_response).toBe('RESPONSE');
-    actual.temp_help_response = 'NEW RESPONSE';
-    await repo.update(actual, user.id);
-    expect(actual.temp_help_response).toBe('NEW RESPONSE');
+    let actual = await repo.get({ id: user.id });
+    expect(actual[0].temp_help_response).toBe('RESPONSE');
+    actual[0].temp_help_response = 'NEW RESPONSE';
+    await repo.update(actual[0], { id: user.id });
+    expect(actual[0].temp_help_response).toBe('NEW RESPONSE');
   });
 
   it('partially updates a user', async () => {
-    const subject = await repo.update({ first_name: 'Fred' }, user.id);
+    const subject = await repo.update({ first_name: 'Fred' }, { id: user.id });
     expect(subject.first_name).toBe('Fred');
     expect(subject.last_name).toBe('LAST'); // unchanged
   });
 
   it('Update a user with empty object', async () => {
-    const subject = await repo.update({}, user.id);
+    const subject = await repo.update({}, { id: user.id });
     expect(subject.last_name).toEqual('LAST'); // unchanged
   });
 });

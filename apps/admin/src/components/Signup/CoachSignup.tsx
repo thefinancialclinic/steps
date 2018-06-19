@@ -20,7 +20,7 @@ class CoachSignup extends React.Component<any, any> {
       last_name,
       email,
       password,
-      org_id: this.props.org.id,
+      org_id: this.props.match.params.orgId,
     };
     try {
       await this.props.actions.signup(USER_TYPE.COACH, user_attrs);
@@ -33,15 +33,10 @@ class CoachSignup extends React.Component<any, any> {
     }
   };
 
-  componentDidMount() {
-    this.props.actions.getOrg(this.props.match.params.orgId);
-  }
-
   render() {
     return (
       <FormContainer>
         <h1>Sign Up</h1>
-        <OrgInfo org={this.props.org} />
         <CoachSignupForm onSubmit={this.onSubmit} />
         <p className="login">
           Already have an account? <Link to="/login">Log In</Link>

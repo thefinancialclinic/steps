@@ -6,6 +6,7 @@ import { TaskController } from './controller/TaskController';
 import { MessageController } from './controller/MessageController';
 import { MediaController } from './controller/MediaController';
 import { RequestController } from './controller/RequestController';
+import { AuthController } from './controller/AuthController';
 
 export const Routes = [
   {

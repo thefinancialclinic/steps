@@ -1,5 +1,6 @@
 import { Repository } from './Repository';
 import { Pool, Client } from 'pg';
+import { User, UserId } from './UserRepository';
 
 export type MediaId = number;
 export type MediaType =
@@ -47,16 +48,61 @@ export class Media {
 export class MediaRepository implements Repository<MediaId, Media> {
   constructor(public pool: Pool) {}
 
+  async get(conditions = {}) {
+    let client;
+    try {
+      client = await this.pool.connect();
+      let q = 'SELECT * FROM media WHERE 1 = 1';
+      let val;
+      Object.keys(conditions).forEach(label => {
+        val = conditions[label];
+        val = typeof val === 'string' ? client.escapeLiteral(val) : val;
+        q = q + ` AND ${client.escapeIdentifier(label)} = ${val}`;
+      });
+      const res = await this.pool.query(q);
+      return res.rows.map(media => new Media(media));
+    } catch (err) {
+      throw `Could not query Media (${err})`;
+    } finally {
+      client.release();
+    }
+  }
+
   async getOne(id: MediaId): Promise<Media> {
-    const res = await this.pool.query(`SELECT * FROM media WHERE id = $1`, [
-      id,
-    ]);
-    return new Media(res.rows[0]);
+    try {
+      const res = await this.get({ id: id });
+      if (res && res.length > 0) {
+        return res[0];
+      } else {
+        throw `Media ${id} not found`;
+      }
+    } catch (err) {
+      throw `Could not get Media (${err})`;
+    }
   }
 
   async getAll(): Promise<Media[]> {
     const res = await this.pool.query(`SELECT * FROM media`);
     return res.rows.map(row => new Media(row));
+  }
+
+  // Get all media of all tasks assigned to userId
+  async byOwner(userId: UserId): Promise<Media[]> {
+    try {
+      const res = await this.pool.query(
+        `
+        SELECT media.*
+        FROM media
+        JOIN task ON task.id = media.task_id
+        JOIN "user" usr ON usr.id = task.user_id
+        WHERE usr.id = $1;
+      `,
+        [userId],
+      );
+      return res.rows.map(row => new Media(row));
+    } catch (err) {
+      throw `Could not query media belonging to user (${err})`;
+    }
   }
 
   async save(media: Media): Promise<Media> {
@@ -122,5 +168,23 @@ export class MediaRepository implements Repository<MediaId, Media> {
       ],
     );
     return new Media(res.rows[0]);
+  }
+
+  async owner(mediaId: MediaId): Promise<User[]> {
+    try {
+      const res = await this.pool.query(
+        `
+        SELECT usr.*
+        FROM media
+        JOIN task ON task.id = media.task_id
+        JOIN "user" usr ON usr.id = task.user_id
+        WHERE media.id = $1
+        AND usr.type = 'Client';`,
+        [mediaId],
+      );
+      return res.rows.map(user => new User(user));
+    } catch (err) {
+      throw `Could not determine owner of media (${err})`;
+    }
   }
 }

@@ -1,8 +1,9 @@
 import { Repository } from './Repository';
 import { Pool, Client } from 'pg';
 import { MediaId } from './MediaRepository';
-import { UserId } from './UserRepository';
+import { UserId, User } from './UserRepository';
 import { RequestId } from './RequestRepository';
+import { OrgId } from './OrgRepository';
 
 export type MessageId = number;
 export type ObjectType = {
@@ -85,6 +86,26 @@ export class MessageRepository implements Repository<MessageId, Message> {
     return new Message(res.rows[0]);
   }
 
+  async get(conditions = {}) {
+    let client;
+    try {
+      client = await this.pool.connect();
+      let q = 'SELECT * FROM task WHERE 1 = 1';
+      let val;
+      Object.keys(conditions).forEach(label => {
+        val = conditions[label];
+        val = typeof val === 'string' ? client.escapeLiteral(val) : val;
+        q = q + ` AND ${client.escapeIdentifier(label)} = ${val}`;
+      });
+      const res = await this.pool.query(q);
+      return res.rows.map(user => new Message(user));
+    } catch (err) {
+      throw `Could not query Tasks (${err})`;
+    } finally {
+      client.release();
+    }
+  }
+
   async delete(id: MessageId): Promise<number> {
     const res = await this.pool.query(
       `DELETE FROM public.message WHERE id = $1`,
@@ -120,5 +141,50 @@ export class MessageRepository implements Repository<MessageId, Message> {
       ],
     );
     return new Message(res.rows[0]);
+  }
+
+  // Select the two users involved in this message (to and from)
+  async participants(msgId: MessageId): Promise<User[]> {
+    if (!msgId) {
+      throw `You must provide a messageId to determine participants`;
+    }
+    try {
+      const res = await this.pool.query(
+        `
+        SELECT usr.*
+        FROM message msg
+        JOIN "user" usr ON (usr.id = msg.to_user OR usr.id = msg.from_user)
+        WHERE msg.id = $1
+        ORDER BY usr.type
+        LIMIT 2
+        `,
+        [msgId],
+      );
+      return res.rows.map(row => new User(row));
+    } catch (err) {
+      throw `Could not determine users attached to this message (${err})`;
+    }
+  }
+
+  // Select the coach involved in the message (if any)
+  async coach(msgId: MessageId): Promise<User[]> {
+    if (!msgId) {
+      throw `You must provide a messageId to determine Message coach`;
+    }
+    try {
+      const res = await this.pool.query(
+        `
+        SELECT usr.*
+        FROM message msg
+        JOIN "user" usr ON (usr.id = msg.from_user OR usr.id = msg.to_user)
+        WHERE msg.id = $1
+        AND usr.type = 'Coach'        
+        `,
+        [msgId],
+      );
+      return res.rows.map(row => new User(row));
+    } catch (err) {
+      throw `Could not determine users attached to this message (${err})`;
+    }
   }
 }

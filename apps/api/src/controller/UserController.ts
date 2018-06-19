@@ -6,18 +6,39 @@ export class UserController {
   private repo = new UserRepository(pool);
 
   async all(request: Request, response: Response, next: NextFunction) {
-    return this.repo.getAll();
+    try {
+      return this.repo.getAll();
+    } catch (err) {
+      throw `Could not list all Users (${err})`;
+    }
   }
 
   async one(request: Request, response: Response, next: NextFunction) {
-    return this.repo.getOne(request.params.id);
+    try {
+      return this.repo.getOne(request.params.id);
+    } catch (err) {
+      throw `Could not get User (${err})`;
+    }
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
-    return this.repo.save(request.body);
+    try {
+      response.status(201);
+      return this.repo.save(request.body);
+    } catch (err) {
+      throw `Could not create User (${err})`;
+    }
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {
-    await this.repo.delete(request.params.id);
+    try {
+      await this.repo.delete(request.params.id);
+    } catch (err) {
+      throw `Could not delete User (${err})`;
+    }
+  }
+
+  async isAllowed({ user, params, method }) {
+    return true;
   }
 }

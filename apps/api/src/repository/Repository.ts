@@ -1,6 +1,7 @@
 import { Pool } from 'pg';
 
 export interface Repository<K, T> {
+  get(conditions: {}): Promise<T[]>;
   getOne(id: K): Promise<T>;
   getAll(): Promise<T[]>;
   save(item: T): Promise<T>;

@@ -47,18 +47,6 @@ describe('Auth actions', () => {
       expect(mockPost.calls[0][1].type).toBe('Coach');
     });
 
-    it('adds required attributes to user attributes', async () => {
-      await signup(USER_TYPE.COACH, {
-        email: 'fake@example.com',
-        password: 'hunter2',
-      })();
-      const post = api.post as jest.Mock;
-      const mockPost = post.mock;
-      const userAttrs = mockPost.calls[0][1];
-      expect(userAttrs.goals).toEqual([]);
-      expect(userAttrs.status).toBe('WORKING');
-    });
-
     it('POSTs to create a new (domain) user', async () => {
       await signup(USER_TYPE.COACH, {
         email: 'fake@example.com',
@@ -67,33 +55,7 @@ describe('Auth actions', () => {
       const post = api.post as jest.Mock;
       const mockPost = post.mock;
       const endpoint = mockPost.calls[0][0];
-      expect(endpoint).toBe('/users');
-    });
-
-    it('creates org for admin users', async () => {
-      await signup(USER_TYPE.ADMIN, {
-        email: 'fake@example.com',
-        password: 'hunter2',
-        organization_name: 'organization',
-      })();
-      const post = api.post as jest.Mock;
-      const mockPost = post.mock;
-      const [endpoint, attrs] = mockPost.calls[0];
-      expect(endpoint).toBe('/orgs');
-      expect(attrs.name).toBe('organization');
-    });
-
-    it('adds org ID to admin user attrs', async () => {
-      await signup(USER_TYPE.ADMIN, {
-        email: 'fake@example.com',
-        password: 'hunter2',
-        organization_name: 'organization',
-      })();
-      const post = api.post as jest.Mock;
-      const mockPost = post.mock;
-      const [endpoint, attrs] = mockPost.calls[1];
-      expect(endpoint).toBe('/users');
-      expect(attrs.org_id).toBe(1);
+      expect(endpoint).toBe('/signup');
     });
 
     it('logs in to auth0 after auth0 signup and domain user creation', async () => {
