@@ -6,7 +6,7 @@ import Root from './Root';
 import configureStore from './store';
 import styleGlobals from 'styles/global';
 
-if (process.env.NODE_ENV === 'production') require('./tracker');
+if (process.env.NODE_ENV === 'production') require('./chat-widget');
 
 const store = configureStore();
 const rootEl = document.getElementById('root');
