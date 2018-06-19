@@ -78,7 +78,7 @@ class TaskForm extends React.Component<Props, null> {
                             ...fields.value[index],
                             task_id: task.id || null,
                           }}
-                          taskId={task.id}
+                          removeField={fields.remove}
                         />
                       ))}
                       <div className="add-step-link" onClick={addStep}>

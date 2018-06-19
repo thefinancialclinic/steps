@@ -229,7 +229,9 @@ export const Components = storiesOf('Components', module)
       onClose={() => {}}
     />
   ))
-  .add('Task Step', () => <TaskStep name="thing" taskId={0} count={1} />)
+  .add('Task Step', () => (
+    <TaskStep name="thing" removeField={i => null} count={1} />
+  ))
   // TODO: FIX LATER
   // .add('Task Template', () => <TaskTemplate task={{
   //   id: 1,
