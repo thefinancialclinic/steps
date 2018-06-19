@@ -2,6 +2,7 @@ import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import styled from 'styled-components';
 import { green, white } from 'styles/colors';
+import Input from 'atoms/Input/Input';
 
 interface Props {
   className?: string;
@@ -26,7 +27,7 @@ class TaskStep extends React.Component<Props, {}> {
           </Flex>
         </Box>
         <Box width={7 / 8} className="step-text">
-          <input type="text" defaultValue={step ? step.text : ''} />
+          <Input type="textarea" defaultValue={step ? step.text : ''} />
         </Box>
       </Flex>
     );
