@@ -14,11 +14,17 @@ export const authenticate = async userType => {
 export const LOGIN = 'LOGIN';
 export const login = (userType, userEmail) => async dispatch => {
   let user: User = { type: userType, email: userEmail };
-  let org: any = {};
+  let org: any = { name: 'Steps' };
 
   try {
     if (userType === USER_TYPE.SUPER_ADMIN) {
+      user.first_name = 'SuperAdmin';
+      user.last_name = 'User';
+      user.org = org;
     } else if (userType === USER_TYPE.ADMIN) {
+      user.first_name = 'Admin';
+      user.last_name = 'User';
+      user.org = org;
     } else if (userType === USER_TYPE.COACH) {
       const coaches = await api.get('/coaches');
       user = coaches.data.find(c => c.email === userEmail) || coaches.data[0];
@@ -27,6 +33,8 @@ export const login = (userType, userEmail) => async dispatch => {
     } else if (userType === USER_TYPE.CLIENT) {
       const clients = await api.get('/clients');
       user = clients.data.find(c => c.email === userEmail) || clients.data[0];
+      org = await api.get(`/orgs/${user.org_id}`);
+      user.org = org.data;
     }
 
     dispatch({ type: LOGIN, user });
