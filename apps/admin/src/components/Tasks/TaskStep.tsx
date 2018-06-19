@@ -11,12 +11,12 @@ interface Props {
   count: number;
   name: string;
   step?: Step;
-  taskId: number;
+  removeField: (number) => void;
 }
 
 class TaskStep extends React.Component<Props, {}> {
   render() {
-    const { className, count, name, step, taskId } = this.props;
+    const { className, count, removeField, name, step } = this.props;
 
     return (
       <Flex className={className}>
@@ -26,7 +26,7 @@ class TaskStep extends React.Component<Props, {}> {
               <div className="circle">{count}</div>
             </Box>
             <Box width={1} mt={1}>
-              &nbsp;X
+              <div onClick={() => removeField(count - 1)}>&nbsp;X</div>
             </Box>
           </Flex>
         </Box>
