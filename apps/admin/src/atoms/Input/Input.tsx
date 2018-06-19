@@ -14,7 +14,12 @@ enum INPUT_TYPE {
 
 interface Props {
   rounded?: boolean;
-  type?: INPUT_TYPE.email | INPUT_TYPE.number | INPUT_TYPE.password | INPUT_TYPE.text | INPUT_TYPE.textarea;
+  type?:
+    | INPUT_TYPE.email
+    | INPUT_TYPE.number
+    | INPUT_TYPE.password
+    | INPUT_TYPE.text
+    | INPUT_TYPE.textarea;
   name?: string;
   defaultValue?: string;
 }
