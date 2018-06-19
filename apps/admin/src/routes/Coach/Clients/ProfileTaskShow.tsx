@@ -8,7 +8,7 @@ import { findById } from 'helpers';
 
 interface Props {
   className?: string;
-  client: any;
+  user: any;
   task: any;
   location: Location;
   actions: { deleteTask; getTasks };
@@ -26,10 +26,10 @@ class TaskShow extends React.Component<Props> {
   }
 
   render() {
-    const { client, task, actions, location } = this.props;
+    const { user, task, actions, location } = this.props;
     return (
       <TaskDetails
-        client={client}
+        user={user}
         task={task}
         actions={actions}
         location={location}
@@ -40,7 +40,7 @@ class TaskShow extends React.Component<Props> {
 
 const mapStateToProps = (state, props) => ({
   task: findById(state.tasks.tasks, props.match.params.taskId),
-  client: findById(state.clients.clients, props.match.params.id),
+  user: findById(state.clients.clients, props.match.params.id),
 });
 
 const mapDispatchToProps = dispatch => ({

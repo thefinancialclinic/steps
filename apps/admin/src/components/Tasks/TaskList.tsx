@@ -73,7 +73,7 @@ interface Props {
   className?: string;
   actions?: any;
   tasks?: any;
-  client: any;
+  user: any;
   match: Match;
 }
 
@@ -94,7 +94,7 @@ export class TaskList extends React.Component<Props, {}> {
   };
 
   render() {
-    const { tasks, client, match } = this.props;
+    const { tasks, user, match } = this.props;
 
     const taskDisplay =
       tasks.length > 0 ? (
@@ -108,13 +108,13 @@ export class TaskList extends React.Component<Props, {}> {
             url={match.url}
           />
           <Flex justifyContent="center">
-            <Link to={`/clients/${client.id}/tasks/add`}>
+            <Link to={`/clients/${user.id}/tasks/add`}>
               <Button>Add New Task</Button>
             </Link>
           </Flex>
         </Box>
       ) : (
-        <NoTasks client={client} />
+        <NoTasks user={user} />
       );
 
     return <div>{taskDisplay}</div>;
@@ -139,12 +139,12 @@ const mapStateToProps = (state, props) => {
   return {
     tasks: filterById(
       state.tasks.tasks,
-      props.client.id || props.match.params.id,
+      props.user.id || props.match.params.id,
       'user_id',
     ),
-    client: findById(
+    user: findById(
       state.clients.clients,
-      props.client.id || props.match.params.id,
+      props.user.id || props.match.params.id,
     ),
   };
 };

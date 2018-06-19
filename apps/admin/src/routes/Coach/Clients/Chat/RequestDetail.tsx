@@ -5,7 +5,7 @@ import Main from 'atoms/Main';
 import BackButton from 'atoms/Buttons/BackButton';
 
 interface Props {
-  client: any;
+  user: any;
   match: any;
 }
 
@@ -17,13 +17,13 @@ export const addMessagesToRequest = (request, messages) => {
 
 export class RequestDetailRoute extends React.Component<Props> {
   render() {
-    const { client, match } = this.props;
-    const { messages, requests } = client;
+    const { user, match } = this.props;
+    const { messages, requests } = user;
     const request = findById(requests, match.params.requestId);
     const withMessages = addMessagesToRequest(request, messages);
     return (
       <Main>
-        <BackButton to={`/clients/${client.id}/chat/help`} />
+        <BackButton to={`/clients/${user.id}/chat/help`} />
         <RequestDetail request={withMessages} />
       </Main>
     );

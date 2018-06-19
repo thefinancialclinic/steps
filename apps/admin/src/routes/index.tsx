@@ -19,7 +19,7 @@ interface Props {
   history: any;
 }
 
-interface RoutesProps {
+export interface RoutesProps {
   children?: any;
   user?: User;
   history: any;
