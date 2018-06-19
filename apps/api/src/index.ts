@@ -23,6 +23,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT || '3001';
 const localConnString = 'postgres://postgres@localhost:5432/steps_admin_test';
 const connUrl = url.parse(process.env.DATABASE_URL || localConnString);
+const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
 
 // Auth0 Config
 const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID;
@@ -76,10 +77,8 @@ const app = express();
 app.use(bodyParser.json());
 
 if (isProduction) {
-  const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
   app.use(httpsRedirect);
   app.use(express.static(buildPath));
-  app.all('*', (_, res) => res.sendfile(resolve(buildPath, 'index.html')));
 } else {
   app.use(cors());
 
@@ -120,6 +119,11 @@ app.get('/api/private', checkJwt, (req, res) => {
   res.type('json');
   return res.send(req.user); // added by checkJwt, contains user data
 });
+
+// Send any unmatched routes to the React app for frontend routing
+if (isProduction) {
+  app.all('*', (_, res) => res.sendfile(resolve(buildPath, 'index.html')));
+}
 
 // Error handling
 if (process.env.NODE_ENV !== 'production') {
