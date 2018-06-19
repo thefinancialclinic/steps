@@ -1,27 +1,78 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { remCalc } from 'styles/type';
 import { black, mediumBlue, white } from 'styles/colors';
 
-interface Props {
-  rounded?: boolean;
-  type?: string;
-  name?: string;
+enum INPUT_TYPE {
+  email = 'email',
+  number = 'number',
+  password = 'password',
+  text = 'text',
+  textarea = 'textarea',
 }
 
-const Input: React.SFC<Props> = ({ rounded = false, type, name }) => {
-  const InputEl = rounded ? RoundInput : BaseInput;
+type InputType = 'email' | 'number' | 'password' | 'text' | 'textarea';
 
-  return (
-    <InputEl>
-      <input type={type} />
-    </InputEl>
-  );
+interface Props {
+  rounded?: boolean;
+  type?: InputType;
+  name?: string;
+  defaultValue?: string;
+  value?: string;
+  onBlur?: any;
+  onChange?: any;
+  onFocus?: any;
+}
+
+const Input: React.SFC<Props> = ({
+  defaultValue,
+  rounded = false,
+  type = INPUT_TYPE.text,
+  name,
+  ...rest
+}) => {
+  const InputWrapper = rounded ? RoundInputWrapper : BaseInputWrapper;
+
+  let input;
+  if (type === INPUT_TYPE.textarea)
+    input = <Textarea name={name} defaultValue={defaultValue} {...rest} />;
+  else
+    input = (
+      <BaseInput
+        type={type}
+        name={name}
+        defaultValue={defaultValue}
+        {...rest}
+      />
+    );
+
+  return <InputWrapper>{input}</InputWrapper>;
 };
 // TODO: Add file input upload button
 
-const BaseInput = styled.div`
+const baseStyle = css`
+  border: none;
+  background: none;
+  box-shadow: none;
+  font-size: ${remCalc(18)};
+  padding-bottom: ${remCalc(21)};
+  padding-left: ${remCalc(20)};
+  padding-right: ${remCalc(20)};
+  padding-top: ${remCalc(21)};
+  width: 100%;
+`;
+
+const Textarea = styled.textarea`
+  resize: none;
+  ${baseStyle};
+`;
+
+const BaseInput = styled.input`
+  ${baseStyle};
+`;
+
+const BaseInputWrapper = styled.div`
   background-color: ${white};
   box-shadow: 0 0 0 1px ${mediumBlue};
   border: none;
@@ -29,21 +80,9 @@ const BaseInput = styled.div`
   color: ${black};
   display: inline-block;
   min-width: 180px;
-
-  input {
-    border: none;
-    background: none;
-    box-shadow: none;
-    font-size: ${remCalc(18)};
-    padding-bottom: ${remCalc(21)};
-    padding-left: ${remCalc(20)};
-    padding-right: ${remCalc(20)};
-    padding-top: ${remCalc(21)};
-    width: 100%;
-  }
 `;
 
-const RoundInput = BaseInput.extend`
+const RoundInputWrapper = BaseInputWrapper.extend`
   border-radius: 1000px;
 `;
 
