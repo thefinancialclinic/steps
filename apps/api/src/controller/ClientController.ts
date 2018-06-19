@@ -27,8 +27,8 @@ export class ClientController {
   async update(request: Request, response: Response, next: NextFunction) {
     const newUser = new User(request.body);
     newUser.type = 'Client';
-    newUser.id = request.params.id;
-    const user = await this.repo.update(newUser);
+    newUser.id = parseInt(request.params.id) || newUser.id;
+    const user = await this.repo.update(newUser, newUser.id);
     return user;
   }
 
