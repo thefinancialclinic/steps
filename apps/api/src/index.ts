@@ -14,6 +14,7 @@ import * as jwt from 'express-jwt';
 import * as jwtAuthz from 'express-jwt-authz';
 import { expressJwtSecret } from 'jwks-rsa';
 import * as token from 'jsonwebtoken';
+import { postgraphile } from 'postgraphile';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
@@ -22,7 +23,8 @@ import 'dotenv/config';
 const isProduction = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT || '3001';
 const localConnString = 'postgres://postgres@localhost:5432/steps_admin_test';
-const connUrl = url.parse(process.env.DATABASE_URL || localConnString);
+const databaseUrl = process.env.DATABASE_URL || localConnString;
+const connUrl = url.parse(databaseUrl);
 const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
 
 // Auth0 Config
@@ -119,6 +121,9 @@ app.get('/api/private', checkJwt, (req, res) => {
   res.type('json');
   return res.send(req.user); // added by checkJwt, contains user data
 });
+
+// Postgraphile
+app.use(postgraphile(databaseUrl, 'public', { graphiql: true }));
 
 // Send any unmatched routes to the React app for frontend routing
 if (isProduction) {
