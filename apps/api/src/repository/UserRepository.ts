@@ -136,6 +136,9 @@ export class UserRepository implements Repository<UserId, User> {
   }
 
   async update(userOpts: Partial<User>, userId: UserId): Promise<User> {
+    if (Object.keys(userOpts).length === 0) {
+      return this.getOne(userId);
+    }
     const client = await this.pool.connect();
     const rawColumns = Object.keys(userOpts);
     const columns = rawColumns.map(col => client.escapeIdentifier(col));

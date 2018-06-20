@@ -3,8 +3,10 @@ describe('API endpoints (accessed directly)', () => {
 
   // expected values
   const taskTitle = 'Title';
+  const newTaskCategory = 'New category';
   const clientFirstName = 'Client first name';
   const newClientFirstName = 'New client first name';
+  const newClientLastName = 'New client last name';
   const clientGoal = 'added goal';
   const messageText = 'Message text';
   const mediaTitle = 'Media title';
@@ -58,7 +60,6 @@ describe('API endpoints (accessed directly)', () => {
               published_by: 1,
               type: 'TASK_CONTENT',
             }).then(resp => {
-              console.log(resp.body.id);
               mediaId = resp.body.id;
 
               cy.request(
@@ -137,6 +138,15 @@ describe('API endpoints (accessed directly)', () => {
     });
   });
 
+  it('PUT Client (partial update)', () => {
+    request('PUT', `http://localhost:3001/api/clients/${clientId}`, {
+      last_name: newClientLastName,
+    }).then(response => {
+      expect(response.body).to.have.property('last_name', newClientLastName);
+      expect(response.body).to.have.property('email', 'client@example.com'); // unchanged
+    });
+  });
+
   it('GET Task', () => {
     cy.request('GET', `http://localhost:3001/api/tasks/${taskId}`).then(
       response => {
@@ -144,6 +154,15 @@ describe('API endpoints (accessed directly)', () => {
         expect(response.body.user_id).to.equal(clientId);
       },
     );
+  });
+
+  it('PUT Task (partial update)', () => {
+    request('PUT', `http://localhost:3001/api/tasks/${taskId}`, {
+      category: newTaskCategory,
+    }).then(response => {
+      expect(response.body).to.have.property('category', newTaskCategory);
+      expect(response.body).to.have.property('status', 'ACTIVE'); // unchanged
+    });
   });
 
   it('GET Client Tasks', () => {

@@ -146,7 +146,6 @@ export class TaskRepository implements Repository<TaskId, Task> {
       );
       return new Task(result.rows[0]);
     } catch (err) {
-      console.log(err);
       throw `Could not update Task (${err})`;
     } finally {
       client.release();
