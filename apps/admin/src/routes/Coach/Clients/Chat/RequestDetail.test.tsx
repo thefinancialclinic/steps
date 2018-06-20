@@ -24,7 +24,7 @@ it('handles requests with no messages', () => {
 
 it('handles the form submission', () => {
   const actions = {
-    addClientMessage: jest.fn().mockReturnValue(Promise.resolve()),
+    createReply: jest.fn().mockReturnValue(Promise.resolve()),
     addAlert: jest.fn(),
   };
   const match = {
@@ -41,14 +41,14 @@ it('handles the form submission', () => {
   );
   const form = wrapper.find(RequestDetail);
 
-  form.simulate('submit');
+  form.simulate('submit', { reply: 'some reply' });
 
-  expect(actions.addClientMessage).toHaveBeenCalled();
+  expect(actions.createReply).toHaveBeenCalled();
 });
 
 it('displays an error if the form submission returns an error', () => {
   const actions = {
-    addClientMessage: jest
+    createReply: jest
       .fn()
       .mockReturnValue(Promise.reject({ message: 'some error' })),
     addAlert: jest.fn(),
@@ -67,7 +67,7 @@ it('displays an error if the form submission returns an error', () => {
   );
   const form = wrapper.find(RequestDetail);
 
-  form.simulate('submit');
+  form.simulate('submit', { reply: 'some reply ' });
 
   setTimeout(() => {
     expect(actions.addAlert).toHaveBeenCalled();

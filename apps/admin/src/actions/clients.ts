@@ -1,7 +1,8 @@
 import api from 'api';
 import { Client } from 'reducers/clients';
 import moment from 'moment';
-import { Message } from 'components/Chat/types';
+import { Message, Request } from 'components/Chat/types';
+import { findById } from 'helpers';
 
 type DispatchFn = (dispatch?: any, getState?: any) => any;
 
@@ -141,13 +142,39 @@ export const setClientFollowUpDate = async (
   }
 };
 
-export const addClientMessage = (
-  clientId: number,
-  messages: Message[],
-  message: Message,
-): DispatchFn => async dispatch => {
-  // TODO: Make API request
-  return dispatch(setClientMessages(clientId, [...messages, message]));
+export const createReply = (
+  text: String,
+  client: Client & { messages: Message[]; requests: Request[] },
+  requestId: number,
+): DispatchFn => async (dispatch, getState) => {
+  const { user } = getState().auth;
+  const { data: messageData } = await api.post(`/messages`, {
+    text,
+    to_user: client.id,
+    from_user: user.id,
+    request_id: requestId,
+    timestamp: moment.utc().toLocaleString(),
+  });
+
+  const request = findById(client.requests, requestId);
+  const { data: requestData } = await api.put(`/requests/${requestId}`, {
+    status: 'REPLIED',
+    user_id: client.id,
+    task_id: request.task_id,
+  });
+
+  dispatch(setClientMessages(client.id, [...client.messages, messageData]));
+  dispatch(
+    setClientRequests(
+      client.id,
+      client.requests.map(request => {
+        if (request.id == requestId) {
+          return requestData;
+        }
+        return request;
+      }),
+    ),
+  );
 };
 
 export const getClientMessagesAndRequests = (

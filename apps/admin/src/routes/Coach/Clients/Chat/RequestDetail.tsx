@@ -4,7 +4,7 @@ import { findById } from 'helpers';
 import Main from 'atoms/Main';
 import BackButton from 'atoms/Buttons/BackButton';
 import { bindActionCreators } from 'redux';
-import { addClientMessage } from 'actions/clients';
+import { createReply } from 'actions/clients';
 import { connect } from 'react-redux';
 import { addAlert } from 'actions/alerts';
 import { AlertLevel } from 'components/Alert/types';
@@ -12,7 +12,7 @@ import { AlertLevel } from 'components/Alert/types';
 interface Props {
   user: any;
   match: any;
-  actions: { addClientMessage(data): Promise<void>; addAlert };
+  actions: { createReply; addAlert };
 }
 
 export const addMessagesToRequest = (request, messages) => {
@@ -20,16 +20,22 @@ export const addMessagesToRequest = (request, messages) => {
   request.messages = requestMessages;
   return request;
 };
+// text: String,
+// client: Client & { messages: Message[] },
+// requestId: number,
 
 export class RequestDetailRoute extends React.Component<Props> {
-  onSubmit = data => {
-    this.props.actions.addClientMessage(data).catch(err => {
-      this.props.actions.addAlert({
-        level: AlertLevel.Error,
-        id: 'request-detail-error',
-        message: err.message,
+  onSubmit = ({ reply }) => {
+    const { user, match } = this.props;
+    this.props.actions
+      .createReply(reply, user, match.params.requestId)
+      .catch(err => {
+        this.props.actions.addAlert({
+          level: AlertLevel.Error,
+          id: 'request-detail-error',
+          message: err.message,
+        });
       });
-    });
   };
 
   render() {
@@ -47,7 +53,7 @@ export class RequestDetailRoute extends React.Component<Props> {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ addClientMessage, addAlert }, dispatch),
+  actions: bindActionCreators({ createReply, addAlert }, dispatch),
 });
 
 export default connect(
