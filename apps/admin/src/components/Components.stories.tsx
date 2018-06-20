@@ -24,7 +24,7 @@ import PhotoUpload from './PhotoUpload';
 import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
-import { PermissionLevel } from './StaffList/types';
+import { PermissionLevel, User } from './StaffList/types';
 import { TaskList } from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
 import moment from 'moment';
@@ -33,6 +33,8 @@ import { Reply } from './Chat/Reply';
 import { Resolved } from './Chat/Resolved';
 import ReplyForm from 'forms/ReplyForm';
 import RequestDetail from 'components/Chat/RequestDetail';
+import UserProfile from 'components/Admin/UserProfile';
+import OrganizationProfile from './Admin/OrganizationProfile';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -290,6 +292,12 @@ export const Components = storiesOf('Components', module)
   .add('Photo Upload', () => <PhotoUpload />)
   .add('Goal', () => (
     <Goal text="My goal is to go to the moon" onEdit={() => {}} />
+  ))
+  .add('User Profile', () => (
+    <UserProfile name="Jane Smith" email="jane@example.com" />
+  ))
+  .add('Organization Profile', () => (
+    <OrganizationProfile name="Organization name" />
   ));
 
 export default Components;

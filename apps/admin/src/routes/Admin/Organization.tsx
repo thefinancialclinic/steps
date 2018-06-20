@@ -1,25 +1,25 @@
-import Button from 'atoms/Buttons/Button';
-import Main from 'atoms/Main';
-import Panel from 'atoms/Panel';
-import DataRow from 'components/DataTable/DataRow';
-import DataTable from 'components/DataTable/DataTable';
+import OrganizationProfile from 'components/Admin/OrganizationProfile';
+import { Box } from 'grid-styled';
 import React from 'react';
-import { Flex } from 'grid-styled';
+import { User } from 'reducers/auth';
 
-class Organization extends React.Component<{}, {}> {
+interface Props {
+  user: User;
+}
+
+export class Organization extends React.Component<Props> {
+  get orgName() {
+    const { user } = this.props;
+    if (user.org) {
+      return user.org.name;
+    }
+  }
+
   render() {
     return (
-      <Main>
-        <Panel>
-          <DataTable>
-            <DataRow label="Organization Logo">Logo goes here</DataRow>
-            <DataRow label="Name">Name goes here</DataRow>
-          </DataTable>
-          <Flex justifyContent="center">
-            <Button>Edit</Button>
-          </Flex>
-        </Panel>
-      </Main>
+      <Box width={1} p={4}>
+        <OrganizationProfile name={this.orgName} />
+      </Box>
     );
   }
 }
