@@ -11,6 +11,18 @@ export const authenticate = async userType => {
   return { type: AUTHENTICATE, userType };
 };
 
+export const SET_USER = 'SET_USER';
+export const setUser = user => async dispatch => {
+  try {
+    console.log(user);
+    const org = await api.get(`/orgs/${user.org_id}`);
+    user.org = org;
+    dispatch({ type: SET_USER, user });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const LOGIN = 'LOGIN';
 export const login = (userType, userEmail) => async dispatch => {
   let user: User = { type: userType, email: userEmail };

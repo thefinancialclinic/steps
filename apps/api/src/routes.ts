@@ -6,8 +6,15 @@ import { TaskController } from './controller/TaskController';
 import { MessageController } from './controller/MessageController';
 import { MediaController } from './controller/MediaController';
 import { RequestController } from './controller/RequestController';
+import { AuthenticatedUserController } from './controller/AuthenticatedUserController';
 
 export const Routes = [
+  {
+    method: 'get',
+    route: '/api/user',
+    controller: AuthenticatedUserController,
+    action: 'one',
+  },
   {
     method: 'get',
     route: '/api/clients',

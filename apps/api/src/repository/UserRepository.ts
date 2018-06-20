@@ -72,6 +72,13 @@ export class User {
 export class UserRepository implements Repository<UserId, User> {
   constructor(public pool: Pool) {}
 
+  async getByEmail(email: string) {
+    const res = await this.pool.query(`SELECT * FROM "user" WHERE email = $1`, [
+      email,
+    ]);
+    return new User(res.rows[0]);
+  }
+
   async getOne(uid: UserId) {
     const res = await this.pool.query(`SELECT * FROM "user" WHERE id = $1`, [
       uid,
@@ -142,6 +149,12 @@ export class UserRepository implements Repository<UserId, User> {
     const values = rawColumns.map(col => userOpts[col]);
     const valPlaceholders = placeholders(2, values.length);
     try {
+      const query = `
+      UPDATE "user" SET (${columns.join(', ')}) = ROW(${valPlaceholders})
+      WHERE id = $1
+      RETURNING *
+    `;
+      console.log(query);
       const res = await client.query(
         `
         UPDATE "user" SET (${columns.join(', ')}) = ROW(${valPlaceholders})
@@ -150,6 +163,9 @@ export class UserRepository implements Repository<UserId, User> {
       `,
         [userId, ...values],
       );
+      console.log(userId);
+      console.log(values);
+      console.log(res.rows[0]);
       return new User(res.rows[0]);
     } catch (err) {
       throw `Could not update User (${err})`;

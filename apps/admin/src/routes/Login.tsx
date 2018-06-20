@@ -10,6 +10,21 @@ import LoginForm from 'forms/LoginForm';
 import { svgBackgroundImageUrl } from 'styles';
 import Panel from 'atoms/Panel';
 import { darkBlue } from 'styles/colors';
+import auth0 from 'services/auth0';
+
+class Auth0Login extends React.Component<any, any> {
+  render() {
+    return (
+      <div>
+        {auth0.hasCurrentSessionToken() ? (
+          <button onClick={() => auth0.logout()}>Log out of Auth0</button>
+        ) : (
+          <button onClick={() => auth0.login()}>Log in with Auth0</button>
+        )}
+      </div>
+    );
+  }
+}
 
 class Login extends React.Component<any, any> {
   private onSubmit = async ({ user_type, user_email }) => {
@@ -29,6 +44,7 @@ class Login extends React.Component<any, any> {
             <FormContainer>
               <h1>Log In</h1>
               <LoginForm onSubmit={this.onSubmit} />
+              <Auth0Login />
             </FormContainer>
           </Box>
         </Flex>

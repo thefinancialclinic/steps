@@ -52,7 +52,7 @@ const checkJwt = jwt({
   }),
 
   // Validate the audience of the issuer
-  audience: AUTH0_CLIENT_ID,
+  audience: 'http://steps-admin.herokuapp.com',
   issuer: AUTH0_ISSUER,
   algorithms: ['RS256'],
   complete: true,
@@ -60,8 +60,9 @@ const checkJwt = jwt({
 
 // Redirect HTTP requests to HTTPS
 const httpsRedirect = (req, res, next) => {
-  if (req.headers['x-forwarded-proto'] != 'https') {
-    res.redirect(302, `https://${req.hostname}${req.originalUrl}`);
+  const { headers, hostname, originalUrl } = req;
+  if (headers['x-forwarded-proto'] != 'https') {
+    res.redirect(302, `https://${hostname}${originalUrl}`);
   } else {
     next();
   }
@@ -98,6 +99,7 @@ if (isProduction) {
 Routes.forEach(route => {
   (app as any)[route.method](
     route.route,
+    checkJwt,
     async (req: Request, res: Response, next: Function) => {
       const controller = new route.controller() as any;
       try {
