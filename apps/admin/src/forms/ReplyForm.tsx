@@ -13,7 +13,7 @@ interface Props {
   onSubmit: (data) => void;
 }
 
-const GoalForm: React.SFC<Props> = ({ onSubmit }) => (
+const ReplyForm: React.SFC<Props> = ({ onSubmit }) => (
   <Form
     onSubmit={onSubmit}
     render={({ handleSubmit }) => (
@@ -42,4 +42,4 @@ const StyledForm = styled.form`
   }
 `;
 
-export default GoalForm;
+export default ReplyForm;

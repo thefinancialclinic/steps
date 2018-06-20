@@ -176,6 +176,7 @@ export const Components = storiesOf('Components', module)
   .add('ReplyForm', () => <ReplyForm onSubmit={() => {}} />)
   .add('RequestDetail', () => (
     <RequestDetail
+      onSubmit={() => {}}
       request={{
         id: 1,
         user_id: 1,
