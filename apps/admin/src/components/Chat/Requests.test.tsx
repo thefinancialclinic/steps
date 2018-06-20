@@ -1,7 +1,5 @@
-import { shallow } from 'enzyme';
-import Requests, { joinRequestsAndMessages } from './Requests';
-import * as React from 'react';
 import 'jest';
+import { joinRequestsAndMessages } from './Requests';
 import { RequestStatus } from './types';
 
 const needsAssistance: RequestStatus = 'NEEDS_ASSISTANCE';

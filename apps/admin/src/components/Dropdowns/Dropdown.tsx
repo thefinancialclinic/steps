@@ -6,7 +6,7 @@ import onClickOutside from 'react-onclickoutside';
 import Panel from 'atoms/Panel';
 import { darkBlue, white } from 'styles/colors';
 
-interface Props {
+export interface Props {
   className?: string;
   title: string;
 }
@@ -78,7 +78,6 @@ const CloseOnOutsideClickDropdown = onClickOutside(Dropdown);
 
 const StyledDropdown = styled<Props>(CloseOnOutsideClickDropdown)`
   .dropdown {
-    position: absolute;
     z-index: 1;
   }
 

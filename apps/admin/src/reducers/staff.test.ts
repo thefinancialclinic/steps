@@ -1,25 +1,31 @@
-import { inviteStaff } from '../actions/staff';
+import moment from 'moment';
+import { INVITE_STAFF } from '../actions/staff';
 import reducer from './staff';
 
 describe('Staff reducer', () => {
   it('stores invited emails', async () => {
-    try {
-      const action = await inviteStaff(['one@example.com', 'two@example.com']);
+    const date1 = moment.utc();
+    const date2 = moment.utc();
+    const initialState = { invitedCoaches: [], coaches: [] };
+    const mockAction = {
+      type: INVITE_STAFF,
+      invitedCoaches: [
+        { email: 'one@example.com', updated: date1 },
+        { email: 'two@example.com', updated: date2 },
+      ],
+    };
 
-      const updatedState = reducer([], action);
+    const { coaches } = reducer(initialState, mockAction);
 
-      expect(updatedState).toMatchObject([
-        {
-          email: 'one@example.com',
-          pendingInvite: true,
-        },
-        {
-          email: 'two@example.com',
-          pendingInvite: true,
-        },
-      ]);
-    } catch (error) {
-      return error;
-    }
+    expect(coaches).toMatchObject([
+      {
+        email: 'one@example.com',
+        updated: date1,
+      },
+      {
+        email: 'two@example.com',
+        updated: date2,
+      },
+    ]);
   });
 });

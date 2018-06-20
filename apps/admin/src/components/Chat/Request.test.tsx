@@ -22,7 +22,7 @@ describe('Request', () => {
     ).toBe('I need help');
   });
 
-  xit('renders correctly', () => {
+  it('renders correctly', () => {
     const wrapper = shallow(
       <Request status="NEEDS_ASSISTANCE" message="I need help" date={date} />,
     );

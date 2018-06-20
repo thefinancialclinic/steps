@@ -2,39 +2,39 @@ import { select, text } from '@storybook/addon-knobs/react';
 import { storiesOf } from '@storybook/react';
 import Button from 'atoms/Buttons/Button';
 import Input from 'atoms/Input/Input';
+import UserProfile from 'components/Admin/UserProfile';
+import RequestDetail from 'components/Chat/RequestDetail';
 import PageHeader from 'components/Headers/PageHeader';
+import ReplyForm from 'forms/ReplyForm';
+import moment from 'moment';
 import React from 'react';
+import { USER_TYPE } from 'reducers/auth';
 import { pink } from 'styles/colors';
 import 'styles/global';
+import OrganizationProfile from './Admin/OrganizationProfile';
 import { Alert } from './Alert/Alert';
 import { AlertLevel } from './Alert/types';
 import ChatMedia from './Chat/ChatMedia';
 import ChatMessage from './Chat/ChatMessage';
 import ChatMessages from './Chat/ChatMessages';
+import { Reply } from './Chat/Reply';
 import Request from './Chat/Request';
+import { Resolved } from './Chat/Resolved';
 import NameCard from './Clients/NameCard';
 import TermsModal from './Clients/TermsModal';
 import VideoModal from './Clients/VideoModal';
 import DataRow from './DataTable/DataRow';
 import DataTable from './DataTable/DataTable';
 import NavDropdown from './Dropdowns/NavDropdown';
+import Goal from './Goals/Goal';
 import Modal from './Modal';
 import NavGroup from './NavGroup/NavGroup';
 import PhotoUpload from './PhotoUpload';
 import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
-import { PermissionLevel, User } from './StaffList/types';
 import { TaskList } from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
-import moment from 'moment';
-import Goal from './Goals/Goal';
-import { Reply } from './Chat/Reply';
-import { Resolved } from './Chat/Resolved';
-import ReplyForm from 'forms/ReplyForm';
-import RequestDetail from 'components/Chat/RequestDetail';
-import UserProfile from 'components/Admin/UserProfile';
-import OrganizationProfile from './Admin/OrganizationProfile';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -206,19 +206,55 @@ export const Components = storiesOf('Components', module)
   .add('Sidebar', () => <Sidebar links={[{ to: '', text: '' }]} />)
   .add('Staff List', () => (
     <StaffList
+      onUpdateRole={() => {}}
+      onResend={() => {}}
+      onDelete={() => {}}
       staff={[
-        { email: 'john@example.com', pendingInvite: true },
         {
-          email: 'jane@example.com',
-          pendingInvite: false,
-          name: 'Jane Smith',
-          permissionLevel: PermissionLevel.Coach,
+          email: 'john@example.com',
+          type: USER_TYPE.COACH,
+          first_name: 'John',
+          last_name: 'Smith',
         },
       ]}
     />
   ))
-  .add('Staff List Item', () => (
-    <StaffListItem pendingInvite={true} email="john@example.com" />
+  .add('Coach Staff List Item', () => (
+    <StaffListItem
+      onUpdateRole={() => {}}
+      onResend={() => {}}
+      onDelete={() => {}}
+      staffMember={{
+        email: 'john@example.com',
+        type: USER_TYPE.COACH,
+        first_name: 'John',
+        last_name: 'Smith',
+      }}
+    />
+  ))
+  .add('Admin Staff List Item', () => (
+    <StaffListItem
+      onUpdateRole={() => {}}
+      onResend={() => {}}
+      onDelete={() => {}}
+      staffMember={{
+        email: 'jane@example.com',
+        type: USER_TYPE.ADMIN,
+        first_name: 'Jane',
+        last_name: 'Smith',
+      }}
+    />
+  ))
+  .add('Pending Staff List Item', () => (
+    <StaffListItem
+      onUpdateRole={() => {}}
+      onResend={() => {}}
+      onDelete={() => {}}
+      staffMember={{
+        email: 'john@example.com',
+        type: USER_TYPE.PENDING_INVITE,
+      }}
+    />
   ))
   .add('Modal', () => (
     <Modal>
