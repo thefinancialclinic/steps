@@ -7,7 +7,7 @@ import { StaffMember } from 'components/StaffList/types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Route, Switch } from 'react-router-dom';
-import AdminNewStaff from './NewStaff';
+import AdminNewStaff from '../../Admin/NewStaff';
 
 interface Props {
   staff: StaffMember[];

@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { Link, Route, Switch } from 'react-router-dom';
 
 // fix this route component
-import AdminNewStaff from '../old/Admin/NewStaff';
+import AdminNewStaff from './NewStaff';
 
 interface Props {
   staff: StaffMember[];
@@ -20,14 +20,14 @@ export class Staff extends React.Component<Props, {}> {
     return (
       <Main>
         <PageHeader label="Staff">
-          <Link to="/admin/staff/new">
+          <Link to="/staff/new">
             <Button>Invite Staff</Button>
           </Link>
         </PageHeader>
         <Label>Name & Email</Label>
         <StaffList staff={this.props.staff} />
         <Switch>
-          <Route path="/admin/staff/new" component={AdminNewStaff} />
+          <Route path="/staff/new" component={AdminNewStaff} />
         </Switch>
       </Main>
     );
