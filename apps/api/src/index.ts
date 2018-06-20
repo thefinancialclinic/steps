@@ -21,6 +21,7 @@ import { postgraphile } from 'postgraphile';
 import 'dotenv/config';
 
 const isProduction = process.env.NODE_ENV === 'production';
+const isCI = process.env.CI && JSON.parse(process.env.CI) === true;
 const PORT = process.env.PORT || '3001';
 const localConnString = 'postgres://postgres@localhost:5432/steps_admin_test';
 const databaseUrl = process.env.DATABASE_URL || localConnString;
@@ -78,8 +79,9 @@ const app = express();
 
 app.use(bodyParser.json());
 
-if (isProduction) {
+if (isProduction && !isCI) {
   app.use(httpsRedirect);
+} else if (isProduction) {
   app.use(express.static(buildPath));
 } else {
   app.use(cors());

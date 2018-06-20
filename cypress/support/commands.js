@@ -23,3 +23,11 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('loginAsCoach', () => {
+  cy.visit('http://localhost:3000');
+  cy.contains('Coach').click();
+  cy.contains('Submit').click();
+  cy.contains('My Clients');
+  cy.contains('New Client');
+});
