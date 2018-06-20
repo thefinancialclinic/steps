@@ -132,6 +132,9 @@ export class TaskRepository implements Repository<TaskId, Task> {
   }
 
   async update(taskOpts, taskId: TaskId): Promise<Task> {
+    if (Object.keys(taskOpts).length === 0) {
+      return this.getOne(taskId);
+    }
     const client = await this.pool.connect();
     const rawColumns = Object.keys(taskOpts);
     const columns = rawColumns.map(col => client.escapeIdentifier(col));

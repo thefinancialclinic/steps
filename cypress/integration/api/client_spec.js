@@ -1,3 +1,12 @@
+const request = (method, url, body, headers) => {
+  return cy.request({
+    method,
+    url,
+    body,
+    headers: headers || { 'X-UserId': 1 },
+  });
+};
+
 describe('API endpoints (accessed directly)', () => {
   let clientId, taskId, messageId, mediaId, requestId;
 
