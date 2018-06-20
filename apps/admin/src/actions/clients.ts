@@ -1,6 +1,7 @@
 import api from 'api';
 import { Client } from 'reducers/clients';
 import moment from 'moment';
+import { Message } from 'components/Chat/types';
 
 type DispatchFn = (dispatch?: any, getState?: any) => any;
 
@@ -138,6 +139,15 @@ export const setClientFollowUpDate = async (
   } catch (err) {
     return Promise.reject(err);
   }
+};
+
+export const addClientMessage = (
+  clientId: number,
+  messages: Message[],
+  message: Message,
+): DispatchFn => async dispatch => {
+  // TODO: Make API request
+  return dispatch(setClientMessages(clientId, [...messages, message]));
 };
 
 export const getClientMessagesAndRequests = (
