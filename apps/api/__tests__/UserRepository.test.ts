@@ -75,9 +75,14 @@ describe('User entity operations', () => {
     expect(actual.temp_help_response).toBe('NEW RESPONSE');
   });
 
-  it('can partially update a user', async () => {
+  it('partially updates a user', async () => {
     const subject = await repo.update({ first_name: 'Fred' }, user.id);
     expect(subject.first_name).toBe('Fred');
     expect(subject.last_name).toBe('LAST'); // unchanged
+  });
+
+  it('Update a user with empty object', async () => {
+    const subject = await repo.update({}, user.id);
+    expect(subject.last_name).toEqual('LAST'); // unchanged
   });
 });

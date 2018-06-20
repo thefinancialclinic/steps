@@ -25,11 +25,13 @@ export class ClientController {
   }
 
   async update(request: Request, response: Response, next: NextFunction) {
-    const newUser = new User(request.body);
-    newUser.type = 'Client';
-    newUser.id = parseInt(request.params.id) || newUser.id;
-    const user = await this.repo.update(newUser, newUser.id);
-    return user;
+    try {
+      const userId: number = parseInt(request.params.id);
+      const user = await this.repo.update(request.body, userId);
+      return user;
+    } catch (err) {
+      throw `Unable to update user (${err})`;
+    }
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {
