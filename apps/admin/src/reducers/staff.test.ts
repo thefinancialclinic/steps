@@ -1,25 +1,78 @@
-import { inviteStaff } from '../actions/staff';
+import { USER_TYPE } from 'reducers/auth';
+import { DELETE_COACH, UPDATE_PERMISSIONS } from './../actions/staff';
+import moment from 'moment';
+import { INVITE_STAFF } from '../actions/staff';
 import reducer from './staff';
 
 describe('Staff reducer', () => {
-  it('stores invited emails', async () => {
-    try {
-      const action = await inviteStaff(['one@example.com', 'two@example.com']);
+  it('stores invited emails', () => {
+    const date1 = moment.utc();
+    const date2 = moment.utc();
+    const initialState = { coaches: [] };
+    const mockAction = {
+      type: INVITE_STAFF,
+      invitedCoaches: [
+        { email: 'one@example.com', updated: date1 },
+        { email: 'two@example.com', updated: date2 },
+      ],
+    };
 
-      const updatedState = reducer([], action);
+    const { coaches } = reducer(initialState, mockAction);
 
-      expect(updatedState).toMatchObject([
+    expect(coaches).toEqual([
+      {
+        email: 'one@example.com',
+        updated: date1,
+      },
+      {
+        email: 'two@example.com',
+        updated: date2,
+      },
+    ]);
+  });
+
+  it('deletes a coach', () => {
+    const initialState = {
+      coaches: [
         {
-          email: 'one@example.com',
-          pendingInvite: true,
+          email: 'test@example.com',
+          id: 1,
+          type: USER_TYPE.COACH,
         },
+      ],
+    };
+    const mockAction = {
+      type: DELETE_COACH,
+      id: 1,
+    };
+
+    const { coaches } = reducer(initialState, mockAction);
+
+    expect(coaches.length).toEqual(0);
+  });
+
+  it('updates permissions for a user', () => {
+    const initialState = {
+      coaches: [
         {
-          email: 'two@example.com',
-          pendingInvite: true,
+          email: 'test@example.com',
+          id: 1,
+          type: USER_TYPE.COACH,
         },
-      ]);
-    } catch (error) {
-      return error;
-    }
+      ],
+    };
+    const mockAction = {
+      type: UPDATE_PERMISSIONS,
+      id: 1,
+      role: USER_TYPE.ADMIN,
+    };
+
+    const { coaches } = reducer(initialState, mockAction);
+
+    expect(coaches[0]).toEqual({
+      email: 'test@example.com',
+      id: 1,
+      type: USER_TYPE.ADMIN,
+    });
   });
 });

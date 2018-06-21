@@ -6,6 +6,8 @@ import { composeUserLayout } from 'layouts';
 import AdminProfile from './Profile';
 import AdminOrganization from './Organization';
 import AdminStaff from './Staff';
+import TopBar from 'components/TopBar';
+import Alert from 'containers/Alert';
 
 const Admin: RoutesElement = ({ user }) => {
   if (!user) return null;
@@ -20,12 +22,16 @@ const Admin: RoutesElement = ({ user }) => {
     composeUserLayout(Component, { links, user, role: user.type });
 
   return (
-    <Switch>
-      <Route path="/profile" render={composeLayout(AdminProfile)} />
-      <Route path="/organization" render={composeLayout(AdminOrganization)} />
-      <Route path="/staff" render={composeLayout(AdminStaff)} />
-      <Route render={() => <Redirect to="/profile" />} />
-    </Switch>
+    <div>
+      <TopBar user={user} />
+      <Alert />
+      <Switch>
+        <Route path="/profile" render={composeLayout(AdminProfile)} />
+        <Route path="/organization" render={composeLayout(AdminOrganization)} />
+        <Route path="/staff" render={composeLayout(AdminStaff)} />
+        <Route render={() => <Redirect to="/profile" />} />
+      </Switch>
+    </div>
   );
 };
 

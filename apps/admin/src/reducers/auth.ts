@@ -5,6 +5,7 @@ export enum USER_TYPE {
   ADMIN = 'Admin',
   COACH = 'Coach',
   CLIENT = 'Client',
+  PENDING_INVITE = 'Pending Invite',
 }
 
 export type Org = {

@@ -1,24 +1,29 @@
 import StaffList from './StaffList';
 import { shallow } from 'enzyme';
-import { StaffMember, PermissionLevel } from './types';
 import * as React from 'react';
+import { User, USER_TYPE } from '../../reducers/auth';
 
 describe('StaffList.tsx', () => {
   it('renders staff members', () => {
-    const staff: StaffMember[] = [
+    const staff: User[] = [
       {
         email: 'test@example.com',
-        pendingInvite: true,
+        type: USER_TYPE.COACH,
       },
       {
         email: 'test2@example.com',
-        pendingInvite: false,
-        name: 'John Smith',
-        permissionLevel: PermissionLevel.Administrator,
+        type: USER_TYPE.PENDING_INVITE,
       },
     ];
 
-    const wrapper = shallow(<StaffList staff={staff} />);
+    const wrapper = shallow(
+      <StaffList
+        onDelete={() => {}}
+        onUpdateRole={() => {}}
+        onResend={() => {}}
+        staff={staff}
+      />,
+    );
 
     expect(wrapper.children()).toHaveLength(2);
   });

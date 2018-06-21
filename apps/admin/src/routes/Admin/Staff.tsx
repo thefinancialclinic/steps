@@ -1,33 +1,91 @@
+import { addAlert } from 'actions/alerts';
+import {
+  deleteCoach,
+  getCoaches,
+  resendInvite,
+  updatePermissions,
+} from 'actions/staff';
 import Button from 'atoms/Buttons/Button';
-import Label from 'atoms/Label';
 import Main from 'atoms/Main';
+import { AlertLevel } from 'components/Alert/types';
 import PageHeader from 'components/Headers/PageHeader';
 import StaffList from 'components/StaffList/StaffList';
-import { StaffMember } from 'components/StaffList/types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Route, Switch } from 'react-router-dom';
-
-// fix this route component
-import AdminNewStaff from '../old/Admin/NewStaff';
+import { User, USER_TYPE } from 'reducers/auth';
+import { bindActionCreators } from 'redux';
+import AdminNewStaff from './NewStaff';
 
 interface Props {
-  staff: StaffMember[];
+  coaches: User[];
+  actions: {
+    getCoaches;
+    addAlert;
+    deleteCoach;
+    resendInvite;
+    updatePermissions;
+  };
 }
 
-export class Staff extends React.Component<Props, {}> {
+export class Staff extends React.Component<Props> {
+  componentWillMount() {
+    this.props.actions.getCoaches().catch(err => {
+      this.props.actions.addAlert({
+        level: AlertLevel.Error,
+        message: err.message,
+        id: 'get-coaches-error',
+      });
+    });
+  }
+
+  onDelete = (coach: User) => {
+    this.props.actions.deleteCoach(coach.id).catch(err => {
+      this.props.actions.addAlert({
+        level: AlertLevel.Error,
+        message: err.message,
+        id: 'delete-coach-error',
+      });
+    });
+    // TODO: This only works for coaches with an ID (not invited coaches). We can change this to use an email, or give invited coaches an ID.
+  };
+
+  onResend = (coach: User) => {
+    this.props.actions.resendInvite(coach.email).catch(err => {
+      this.props.actions.addAlert({
+        level: AlertLevel.Error,
+        message: err.message,
+        id: 'resend-invite-error',
+      });
+    });
+  };
+
+  onUpdateRole = (role: USER_TYPE, coach: User) => {
+    this.props.actions.updatePermissions(coach.id, role).catch(err => {
+      this.props.actions.addAlert({
+        level: AlertLevel.Error,
+        message: err.message,
+        id: 'update-permissions-error',
+      });
+    });
+  };
+
   render() {
     return (
       <Main>
         <PageHeader label="Staff">
-          <Link to="/admin/staff/new">
+          <Link to="/staff/new">
             <Button>Invite Staff</Button>
           </Link>
         </PageHeader>
-        <Label>Name & Email</Label>
-        <StaffList staff={this.props.staff} />
+        <StaffList
+          onDelete={this.onDelete}
+          onResend={this.onResend}
+          onUpdateRole={this.onUpdateRole}
+          staff={this.props.coaches}
+        />
         <Switch>
-          <Route path="/admin/staff/new" component={AdminNewStaff} />
+          <Route path="/staff/new" component={AdminNewStaff} />
         </Switch>
       </Main>
     );
@@ -35,7 +93,17 @@ export class Staff extends React.Component<Props, {}> {
 }
 
 const mapStateToProps = ({ staff }) => ({
-  staff,
+  coaches: staff.coaches,
 });
 
-export default connect(mapStateToProps)(Staff);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(
+    { getCoaches, addAlert, deleteCoach, resendInvite, updatePermissions },
+    dispatch,
+  ),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Staff);
