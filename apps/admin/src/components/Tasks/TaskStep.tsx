@@ -2,9 +2,11 @@ import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import styled from 'styled-components';
 import { Field } from 'react-final-form';
-import { green, white } from 'styles/colors';
+import { black, green, white } from 'styles/colors';
+import { serif } from 'styles/type';
 import Input from 'atoms/Input/Input';
 import { Step } from 'reducers/tasks';
+import TaskStepNote from './TaskStepNote';
 
 interface Props {
   className?: string;
@@ -41,7 +43,7 @@ class TaskStep extends React.Component<Props, {}> {
               />
             )}
           </Field>
-          {step.note && <div>{step.note}</div>}
+          {step.note && <TaskStepNote text={step.note} />}
         </Box>
       </Flex>
     );
@@ -71,6 +73,11 @@ const StyledTaskStep = styled(TaskStep)`
     > div {
       width: 100%;
     }
+  }
+
+  input, textarea {
+    color: ${black};
+    font-family: ${serif};
   }
 `;
 
