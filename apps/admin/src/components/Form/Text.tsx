@@ -14,7 +14,11 @@ interface Props {
 
 const Text: React.SFC<Props> = ({ label, name, autoComplete, ...rest }) => (
   <BaseInput>
-    {label && <Label htmlFor={name} {...rest}>{label}</Label>}
+    {label && (
+      <Label htmlFor={name} {...rest}>
+        {label}
+      </Label>
+    )}
     <Field name={name} component="input" autoComplete={autoComplete} />
   </BaseInput>
 );
