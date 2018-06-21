@@ -73,6 +73,7 @@ const StyledNavDropdown = styled(NavDropdown)`
   .dropdown {
     margin-top: 9px;
     right: 0px;
+    position: absolute;
   }
 
   .arrow-up {

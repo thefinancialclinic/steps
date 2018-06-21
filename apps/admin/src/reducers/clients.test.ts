@@ -5,6 +5,7 @@ import {
   SET_CLIENT_REQUESTS,
 } from './../actions/clients';
 import reducer, { ClientsState } from './clients';
+import moment from 'moment';
 
 const initialState: ClientsState = {
   clients: [

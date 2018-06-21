@@ -46,12 +46,18 @@ describe('Task entity operations', () => {
     const expectedTitle = 'NEW TITLE';
     let newTask = await repo.getOne(task.id);
     newTask.title = expectedTitle;
-    const actual = await repo.update(newTask);
+    const actual = await repo.update(newTask, task.id);
     expect(actual.title).toBe(expectedTitle);
   });
 
   it('can retrieve steps', async () => {
     const subject = await repo.getOne(task.id);
     expect(subject.steps[1].note).toBe('NOTE2');
+  });
+
+  it('can partially update a task', async () => {
+    const subject = await repo.update({ title: 'New title' }, task.id);
+    expect(subject.title).toBe('New title');
+    expect(subject.category).toBe('CATEGORY'); // unchanged
   });
 });

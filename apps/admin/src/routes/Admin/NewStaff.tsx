@@ -22,7 +22,7 @@ export class NewStaff extends React.Component<Props, {}> {
     this.props.actions
       .inviteStaff(splitEmails)
       .then(_res => {
-        this.props.history.push('/admin/staff');
+        this.props.history.push('/staff');
       })
       .catch(err => {
         this.props.actions.addAlert({

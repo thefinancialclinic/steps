@@ -10,7 +10,7 @@ interface Props {
   className?: string;
   actions: any;
   task: any;
-  client: any;
+  user: any;
   history: any;
 }
 
@@ -19,28 +19,26 @@ class EditTask extends React.Component<Props, {}> {
     try {
       const response = await this.props.actions.addTask({
         ...task,
-        user_id: this.props.client.id,
+        user_id: this.props.user.id,
       });
 
-      this.props.history.push(
-        `/clients/${this.props.client.id}/tasks/${response.newTask.data.id}`,
-      );
+      this.props.history.push(`/clients/${this.props.user.id}/tasks`);
     } catch (error) {
       console.error(error);
     }
   };
 
   render() {
-    const { client, task } = this.props;
+    const { user, task } = this.props;
 
     return (
       <Main>
         <h2>Add Task</h2>
         <p>
-          Personalize this task better for your client by editing, adding, or
+          Personalize this task better for your user by editing, adding, or
           deleting steps.
         </p>
-        <TaskForm task={task} client={client} onSubmit={this.handleSubmit} />
+        <TaskForm task={task} user={user} onSubmit={this.handleSubmit} />
       </Main>
     );
   }
@@ -49,7 +47,7 @@ class EditTask extends React.Component<Props, {}> {
 // TODO: Need to request the specific task in order to get the steps
 const mapStateToProps = (state, props) => ({
   task: findById(state.tasks.tasks, props.match.params.taskId),
-  client: findById(state.clients.clients, props.match.params.id),
+  user: findById(state.clients.clients, props.match.params.id),
 });
 
 const mapDispatchToProps = dispatch => ({

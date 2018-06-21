@@ -1,14 +1,13 @@
 import React from 'react';
 import { RoutesElement } from '../index';
+import TopBar from 'components/TopBar';
+import Alert from 'containers/Alert';
 
 const Client: RoutesElement = ({ user }) => (
   <div>
+    <TopBar user={user} />
+    <Alert />
     <h1>Client Route</h1>
-    {user && (
-      <h2>
-        {user.first_name} {user.last_name}
-      </h2>
-    )}
   </div>
 );
 

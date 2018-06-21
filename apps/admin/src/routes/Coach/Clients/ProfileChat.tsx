@@ -8,28 +8,26 @@ import RequestDetail from 'routes/Coach/Clients/Chat/RequestDetail';
 
 interface Props {
   actions: any;
-  client: any;
+  user: any;
   match?: any;
 }
 
 class ProfileChat extends React.Component<Props, {}> {
   componentWillMount() {
-    const { actions, client } = this.props;
-    actions.getClientMessagesAndRequests(client.id);
+    const { actions, user } = this.props;
+    actions.getClientMessagesAndRequests(user.id);
   }
 
   render() {
-    const { client, match } = this.props;
+    const { user, match } = this.props;
     return (
       <Switch>
         <Route
-          path={`/clients/:id/requests/:requestId`}
-          render={props => (
-            <RequestDetail client={client} match={props.match} />
-          )}
+          path={`/clients/:id/chat/requests/:requestId`}
+          render={props => <RequestDetail user={user} match={props.match} />}
         />
         <Route path="/clients/:id">
-          <Chat client={client} match={match} />
+          <Chat user={user} match={match} />
         </Route>
       </Switch>
     );

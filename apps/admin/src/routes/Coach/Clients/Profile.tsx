@@ -3,7 +3,7 @@ import { getClients } from 'actions/clients';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Match, Redirect, Route, Switch } from 'react-router-dom';
-import Profile from 'components/Clients/Profile';
+import { composeUserLayout } from 'layouts';
 import Tasks from './ProfileTasksList';
 import TaskAdd from './ProfileTaskAdd';
 import TaskCreate from './ProfileTaskCreate';
@@ -13,6 +13,7 @@ import TaskEdit from './ProfileTaskEdit';
 import Chat from './ProfileChat';
 import Goals from './Goals/Goals';
 import { findById } from 'helpers';
+import FollowUp from './FollowUp';
 
 type Params = {
   id: number;
@@ -20,7 +21,6 @@ type Params = {
 
 interface Props {
   actions: any;
-  client: any;
   user: any;
   role: any;
   match: Match | { params: Params };
@@ -32,48 +32,43 @@ class Client extends React.Component<Props, {}> {
   }
 
   render() {
-    const { client, match, role } = this.props;
-    if (!client) return null;
+    const { user, match, role } = this.props;
+    if (!user) return null;
 
     const links = [
-      { text: 'Tasks', to: `/clients/${client.id}/tasks` },
-      { text: 'Goals', to: `/clients/${client.id}/goals` },
-      { text: 'Chat', to: `/clients/${client.id}/chat` },
+      { text: 'Tasks', to: `/clients/${user.id}/tasks` },
+      { text: 'Goals', to: `/clients/${user.id}/goals` },
+      { text: 'Chat', to: `/clients/${user.id}/chat` },
+      { text: 'Follow Up', to: `/clients/${user.id}/follow-up` },
     ];
 
-    const composeProfile = Component => matchProps => (
-      <Profile
-        {...matchProps}
-        component={Component}
-        links={links}
-        client={client}
-        role={role}
-      />
-    );
+    const composeLayout = Component =>
+      composeUserLayout(Component, { links, user, role });
 
     return (
       <Switch>
-        <Route path="/clients/:id/chat" render={composeProfile(Chat)} />
-        <Route path="/clients/:id/goals" render={composeProfile(Goals)} />
+        <Route path="/clients/:id/chat" render={composeLayout(Chat)} />
+        <Route path="/clients/:id/goals" render={composeLayout(Goals)} />
         <Route
           path="/clients/:id/tasks/:taskId/edit"
-          render={composeProfile(TaskEdit)}
+          render={composeLayout(TaskEdit)}
         />
         <Route
           path="/clients/:id/tasks/create"
-          render={composeProfile(TaskCreate)}
+          render={composeLayout(TaskCreate)}
         />
-        <Route path="/clients/:id/tasks/add" render={composeProfile(TaskAdd)} />
+        <Route path="/clients/:id/tasks/add" render={composeLayout(TaskAdd)} />
         <Route
           path="/clients/:id/tasks/:taskId/add"
-          render={composeProfile(TaskAddEdit)}
+          render={composeLayout(TaskAddEdit)}
         />
         <Route
           path="/clients/:id/tasks/:taskId"
-          render={composeProfile(TaskShow)}
+          render={composeLayout(TaskShow)}
         />
-        <Route path="/clients/:id/tasks" render={composeProfile(Tasks)} />
-        <Route render={() => <Redirect to={`/clients/${client.id}/tasks`} />} />
+        <Route path="/clients/:id/tasks" render={composeLayout(Tasks)} />
+        <Route path="/clients/:id/follow-up" render={composeLayout(FollowUp)} />
+        <Route render={() => <Redirect to={`/clients/${user.id}/tasks`} />} />
       </Switch>
     );
   }
@@ -81,7 +76,7 @@ class Client extends React.Component<Props, {}> {
 
 const mapStateToProps = (state, props: Props) => {
   return {
-    client: findById(state.clients.clients, props.match.params.id),
+    user: findById(state.clients.clients, props.match.params.id),
     role: state.auth.user.role,
   };
 };

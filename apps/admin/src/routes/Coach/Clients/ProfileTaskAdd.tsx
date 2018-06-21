@@ -18,7 +18,7 @@ import { findById } from 'helpers';
 
 interface Props {
   className?: string;
-  client: Client;
+  user: Client;
   tasks: Task[];
   actions: { addTask };
   history: any;
@@ -40,8 +40,8 @@ class AddTask extends React.Component<Props, {}> {
     return (
       <Main>
         <Header>
-          <BackButton to={`/clients/${this.props.client.id}/tasks`} />
-          <Link to={`/clients/${this.props.client.id}/tasks/create`}>
+          <BackButton to={`/clients/${this.props.user.id}/tasks`} />
+          <Link to={`/clients/${this.props.user.id}/tasks/create`}>
             <Button>Create New Task</Button>
           </Link>
         </Header>
@@ -57,7 +57,7 @@ class AddTask extends React.Component<Props, {}> {
         {this.props.tasks.map((task, i) => {
           const userTask = {
             ...task,
-            user_id: this.props.client.id,
+            user_id: this.props.user.id,
             title: task.title,
             category: task.category,
             description: task.description,
@@ -68,7 +68,7 @@ class AddTask extends React.Component<Props, {}> {
             <TaskTemplate
               task={userTask}
               key={i}
-              client={this.props.client}
+              user={this.props.user}
               addTask={this.props.actions.addTask}
               history={this.props.history}
             />
@@ -82,7 +82,7 @@ class AddTask extends React.Component<Props, {}> {
 const mapStateToProps = (state, props) => {
   return {
     tasks: state.tasks.tasks.filter(t => !t.user_id),
-    client: findById(
+    user: findById(
       state.clients.clients,
       props.clientId || props.match.params.id,
     ),

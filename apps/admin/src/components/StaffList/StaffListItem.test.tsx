@@ -5,9 +5,8 @@ import StaffListItem from './StaffListItem';
 
 describe('StaffListItem.tsx', () => {
   it('renders correctly', () => {
-    const wrapper = shallow(
-      <StaffListItem pendingInvite={true} email="email@example.com" />,
-    );
+    const coach = { email: 'test@example.com ' };
+    const wrapper = shallow(<StaffListItem staffMember={coach} />);
 
     expect(wrapper).toBeDefined();
   });

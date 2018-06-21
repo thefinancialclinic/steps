@@ -10,6 +10,8 @@ import LoginForm from 'forms/LoginForm';
 import { svgBackgroundImageUrl } from 'styles';
 import Panel from 'atoms/Panel';
 import { darkBlue } from 'styles/colors';
+import LoginButton from 'components/LoginButton';
+import { thistle } from 'color-name';
 
 class Login extends React.Component<any, any> {
   private onSubmit = async ({ user_type, user_email }) => {
@@ -28,7 +30,11 @@ class Login extends React.Component<any, any> {
           <Box width={[1, 1 / 4]}>
             <FormContainer>
               <h1>Log In</h1>
-              <LoginForm onSubmit={this.onSubmit} />
+              {this.props.location.search === '?auth0' ? (
+                <LoginButton />
+              ) : (
+                <LoginForm onSubmit={this.onSubmit} />
+              )}
             </FormContainer>
           </Box>
         </Flex>

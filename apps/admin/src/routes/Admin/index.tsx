@@ -1,6 +1,38 @@
 import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { RoutesElement } from '../index';
+import { composeUserLayout } from 'layouts';
 
-const Admin: RoutesElement = props => <div>Admin</div>;
+import AdminProfile from './Profile';
+import AdminOrganization from './Organization';
+import AdminStaff from './Staff';
+import TopBar from 'components/TopBar';
+import Alert from 'containers/Alert';
+
+const Admin: RoutesElement = ({ user }) => {
+  if (!user) return null;
+
+  const links = [
+    { text: 'My Profile', to: '/profile' },
+    { text: 'Organization Info', to: '/organization' },
+    { text: 'Staff', to: '/staff' },
+  ];
+
+  const composeLayout = Component =>
+    composeUserLayout(Component, { links, user, role: user.type });
+
+  return (
+    <div>
+      <TopBar user={user} />
+      <Alert />
+      <Switch>
+        <Route path="/profile" render={composeLayout(AdminProfile)} />
+        <Route path="/organization" render={composeLayout(AdminOrganization)} />
+        <Route path="/staff" render={composeLayout(AdminStaff)} />
+        <Route render={() => <Redirect to="/profile" />} />
+      </Switch>
+    </div>
+  );
+};
 
 export default Admin;

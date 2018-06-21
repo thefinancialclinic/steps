@@ -14,6 +14,10 @@ interface Props {
   request?: RequestWithMessages;
 }
 
+interface Submittable {
+  onSubmit(data): void;
+}
+
 export const RequestMessages: React.SFC<Props> = ({ request }) => {
   const { status } = request;
   const requests = request.messages.map(message => {
@@ -42,10 +46,13 @@ export const ReplyMessages: React.SFC<Props> = ({ request }) => {
   return <div>{replies}</div>;
 };
 
-export const ReplyFormSection: React.SFC<Props> = ({ request }) => {
+export const ReplyFormSection: React.SFC<Props & Submittable> = ({
+  request,
+  onSubmit,
+}) => {
   const { status } = request;
   if (status === 'NEEDS_ASSISTANCE') {
-    return <ReplyForm onSubmit={() => {}} />;
+    return <ReplyForm onSubmit={onSubmit} />;
   } else {
     return null;
   }
@@ -60,14 +67,15 @@ export const ResolvedSection: React.SFC<Props> = ({ request }) => {
   }
 };
 
-export const RequestDetail: React.SFC<Props> = props => {
-  const { request } = props;
-
+export const RequestDetail: React.SFC<Props & Submittable> = ({
+  request,
+  onSubmit,
+}) => {
   return (
     <Container>
       <RequestMessages request={request} />
       <ReplyMessages request={request} />
-      <ReplyFormSection request={request} />
+      <ReplyFormSection request={request} onSubmit={onSubmit} />
       <ResolvedSection request={request} />
     </Container>
   );

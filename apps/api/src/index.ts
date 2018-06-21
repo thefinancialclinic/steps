@@ -14,15 +14,19 @@ import * as jwt from 'express-jwt';
 import * as jwtAuthz from 'express-jwt-authz';
 import { expressJwtSecret } from 'jwks-rsa';
 import * as token from 'jsonwebtoken';
+import { postgraphile } from 'postgraphile';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
 import 'dotenv/config';
+import { AuthenticatedUserController } from './controller/AuthenticatedUserController';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT || '3001';
 const localConnString = 'postgres://postgres@localhost:5432/steps_admin_test';
-const connUrl = url.parse(process.env.DATABASE_URL || localConnString);
+const databaseUrl = process.env.DATABASE_URL || localConnString;
+const connUrl = url.parse(databaseUrl);
+const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
 
 // Auth0 Config
 const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID;
@@ -49,7 +53,7 @@ const checkJwt = jwt({
   }),
 
   // Validate the audience of the issuer
-  audience: AUTH0_CLIENT_ID,
+  audience: 'http://steps-admin.herokuapp.com',
   issuer: AUTH0_ISSUER,
   algorithms: ['RS256'],
   complete: true,
@@ -57,8 +61,9 @@ const checkJwt = jwt({
 
 // Redirect HTTP requests to HTTPS
 const httpsRedirect = (req, res, next) => {
-  if (req.headers['x-forwarded-proto'] != 'https') {
-    res.redirect(302, `https://${req.hostname}${req.originalUrl}`);
+  const { headers, hostname, originalUrl } = req;
+  if (headers['x-forwarded-proto'] != 'https') {
+    res.redirect(302, `https://${hostname}${originalUrl}`);
   } else {
     next();
   }
@@ -77,7 +82,7 @@ app.use(bodyParser.json());
 
 if (isProduction) {
   app.use(httpsRedirect);
-  app.use(express.static(resolve(__dirname, '..', '..', 'admin', '.build')));
+  app.use(express.static(buildPath));
 } else {
   app.use(cors());
 
@@ -113,11 +118,19 @@ Routes.forEach(route => {
   );
 });
 
-// Route for checking that Auth0 is working
-app.get('/api/private', checkJwt, (req, res) => {
-  res.type('json');
-  return res.send(req.user); // added by checkJwt, contains user data
+app.get('/api/user', checkJwt, async (req, res, next) => {
+  const controller = new AuthenticatedUserController();
+  const result = await controller['one'](req, res, next);
+  res.send(result);
 });
+
+// Postgraphile
+app.use(postgraphile(databaseUrl, 'public', { graphiql: true }));
+
+// Send any unmatched routes to the React app for frontend routing
+if (isProduction) {
+  app.all('*', (_, res) => res.sendfile(resolve(buildPath, 'index.html')));
+}
 
 // Error handling
 if (process.env.NODE_ENV !== 'production') {

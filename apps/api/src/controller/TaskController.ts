@@ -33,10 +33,12 @@ export class TaskController {
   }
 
   async update(request: Request, response: Response, next: NextFunction) {
-    const task = new Task(request.body);
-    task.id = request.params.id || task.id;
-    const result = await this.repo.update(task);
-    response.status(200);
-    return result;
+    try {
+      const taskId = parseInt(request.params.id);
+      const result = await this.repo.update(request.body, taskId);
+      return result;
+    } catch (err) {
+      throw `Unable to update task (${err})`;
+    }
   }
 }

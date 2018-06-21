@@ -3,10 +3,16 @@ import RequestDetail from 'components/Chat/RequestDetail';
 import { findById } from 'helpers';
 import Main from 'atoms/Main';
 import BackButton from 'atoms/Buttons/BackButton';
+import { bindActionCreators } from 'redux';
+import { createReply } from 'actions/clients';
+import { connect } from 'react-redux';
+import { addAlert } from 'actions/alerts';
+import { AlertLevel } from 'components/Alert/types';
 
 interface Props {
-  client: any;
+  user: any;
   match: any;
+  actions: { createReply; addAlert };
 }
 
 export const addMessagesToRequest = (request, messages) => {
@@ -14,20 +20,43 @@ export const addMessagesToRequest = (request, messages) => {
   request.messages = requestMessages;
   return request;
 };
+// text: String,
+// client: Client & { messages: Message[] },
+// requestId: number,
 
 export class RequestDetailRoute extends React.Component<Props> {
+  onSubmit = ({ reply }) => {
+    const { user, match } = this.props;
+    this.props.actions
+      .createReply(reply, user, match.params.requestId)
+      .catch(err => {
+        this.props.actions.addAlert({
+          level: AlertLevel.Error,
+          id: 'request-detail-error',
+          message: err.message,
+        });
+      });
+  };
+
   render() {
-    const { client, match } = this.props;
-    const { messages, requests } = client;
+    const { user, match } = this.props;
+    const { messages, requests } = user;
     const request = findById(requests, match.params.requestId);
     const withMessages = addMessagesToRequest(request, messages);
     return (
       <Main>
-        <BackButton to={`/clients/${client.id}/chat/help`} />
-        <RequestDetail request={withMessages} />
+        <BackButton to={`/clients/${user.id}/chat/help`} />
+        <RequestDetail request={withMessages} onSubmit={this.onSubmit} />
       </Main>
     );
   }
 }
 
-export default RequestDetailRoute;
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ createReply, addAlert }, dispatch),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(RequestDetailRoute);

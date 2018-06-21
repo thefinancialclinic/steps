@@ -5,6 +5,7 @@ import { Task } from './TaskRepository';
 import { Message } from './MessageRepository';
 import { Media, MediaId } from './MediaRepository';
 import { RequestItem } from './RequestRepository';
+import { placeholders } from '../util';
 
 export type UserId = number;
 export type UserType = 'Client' | 'Coach' | 'Admin' | 'Superadmin';
@@ -20,29 +21,6 @@ export type Checkin = {
   topic: string;
   message: string;
   time: Date;
-};
-
-export type UserOpts = {
-  id?: UserId;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone?: string;
-  coach_id?: UserId;
-  org_id: OrgId;
-  color: string;
-  goals?: string[];
-  status: UserStatus;
-  type: UserType;
-  updated?: Date;
-  platform?: UserPlatform;
-  image?: string;
-  follow_up_date?: Date;
-  plan_url?: string;
-  checkin_times?: Checkin[];
-  topic?: string;
-  fb_id?: string;
-  temp_help_response?: string;
 };
 
 export class User {
@@ -67,7 +45,7 @@ export class User {
   fb_id?: string;
   temp_help_response?: string;
 
-  constructor(opts: UserOpts) {
+  constructor(opts: Partial<User>) {
     this.id = opts.id;
     this.first_name = opts.first_name;
     this.last_name = opts.last_name;
@@ -93,6 +71,13 @@ export class User {
 
 export class UserRepository implements Repository<UserId, User> {
   constructor(public pool: Pool) {}
+
+  async getByEmail(email: string) {
+    const res = await this.pool.query(`SELECT * FROM "user" WHERE email = $1`, [
+      email,
+    ]);
+    return new User(res.rows[0]);
+  }
 
   async getOne(uid: UserId) {
     const res = await this.pool.query(`SELECT * FROM "user" WHERE id = $1`, [
@@ -157,57 +142,30 @@ export class UserRepository implements Repository<UserId, User> {
     return new User(res.rows[0]);
   }
 
-  async update(user: User): Promise<User> {
-    const res = await this.pool.query(
-      `
-      UPDATE "user" SET (
-        first_name,
-        last_name,
-        email,
-        phone,
-        coach_id,
-        org_id,
-        color,
-        goals,
-        status,
-        type,
-        updated,
-        platform,
-        image,
-        follow_up_date,
-        plan_url,
-        checkin_times,
-        topic,
-        fb_id,
-        temp_help_response
-      ) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
-      WHERE id = $20
-      RETURNING *
-    `,
-      [
-        user.first_name,
-        user.last_name,
-        user.email,
-        user.phone,
-        user.coach_id,
-        user.org_id,
-        user.color,
-        user.goals,
-        user.status,
-        user.type,
-        user.updated,
-        user.platform,
-        user.image,
-        user.follow_up_date,
-        user.plan_url,
-        user.checkin_times,
-        user.topic,
-        user.fb_id,
-        user.temp_help_response,
-        user.id,
-      ],
-    );
-    return new User(res.rows[0]);
+  async update(userOpts: Partial<User>, userId: UserId): Promise<User> {
+    if (Object.keys(userOpts).length === 0) {
+      return this.getOne(userId);
+    }
+    const client = await this.pool.connect();
+    const rawColumns = Object.keys(userOpts);
+    const columns = rawColumns.map(col => client.escapeIdentifier(col));
+    const values = rawColumns.map(col => userOpts[col]);
+    const valPlaceholders = placeholders(2, values.length);
+    try {
+      const res = await client.query(
+        `
+        UPDATE "user" SET (${columns.join(', ')}) = ROW(${valPlaceholders})
+        WHERE id = $1
+        RETURNING *
+      `,
+        [userId, ...values],
+      );
+      return new User(res.rows[0]);
+    } catch (err) {
+      throw `Could not update User (${err})`;
+    } finally {
+      client.release();
+    }
   }
 
   async delete(uid: UserId): Promise<number> {

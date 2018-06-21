@@ -34,6 +34,7 @@ export default () => injectGlobal`
   }
 
   p {
+    color: #333333;
     font-size: ${remCalc(18)};
     line-height: 1.5;
   }
