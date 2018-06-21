@@ -41,6 +41,7 @@ class TaskStep extends React.Component<Props, {}> {
               />
             )}
           </Field>
+          {step.note && <div>{step.note}</div>}
         </Box>
       </Flex>
     );
