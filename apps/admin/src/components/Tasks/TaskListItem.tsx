@@ -26,7 +26,6 @@ interface Props {
 export default SortableElement((props: Props) => {
   const { setTaskStatus, task, url } = props;
   const toggleTaskStatus = e => {
-    console.log('TOGGLING TASK STATUS');
     const status = task.status === 'COMPLETED' ? 'ACTIVE' : 'COMPLETED';
     setTaskStatus(task, status);
   };
