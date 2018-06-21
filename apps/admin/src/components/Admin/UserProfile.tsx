@@ -4,20 +4,25 @@ import { Flex } from 'grid-styled';
 import React from 'react';
 import DataRow from 'components/DataTable/DataRow';
 import DataTable from 'components/DataTable/DataTable';
+import { Link } from 'react-router-dom';
 
 interface Props {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
 }
 
-const UserProfile: React.SFC<Props> = ({ name, email }) => (
+const UserProfile: React.SFC<Props> = ({ firstName, lastName, email }) => (
   <Panel>
     <DataTable>
-      <DataRow label="name">{name}</DataRow>
+      <DataRow label="first name">{firstName}</DataRow>
+      <DataRow label="last name">{lastName}</DataRow>
       <DataRow label="email">{email}</DataRow>
     </DataTable>
     <Flex justifyContent="center">
-      <Button>Edit</Button>
+      <Link to="/profile/edit">
+        <Button>Edit</Button>
+      </Link>
     </Flex>
   </Panel>
 );

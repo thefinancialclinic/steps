@@ -17,7 +17,8 @@ describe('Profile.tsx', () => {
     const profile = wrapper.find(UserProfile);
 
     expect(profile).toBeDefined();
-    expect(profile.props().name).toEqual('Jane Smith');
+    expect(profile.props().firstName).toEqual('Jane');
+    expect(profile.props().lastName).toEqual('Smith');
     expect(profile.props().email).toEqual('jane@example.com');
   });
 });
