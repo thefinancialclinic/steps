@@ -149,12 +149,6 @@ export class UserRepository implements Repository<UserId, User> {
     const values = rawColumns.map(col => userOpts[col]);
     const valPlaceholders = placeholders(2, values.length);
     try {
-      const query = `
-      UPDATE "user" SET (${columns.join(', ')}) = ROW(${valPlaceholders})
-      WHERE id = $1
-      RETURNING *
-    `;
-      console.log(query);
       const res = await client.query(
         `
         UPDATE "user" SET (${columns.join(', ')}) = ROW(${valPlaceholders})
@@ -163,9 +157,6 @@ export class UserRepository implements Repository<UserId, User> {
       `,
         [userId, ...values],
       );
-      console.log(userId);
-      console.log(values);
-      console.log(res.rows[0]);
       return new User(res.rows[0]);
     } catch (err) {
       throw `Could not update User (${err})`;

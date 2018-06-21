@@ -11,12 +11,6 @@ import { AuthenticatedUserController } from './controller/AuthenticatedUserContr
 export const Routes = [
   {
     method: 'get',
-    route: '/api/user',
-    controller: AuthenticatedUserController,
-    action: 'one',
-  },
-  {
-    method: 'get',
     route: '/api/clients',
     controller: ClientController,
     action: 'all',

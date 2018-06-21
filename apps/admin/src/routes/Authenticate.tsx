@@ -7,42 +7,36 @@ import { setUser } from 'actions/auth';
 import { connect } from 'react-redux';
 
 interface Props {
-  actions: any;
+  actions: { setUser: Function };
 }
 
 interface State {
-  sessionTokenIsSet: boolean;
+  appTokenIsSet: boolean;
 }
 
 class Authenticate extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
-      sessionTokenIsSet: false,
+      appTokenIsSet: false,
     };
-    this.onSessionTokenSet = this.onSessionTokenSet.bind(this);
+    this.onAppTokenSet = this.onAppTokenSet.bind(this);
   }
 
   componentDidMount() {
-    auth0.authenticate(this.onSessionTokenSet);
+    auth0.authenticate(this.onAppTokenSet);
   }
 
-  async onSessionTokenSet() {
-    const apiToken = localStorage.getItem('access_token');
+  async onAppTokenSet() {
+    const apiToken = auth0.getAppToken();
     api.defaults.headers.common['Authorization'] = `Bearer ${apiToken}`;
     const user = await api.get('/user');
     this.props.actions.setUser(user.data);
-    this.setState({ sessionTokenIsSet: true });
+    this.setState({ appTokenIsSet: true });
   }
 
   render() {
-    return this.state.sessionTokenIsSet ? (
-      <Redirect to="/" />
-    ) : (
-      <div>
-        <h1>Logging in...</h1>
-      </div>
-    );
+    return this.state.appTokenIsSet ? <Redirect to="/" /> : null;
   }
 }
 

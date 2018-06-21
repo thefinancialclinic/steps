@@ -58,7 +58,6 @@ describe('API endpoints (accessed directly)', () => {
               published_by: 1,
               type: 'TASK_CONTENT',
             }).then(resp => {
-              console.log(resp.body.id);
               mediaId = resp.body.id;
 
               cy.request(

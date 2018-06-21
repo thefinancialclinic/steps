@@ -19,6 +19,7 @@ import { postgraphile } from 'postgraphile';
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
 import 'dotenv/config';
+import { AuthenticatedUserController } from './controller/AuthenticatedUserController';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT || '3001';
@@ -99,7 +100,6 @@ if (isProduction) {
 Routes.forEach(route => {
   (app as any)[route.method](
     route.route,
-    checkJwt,
     async (req: Request, res: Response, next: Function) => {
       const controller = new route.controller() as any;
       try {
@@ -118,10 +118,10 @@ Routes.forEach(route => {
   );
 });
 
-// Route for checking that Auth0 is working
-app.get('/api/private', checkJwt, (req, res) => {
-  res.type('json');
-  return res.send(req.user); // added by checkJwt, contains user data
+app.get('/api/user', checkJwt, async (req, res, next) => {
+  const controller = new AuthenticatedUserController();
+  const result = await controller['one'](req, res, next);
+  res.send(result);
 });
 
 // Postgraphile

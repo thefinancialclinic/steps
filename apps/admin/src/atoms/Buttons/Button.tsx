@@ -10,10 +10,10 @@ interface Props {
   onClick?(event: any): void;
 }
 
-const Button: React.SFC<Props> = ({ white = false, children }) => {
+const Button: React.SFC<Props> = ({ white = false, children, onClick }) => {
   const ButtonEl = white ? WhiteButton : GreenButton;
 
-  return <ButtonEl>{children}</ButtonEl>;
+  return <ButtonEl onClick={onClick}>{children}</ButtonEl>;
 };
 
 const BaseButton = styled.button`

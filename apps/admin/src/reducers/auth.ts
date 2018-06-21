@@ -1,4 +1,9 @@
-import { LOGIN, LOGOUT, SET_USER_TYPE, SET_USER } from 'actions/auth';
+import {
+  LOGIN,
+  LOGOUT,
+  SET_USER_TYPE,
+  SET_AUTHENTICATED_USER,
+} from 'actions/auth';
 
 export enum USER_TYPE {
   SUPER_ADMIN = 'Superadmin',
@@ -65,8 +70,8 @@ export default (state = initialState, action): State => {
     case SET_USER_TYPE:
       return { ...state, user: { type: action.userType } };
 
-    case SET_USER:
-      return { ...state, user: action.user };
+    case SET_AUTHENTICATED_USER:
+      return { ...state, user: action.user, isAuthenticated: true };
 
     case LOGIN:
       Storage.set('USER', action.user);
