@@ -1,10 +1,12 @@
 import React from 'react';
+import { Flex, Box } from 'grid-styled';
 import { Location } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { deleteTask, getTasks } from 'actions/tasks';
 import TaskDetails from 'components/Tasks/TaskDetails';
 import { findById } from 'helpers';
+import BackButton from 'atoms/Buttons/BackButton';
 
 interface Props {
   className?: string;
@@ -28,12 +30,17 @@ class TaskShow extends React.Component<Props> {
   render() {
     const { user, task, actions, location } = this.props;
     return (
-      <TaskDetails
-        user={user}
-        task={task}
-        actions={actions}
-        location={location}
-      />
+      <Flex flexDirection='column'>
+        <Box mb={20}>
+          <BackButton to={`/clients/${user.id}/tasks`} />
+        </Box>
+        <TaskDetails
+          user={user}
+          task={task}
+          actions={actions}
+          location={location}
+        />
+      </Flex>
     );
   }
 }
