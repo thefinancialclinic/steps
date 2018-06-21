@@ -102,7 +102,7 @@ const RoleDropdown: React.SFC<RoleDropdownProps> = ({ type, onUpdateRole }) => {
       {userTypes.map((t, i) => {
         if (t !== type) {
           return (
-            <div onClick={() => onUpdateRole(type)} key={i}>
+            <div onClick={() => onUpdateRole(t)} key={i}>
               {t}
             </div>
           );

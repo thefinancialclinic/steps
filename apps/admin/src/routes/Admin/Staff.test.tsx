@@ -1,14 +1,18 @@
 import { shallow } from 'enzyme';
 import { Staff } from './Staff';
 import React from 'react';
+import 'jest';
 
 describe('Staff.tsx', () => {
   it('gets coaches', () => {
     const actions = {
       getCoaches: jest.fn().mockReturnValue(Promise.resolve()),
       addAlert: jest.fn(),
+      resendInvite: jest.fn(),
+      deleteCoach: jest.fn(),
+      updatePermissions: jest.fn(),
     };
-    shallow(<Staff coaches={[]} invitedCoaches={[]} actions={actions} />);
+    shallow(<Staff coaches={[]} actions={actions} />);
 
     expect(actions.getCoaches).toHaveBeenCalled();
   });
@@ -19,8 +23,11 @@ describe('Staff.tsx', () => {
         .fn()
         .mockReturnValue(Promise.reject({ message: 'some error' })),
       addAlert: jest.fn(),
+      resendInvite: jest.fn(),
+      deleteCoach: jest.fn(),
+      updatePermissions: jest.fn(),
     };
-    shallow(<Staff coaches={[]} invitedCoaches={[]} actions={actions} />);
+    shallow(<Staff coaches={[]} actions={actions} />);
 
     setTimeout(() => {
       expect(actions.addAlert).toHaveBeenCalled();

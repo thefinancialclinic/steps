@@ -36,19 +36,29 @@ export const inviteStaff = async (emails: string[]) => {
   };
 };
 
+export const resendInvite = async (email: string) => {
+  // TODO: send API request
+};
+
+export const UPDATE_PERMISSIONS = 'UPDATE_PERMISSIONS';
+export const updatePermissions = async (coachId: number, role: USER_TYPE) => {
+  // TODO: update user via API
+  return {
+    type: UPDATE_PERMISSIONS,
+    id: coachId,
+    role,
+  };
+};
+
 export const DELETE_COACH = 'DELETE_COACH';
-export const deleteCoach = (coachId: number): DispatchFn => async (
-  dispatch,
-  getState,
-) => {
+export const deleteCoach = async (coachId: number) => {
   // This should work once cascade delete works in the API
   try {
     await api.delete(`/coaches/${coachId}`);
-    const coaches = getState().auth.coaches;
-    const newCoaches = coaches.filter(coach => {
-      return coach.id !== coachId;
-    });
-    return dispatch(setCoaches(newCoaches));
+    return {
+      type: DELETE_COACH,
+      id: coachId,
+    };
   } catch (err) {
     return Promise.reject(err);
   }
