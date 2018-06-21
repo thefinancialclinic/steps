@@ -4,6 +4,10 @@ import React from 'react';
 import { User } from 'reducers/auth';
 import { History } from 'react-router';
 import { AlertLevel } from 'components/Alert/types';
+import { bindActionCreators } from 'redux';
+import { updateUser } from 'actions/auth';
+import { addAlert } from 'actions/alerts';
+import { connect } from 'react-redux';
 
 interface Props {
   user: User;
@@ -42,4 +46,11 @@ export class EditProfile extends React.Component<Props> {
   }
 }
 
-export default EditProfile;
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ updateUser, addAlert }, dispatch),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(EditProfile);

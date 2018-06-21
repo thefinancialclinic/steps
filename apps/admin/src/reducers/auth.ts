@@ -84,6 +84,9 @@ export default (state = initialState, action): State => {
       Storage.remove('AUTHENTICATED');
       return { ...state, user: { type: null }, isAuthenticated: false };
 
+    case UPDATE_USER:
+      return { ...state, user: action.user };
+
     default:
       return state;
   }
