@@ -1,13 +1,10 @@
 import React from 'react';
 import { Link, Location } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import { grey } from 'styles/colors';
 import { remCalc, sansSerif } from 'styles/type';
 import Badge from 'atoms/Badge';
-import Button from 'atoms/Buttons/Button';
 import Panel from 'atoms/Panel';
 import DeleteTask from 'components/Tasks/DeleteTask';
 import { deleteTask } from 'actions/tasks';
