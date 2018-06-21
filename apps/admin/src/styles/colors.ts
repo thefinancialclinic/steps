@@ -7,8 +7,9 @@ export const darkBlue = '#1E41A5';
 export const darkPink = '#F7337B';
 export const green = '#01BF8D';
 export const grey = '#999999';
-export const mediumBlue = '#C4E6F7';
 export const lightBlue = '#E8F5F9';
+export const lightGrey = '#d8d8d8';
+export const mediumBlue = '#C4E6F7';
 export const pink = '#EC98C0';
 export const red = '#F73833';
 export const white = '#FFFFFF';
@@ -23,6 +24,7 @@ export default {
   green,
   grey,
   lightBlue,
+  lightGrey,
   mediumBlue,
   pink,
   red,

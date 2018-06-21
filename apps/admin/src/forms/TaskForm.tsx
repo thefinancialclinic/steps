@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
-import { grey } from 'styles/colors';
+import { grey, lightGrey } from 'styles/colors';
 import Badge from 'atoms/Badge';
 import Button from 'atoms/Buttons/Button';
 import Text from 'components/Form/Text';
@@ -11,6 +11,8 @@ import arrayMutators from 'final-form-arrays';
 import { FieldArray } from 'react-final-form-arrays';
 import { Task } from 'reducers/tasks';
 import TaskStep from 'components/Tasks/TaskStep';
+import Label from 'atoms/Label';
+import { remCalc } from 'styles/type';
 
 interface Props {
   user: any;
@@ -53,15 +55,15 @@ class TaskForm extends React.Component<Props, null> {
                 />
               </Box>
               <Flex flexWrap="wrap">
-                <Box width={[1]} px={2}>
-                  <Text name="title" label="Task" />
+                <Box width={[1]}>
+                  <Text name="title" label="Task" grey />
                 </Box>
-                <Box width={[1]} px={2}>
-                  <Text name="description" label="Why This Matters" />
+                <Box width={[1]}>
+                  <Text name="description" label="Why This Matters" grey />
                 </Box>
               </Flex>
 
-              <label>STEPS</label>
+              <Label grey>STEPS</Label>
 
               <FieldArray name="steps">
                 {({ fields }) => {
@@ -81,9 +83,13 @@ class TaskForm extends React.Component<Props, null> {
                           removeField={fields.remove}
                         />
                       ))}
-                      <div className="add-step-link" onClick={addStep}>
-                        Add a step
-                      </div>
+                      <Box width={1} mb={10} mt={-10}>
+                        <div className="add-step-link" onClick={addStep}>
+                          <div />
+                          <Label grey>Add a step</Label>
+                          <div />
+                        </div>
+                      </Box>
                     </div>
                   );
                 }}
@@ -105,28 +111,30 @@ const StyledTaskForm = styled.form`
   .task-badge {
     margin-bottom: 1em;
   }
+
   .add-step-link {
-    display: table;
-    margin: 1em 0;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: stretch;
+    padding-bottom: ${remCalc(20)};
+    padding-top: ${remCalc(20)};
     text-align: center;
     text-transform: uppercase;
     white-space: nowrap;
 
-    &:before,
-    &:after {
-      border-top: 1px solid ${grey};
-      content: '';
-      display: table-cell;
-      position: relative;
-      top: 0.5em;
-      width: 45%;
+    label {
+      cursor: pointer;
+      margin: 0 ${remCalc(10)};
     }
-    &:before {
-      right: 1.5%;
+
+    > div {
+      background-color: ${lightGrey};
+      display: block;
+      height: 1px;
+      flex: 1;
     }
-    &:after {
-      left: 1.5%;
-    }
+
     a {
       color: ${grey};
       text-decoration: none;

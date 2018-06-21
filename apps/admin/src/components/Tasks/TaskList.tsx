@@ -6,7 +6,9 @@ import { Link, Match } from 'react-router-dom';
 import { SortableContainer, arrayMove } from 'react-sortable-hoc';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
-import { grey, mediumBlue, white } from 'styles/colors';
+import { mediumBlue, white } from 'styles/colors';
+import { remCalc } from 'styles/type';
+import { svgBackgroundImageUrl } from 'styles';
 import NoTasks from './NoTasks';
 import TaskListItem from './TaskListItem';
 import { getTasks, setTasks, setTaskStatus } from 'actions/tasks';
@@ -14,29 +16,52 @@ import { Flex } from 'grid-styled';
 import { filterById, findById } from 'helpers';
 
 const TaskContainer = styled.div`
-  border: 1px solid ${grey};
-  margin: 1em 0;
-  padding-left: 10%;
+  box-shadow: 0 0 4px 0 rgba(30 65 165, 0.2);
+  display: flex;
+  flex-direction: row;
+  margin-bottom: ${remCalc(20)};
   position: relative;
-
-  .number {
-    background-color: ${white};
-    border-right: 1px solid ${grey};
-    bottom: 0;
-    font-size: 2em;
-    left: 0;
-    padding: 0.5em 0;
-    position: absolute;
-    text-align: center;
-    top: 0;
-    width: 10%;
-  }
 
   &.completed {
     div {
       background-color: ${mediumBlue};
     }
   }
+`;
+
+const TaskNumber = styled.div`
+  align-items: center;
+  background-color: ${white};
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+  bottom: 0;
+  display: flex;
+  font-size: ${remCalc(90)};
+  font-weight: 700;
+  justify-content: center;
+  margin-right: 2px;
+  position: relative;
+  text-align: center;
+  width: 130px;
+`;
+
+type SVGProps = {
+  i: number;
+};
+
+const SVG = styled<SVGProps, 'div'>('div')`
+  background-image: ${svgBackgroundImageUrl('hover-bg.svg')};
+  background-position: ${props => `${Math.sin(props.i) * 100}% top`};
+  background-repeat: repeat;
+  background-size: 200%;
+  border-radius: 5px;
+  bottom: 0;
+  left: 0;
+  mix-blend-mode: lighten;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
 `;
 
 interface ListProps {
@@ -52,25 +77,29 @@ const SortableList = SortableContainer(
     };
     return (
       <Box>
-        {items.map((task, index) => (
-          <TaskContainer key={index} className={taskClass(task.status)}>
-            <div className="number">{index + 1}</div>
-            <TaskListItem
-              key={`item-${index}`}
-              setTaskStatus={setTaskStatus}
-              index={index}
-              task={task}
-              url={url}
-            />
-          </TaskContainer>
-        ))}
+        {items.map((task, index) => {
+          return (
+            <TaskContainer key={index} className={taskClass(task.status)}>
+              <TaskNumber>
+                <div>{index + 1}</div>
+                <SVG i={index + 1} />
+              </TaskNumber>
+              <TaskListItem
+                key={`item-${index}`}
+                setTaskStatus={setTaskStatus}
+                index={index}
+                task={task}
+                url={url}
+              />
+            </TaskContainer>
+          );
+        })}
       </Box>
     );
   },
 );
 
 interface Props {
-  className?: string;
   actions?: any;
   tasks?: any;
   user: any;
@@ -87,7 +116,7 @@ export class TaskList extends React.Component<Props, {}> {
   shouldCancelStart = e => {
     if (
       e.target.tagName.toLowerCase() === 'a' ||
-      e.target.tagName.toLowerCase() === 'input'
+      e.target.tagName.toLowerCase() === 'i'
     ) {
       return true;
     }
@@ -98,7 +127,7 @@ export class TaskList extends React.Component<Props, {}> {
 
     const taskDisplay =
       tasks.length > 0 ? (
-        <Box width={1}>
+        <Box>
           <h2>Tasks</h2>
           <SortableList
             items={tasks}
@@ -120,10 +149,6 @@ export class TaskList extends React.Component<Props, {}> {
     return <div>{taskDisplay}</div>;
   }
 }
-
-export const StyledTaskList = styled(TaskList)`
-  display: flex;
-`;
 
 export class ConnectedTaskList extends React.Component<Props, {}> {
   componentWillMount() {

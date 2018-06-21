@@ -1,10 +1,12 @@
 import Main from 'atoms/Main';
+import styled from 'styled-components';
 import TaskForm from 'forms/TaskForm';
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getTasks, updateTask } from 'actions/tasks';
 import { findById } from 'helpers';
+import BackButton from 'atoms/Buttons/BackButton';
 
 interface Props {
   className?: string;
@@ -36,7 +38,8 @@ class EditTask extends React.Component<Props, {}> {
 
     return (
       <Main>
-        <h2>EditTask</h2>
+        <BackButton to={`/clients/${this.props.user.id}/tasks/${task.id}`} />
+        <H2>Edit Task</H2>
         <p>
           Personalize this task better for your client by editing, adding, or
           deleting steps.
@@ -46,6 +49,10 @@ class EditTask extends React.Component<Props, {}> {
     );
   }
 }
+
+const H2 = styled.h2`
+  margin-bottom: 0;
+`;
 
 // TODO: Need to request the specific task in order to get the steps
 const mapStateToProps = (state, props) => ({
