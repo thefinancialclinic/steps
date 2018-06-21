@@ -19,6 +19,7 @@ import { postgraphile } from 'postgraphile';
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
 import 'dotenv/config';
+import { AuthenticatedUserController } from './controller/AuthenticatedUserController';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT || '3001';
@@ -52,7 +53,7 @@ const checkJwt = jwt({
   }),
 
   // Validate the audience of the issuer
-  audience: AUTH0_CLIENT_ID,
+  audience: 'http://steps-admin.herokuapp.com',
   issuer: AUTH0_ISSUER,
   algorithms: ['RS256'],
   complete: true,
@@ -60,8 +61,9 @@ const checkJwt = jwt({
 
 // Redirect HTTP requests to HTTPS
 const httpsRedirect = (req, res, next) => {
-  if (req.headers['x-forwarded-proto'] != 'https') {
-    res.redirect(302, `https://${req.hostname}${req.originalUrl}`);
+  const { headers, hostname, originalUrl } = req;
+  if (headers['x-forwarded-proto'] != 'https') {
+    res.redirect(302, `https://${hostname}${originalUrl}`);
   } else {
     next();
   }
@@ -116,10 +118,10 @@ Routes.forEach(route => {
   );
 });
 
-// Route for checking that Auth0 is working
-app.get('/api/private', checkJwt, (req, res) => {
-  res.type('json');
-  return res.send(req.user); // added by checkJwt, contains user data
+app.get('/api/user', checkJwt, async (req, res, next) => {
+  const controller = new AuthenticatedUserController();
+  const result = await controller['one'](req, res, next);
+  res.send(result);
 });
 
 // Postgraphile
