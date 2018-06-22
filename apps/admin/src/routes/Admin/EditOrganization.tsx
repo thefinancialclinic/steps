@@ -7,6 +7,7 @@ import { User } from 'reducers/auth';
 import { bindActionCreators } from 'redux';
 import EditOrganizationForm from 'forms/EditOrganizationForm';
 import { AlertLevel } from 'components/Alert/types';
+import { updateOrganization } from 'actions/auth';
 
 interface Props {
   user: User;
@@ -15,9 +16,9 @@ interface Props {
 }
 
 export class EditOrganization extends React.Component<Props> {
-  onSubmit = updateOrganization => {
+  onSubmit = updatedOrganization => {
     this.props.actions
-      .updateOrganization(updateOrganization)
+      .updateOrganization(updatedOrganization, this.props.user)
       .then(() => {
         this.props.history.push('/organization');
         this.props.actions.addAlert({
@@ -49,7 +50,7 @@ export class EditOrganization extends React.Component<Props> {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ addAlert }, dispatch),
+  actions: bindActionCreators({ addAlert, updateOrganization }, dispatch),
 });
 
 export default connect(

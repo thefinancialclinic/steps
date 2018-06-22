@@ -65,3 +65,8 @@ export const updateUser = async user => {
     user,
   };
 };
+
+export const updateOrganization = async (org, user) => dispatch => {
+  // TODO: Update company via API
+  return dispatch(updateUser({ ...user, org }));
+};

@@ -3,6 +3,7 @@ import {
   LOGOUT,
   SET_USER_TYPE,
   SET_AUTHENTICATED_USER,
+  UPDATE_USER,
 } from 'actions/auth';
 
 export enum USER_TYPE {

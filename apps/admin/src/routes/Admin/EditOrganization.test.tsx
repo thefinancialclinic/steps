@@ -26,9 +26,12 @@ describe('EditOrganization.tsx', () => {
 
     form.simulate('submit', { name: 'my organization' });
 
-    expect(actions.updateOrganization).toHaveBeenCalledWith({
-      name: 'my organization',
-    });
+    expect(actions.updateOrganization).toHaveBeenCalledWith(
+      {
+        name: 'my organization',
+      },
+      { id: 1, email: 'my-email@example.com' },
+    );
   });
 
   it('navigates back to profile if update user is successful', async () => {

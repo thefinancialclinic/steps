@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import EditProfile from './EditProfile';
+import { EditProfile } from './EditProfile';
 import EditProfileForm from '../../forms/EditProfileForm';
 import React from 'react';
 
