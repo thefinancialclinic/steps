@@ -37,6 +37,26 @@ Deploying changes to steps
 
 If you see that, then the DB is ready to rock.
 
+### Adding a new DB migration
+
+To add a new migration:
+
+```
+sqitch add --change <change name> --requires <previous migration> --note <comment>
+```
+
+- `<change name>` will become the file name of the migration
+- `<previous migration>` is any migration required as a precondition for this migration
+- `<comment>` describe the reason for the migration. This comment will be auditable later.
+
+This creates three files:
+
+- `apps/api/migration/deploy/<change name>.sql` The forward or "up" migration.
+- `apps/api/migration/revert/<change name>.sql` Undoes the migration.
+- `apps/api/migration/verify/<change name>.sql` Check that the migration was applied successfully.
+
+Then deploy the migration with `sqitch deploy`.
+
 ### Refresh with latest build
 
 ```
