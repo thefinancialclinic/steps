@@ -56,3 +56,17 @@ export const logout = () => dispatch => {
   auth0.logout();
   return dispatch({ type: LOGOUT, user: null });
 };
+
+export const UPDATE_USER = 'UPDATE_USER';
+export const updateUser = async user => {
+  // TODO: Update user via Auth0 API
+  return {
+    type: 'UPDATE_USER',
+    user,
+  };
+};
+
+export const updateOrganization = async (org, user) => dispatch => {
+  // TODO: Update company via API
+  return dispatch(updateUser({ ...user, org }));
+};

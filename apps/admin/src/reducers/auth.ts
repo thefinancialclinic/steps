@@ -3,6 +3,7 @@ import {
   LOGOUT,
   SET_USER_TYPE,
   SET_AUTHENTICATED_USER,
+  UPDATE_USER,
 } from 'actions/auth';
 
 export enum USER_TYPE {
@@ -83,6 +84,9 @@ export default (state = initialState, action): State => {
       Storage.remove('USER');
       Storage.remove('AUTHENTICATED');
       return { ...state, user: { type: null }, isAuthenticated: false };
+
+    case UPDATE_USER:
+      return { ...state, user: action.user };
 
     default:
       return state;
