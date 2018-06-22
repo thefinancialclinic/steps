@@ -12,6 +12,18 @@
 // the project's config changing)
 
 module.exports = (on, config) => {
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
+  const env = config.env.configFile || 'development';
+
+  const configFile =
+    env === 'ci'
+      ? require(`../config/cypress.${env}.json`)
+      : {
+          baseUrl: 'http://localhost:3000',
+          env: {
+            API_URL: 'http://localhost:3001/api',
+          },
+          defaultCommandTimeout: 10000,
+        };
+
+  return configFile;
 };

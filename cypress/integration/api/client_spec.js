@@ -1,3 +1,5 @@
+const { API_URL } = Cypress.env();
+
 const request = (method, url, body, headers) => {
   return cy.request({
     method,
@@ -24,7 +26,7 @@ describe('API endpoints (accessed directly)', () => {
 
   before(() => {
     // org and coach aldready created
-    cy.request('POST', 'http://localhost:3001/api/clients', {
+    cy.request('POST', `${API_URL}/clients`, {
       first_name: clientFirstName,
       last_name: 'Last',
       email: 'client@example.com',
@@ -37,7 +39,7 @@ describe('API endpoints (accessed directly)', () => {
     }).then(resp => {
       clientId = resp.body.id;
 
-      cy.request('POST', 'http://localhost:3001/api/tasks', {
+      cy.request('POST', `${API_URL}/tasks`, {
         title: taskTitle,
         category: 'category',
         user_id: clientId,
@@ -46,14 +48,14 @@ describe('API endpoints (accessed directly)', () => {
       }).then(resp => {
         taskId = resp.body.id;
 
-        cy.request('POST', 'http://localhost:3001/api/requests', {
+        cy.request('POST', `${API_URL}/requests`, {
           status: requestStatus,
           user_id: clientId,
           task_id: taskId,
         }).then(resp => {
           requestId = resp.body.id;
 
-          cy.request('POST', 'http://localhost:3001/api/messages', {
+          cy.request('POST', `${API_URL}/messages`, {
             text: messageText,
             to_user: clientId,
             from_user: 1,
@@ -62,7 +64,7 @@ describe('API endpoints (accessed directly)', () => {
           }).then(resp => {
             messageId = resp.body.id;
 
-            cy.request('POST', 'http://localhost:3001/api/media', {
+            cy.request('POST', `${API_URL}/media`, {
               task_id: taskId,
               title: mediaTitle,
               category: 'Media category',
@@ -73,7 +75,7 @@ describe('API endpoints (accessed directly)', () => {
 
               cy.request(
                 'POST',
-                `http://localhost:3001/api/clients/${clientId}/viewed_media/${mediaId}`,
+                `${API_URL}/clients/${clientId}/viewed_media/${mediaId}`,
               );
             });
           });
@@ -85,33 +87,21 @@ describe('API endpoints (accessed directly)', () => {
   after(() => {
     cy.request(
       'DELETE',
-      `http://localhost:3001/api/clients/${clientId}/viewed_media/${mediaId}`,
+      `${API_URL}/clients/${clientId}/viewed_media/${mediaId}`,
     ).then(() =>
       cy
-        .request('DELETE', 'http://localhost:3001/api/media/' + mediaId)
+        .request('DELETE', `${API_URL}/media/` + mediaId)
         .then(() =>
           cy
-            .request(
-              'DELETE',
-              'http://localhost:3001/api/messages/' + messageId,
-            )
+            .request('DELETE', `${API_URL}/messages/` + messageId)
             .then(() =>
               cy
-                .request(
-                  'DELETE',
-                  'http://localhost:3001/api/requests/' + requestId,
-                )
+                .request('DELETE', `${API_URL}/requests/` + requestId)
                 .then(() =>
                   cy
-                    .request(
-                      'DELETE',
-                      'http://localhost:3001/api/tasks/' + taskId,
-                    )
+                    .request('DELETE', `${API_URL}/tasks/` + taskId)
                     .then(() =>
-                      cy.request(
-                        'DELETE',
-                        'http://localhost:3001/api/clients/' + clientId,
-                      ),
+                      cy.request('DELETE', `${API_URL}/clients/` + clientId),
                     ),
                 ),
             ),
@@ -120,19 +110,17 @@ describe('API endpoints (accessed directly)', () => {
   });
 
   it('GET Clients (many, and related entities)', () => {
-    cy.request('GET', 'http://localhost:3001/api/clients');
+    cy.request('GET', `${API_URL}/clients`);
   });
 
   it('GET Client (single)', () => {
-    cy.request('GET', 'http://localhost:3001/api/clients/' + clientId).then(
-      response => {
-        expect(response.body).to.have.property('first_name', clientFirstName);
-      },
-    );
+    cy.request('GET', `${API_URL}/clients/` + clientId).then(response => {
+      expect(response.body).to.have.property('first_name', clientFirstName);
+    });
   });
 
   it('PUT Client (update)', () => {
-    cy.request('PUT', `http://localhost:3001/api/clients/${clientId}`, {
+    cy.request('PUT', `${API_URL}/clients/${clientId}`, {
       first_name: newClientFirstName,
       last_name: 'Last',
       email: 'client@example.com',
@@ -148,7 +136,7 @@ describe('API endpoints (accessed directly)', () => {
   });
 
   it('PUT Client (partial update)', () => {
-    request('PUT', `http://localhost:3001/api/clients/${clientId}`, {
+    request('PUT', `${API_URL}/clients/${clientId}`, {
       last_name: newClientLastName,
     }).then(response => {
       expect(response.body).to.have.property('last_name', newClientLastName);
@@ -157,16 +145,23 @@ describe('API endpoints (accessed directly)', () => {
   });
 
   it('GET Task', () => {
-    cy.request('GET', `http://localhost:3001/api/tasks/${taskId}`).then(
-      response => {
-        expect(response.body).to.have.property('title', taskTitle);
-        expect(response.body.user_id).to.equal(clientId);
-      },
-    );
+    cy.request('GET', `${API_URL}/tasks/${taskId}`).then(response => {
+      expect(response.body).to.have.property('title', taskTitle);
+      expect(response.body.user_id).to.equal(clientId);
+    });
   });
 
   it('PUT Task (partial update)', () => {
-    request('PUT', `http://localhost:3001/api/tasks/${taskId}`, {
+    request('PUT', `${API_URL}/tasks/${taskId}`, {
+      category: newTaskCategory,
+    }).then(response => {
+      expect(response.body).to.have.property('category', newTaskCategory);
+      expect(response.body).to.have.property('status', 'ACTIVE'); // unchanged
+    });
+  });
+
+  it('PUT Task (partial update)', () => {
+    request('PUT', `${API_URL}/tasks/${taskId}`, {
       category: newTaskCategory,
     }).then(response => {
       expect(response.body).to.have.property('category', newTaskCategory);
@@ -175,43 +170,37 @@ describe('API endpoints (accessed directly)', () => {
   });
 
   it('GET Client Tasks', () => {
-    cy.request(
-      'GET',
-      `http://localhost:3001/api/clients/${clientId}/tasks`,
-    ).then(response => {
+    cy.request('GET', `${API_URL}/clients/${clientId}/tasks`).then(response => {
       expect(response.body[0]).to.have.property('title', taskTitle);
     });
   });
 
   it('GET Client Messages', () => {
-    cy.request(
-      'GET',
-      `http://localhost:3001/api/clients/${clientId}/messages`,
-    ).then(response => {
-      expect(response.body[0]).to.have.property('text', messageText);
-    });
+    cy.request('GET', `${API_URL}/clients/${clientId}/messages`).then(
+      response => {
+        expect(response.body[0]).to.have.property('text', messageText);
+      },
+    );
   });
 
   it('GET Client viewed media', () => {
-    cy.request(
-      'GET',
-      `http://localhost:3001/api/clients/${clientId}/viewed_media`,
-    ).then(response => {
-      expect(response.body[0]).to.have.property('title', mediaTitle);
-    });
+    cy.request('GET', `${API_URL}/clients/${clientId}/viewed_media`).then(
+      response => {
+        expect(response.body[0]).to.have.property('title', mediaTitle);
+      },
+    );
   });
 
   it('GET Client Requests', () => {
-    cy.request(
-      'GET',
-      `http://localhost:3001/api/clients/${clientId}/requests`,
-    ).then(response => {
-      expect(response.body[0]).to.have.property('status', requestStatus);
-    });
+    cy.request('GET', `${API_URL}/clients/${clientId}/requests`).then(
+      response => {
+        expect(response.body[0]).to.have.property('status', requestStatus);
+      },
+    );
   });
 
   it('PUT Request (update)', () => {
-    cy.request('PUT', `http://localhost:3001/api/requests/${requestId}`, {
+    cy.request('PUT', `${API_URL}/requests/${requestId}`, {
       status: newRequestStatus,
       user_id: clientId,
       task_id: taskId,

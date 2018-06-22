@@ -11,11 +11,6 @@ const isProduction = process.env.NODE_ENV === 'production';
 const SRC = path.resolve(__dirname, 'src');
 const BUILD = path.resolve(__dirname, '.build');
 
-const env = [].reduce((result, v) => {
-  result[v] = JSON.stringify(process.env[v]);
-  return result;
-}, {});
-
 const baseConfig = {
   output: {
     publicPath: '/',
@@ -70,16 +65,12 @@ const baseConfig = {
       template: 'src/index.html',
       inject: true,
     }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: isProduction
-          ? JSON.stringify('production')
-          : JSON.stringify('development'),
-        API_URL: isProduction
-          ? JSON.stringify('/api')
-          : JSON.stringify('http://localhost:3001/api'),
-        ...env,
-      },
+    new webpack.EnvironmentPlugin({
+      API_URL: isProduction ? '/api' : 'http://localhost:3001/api',
+      AUTH0_CLIENT_ID: false,
+      AUTH0_ISSUER: false,
+      NODE_ENV: 'development',
+      CI: false,
     }),
     new webpack.NamedModulesPlugin(),
   ],
