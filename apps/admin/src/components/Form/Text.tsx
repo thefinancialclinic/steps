@@ -61,7 +61,6 @@ const InputWrapper = styled<any, 'div'>('div')`
     padding-left: ${remCalc(20)};
     padding-right: ${remCalc(20)};
     padding-top: ${remCalc(21)};
-    width: 100%;
   }
   span {
     position: absolute;

@@ -3,11 +3,11 @@ import Alert from 'containers/Alert';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { User } from 'reducers/auth';
+import { RoutesElement } from '../index';
 import Clients from './Clients/List';
 import ClientNew from './Clients/New';
 import ClientProfile from './Clients/Profile';
 import Home from './Home';
-import { RoutesElement } from '../index';
 
 type Props = {
   history: any;

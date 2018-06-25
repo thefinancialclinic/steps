@@ -3,6 +3,7 @@ import Sidebar from 'components/Sidebar/Sidebar';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import styled from 'styled-components';
+import EditButton from 'atoms/Buttons/EditButton';
 
 interface Props {
   actions?: any;
@@ -29,6 +30,7 @@ class UserLayout extends React.Component<Props, {}> {
           <Box width={[1, 1 / 3]}>
             <Sidebar links={links}>
               <BackButton to="/clients" />
+              <EditButton to={`/clients/${user.id}/edit`} />
               <h2>
                 {user.first_name} {user.last_name}
               </h2>
