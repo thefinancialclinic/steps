@@ -20,13 +20,11 @@ export const signup = (userType, userAttrs) => async () => {
     if (userType === USER_TYPE.ADMIN) {
       const org = await api.post('/orgs', {
         name: userAttrs.organization_name,
-        sms_number: '5551234567',
       });
       userAttrs.org_id = parseInt(org.data.id.id);
     }
-    userAttrs.color = 'blue';
     userAttrs.goals = [];
-    userAttrs.status = 'AWAITING_HELP';
+    userAttrs.status = 'WORKING';
     await api.post('/users', userAttrs);
     auth0.login(email, password);
   } catch (err) {

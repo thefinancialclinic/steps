@@ -52,9 +52,8 @@ describe('Auth actions', () => {
       const post = api.post as jest.Mock;
       const mockPost = post.mock;
       const userAttrs = mockPost.calls[0][1];
-      expect(userAttrs.color).toBe('blue');
       expect(userAttrs.goals).toEqual([]);
-      expect(userAttrs.status).toBe('AWAITING_HELP');
+      expect(userAttrs.status).toBe('WORKING');
     });
 
     it('POSTs to create a new (domain) user', async () => {
@@ -79,7 +78,6 @@ describe('Auth actions', () => {
       const [endpoint, attrs] = mockPost.calls[0];
       expect(endpoint).toBe('/orgs');
       expect(attrs.name).toBe('organization');
-      expect(attrs.sms_number).toBe('5551234567');
     });
 
     it('adds org ID to admin user attrs', async () => {
