@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Flex, Box } from 'grid-styled';
-import styled from 'styled-components';
-import { green, white, yellow } from 'styles/colors';
 import Button from 'atoms/Buttons/Button';
-import Modal from 'components/Modal';
+import { Box, Flex } from 'grid-styled';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+export const DELETE_TASK_MODAL = 'DELETE_TASK_MODAL';
 
 interface Props {
   className?: string;
@@ -16,7 +16,7 @@ class DeleteTask extends React.Component<Props, {}> {
     const { className, user } = this.props;
 
     return (
-      <Modal className={className}>
+      <div className={className}>
         <h2>Task Deleted</h2>
         <Button white>UNDO</Button>
         <Flex className="actions" justifyContent="center">
@@ -31,7 +31,7 @@ class DeleteTask extends React.Component<Props, {}> {
             </Link>
           </Box>
         </Flex>
-      </Modal>
+      </div>
     );
   }
 }

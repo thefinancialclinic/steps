@@ -7,13 +7,15 @@ import { deleteTask, getTasks } from 'actions/tasks';
 import TaskDetails from 'components/Tasks/TaskDetails';
 import { findById } from 'helpers';
 import BackButton from 'atoms/Buttons/BackButton';
+import { addAlert } from 'actions/alerts';
+import { showModal, hideModal } from 'actions/modals';
 
 interface Props {
   className?: string;
   user: any;
   task: any;
   location: Location;
-  actions: { deleteTask; getTasks };
+  actions: { deleteTask; getTasks; showModal; hideModal; addAlert };
 }
 
 const steps = task => {
@@ -51,7 +53,10 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ deleteTask, getTasks }, dispatch),
+  actions: bindActionCreators(
+    { deleteTask, getTasks, addAlert, showModal, hideModal },
+    dispatch,
+  ),
 });
 
 export default connect(

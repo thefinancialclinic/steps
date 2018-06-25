@@ -1,59 +1,56 @@
+import Badge from 'atoms/Badge';
+import Panel from 'atoms/Panel';
+import DeleteTask, { DELETE_TASK_MODAL } from 'components/Tasks/DeleteTask';
+import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import { Link, Location } from 'react-router-dom';
-import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import { green, grey, white } from 'styles/colors';
 import { remCalc, sansSerif } from 'styles/type';
-import Badge from 'atoms/Badge';
-import Panel from 'atoms/Panel';
-import DeleteTask from 'components/Tasks/DeleteTask';
-import { deleteTask } from 'actions/tasks';
+import { ModalSize } from '../Modal';
+import Modal from 'containers/Modal';
+import { DELETE_TASK } from 'actions/tasks';
+import EditButton from 'atoms/Buttons/EditButton';
+import DeleteButton from 'atoms/Buttons/DeleteButton';
+import { AlertLevel } from '../Alert/types';
 
 interface Props {
   className?: string;
   user: any;
   location: Location;
   task: any;
-  actions: { deleteTask };
+  actions: { deleteTask; hideModal; showModal; addAlert };
 }
 
-const steps = task => {
-  return task.steps.map((step, index) => (
-    <p key={`step-${index}`}>{step.text}</p>
-  ));
-};
-
-class TaskDetails extends React.Component<Props, {}> {
-  state = {
-    showModal: false,
-  };
-
-  setModal = showModal => {
-    this.setState({ showModal });
-  };
-
-  renderModal = user => {
-    if (this.state.showModal) {
-      return <DeleteTask user={user} />;
-    }
-  };
-
+class TaskDetails extends React.Component<Props> {
   handleDelete = async () => {
+    console.log('handle delete');
+    const { actions } = this.props;
     try {
-      await this.props.actions.deleteTask(this.props.task.id);
-      this.setModal(!this.state.showModal);
+      await actions.deleteTask(this.props.task.id);
+      actions.showModal(DELETE_TASK_MODAL);
     } catch (error) {
-      console.error(error);
+      actions.addAlert({
+        level: AlertLevel.Error,
+        id: 'delete-task-error',
+        message: error.message,
+      });
     }
   };
 
   render() {
-    const { className, user, location, task } = this.props;
+    const { className, user, location, task, actions } = this.props;
     if (!task) return null;
 
     return (
       <div>
-        {this.renderModal(user)}
+        <Modal
+          id={DELETE_TASK}
+          size={ModalSize.Medium}
+          onClose={() => actions.hideModal(DELETE_TASK_MODAL)}
+        >
+          <DeleteTask user={user} />
+        </Modal>
         <Panel className={className}>
           <Flex alignItems="center" justifyContent="space-between">
             <Box>
@@ -61,12 +58,10 @@ class TaskDetails extends React.Component<Props, {}> {
             </Box>
             <Box className="action-links">
               <Link className="action-link" to={`${location.pathname}/edit`}>
-                <i className="material-icons">edit</i>
-                <span>Edit</span>
+                <EditButton />
               </Link>
               <span className="action-link" onClick={this.handleDelete}>
-                <i className="material-icons">delete</i>
-                <span>Delete</span>
+                <DeleteButton />
               </span>
             </Box>
           </Flex>
@@ -98,18 +93,8 @@ const StyledViewTask = styled(TaskDetails)`
   }
 
   .action-link {
-    color: ${grey};
-    display: flex;
-    align-items: center;
-    font-size: ${remCalc(14)};
-    margin-bottom: 1em;
     margin-right: 1em;
     text-decoration: none;
-    text-transform: uppercase;
-    i {
-      font-size: ${remCalc(14)};
-      margin-right: 5px;
-    }
   }
 
   .circle {
