@@ -14,7 +14,6 @@ import Chat from './ProfileChat';
 import Goals from './Goals/Goals';
 import { findById } from 'helpers';
 import FollowUp from './FollowUp';
-import EditProfile from './EditProfile';
 
 type Params = {
   id: number;
@@ -69,7 +68,6 @@ class Client extends React.Component<Props, {}> {
         />
         <Route path="/clients/:id/tasks" render={composeLayout(Tasks)} />
         <Route path="/clients/:id/follow-up" render={composeLayout(FollowUp)} />
-        <Route path="/clients/:id/edit" render={composeLayout(EditProfile)} />
         <Route render={() => <Redirect to={`/clients/${user.id}/tasks`} />} />
       </Switch>
     );

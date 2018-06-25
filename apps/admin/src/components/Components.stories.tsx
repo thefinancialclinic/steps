@@ -35,7 +35,6 @@ import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
 import { TaskList } from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
-import EditProfileModal from './Clients/EditProfileModal';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -272,6 +271,13 @@ export const Components = storiesOf('Components', module)
   .add('Task Step', () => (
     <TaskStep name="thing" removeField={i => null} count={1} />
   ))
+  // TODO: FIX LATER
+  // .add('Task Template', () => <TaskTemplate task={{
+  //   id: 1,
+  //   title: 'As sample task',
+  //   description: 'A sample description',
+  //   category: 'income'
+  // }}/>);
   .add('Task List', () => {
     const match = { url: 'foo' };
     return (
@@ -324,13 +330,10 @@ export const Components = storiesOf('Components', module)
     <Goal text="My goal is to go to the moon" onEdit={() => {}} />
   ))
   .add('User Profile', () => (
-    <UserProfile firstName="Jane" lastName="Smith" email="jane@example.com" />
+    <UserProfile name="Jane Smith" email="jane@example.com" />
   ))
   .add('Organization Profile', () => (
     <OrganizationProfile name="Organization name" />
-  ))
-  .add('Edit Profile Modal', () => (
-    <EditProfileModal client={{ type: USER_TYPE.CLIENT }} onSubmit={() => {}} />
   ));
 
 export default Components;

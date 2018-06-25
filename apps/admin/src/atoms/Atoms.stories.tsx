@@ -11,7 +11,7 @@ import Filter from '../components/Filter';
 import Input from './Input/Input';
 import Main from './Main';
 import Panel from './Panel';
-import EditButton from './Buttons/EditButton';
+import EditButton from './EditButton';
 
 const Stories = storiesOf('Atoms', module)
   .add('Badge', () => (

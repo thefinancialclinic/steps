@@ -62,19 +62,6 @@ export const createClient = (clientData): DispatchFn => async (
   }
 };
 
-export const UPDATE_CLIENT = 'UPDATE_CLIENT';
-export const updateClient = async clientData => {
-  try {
-    await api.put(`/clients/${clientData.id}`, clientData);
-    return {
-      type: UPDATE_CLIENT,
-      client: clientData,
-    };
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
-
 export const SET_CLIENT_GOALS = 'SET_CLIENT_GOALS';
 export const setClientGoals = async (client: Client, goals: string[]) => {
   const updatedClient = {

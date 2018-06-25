@@ -96,6 +96,7 @@ const StyledModal = styled(Modal)`
 
 const Container = styled.div`
   text-align: center;
+
   i.close {
     color: ${black};
     font-size: 20px;
@@ -104,23 +105,28 @@ const Container = styled.div`
     left: 0;
     cursor: pointer;
   }
+
   h1 {
     font-family: ${serif};
     font-weight: 600;
   }
+
   p {
     font-family: ${sansSerif};
     text-align: left;
+
     a {
       text-decoration: none;
       color: ${green};
     }
   }
+
   address {
     display: inline;
     color: ${green};
     font-style: normal;
   }
+
   button {
     margin-top: 14px;
   }
