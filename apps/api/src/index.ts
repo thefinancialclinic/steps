@@ -70,10 +70,6 @@ const httpsRedirect = (req, res, next) => {
   }
 };
 
-// TEMPORARY: Seed Org (id: 1) and Coach (id: 1) needed for Client creation
-new OrgRepository(pool).seed();
-new UserRepository(pool).seed();
-
 ////////////////////////////////////////////////////////////////////////////////
 // App / Middlewares
 
