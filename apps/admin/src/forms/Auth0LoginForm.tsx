@@ -4,6 +4,7 @@ import { Form } from 'react-final-form';
 import styled from 'styled-components';
 import Text from 'components/Form/Text';
 import Password from 'components/Form/Password';
+import { required } from 'forms/validators';
 
 class Auth0LoginForm extends React.Component<any, any> {
   render() {
@@ -14,9 +15,9 @@ class Auth0LoginForm extends React.Component<any, any> {
         onSubmit={onSubmit}
         render={({ handleSubmit, pristine, invalid }) => (
           <StyledForm onSubmit={handleSubmit}>
-            <Text name="email" label="Email" />
-            <Password name="password" label="Password" />
-            <Button type="submit" onClick={handleSubmit}>
+            <Text name="email" label="Email" validate={required} />
+            <Password name="password" label="Password" validate={required} />
+            <Button type="submit" onClick={invalid ? () => {} : handleSubmit}>
               Log In
             </Button>
           </StyledForm>

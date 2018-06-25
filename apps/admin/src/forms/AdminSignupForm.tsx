@@ -4,6 +4,7 @@ import { Form } from 'react-final-form';
 import styled from 'styled-components';
 import Text from 'components/Form/Text';
 import Password from 'components/Form/Password';
+import { required } from 'forms/validators';
 
 class SignupForm extends React.Component<any, any> {
   render() {
@@ -14,12 +15,16 @@ class SignupForm extends React.Component<any, any> {
         onSubmit={onSubmit}
         render={({ handleSubmit, pristine, invalid }) => (
           <StyledForm onSubmit={handleSubmit}>
-            <Text name="first_name" label="First" />
-            <Text name="last_name" label="Last" />
-            <Text name="organization_name" label="Organization's Name" />
-            <Text name="email" label="Email" />
-            <Password name="password" label="Password" />
-            <Button type="submit" onClick={handleSubmit}>
+            <Text name="first_name" label="First" validate={required} />
+            <Text name="last_name" label="Last" validate={required} />
+            <Text
+              name="organization_name"
+              label="Organization's Name"
+              validate={required}
+            />
+            <Text name="email" label="Email" validate={required} />
+            <Password name="password" label="Password" validate={required} />
+            <Button type="submit" onClick={invalid ? () => {} : handleSubmit}>
               Sign Up
             </Button>
           </StyledForm>
