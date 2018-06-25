@@ -1,64 +1,125 @@
 import Auth0, { Auth0DecodedHash } from 'auth0-js';
 
-export const auth0 = new Auth0.WebAuth({
-  domain: 'steps.auth0.com',
-  clientID: 'R4uBotWz7sHgmvfmlsBI3othCDEpo4Ga',
-  redirectUri:
-    process.env.AUTH0_REDIRECT_URL || 'http://localhost:3000/authenticate',
-  audience: process.env.AUTH0_AUDIENCE || 'http://steps-admin.herokuapp.com',
-  responseType: 'token id_token',
-  scope: 'openid',
-});
+interface Auth0Client {
+  login: any;
+  signup: any;
+  parseHash: any;
+}
 
-export const login = () => {
-  auth0.authorize();
-};
+interface Auth0SignupResponse {
+  Id: string;
+}
 
-export const logout = () => {
-  localStorage.removeItem('access_token');
-  localStorage.removeItem('id_token');
-  localStorage.removeItem('expires_at');
-};
+export class Auth0Service {
+  webAuth: Auth0Client;
 
-export const setAuthTokens = (authResult: Auth0DecodedHash) => {
-  let expiresAt = JSON.stringify(
-    authResult.expiresIn * 1000 + new Date().getTime(),
-  );
-  localStorage.setItem('access_token', authResult.accessToken);
-  localStorage.setItem('id_token', authResult.idToken);
-  localStorage.setItem('expires_at', expiresAt);
-};
+  constructor(webAuth?: Auth0Client) {
+    this.webAuth =
+      webAuth ||
+      new Auth0.WebAuth({
+        domain: 'steps.auth0.com',
+        clientID: 'R4uBotWz7sHgmvfmlsBI3othCDEpo4Ga',
+        redirectUri:
+          process.env.AUTH0_REDIRECT_URL ||
+          'http://localhost:3000/authenticate',
+        audience:
+          process.env.AUTH0_AUDIENCE || 'http://steps-admin.herokuapp.com',
+        responseType: 'token id_token',
+        scope: 'openid',
+      });
+  }
 
-export const authenticate = (onAuthTokensSet: Function) => {
-  auth0.parseHash((err, authResult) => {
-    if (authResult && authResult.accessToken && authResult.idToken) {
-      setAuthTokens(authResult);
-      onAuthTokensSet();
-    } else if (err) {
-      console.log(err);
-    }
-  });
-};
+  login(email, password) {
+    return new Promise((resolve, reject) => {
+      this.webAuth.login({ email: email, password: password }, err => {
+        if (err) {
+          const { description } = err;
+          reject({ message: description || 'Something went wrong.' });
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
 
-export const getAppToken = () => {
-  return localStorage.getItem('access_token');
-};
+  signupAndLogin(email, password) {
+    return this.signup(email, password).then(_res => {
+      return this.login(email, password);
+    });
+  }
 
-export const getIdToken = () => {
-  return localStorage.getItem('id_token');
-};
+  signup(email, password): Promise<Auth0SignupResponse> {
+    return new Promise((resolve, reject) => {
+      this.webAuth.signup(
+        {
+          email: email,
+          password: password,
+          connection: 'Username-Password-Authentication',
+        },
+        (err, res) => {
+          if (err) {
+            let message = 'Something went wrong.';
+            switch (err.code) {
+              case 'invalid_password':
+                message =
+                  'Your password is invalid. Make sure it contains a letter, number, and special character.';
+                break;
+              case 'invalid email address':
+                message = 'Your email address is invalid.';
+                break;
+              case 'user_exists':
+                message = 'Someone has already signed up with your email.';
+                break;
+            }
+            reject({ message: message });
+          } else {
+            resolve(res);
+          }
+        },
+      );
+    });
+  }
 
-export const hasCurrentSessionToken = () => {
-  let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-  return new Date().getTime() < expiresAt;
-};
+  logout() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
+  }
 
-export default {
-  login: login,
-  logout: logout,
-  setAuthTokens: setAuthTokens,
-  authenticate: authenticate,
-  hasCurrentSessionToken: hasCurrentSessionToken,
-  getAppToken: getAppToken,
-  getIdToken: getIdToken,
-};
+  setAuthTokens(authResult: Auth0DecodedHash) {
+    let expiresAt = JSON.stringify(
+      authResult.expiresIn * 1000 + new Date().getTime(),
+    );
+    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('expires_at', expiresAt);
+  }
+
+  authenticate() {
+    return new Promise((resolve, reject) => {
+      this.webAuth.parseHash((err, authResult) => {
+        if (authResult && authResult.accessToken && authResult.idToken) {
+          this.setAuthTokens(authResult);
+          resolve();
+        } else if (err) {
+          reject(err);
+        }
+      });
+    });
+  }
+
+  getAppToken() {
+    return localStorage.getItem('access_token');
+  }
+
+  getIdToken() {
+    return localStorage.getItem('id_token');
+  }
+
+  hasCurrentSessionToken() {
+    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    return new Date().getTime() < expiresAt;
+  }
+}
+
+export default new Auth0Service();

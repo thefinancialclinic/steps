@@ -4,6 +4,7 @@ import {
   SET_USER_TYPE,
   SET_AUTHENTICATED_USER,
   UPDATE_USER,
+  SET_ORG,
 } from 'actions/auth';
 
 export enum USER_TYPE {
@@ -44,6 +45,7 @@ export type User = {
 
 export interface State {
   user: null | User;
+  org: null | Org;
   isAuthenticated: boolean;
 }
 
@@ -64,6 +66,7 @@ const Storage = {
 
 const initialState: State = {
   user: Storage.get('USER') || { type: null },
+  org: null,
   isAuthenticated: Storage.get('AUTHENTICATED') || false,
 };
 
@@ -74,6 +77,9 @@ export default (state = initialState, action): State => {
 
     case SET_AUTHENTICATED_USER:
       return { ...state, user: action.user, isAuthenticated: true };
+
+    case SET_ORG:
+      return { ...state, org: action.org };
 
     case LOGIN:
       Storage.set('USER', action.user);

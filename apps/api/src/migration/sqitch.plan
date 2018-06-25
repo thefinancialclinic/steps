@@ -11,3 +11,4 @@ user_goals_default [appschema] 2018-06-13T23:46:40Z Connor Mendenhall <cmendenha
 user_fb_id [appschema] 2018-06-14T20:28:39Z Chris Wilson <chris@adorable.io> # Add "fb_id" field to client.
 message_request_id_nullable [appschema] 2018-06-16T15:49:12Z Connor Mendenhall <connor@8thlight.com> # Make message.request_id nullable.
 user_temp_help_response [appschema] 2018-06-17T21:49:40Z Connor Mendenhall <connor@8thlight.com> # Add nullable user.temp_help_response column.
+user_auth0_id [appschema] 2018-06-24T21:09:12Z Connor Mendenhall <connor@8thlight.com> # Add nullable auth0_id to user.

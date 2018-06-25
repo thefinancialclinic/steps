@@ -19,7 +19,7 @@ import { postgraphile } from 'postgraphile';
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
 import 'dotenv/config';
-import { AuthenticatedUserController } from './controller/AuthenticatedUserController';
+import { AuthController } from './controller/AuthController';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isCI = process.env.CI && JSON.parse(process.env.CI) === true;
@@ -121,8 +121,8 @@ Routes.forEach(route => {
 });
 
 app.get('/api/user', checkJwt, async (req, res, next) => {
-  const controller = new AuthenticatedUserController();
-  const result = await controller['one'](req, res, next);
+  const controller = new AuthController();
+  const result = await controller['user'](req, res, next);
   res.send(result);
 });
 

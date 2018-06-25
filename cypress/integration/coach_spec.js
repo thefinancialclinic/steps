@@ -122,6 +122,7 @@ describe('Coach', () => {
         'topic',
         'type',
         'updated',
+        'auth0_id',
       ]);
       expect(win.localStorage.getItem('AUTHENTICATED')).to.eq('true');
     });
