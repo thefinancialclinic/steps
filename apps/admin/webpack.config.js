@@ -11,6 +11,9 @@ const isProduction = process.env.NODE_ENV === 'production';
 const SRC = path.resolve(__dirname, 'src');
 const BUILD = path.resolve(__dirname, '.build');
 
+const AUTH0_REDIRECT_URL = process.env.AUTH0_REDIRECT_URL;
+const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE;
+
 const baseConfig = {
   output: {
     publicPath: '/',
@@ -67,8 +70,8 @@ const baseConfig = {
     }),
     new webpack.EnvironmentPlugin({
       API_URL: isProduction ? '/api' : 'http://localhost:3001/api',
-      AUTH0_CLIENT_ID: false,
-      AUTH0_ISSUER: false,
+      AUTH0_REDIRECT_URL: AUTH0_REDIRECT_URL,
+      AUTH0_AUDIENCE: AUTH0_AUDIENCE,
       NODE_ENV: 'development',
       CI: false,
     }),
