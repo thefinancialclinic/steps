@@ -12,7 +12,7 @@ const TaskStepNote: React.SFC<Props> = ({ text }) => {
   return (
     <StyledTaskStepNote>
       <i className="material-icons">flag</i>
-      <p>text</p>
+      <p>{text}</p>
     </StyledTaskStepNote>
   );
 };
