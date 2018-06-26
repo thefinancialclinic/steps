@@ -44,7 +44,7 @@ class UserLayout extends React.Component<Props, {}> {
               </h2>
             </Sidebar>
           </Box>
-          <Box width={[1, 2 / 3]} m={4}>
+          <Box width={[1, 2 / 3]} m={4} className="content">
             <Component user={user} {...rest} />
           </Box>
         </Flex>

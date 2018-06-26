@@ -14,7 +14,7 @@ interface Props {
 class Sidebar extends React.Component<Props, {}> {
   render() {
     return (
-      <StyledSidebar>
+      <StyledSidebar className="sidebar">
         {this.props.children}
         {this.props.links.map((link, i) => (
           <SidebarItem to={link.to} key={i}>

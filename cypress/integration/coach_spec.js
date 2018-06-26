@@ -139,7 +139,7 @@ describe('Coach', () => {
     cy.get('input[name=email]').type('john@doe.com');
     cy.get('input[name=phone]').type('1234567890');
     cy.contains('Save').click();
-    cy.contains('Text (646) 798-8004 to get started.');
+    cy.contains('Text START to (646) 798-8004 to get started.');
   });
 
   it('Adds a new task for a client', () => {
@@ -163,7 +163,9 @@ describe('Coach', () => {
     cy.contains('My Clients').click();
     cy.get('div[title="John Doe"]').click();
     cy.contains('View Steps').click();
-    cy.contains('Edit').click();
+    cy.get('div.content')
+      .contains('Edit')
+      .click();
     cy.get('input[name=title]')
       .clear()
       .type('This is an awesome task');
@@ -184,7 +186,9 @@ describe('Coach', () => {
     cy.contains('My Clients').click();
     cy.get('div[title="John Doe"]').click();
     cy.contains('View Steps').click();
-    cy.contains('Edit').click();
+    cy.get('div.content')
+      .contains('Edit')
+      .click();
     cy.get('.add-step-link').click();
     cy.get('textarea[name="steps[0].text"]')
       .clear()
@@ -202,7 +206,9 @@ describe('Coach', () => {
     cy.contains('My Clients').click();
     cy.get('div[title="John Doe"]').click();
     cy.contains('View Steps').click();
-    cy.contains('Edit').click();
+    cy.get('div.content')
+      .contains('Edit')
+      .click();
     cy.get('textarea[name="steps[0].text"]')
       .clear()
       .type('My first step (edited)');
