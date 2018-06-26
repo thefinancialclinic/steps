@@ -3,6 +3,7 @@ import { Client } from 'reducers/clients';
 import moment from 'moment';
 import { Message, Request } from 'components/Chat/types';
 import { findById } from 'helpers';
+import bot from 'services/bot';
 
 type DispatchFn = (dispatch?: any, getState?: any) => any;
 
@@ -175,6 +176,8 @@ export const createReply = (
     user_id: client.id,
     task_id: request.task_id,
   });
+
+  bot.helpCallback(client.id);
 
   dispatch(setClientMessages(client.id, [...client.messages, messageData]));
   dispatch(

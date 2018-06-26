@@ -13,6 +13,7 @@ const BUILD = path.resolve(__dirname, '.build');
 
 const AUTH0_REDIRECT_URL = process.env.AUTH0_REDIRECT_URL;
 const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE;
+const BOT_URL = process.env.BOT_URL;
 
 const baseConfig = {
   output: {
@@ -72,6 +73,7 @@ const baseConfig = {
       API_URL: isProduction ? '/api' : 'http://localhost:3001/api',
       AUTH0_REDIRECT_URL: AUTH0_REDIRECT_URL,
       AUTH0_AUDIENCE: AUTH0_AUDIENCE,
+      BOT_URL: BOT_URL,
       NODE_ENV: 'development',
       CI: false,
     }),
