@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { yellow } from 'styles/colors';
 import TermsModal from 'components/Clients/TermsModal';
+import Modal from 'containers/Modal';
 
 interface Props {
   className?: string;
@@ -18,10 +19,9 @@ class NoTasks extends React.Component<Props, {}> {
 
     return (
       <Box width={1} p={4} className={className}>
-        <TermsModal phoneNumber="+16467988004" />
         <Panel>
           <div>
-            <i className="material-icons">mood</i>
+            <StyledIcon className="material-icons">mood</StyledIcon>
           </div>
           <div>Profile created!</div>
           <div>Now let's add some tasks.</div>
@@ -36,6 +36,11 @@ class NoTasks extends React.Component<Props, {}> {
   }
 }
 
+const StyledIcon = styled.i`
+  color: ${yellow};
+  font-size: 6em;
+`;
+
 const StyledNoTasks = styled(NoTasks)`
   text-align: center;
   font-size: 1.5em;
@@ -43,10 +48,6 @@ const StyledNoTasks = styled(NoTasks)`
 
   button {
     margin-top: 1em;
-  }
-  i {
-    color: ${yellow};
-    font-size: 6em;
   }
 `;
 

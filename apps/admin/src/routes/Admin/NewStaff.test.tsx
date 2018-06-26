@@ -7,10 +7,8 @@ import NewStaffForm from 'forms/NewStaffForm';
 declare var process;
 
 describe('NewStaff.tsx', () => {
-  const history = {
-    push: jest.fn(),
-  };
   const addAlert = jest.fn();
+  const hideModal = jest.fn();
 
   it('submits the form', () => {
     const inviteStaff = jest
@@ -19,8 +17,9 @@ describe('NewStaff.tsx', () => {
     const actions = {
       inviteStaff,
       addAlert,
+      hideModal,
     };
-    const wrapper = shallow(<NewStaff actions={actions} history={history} />);
+    const wrapper = shallow(<NewStaff actions={actions} />);
     const form = wrapper.find(NewStaffForm);
 
     form.simulate('submit', { emails: 'test@example.com' });
@@ -35,8 +34,9 @@ describe('NewStaff.tsx', () => {
     const actions = {
       inviteStaff,
       addAlert,
+      hideModal,
     };
-    const wrapper = shallow(<NewStaff actions={actions} history={history} />);
+    const wrapper = shallow(<NewStaff actions={actions} />);
     const form = wrapper.find(NewStaffForm);
 
     form.simulate('submit', {
@@ -50,31 +50,12 @@ describe('NewStaff.tsx', () => {
     ]);
   });
 
-  it('redirects back to the staff page on success', async done => {
-    const inviteStaff = jest
-      .fn()
-      .mockReturnValue(Promise.resolve('some response'));
-    const actions = {
-      inviteStaff,
-      addAlert,
-    };
-    const wrapper = shallow(<NewStaff actions={actions} history={history} />);
-    const form = wrapper.find(NewStaffForm);
-
-    form.simulate('submit', { emails: 'test@example.com' });
-
-    await process.nextTick(() => {
-      expect(history.push).toHaveBeenCalledWith('/staff');
-      done();
-    });
-  });
-
   it('displays an error message on error', async done => {
     const inviteStaff = jest
       .fn()
       .mockReturnValue(Promise.reject({ message: 'some error' }));
-    const actions = { inviteStaff, addAlert };
-    const wrapper = shallow(<NewStaff actions={actions} history={history} />);
+    const actions = { inviteStaff, addAlert, hideModal };
+    const wrapper = shallow(<NewStaff actions={actions} />);
     const form = wrapper.find(NewStaffForm);
 
     form.simulate('submit', { emails: 'test@example.com' });

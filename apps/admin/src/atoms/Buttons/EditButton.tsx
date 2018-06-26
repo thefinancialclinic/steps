@@ -4,14 +4,14 @@ import { Flex } from 'grid-styled';
 import { grey } from 'styles/colors';
 
 interface Props {
-  component: string;
+  component?: string;
   onClick?(): void;
 }
 
 const EditButton: React.SFC<Props> = ({ component, onClick }) => (
   <StyledEditButton alignItems="center" onClick={onClick}>
     <i className="material-icons">edit</i>
-    Edit {component}
+    Edit{component ? ` ${component}` : ''}
   </StyledEditButton>
 );
 

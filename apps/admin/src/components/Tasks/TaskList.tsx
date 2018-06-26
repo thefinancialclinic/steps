@@ -14,6 +14,11 @@ import TaskListItem from './TaskListItem';
 import { getTasks, setTasks, setTaskStatus } from 'actions/tasks';
 import { Flex } from 'grid-styled';
 import { filterById, findById } from 'helpers';
+import { showModal, hideModal } from 'actions/modals';
+import Modal from 'containers/Modal';
+import TermsModal, { TERMS } from 'components/Clients/TermsModal';
+import TaskStepNote from './TaskStepNote';
+import { ModalSize } from '../Modal';
 
 const TaskContainer = styled.div`
   box-shadow: 0 0 4px 0 rgba(30 65 165, 0.2);
@@ -123,7 +128,7 @@ export class TaskList extends React.Component<Props, {}> {
   };
 
   render() {
-    const { tasks, user, match } = this.props;
+    const { tasks, user, match, actions } = this.props;
 
     const taskDisplay =
       tasks.length > 0 ? (
@@ -143,7 +148,15 @@ export class TaskList extends React.Component<Props, {}> {
           </Flex>
         </Box>
       ) : (
-        <NoTasks user={user} />
+        <div>
+          <NoTasks user={user} />
+          <Modal size={ModalSize.Large} id={TERMS}>
+            <TermsModal
+              onClose={() => this.props.actions.hideModal(TERMS)}
+              phoneNumber="+16467988004"
+            />
+          </Modal>
+        </div>
       );
 
     return <div>{taskDisplay}</div>;
@@ -152,7 +165,11 @@ export class TaskList extends React.Component<Props, {}> {
 
 export class ConnectedTaskList extends React.Component<Props, {}> {
   componentWillMount() {
-    this.props.actions.getTasks();
+    this.props.actions.getTasks().then(() => {
+      if (this.props.tasks.length === 0) {
+        this.props.actions.showModal(TERMS);
+      }
+    });
   }
 
   render() {
@@ -175,7 +192,10 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ getTasks, setTasks, setTaskStatus }, dispatch),
+  actions: bindActionCreators(
+    { getTasks, setTasks, setTaskStatus, showModal, hideModal },
+    dispatch,
+  ),
 });
 
 export default connect(

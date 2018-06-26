@@ -1,6 +1,6 @@
 import Panel from 'atoms/Panel';
 import React from 'react';
-import EditButton from 'atoms/EditButton';
+import EditButton from 'atoms/Buttons/EditButton';
 import styled from 'styled-components';
 import { pink } from 'styles/colors';
 import { remCalc } from 'styles/type';

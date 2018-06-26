@@ -27,7 +27,7 @@ import DataRow from './DataTable/DataRow';
 import DataTable from './DataTable/DataTable';
 import NavDropdown from './Dropdowns/NavDropdown';
 import Goal from './Goals/Goal';
-import Modal from './Modal';
+import Modal, { ModalSize } from './Modal';
 import NavGroup from './NavGroup/NavGroup';
 import PhotoUpload from './PhotoUpload';
 import Sidebar from './Sidebar/Sidebar';
@@ -257,27 +257,29 @@ export const Components = storiesOf('Components', module)
     />
   ))
   .add('Modal', () => (
-    <Modal>
+    <Modal
+      size={select(
+        'Size',
+        {
+          Medium: ModalSize.Medium,
+          Large: ModalSize.Large,
+          FullWidth: ModalSize.FullWidth,
+        },
+        ModalSize.Medium,
+      )}
+    >
       <div>This is a child in a panel.</div>
     </Modal>
   ))
-  .add('TermsModal', () => <TermsModal phoneNumber="+15558675309" />)
+  .add('TermsModal', () => (
+    <TermsModal phoneNumber="+15558675309" onClose={() => {}} />
+  ))
   .add('VideoModal', () => (
-    <VideoModal
-      embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q"
-      onClose={() => {}}
-    />
+    <VideoModal embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q" />
   ))
   .add('Task Step', () => (
     <TaskStep name="thing" removeField={i => null} count={1} />
   ))
-  // TODO: FIX LATER
-  // .add('Task Template', () => <TaskTemplate task={{
-  //   id: 1,
-  //   title: 'As sample task',
-  //   description: 'A sample description',
-  //   category: 'income'
-  // }}/>);
   .add('Task List', () => {
     const match = { url: 'foo' };
     return (
@@ -330,7 +332,7 @@ export const Components = storiesOf('Components', module)
     <Goal text="My goal is to go to the moon" onEdit={() => {}} />
   ))
   .add('User Profile', () => (
-    <UserProfile name="Jane Smith" email="jane@example.com" />
+    <UserProfile firstName="Jane" lastName="Smith" email="jane@example.com" />
   ))
   .add('Organization Profile', () => (
     <OrganizationProfile name="Organization name" />

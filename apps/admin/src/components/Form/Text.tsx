@@ -52,6 +52,7 @@ const BaseInput = styled.div`
 const InputWrapper = styled<any, 'div'>('div')`
   position: relative;
   input {
+    max-width: 100%;
     border-radius: 4px;
     border: none;
     box-shadow: 0 0 0 1px
@@ -61,7 +62,6 @@ const InputWrapper = styled<any, 'div'>('div')`
     padding-left: ${remCalc(20)};
     padding-right: ${remCalc(20)};
     padding-top: ${remCalc(21)};
-    width: 100%;
   }
   span {
     position: absolute;

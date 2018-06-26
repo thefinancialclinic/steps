@@ -1,3 +1,4 @@
+import { UPDATE_CLIENT } from './../actions/clients';
 import {
   ADD_CLIENT,
   SET_CLIENTS,
@@ -115,6 +116,17 @@ export default (state = initialState, action) => {
               ...client,
               follow_up_date: action.followUpDate,
             };
+          }
+          return client;
+        }),
+      };
+    }
+    case UPDATE_CLIENT: {
+      return {
+        ...state,
+        clients: state.clients.map(client => {
+          if (client.id === action.client.id) {
+            return action.client;
           }
           return client;
         }),

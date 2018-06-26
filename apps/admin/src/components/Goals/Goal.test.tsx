@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 import Goal from './Goal';
-import EditButton from '../../atoms/EditButton';
+import EditButton from 'atoms/Buttons/EditButton';
 
 describe('Goal.tsx', () => {
   const onEdit = jest.fn();

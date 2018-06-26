@@ -3,7 +3,7 @@ import { createClient } from 'actions/clients';
 import Button from 'atoms/Buttons/Button';
 import Main from 'atoms/Main';
 import { AlertLevel } from 'components/Alert/types';
-import VideoModal from 'components/Clients/VideoModal';
+import VideoModal, { VIDEO_MODAL } from 'components/Clients/VideoModal';
 import NewClientForm from 'forms/NewClientForm';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
@@ -12,29 +12,21 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import { black, green, white } from 'styles/colors';
+import Modal from 'containers/Modal';
+import { showModal, hideModal } from 'actions/modals';
 
 interface Props {
   className?: string;
   actions: {
     addAlert;
     createClient;
+    showModal;
+    hideModal;
   };
   history: History;
 }
 
-interface State {
-  showVideo: boolean;
-}
-
-export class ClientNew extends React.Component<Props, State> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showVideo: false,
-    };
-    this.toggleVideo = this.toggleVideo.bind(this);
-  }
-
+export class ClientNew extends React.Component<Props> {
   createClient = clientData => {
     this.props.actions
       .createClient(clientData)
@@ -50,26 +42,14 @@ export class ClientNew extends React.Component<Props, State> {
       });
   };
 
-  toggleVideo() {
-    this.setState({ showVideo: !this.state.showVideo });
-  }
-
-  renderModal() {
-    if (this.state.showVideo) {
-      return (
-        <VideoModal
-          embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q"
-          onClose={this.toggleVideo}
-        />
-      );
-    }
-  }
-
   render() {
+    const { actions } = this.props;
     return (
       <Wrapper>
         <Main className="new-client">
-          {this.renderModal()}
+          <Modal id={VIDEO_MODAL} onClose={actions.hideModal(VIDEO_MODAL)}>
+            <VideoModal embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q" />
+          </Modal>
           <Flex flexWrap="wrap">
             <Box width={[1, 1 / 2]} px={2}>
               <ContentLeft>
@@ -82,11 +62,9 @@ export class ClientNew extends React.Component<Props, State> {
                     encouragement.
                   </p>
                 </Box>
-                <a onClick={this.toggleVideo}>
-                  <Button>
-                    Play Video<i className="material-icons">play_arrow</i>
-                  </Button>
-                </a>
+                <Button onClick={() => actions.showModal(VIDEO_MODAL)}>
+                  Play Video<i className="material-icons">play_arrow</i>
+                </Button>
               </ContentLeft>
             </Box>
             <Box width={[1, 1 / 2]} px={2}>
@@ -196,7 +174,10 @@ const Wrapper = styled.div`
 `;
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ createClient, addAlert }, dispatch),
+  actions: bindActionCreators(
+    { createClient, addAlert, showModal, hideModal },
+    dispatch,
+  ),
 });
 
 export default connect(
