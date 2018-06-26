@@ -16,6 +16,7 @@ import { getAuthenticatedUser } from 'actions/auth';
 import { bindActionCreators } from 'redux';
 import { addAlert } from 'actions/alerts';
 import { AlertLevel } from 'components/Alert/types';
+import { withTracker } from '../tracker';
 
 interface Props {
   children?: any;
@@ -101,5 +102,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(Routes),
+  )(withTracker(Routes)),
 );
