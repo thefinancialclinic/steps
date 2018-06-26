@@ -9,6 +9,7 @@ interface Props {
   visibleModalId: string;
   actions: { hideModal };
   size: ModalSize;
+  noPadding: boolean;
 }
 
 const ModalContainer: React.SFC<Props> = ({
@@ -17,12 +18,17 @@ const ModalContainer: React.SFC<Props> = ({
   children,
   actions,
   size,
+  noPadding,
 }) => {
   if (visibleModalId !== id) {
     return null;
   }
   return (
-    <Modal size={size} onClose={() => actions.hideModal(id)}>
+    <Modal
+      size={size}
+      noPadding={noPadding}
+      onClose={() => actions.hideModal(id)}
+    >
       {children}
     </Modal>
   );

@@ -23,19 +23,20 @@ interface Props {
 }
 
 class TaskDetails extends React.Component<Props> {
-  handleDelete = async () => {
-    console.log('handle delete');
-    const { actions } = this.props;
-    try {
-      await actions.deleteTask(this.props.task.id);
-      actions.showModal(DELETE_TASK_MODAL);
-    } catch (error) {
-      actions.addAlert({
-        level: AlertLevel.Error,
-        id: 'delete-task-error',
-        message: error.message,
+  handleDelete = () => {
+    const { actions, task } = this.props;
+    actions
+      .deleteTask(task.id)
+      .then(() => {
+        actions.showModal(DELETE_TASK_MODAL);
+      })
+      .catch(err => {
+        actions.addAlert({
+          level: AlertLevel.Error,
+          id: 'delete-task-error',
+          message: err.message,
+        });
       });
-    }
   };
 
   render() {
@@ -48,6 +49,7 @@ class TaskDetails extends React.Component<Props> {
           id={DELETE_TASK}
           size={ModalSize.Medium}
           onClose={() => actions.hideModal(DELETE_TASK_MODAL)}
+          noPadding
         >
           <DeleteTask user={user} />
         </Modal>

@@ -18,11 +18,13 @@ const BackButton: React.SFC<Props> = ({ to, className }) => (
 
 const StyledBackButton = styled(BackButton)`
   text-decoration: none;
-  color: ${green};
-  &:visited,
-  &:hover,
-  &:active {
+  div {
     color: ${green};
+    &:visited,
+    &:hover,
+    &:active {
+      color: ${green};
+    }
   }
 `;
 

@@ -1,4 +1,4 @@
-import { select, text } from '@storybook/addon-knobs/react';
+import { select, text, boolean } from '@storybook/addon-knobs/react';
 import { storiesOf } from '@storybook/react';
 import Button from 'atoms/Buttons/Button';
 import Input from 'atoms/Input/Input';
@@ -259,6 +259,8 @@ export const Components = storiesOf('Components', module)
   ))
   .add('Modal', () => (
     <Modal
+      onClose={() => {}}
+      noPadding={boolean('No Padding', true)}
       size={select(
         'Size',
         {
@@ -269,7 +271,7 @@ export const Components = storiesOf('Components', module)
         ModalSize.Medium,
       )}
     >
-      <div>This is a child in a panel.</div>
+      <DeleteTask user={{ id: 1 }} />
     </Modal>
   ))
   .add('TermsModal', () => (
