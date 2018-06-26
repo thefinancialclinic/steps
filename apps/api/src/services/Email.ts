@@ -36,6 +36,16 @@ export class EmailService {
     this.user_repo = new UserRepository(dbPool);
   }
 
+  sendMessage(message) {
+    if (process.env.SENDGRID_ENABLED === 'true') {
+      this.sendgrid.send(message);
+    } else {
+      console.log('-------- Sendgrid message --------');
+      console.log(message);
+      console.log('----------------------------------');
+    }
+  }
+
   async sendClientWelcome(client: User) {
     const { email, first_name, last_name, org_id, coach_id, plan_url } = client;
     const org = await this.org_repo.getOne(org_id);
@@ -56,6 +66,6 @@ export class EmailService {
         clientPlanUrl: plan_url,
       },
     };
-    this.sendgrid.send(message);
+    this.sendMessage(message);
   }
 }

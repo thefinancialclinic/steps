@@ -1,13 +1,23 @@
+import 'jest';
 import { EmailService } from '../src/services/Email';
 import { OrgRepository, Org } from '../src/repository/OrgRepository';
 import { UserRepository, User } from '../src/repository/UserRepository';
 
 import { getTestConnectionPool, Pool } from './db_helper';
 
-let mockSendgridClient, email, pool, orgRepo, userRepo, org, coach;
+let sendgridEnabled,
+  mockSendgridClient,
+  email,
+  pool,
+  orgRepo,
+  userRepo,
+  org,
+  coach;
 
 describe('Email service', () => {
   beforeAll(async () => {
+    sendgridEnabled = process.env.SENDGRID_ENABLED;
+    process.env.SENDGRID_ENABLED = 'true';
     pool = await getTestConnectionPool({ createFixtures: true });
     orgRepo = new OrgRepository(pool);
     userRepo = new UserRepository(pool);
@@ -26,12 +36,13 @@ describe('Email service', () => {
   });
 
   afterAll(async () => {
+    process.env.SENDGRID_ENABLED = sendgridEnabled;
+    await userRepo.delete(coach.id);
+    await orgRepo.delete(org.id);
     await pool.end();
-    orgRepo.delete(org.id);
-    userRepo.delete(user.id);
   });
 
-  beforeEach(async () => {
+  beforeEach(() => {
     mockSendgridClient = {
       setApiKey: jest.fn(),
       setSubstitutionWrappers: jest.fn(),
