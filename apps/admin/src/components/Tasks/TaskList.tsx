@@ -11,7 +11,7 @@ import { remCalc } from 'styles/type';
 import { svgBackgroundImageUrl } from 'styles';
 import NoTasks from './NoTasks';
 import TaskListItem from './TaskListItem';
-import { getTasks, setTasks, setTaskStatus } from 'actions/tasks';
+import { getTasks, orderTasks, setTaskStatus } from 'actions/tasks';
 import { Flex } from 'grid-styled';
 import { filterById, findById } from 'helpers';
 import { showModal, hideModal } from 'actions/modals';
@@ -113,7 +113,7 @@ interface Props {
 
 export class TaskList extends React.Component<Props, {}> {
   onSortEnd = ({ oldIndex, newIndex }) => {
-    this.props.actions.setTasks(
+    this.props.actions.orderTasks(
       arrayMove(this.props.tasks, oldIndex, newIndex),
     );
   };
@@ -193,7 +193,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
-    { getTasks, setTasks, setTaskStatus, showModal, hideModal },
+    { getTasks, orderTasks, setTaskStatus, showModal, hideModal },
     dispatch,
   ),
 });
