@@ -6,6 +6,8 @@ import { Link, Match } from 'react-router-dom';
 import { SortableContainer, arrayMove } from 'react-sortable-hoc';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
+import map from 'lodash/map';
+import uniq from 'lodash/uniq';
 import { mediumBlue, white } from 'styles/colors';
 import { remCalc } from 'styles/type';
 import { svgBackgroundImageUrl } from 'styles';
@@ -19,6 +21,7 @@ import Modal from 'containers/Modal';
 import TermsModal, { TERMS } from 'components/Clients/TermsModal';
 import TaskStepNote from './TaskStepNote';
 import { ModalSize } from '../Modal';
+import Filter, { FilterCategory } from '../Filter';
 
 const TaskContainer = styled.div`
   box-shadow: 0 0 4px 0 rgba(30 65 165, 0.2);
@@ -111,7 +114,20 @@ interface Props {
   match: Match;
 }
 
-export class TaskList extends React.Component<Props, {}> {
+export class TaskList extends React.Component<
+  Props,
+  { categories: FilterCategory[] }
+> {
+  componentWillMount() {
+    const categories = uniq(map(this.props.tasks, 'category')).map(
+      (name: string) => ({
+        name,
+        active: true,
+      }),
+    );
+
+    this.setState({ categories });
+  }
   onSortEnd = ({ oldIndex, newIndex }) => {
     this.props.actions.setTasks(
       arrayMove(this.props.tasks, oldIndex, newIndex),
@@ -127,15 +143,31 @@ export class TaskList extends React.Component<Props, {}> {
     }
   };
 
+  updateCategories = category => {
+    const categories = this.state.categories.map(c => {
+      if (c.name !== category.name) return c;
+      return { ...c, active: !c.active };
+    });
+
+    this.setState({ categories });
+  };
+
   render() {
     const { tasks, user, match, actions } = this.props;
+    const { categories } = this.state;
+    const filteredTasks = tasks.filter(t =>
+      categories.map(c => !!c.active && c.name).includes(t.category),
+    );
+
+    console.log(filteredTasks);
 
     const taskDisplay =
       tasks.length > 0 ? (
         <Box>
           <h2>Tasks</h2>
+          <Filter categories={categories} update={this.updateCategories} />
           <SortableList
-            items={tasks}
+            items={filteredTasks}
             onSortEnd={this.onSortEnd}
             shouldCancelStart={this.shouldCancelStart}
             setTaskStatus={this.props.actions.setTaskStatus}
