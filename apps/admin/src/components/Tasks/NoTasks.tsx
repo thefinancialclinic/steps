@@ -5,8 +5,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { yellow } from 'styles/colors';
-import TermsModal from 'components/Clients/TermsModal';
-import Modal from 'containers/Modal';
 
 interface Props {
   className?: string;
