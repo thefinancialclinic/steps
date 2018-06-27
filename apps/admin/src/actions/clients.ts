@@ -28,11 +28,6 @@ export const setClients = clients => {
   };
 };
 
-const tempGetCoach = async () => {
-  const coaches = await api.get('/coaches');
-  return coaches.data[0];
-};
-
 export const ADD_CLIENT = 'ADD_CLIENT';
 export const addClient = client => {
   return {

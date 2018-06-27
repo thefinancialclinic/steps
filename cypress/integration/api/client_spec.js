@@ -208,4 +208,32 @@ describe('API endpoints (accessed directly)', () => {
       expect(response.body).to.have.property('status', newRequestStatus);
     });
   });
+
+  it('PUT Request updates user status', () => {
+    cy.request('PUT', `${API_URL}/requests/${requestId}`, {
+      status: newRequestStatus,
+      user_id: clientId,
+      task_id: taskId,
+    })
+      .then(response => {
+        cy.request('GET', `${API_URL}/users/${response.body.user_id}`).then(
+          response => {
+            expect(response.body).to.have.property('status', 'WORKING');
+          },
+        );
+      })
+      .then(() => {
+        cy.request('PUT', `${API_URL}/requests/${requestId}`, {
+          status: requestStatus,
+          user_id: clientId,
+          task_id: taskId,
+        }).then(response => {
+          cy.request('GET', `${API_URL}/users/${response.body.user_id}`).then(
+            response => {
+              expect(response.body).to.have.property('status', 'AWAITING_HELP');
+            },
+          );
+        });
+      });
+  });
 });
