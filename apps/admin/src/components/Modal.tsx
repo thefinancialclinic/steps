@@ -4,11 +4,13 @@ import { Flex, Box } from 'grid-styled';
 import React from 'react';
 import styled from 'styled-components';
 import { black } from 'styles/colors';
+import { remCalc } from 'styles/type';
 
 interface Props {
   className?: string;
   onClose?(): void;
   size?: ModalSize;
+  noPadding?: boolean;
 }
 
 export enum ModalSize {
@@ -43,20 +45,42 @@ const Modal: React.SFC<Props> = ({
   children,
   onClose,
   size = ModalSize.FullWidth,
+  noPadding = false,
 }) => {
   return (
     <Container>
       <Box width={getModalWidth(size)} m="auto">
-        <Panel>
-          {onClose && <Close onClick={onClose} />}
-          <Box width={getContainerWidth(size)} m="auto" mb="1em">
-            {children}
-          </Box>
+        <Panel noPadding={noPadding}>
+          {onClose && (
+            <IconContainer>
+              <CloseIcon className="material-icons" onClick={onClose}>
+                close
+              </CloseIcon>
+            </IconContainer>
+          )}
+          {noPadding ? (
+            <div>{children}</div>
+          ) : (
+            <Box width={getContainerWidth(size)} m="auto" mb="1em">
+              {children}
+            </Box>
+          )}
         </Panel>
       </Box>
     </Container>
   );
 };
+
+const CloseIcon = styled.i`
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+`;
+
+const IconContainer = styled.div`
+  position: relative;
+`;
 
 const Container = styled(Flex)`
   background: ${black}50;

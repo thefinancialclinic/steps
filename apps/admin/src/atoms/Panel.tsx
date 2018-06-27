@@ -8,28 +8,34 @@ interface Props {
   className?: string;
   shadow?: boolean;
   fill?: boolean;
+  noPadding?: boolean;
 }
 
 class Panel extends React.Component<Props, {}> {
   render() {
-    const { children, className, fill, shadow } = this.props;
+    const { children, className, fill, shadow, noPadding = false } = this.props;
     let PanelEl = shadow ? ShadowedPanel : BasePanel;
+    const padding = noPadding ? '0' : '1.5em';
 
     if (fill)
       PanelEl = PanelEl.extend`
         ${FillPanelCss};
       `;
 
-    return <PanelEl className={className}>{children}</PanelEl>;
+    return (
+      <PanelEl padding={padding} className={className}>
+        {children}
+      </PanelEl>
+    );
   }
 }
 
-const BasePanel = styled.div`
+const BasePanel = styled<{ padding: string }, 'div'>('div')`
   background-color: ${white};
   border-radius: 4px;
   display: flex;
   flex-direction: column;
-  padding: 1.5em;
+  padding: ${({ padding }) => padding};
 `;
 
 const ShadowedPanel = BasePanel.extend`

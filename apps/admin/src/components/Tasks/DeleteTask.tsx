@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { Flex, Box } from 'grid-styled';
-import styled from 'styled-components';
-import { green, white, yellow } from 'styles/colors';
 import Button from 'atoms/Buttons/Button';
-import Modal from 'components/Modal';
+import { Box, Flex } from 'grid-styled';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { red } from 'styles/colors';
+
+export const DELETE_TASK_MODAL = 'DELETE_TASK_MODAL';
 
 interface Props {
   className?: string;
@@ -16,9 +17,11 @@ class DeleteTask extends React.Component<Props, {}> {
     const { className, user } = this.props;
 
     return (
-      <Modal className={className}>
-        <h2>Task Deleted</h2>
-        <Button white>UNDO</Button>
+      <Box className={className} pb={4}>
+        <Background>
+          <NoMargin>Task Deleted</NoMargin>
+          <Button white>UNDO</Button>
+        </Background>
         <Flex className="actions" justifyContent="center">
           <Box>
             <Link to={`/clients/${user.id}/tasks/new`}>
@@ -31,10 +34,21 @@ class DeleteTask extends React.Component<Props, {}> {
             </Link>
           </Box>
         </Flex>
-      </Modal>
+      </Box>
     );
   }
 }
+
+const NoMargin = styled.h2`
+  margin: 0;
+  padding: 0.83;
+`;
+
+const Background = styled.div`
+  padding-top: 2em;
+  background-color: ${red}20;
+  width: 100%;
+`;
 
 const StyledDeleteTask = styled(DeleteTask)`
   text-align: center;
