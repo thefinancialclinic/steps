@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { remCalc } from 'styles/type';
 import { mediumBlue, red } from 'styles/colors';
 import Label from 'atoms/Label';
+import { Flex } from 'grid-styled';
 
 export interface Props {
   label?: string;
@@ -26,13 +27,15 @@ const Text: React.SFC<Props> = ({
     <Field name={name} autoComplete={autoComplete} validate={validate}>
       {({ input, meta }) => (
         <InputWrapper meta={meta}>
-          {label && (
-            <Label htmlFor={name} {...rest}>
-              {label}
-              {meta.error && meta.touched && <span>{meta.error}</span>}
-            </Label>
-          )}
-          <input {...input} type={inputType} />
+          <Flex flexDirection="column">
+            {label && (
+              <Label htmlFor={name} {...rest}>
+                {label}
+                {meta.error && meta.touched && <span>{meta.error}</span>}
+              </Label>
+            )}
+            <input {...input} type={inputType} />
+          </Flex>
         </InputWrapper>
       )}
     </Field>
@@ -63,14 +66,14 @@ const InputWrapper = styled<any, 'div'>('div')`
     padding-right: ${remCalc(20)};
     padding-top: ${remCalc(21)};
   }
-  span {
-    position: absolute;
-    right: 1em;
-    color: ${red};
-    font-size: ${remCalc(14)};
-    text-transform: uppercase;
-    margin-bottom: ${remCalc(10)};
-  }
+  // span {
+  //   position: absolute;
+  //   right: 1em;
+  //   color: ${red};
+  //   font-size: ${remCalc(14)};
+  //   text-transform: uppercase;
+  //   margin-bottom: ${remCalc(10)};
+  // }
 `;
 
 export default Text;
