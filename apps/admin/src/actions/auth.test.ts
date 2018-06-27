@@ -1,5 +1,5 @@
 import 'jest';
-import { signup } from './auth';
+import { signup, getAuthenticatedUser, setUnauthenticatedUser } from './auth';
 import { USER_TYPE } from '../reducers/auth';
 jest.mock('../services/auth0');
 jest.mock('../api');
@@ -10,6 +10,9 @@ describe('Auth actions', () => {
   beforeEach(() => {
     auth0.signup = jest.fn(() => {
       return Promise.resolve({ id: 'auth0-id' });
+    });
+    api.get = jest.fn(() => {
+      return Promise.resolve({ data: { id: 1 } });
     });
     api.post = jest.fn(() => {
       return Promise.resolve({ data: { id: { id: 1 } } });
@@ -100,6 +103,23 @@ describe('Auth actions', () => {
         organization_name: 'organization',
       })();
       expect(auth0.login).toHaveBeenCalledWith('fake@example.com', 'hunter2');
+    });
+  });
+
+  describe('load authenticated user', () => {
+    it('GETs /user if user has current session token', async () => {
+      auth0.hasCurrentSessionToken = jest.fn(() => true);
+      await getAuthenticatedUser()(jest.fn());
+      expect(api.get).toHaveBeenCalledWith('/user');
+    });
+
+    it('adds token to Authorization header if user has current session token', async () => {
+      auth0.hasCurrentSessionToken = jest.fn(() => true);
+      auth0.getAppToken = jest.fn(() => 'appToken');
+      await getAuthenticatedUser()(jest.fn());
+      expect(api.defaults.headers.common['Authorization']).toBe(
+        'Bearer appToken',
+      );
     });
   });
 });

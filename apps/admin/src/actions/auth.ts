@@ -3,8 +3,29 @@ import auth0 from 'services/auth0';
 import { User, USER_TYPE } from 'reducers/auth';
 import { DispatchFn } from 'actions/types';
 
+export const getAuthenticatedUser = () => async dispatch => {
+  try {
+    if (auth0.hasCurrentSessionToken()) {
+      const apiToken = auth0.getAppToken();
+      api.defaults.headers.common['Authorization'] = `Bearer ${apiToken}`;
+      const user = await api.get('/user');
+      dispatch(setAuthenticatedUser(user.data));
+    } else {
+      dispatch(setUnauthenticatedUser());
+    }
+  } catch (err) {
+    console.log(err);
+    dispatch(setUnauthenticatedUser());
+  }
+};
+
+export const SET_UNAUTHENTICATED_USER = 'SET_UNAUTHENTICATED_USER';
+export const setUnauthenticatedUser = () => async dispatch => {
+  dispatch({ type: SET_UNAUTHENTICATED_USER });
+};
+
 export const SET_AUTHENTICATED_USER = 'SET_AUTHENTICATED_USER';
-export const setUser = user => async dispatch => {
+export const setAuthenticatedUser = user => async dispatch => {
   const org = await api.get(`/orgs/${user.org_id}`);
   user.org = org.data;
   dispatch({ type: SET_AUTHENTICATED_USER, user });

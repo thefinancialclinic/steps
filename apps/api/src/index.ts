@@ -21,8 +21,8 @@ import { postgraphile } from 'postgraphile';
 import 'dotenv/config';
 import { AuthController } from './controller/AuthController';
 
-export const isProduction = process.env.NODE_ENV === 'production';
-export const isCI = process.env.CI && JSON.parse(process.env.CI) === true;
+const isProduction = process.env.NODE_ENV === 'production';
+const isCI = process.env.CI && JSON.parse(process.env.CI) === true;
 const PORT = process.env.PORT || '3001';
 const localConnString = 'postgres://postgres@localhost:5432/steps_admin_test';
 const databaseUrl = process.env.DATABASE_URL || localConnString;

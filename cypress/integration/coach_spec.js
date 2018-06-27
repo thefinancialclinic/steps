@@ -2,6 +2,8 @@ const { API_URL } = Cypress.env();
 let user, org, coach, task;
 
 const taskTitle = 'The ultra awesome task';
+const COACH_EMAIL = 'connor+steps-cypress-coach@8thlight.com';
+const COACH_AUTH0_ID = '5b3307d352e65360e5e0e13b';
 
 Cypress.Commands.add('setUser', u => {
   cy.visit('http://localhost:3000')
@@ -39,6 +41,33 @@ Cypress.Commands.add('clearJohnDoe', () => {
   });
 });
 
+Cypress.Commands.add('logIn', email => {
+  cy.visit('http://localhost:3000?auth0');
+
+  cy.get('input[name=email]').type(email);
+  cy.get('input[name=password]').type('password1!@');
+  cy.contains('button', 'Log In')
+    .trigger('click')
+    .click();
+});
+
+describe('Auth', () => {
+  it('can see the login page', () => {
+    cy.visit('http://localhost:3000?auth0');
+    cy.contains('Log In');
+  });
+
+  it('can see the admin signup page', () => {
+    cy.visit('http://localhost:3000/signup');
+    cy.contains('Sign Up');
+  });
+
+  it('can see the coach signup page', () => {
+    cy.visit('http://localhost:3000/signup/1');
+    cy.contains('Sign Up');
+  });
+});
+
 describe('Coach', () => {
   before(() => {
     cy.request('POST', `${API_URL}/orgs`, {
@@ -49,12 +78,13 @@ describe('Coach', () => {
       cy.request('POST', `${API_URL}/coaches`, {
         first_name: 'Coach',
         last_name: 'Bob',
-        email: 'coach@bob.com',
+        email: COACH_EMAIL,
         org_id: org.id,
         color: 'red',
         goals: [],
         status: 'AWAITING_HELP',
         checkin_times: [],
+        auth0_id: COACH_AUTH0_ID,
       }).then(r => {
         coach = r.body.id;
       });
@@ -79,57 +109,17 @@ describe('Coach', () => {
     cy.cleanCoach();
   });
 
-  it('can see the login page', () => {
-    cy.visit('http://localhost:3000');
-    cy.contains('Log In');
-  });
-
   it('Logs in as a coach', () => {
-    cy.visit('http://localhost:3000');
-    cy.get('form')
-      .find('input[type=radio][value=Coach]')
-      .check({ force: true })
-      .trigger('change')
-      .should('be.checked');
-
-    cy.contains('button', 'Submit')
-      .trigger('click')
-      .click();
+    cy.logIn(COACH_EMAIL);
 
     cy.url().should('equal', 'http://localhost:3000/');
 
-    cy.window().should(win => {
-      user = JSON.parse(win.localStorage.getItem('USER'));
-      expect(user).to.have.all.keys([
-        'checkin_times',
-        'coach_id',
-        'color',
-        'email',
-        'fb_id',
-        'first_name',
-        'follow_up_date',
-        'goals',
-        'id',
-        'image',
-        'last_name',
-        'org',
-        'org_id',
-        'phone',
-        'plan_url',
-        'platform',
-        'status',
-        'temp_help_response',
-        'topic',
-        'type',
-        'updated',
-        'auth0_id',
-      ]);
-      expect(win.localStorage.getItem('AUTHENTICATED')).to.eq('true');
-    });
+    cy.contains('My Clients');
+    cy.contains('New Client');
   });
 
   it('Creates a new client', () => {
-    cy.setUser(user);
+    cy.logIn(COACH_EMAIL);
 
     cy.contains('New Client').click();
     cy.contains('Add New Client');
@@ -143,7 +133,7 @@ describe('Coach', () => {
   });
 
   it('Adds a new task for a client', () => {
-    cy.setUser(user);
+    cy.logIn(COACH_EMAIL);
 
     cy.contains('My Clients').click();
     cy.get('div[title="John Doe"]').click();
@@ -158,7 +148,7 @@ describe('Coach', () => {
   });
 
   it('Edit task content', () => {
-    cy.setUser(user);
+    cy.logIn(COACH_EMAIL);
 
     cy.contains('My Clients').click();
     cy.get('div[title="John Doe"]').click();
@@ -181,7 +171,7 @@ describe('Coach', () => {
   });
 
   it('Adds a new task step', () => {
-    cy.setUser(user);
+    cy.logIn(COACH_EMAIL);
 
     cy.contains('My Clients').click();
     cy.get('div[title="John Doe"]').click();
@@ -201,7 +191,7 @@ describe('Coach', () => {
   });
 
   it('Edit task steps', () => {
-    cy.setUser(user);
+    cy.logIn(COACH_EMAIL);
 
     cy.contains('My Clients').click();
     cy.get('div[title="John Doe"]').click();

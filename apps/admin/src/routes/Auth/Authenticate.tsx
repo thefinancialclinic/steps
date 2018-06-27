@@ -3,14 +3,14 @@ import auth0, { Auth0Service } from 'services/auth0';
 import { Redirect, withRouter } from 'react-router-dom';
 import api from 'api';
 import { bindActionCreators } from 'redux';
-import { setUser } from 'actions/auth';
+import { setAuthenticatedUser } from 'actions/auth';
 import { connect } from 'react-redux';
 import { AxiosInstance } from 'axios';
 import AuthLayout from 'layouts/AuthLayout';
 import Panel from 'atoms/Panel';
 
 interface Props {
-  actions: { setUser: Function };
+  actions: { setAuthenticatedUser: Function };
   auth0?: Auth0Service;
   api?: AxiosInstance;
 }
@@ -55,7 +55,7 @@ export class Authenticate extends React.Component<Props, State> {
     try {
       const { api } = this.props;
       const user = await api.get('/user');
-      this.props.actions.setUser(user.data);
+      this.props.actions.setAuthenticatedUser(user.data);
       this.setState({ authenticated: true });
     } catch (err) {
       this.setState({ message: err.toString() });
@@ -79,7 +79,7 @@ export class Authenticate extends React.Component<Props, State> {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ setUser }, dispatch),
+  actions: bindActionCreators({ setAuthenticatedUser }, dispatch),
 });
 
 export default connect(
