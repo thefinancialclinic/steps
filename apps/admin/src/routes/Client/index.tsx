@@ -5,6 +5,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { RoutesElement } from '..';
 import TasksList from './TasksList';
+import TaskShow from './TaskShow';
 
 const Client: RoutesElement = ({ user }) => {
   if (!user) return null;
@@ -22,6 +23,7 @@ const Client: RoutesElement = ({ user }) => {
       <TopBar user={user} />
       <Alert />
       <Switch>
+        <Route path="/tasks/:id" render={composeLayout(TaskShow)} />
         <Route path="/tasks" render={composeLayout(TasksList)} />
         <Route exact path="/" render={_props => <Redirect to="/tasks" />} />
       </Switch>

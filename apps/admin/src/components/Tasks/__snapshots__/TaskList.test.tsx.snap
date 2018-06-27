@@ -47,8 +47,7 @@ exports[`TaskList.tsx renders correctly 1`] = `
         i={1}
       />
     </styled.div>
-    <sortableElement
-      collection={0}
+    <Component
       index={0}
       key="item-0"
       setTaskStatus={[Function]}
@@ -73,8 +72,7 @@ exports[`TaskList.tsx renders correctly 1`] = `
         i={2}
       />
     </styled.div>
-    <sortableElement
-      collection={0}
+    <Component
       index={1}
       key="item-1"
       setTaskStatus={[Function]}

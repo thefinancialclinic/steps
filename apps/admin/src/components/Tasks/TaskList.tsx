@@ -7,6 +7,7 @@ import { svgBackgroundImageUrl } from 'styles';
 import { mediumBlue, white } from 'styles/colors';
 import { remCalc } from 'styles/type';
 import TaskListItem from './TaskListItem';
+import SortableTaskListItem from './SortableTaskListItem';
 
 const TaskContainer = styled.div`
   box-shadow: 0 0 4px 0 rgba(30 65 165, 0.2);
@@ -60,9 +61,15 @@ interface Props {
   setTaskStatus;
   items: Partial<Task>[];
   url: string;
+  sortable?: boolean;
 }
 
-const TaskList: React.SFC<Props> = ({ items, setTaskStatus, url }) => {
+const TaskList: React.SFC<Props> = ({
+  items,
+  setTaskStatus,
+  url,
+  sortable = false,
+}) => {
   let taskClass = status => {
     return status === 'COMPLETED' ? 'completed' : 'active';
   };
@@ -75,13 +82,23 @@ const TaskList: React.SFC<Props> = ({ items, setTaskStatus, url }) => {
               <div>{index + 1}</div>
               <SVG i={index + 1} />
             </TaskNumber>
-            <TaskListItem
-              key={`item-${index}`}
-              setTaskStatus={setTaskStatus}
-              index={index}
-              task={task}
-              url={url}
-            />
+            {sortable ? (
+              <SortableTaskListItem
+                key={`item-${index}`}
+                setTaskStatus={setTaskStatus}
+                index={index}
+                task={task}
+                url={url}
+              />
+            ) : (
+              <TaskListItem
+                key={`item-${index}`}
+                setTaskStatus={setTaskStatus}
+                index={index}
+                task={task}
+                url={url}
+              />
+            )}
           </TaskContainer>
         );
       })}

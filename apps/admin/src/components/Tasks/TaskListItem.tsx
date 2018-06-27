@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { SortableElement } from 'react-sortable-hoc';
-import { Flex, Box } from 'grid-styled';
-import { blue, lightGrey, green, white } from 'styles/colors';
-import { remCalc, sansSerif } from 'styles/type';
+import { Box, Flex } from 'grid-styled';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Task } from 'reducers/tasks';
+import styled from 'styled-components';
+import { blue, green, lightGrey, white } from 'styles/colors';
+import { remCalc, sansSerif } from 'styles/type';
 
 const StyledLink = styled(Link)`
   color: ${green};
@@ -15,16 +13,7 @@ const StyledLink = styled(Link)`
   text-transform: uppercase;
 `;
 
-interface Props {
-  key: string;
-  setTaskStatus;
-  index: number;
-  task: Task;
-  url: string;
-}
-
-export default SortableElement((props: Props) => {
-  const { setTaskStatus, task, url } = props;
+export default ({ setTaskStatus, task, url, index }) => {
   const toggleTaskStatus = e => {
     const status = task.status === 'COMPLETED' ? 'ACTIVE' : 'COMPLETED';
     setTaskStatus(task, status);
@@ -52,7 +41,7 @@ export default SortableElement((props: Props) => {
       </Box>
     </Background>
   );
-});
+};
 
 const Background = styled(Flex)`
   background: ${white};

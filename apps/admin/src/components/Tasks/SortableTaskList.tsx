@@ -14,10 +14,10 @@ import TermsModal, { TERMS } from 'components/Clients/TermsModal';
 import { ModalSize } from '../Modal';
 import Filter, { FilterCategory } from 'components/Filter';
 import NoTasks from './NoTasks';
-import TaskListDisplay from './TaskList';
 
 import { getTasks, orderTasks, setTaskStatus } from 'actions/tasks';
 import { hideModal, showModal } from 'actions/modals';
+import TaskList from './TaskList';
 
 interface ListProps {
   setTaskStatus;
@@ -26,7 +26,7 @@ interface ListProps {
 }
 
 const SortableList = SortableContainer((props: ListProps) => {
-  <TaskListDisplay {...props} />;
+  return <TaskList {...props} sortable={true} />;
 });
 
 interface Props {
@@ -40,7 +40,7 @@ interface State {
   categories: FilterCategory[];
 }
 
-export class TaskList extends React.Component<Props, State> {
+export class SortableTaskList extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
@@ -130,7 +130,7 @@ export class ConnectedTaskList extends React.Component<Props, {}> {
     });
   }
   render() {
-    return <TaskList {...this.props} />;
+    return <SortableTaskList {...this.props} />;
   }
 }
 

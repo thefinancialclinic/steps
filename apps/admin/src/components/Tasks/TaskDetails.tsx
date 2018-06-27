@@ -1,18 +1,20 @@
-import Badge from 'atoms/Badge';
-import Panel from 'atoms/Panel';
-import DeleteTask, { DELETE_TASK_MODAL } from 'components/Tasks/DeleteTask';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import { Link, Location } from 'react-router-dom';
 import styled from 'styled-components';
-import { green, grey, white } from 'styles/colors';
-import { remCalc, sansSerif } from 'styles/type';
-import { ModalSize } from '../Modal';
-import Modal from 'containers/Modal';
-import { Task } from 'reducers/tasks';
-import EditButton from 'atoms/Buttons/EditButton';
+
+import Badge from 'atoms/Badge';
 import DeleteButton from 'atoms/Buttons/DeleteButton';
+import EditButton from 'atoms/Buttons/EditButton';
+import Panel from 'atoms/Panel';
+import DeleteTask, { DELETE_TASK_MODAL } from 'components/Tasks/DeleteTask';
+import Modal from 'containers/Modal';
+import { green, white } from 'styles/colors';
+import { remCalc, sansSerif } from 'styles/type';
 import { AlertLevel } from '../Alert/types';
+import { ModalSize } from '../Modal';
+import { USER_TYPE } from 'reducers/auth';
+import { Task } from 'reducers/tasks';
 
 interface Props {
   className?: string;
@@ -65,19 +67,25 @@ class TaskDetails extends React.Component<Props> {
           <DeleteTask user={user} task={task} undoDelete={this.undoDelete} />
         </Modal>
         <Panel className={className}>
-          <Flex alignItems="center" justifyContent="space-between">
+          {user.type === USER_TYPE.CLIENT ? (
             <Box>
               <Badge text={task.category} />
             </Box>
-            <Box className="action-links">
-              <Link className="action-link" to={`${location.pathname}/edit`}>
-                <EditButton />
-              </Link>
-              <span className="action-link" onClick={this.handleDelete}>
-                <DeleteButton />
-              </span>
-            </Box>
-          </Flex>
+          ) : (
+            <Flex alignItems="center" justifyContent="space-between">
+              <Box>
+                <Badge text={task.category} />
+              </Box>
+              <Box className="action-links">
+                <Link className="action-link" to={`${location.pathname}/edit`}>
+                  <EditButton />
+                </Link>
+                <span className="action-link" onClick={this.handleDelete}>
+                  <DeleteButton />
+                </span>
+              </Box>
+            </Flex>
+          )}
           <H3>{task.title}</H3>
           <p>{task.description}</p>
           <div className="action-link">Steps</div>
