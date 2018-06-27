@@ -165,6 +165,12 @@ export const Routes = [
     action: 'save',
   },
   {
+    method: 'put',
+    route: '/api/tasks',
+    controller: TaskController,
+    action: 'updateMany',
+  },
+  {
     method: 'delete',
     route: '/api/tasks/:id',
     controller: TaskController,

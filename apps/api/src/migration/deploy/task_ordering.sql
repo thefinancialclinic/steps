@@ -3,6 +3,6 @@
 
 BEGIN;
 
-ALTER TABLE "task" ADD COLUMN "order" text;
+ALTER TABLE "task" ADD COLUMN "order" integer;
 
 COMMIT;
