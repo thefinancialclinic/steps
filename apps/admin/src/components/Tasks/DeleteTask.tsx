@@ -29,7 +29,7 @@ class DeleteTask extends React.Component<Props, {}> {
         </Background>
         <Flex className="actions" justifyContent="center">
           <Box>
-            <Link to={`/clients/${user.id}/tasks/new`}>
+            <Link to={`/clients/${user.id}/tasks/add`}>
               <Button>Add New Task</Button>
             </Link>
           </Box>
