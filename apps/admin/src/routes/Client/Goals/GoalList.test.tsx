@@ -25,6 +25,6 @@ describe('ToalsList.tsx', () => {
 
     goalsList.first().simulate('edit');
 
-    expect(history.push).toHaveBeenCalledWith('/goals/edit');
+    expect(history.push).toHaveBeenCalledWith('/goals/0/edit');
   });
 });
