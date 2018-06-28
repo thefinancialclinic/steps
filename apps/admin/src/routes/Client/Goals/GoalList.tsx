@@ -9,15 +9,16 @@ interface Props {
 }
 
 export class Goals extends React.Component<Props> {
-  onEdit = () => {
-    this.props.history.push('/goals/edit');
-  };
-
   render() {
-    const { goals } = this.props;
+    const { goals, history } = this.props;
     return (
       <GoalList goals={goals}>
-        {childProps => <Goal {...childProps} onEdit={this.onEdit} />}
+        {childProps => (
+          <Goal
+            {...childProps}
+            onEdit={() => history.push(`/goals/${childProps.index}/edit`)}
+          />
+        )}
       </GoalList>
     );
   }
