@@ -34,4 +34,8 @@ const StyledText = styled.div`
   font-size: ${remCalc(64)};
 `;
 
-export default Goal;
+const StyledGoal = styled(Goal)`
+  margin-bottom: 2rem;
+`;
+
+export default StyledGoal;

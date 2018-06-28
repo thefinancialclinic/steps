@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TasksList.tsx displays task list items 1`] = `
+<TaskList
+  items={
+    Array [
+      Object {
+        "id": 1,
+        "title": "My first task",
+      },
+      Object {
+        "id": 1,
+        "title": "My second task",
+      },
+    ]
+  }
+  setTaskStatus={[MockFunction]}
+  url="foo/bar"
+/>
+`;

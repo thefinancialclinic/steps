@@ -1,91 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Goal.tsx renders correctly 1`] = `
-<Panel>
-  <Flex
-    justifyContent="flex-end"
-    theme={
-      Object {
-        "breakpoints": Array [
-          "40em",
-          "52em",
-          "64em",
-        ],
-        "fontSizes": Array [
-          12,
-          14,
-          16,
-          20,
-          24,
-          32,
-          48,
-          64,
-          96,
-          128,
-        ],
-        "space": Array [
-          0,
-          4,
-          8,
-          16,
-          32,
-          64,
-          128,
-          256,
-          512,
-        ],
-      }
-    }
-  >
-    <EditButton
-      component="Goal"
-      onClick={[MockFunction]}
-    />
-  </Flex>
-  <Flex
-    alignItems="center"
-    flexDirection="column"
-    theme={
-      Object {
-        "breakpoints": Array [
-          "40em",
-          "52em",
-          "64em",
-        ],
-        "fontSizes": Array [
-          12,
-          14,
-          16,
-          20,
-          24,
-          32,
-          48,
-          64,
-          96,
-          128,
-        ],
-        "space": Array [
-          0,
-          4,
-          8,
-          16,
-          32,
-          64,
-          128,
-          256,
-          512,
-        ],
-      }
-    }
-  >
-    <styled.i
-      className="material-icons"
-    >
-      star
-    </styled.i>
-    <styled.div>
-      This is my goal
-    </styled.div>
-  </Flex>
-</Panel>
+<Goal
+  className="sc-htoDjs iMtKLp"
+  onEdit={[MockFunction]}
+  text="This is my goal"
+/>
 `;
