@@ -4,7 +4,7 @@
     "start:prod": "cd apps/api && NODE_ENV=production node .build/index.js",
     "test": "$(npm bin)/lerna run test --stream",
     "cypress": "$(npm bin)/cypress run",
-    "install:all": "$(npm bin)/lerna exec \"npm install\"",
+    "install:all": "$(npm bin)/lerna exec \"npm install\" --stream",
     "prettier": "$(npm bin)/prettier \"apps/{admin,api}/**/*.{ts,tsx}\" --write",
     "heroku-postbuild": "$(npm bin)/lerna bootstrap && $(npm bin)/lerna run build --parallel"
   },
