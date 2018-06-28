@@ -30,7 +30,7 @@ const connUrl = url.parse(databaseUrl);
 const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
 
 // Auth0 Config
-const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID;
+const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE;
 const AUTH0_ISSUER = process.env.AUTH0_ISSUER;
 
 export const pool = new Pool({
@@ -54,7 +54,7 @@ const checkJwt = jwt({
   }),
 
   // Validate the audience of the issuer
-  audience: 'http://steps-admin.herokuapp.com',
+  audience: AUTH0_AUDIENCE || 'http://steps-admin.herokuapp.com',
   issuer: AUTH0_ISSUER,
   algorithms: ['RS256'],
   complete: true,

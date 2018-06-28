@@ -18,8 +18,9 @@ export class Auth0Service {
     this.webAuth =
       webAuth ||
       new Auth0.WebAuth({
-        domain: 'steps.auth0.com',
-        clientID: 'R4uBotWz7sHgmvfmlsBI3othCDEpo4Ga',
+        domain: process.env.AUTH0_DOMAIN || 'steps.auth0.com',
+        clientID:
+          process.env.AUTH0_CLIENT_ID || 'R4uBotWz7sHgmvfmlsBI3othCDEpo4Ga',
         redirectUri:
           process.env.AUTH0_REDIRECT_URL ||
           'http://localhost:3000/authenticate',
