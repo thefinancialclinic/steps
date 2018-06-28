@@ -1,27 +1,28 @@
-import Button from 'atoms/Buttons/Button';
-import { Box } from 'grid-styled';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Match } from 'react-router-dom';
-import { SortableContainer, arrayMove } from 'react-sortable-hoc';
+import { arrayMove, SortableContainer } from 'react-sortable-hoc';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
+import { Box, Flex } from 'grid-styled';
 import map from 'lodash/map';
 import uniq from 'lodash/uniq';
+
+import { svgBackgroundImageUrl } from 'styles';
 import { mediumBlue, white } from 'styles/colors';
 import { remCalc } from 'styles/type';
-import { svgBackgroundImageUrl } from 'styles';
-import NoTasks from './NoTasks';
-import TaskListItem from './TaskListItem';
-import { getTasks, setTasks, setTaskStatus } from 'actions/tasks';
-import { Flex } from 'grid-styled';
 import { filterById, findById } from 'helpers';
-import { showModal, hideModal } from 'actions/modals';
+
+import Button from 'atoms/Buttons/Button';
 import Modal from 'containers/Modal';
 import TermsModal, { TERMS } from 'components/Clients/TermsModal';
-import TaskStepNote from './TaskStepNote';
 import { ModalSize } from '../Modal';
-import Filter, { FilterCategory } from '../Filter';
+import Filter, { FilterCategory } from 'components/Filter';
+import NoTasks from './NoTasks';
+import TaskListItem from './TaskListItem';
+
+import { getTasks, orderTasks, setTaskStatus } from 'actions/tasks';
+import { hideModal, showModal } from 'actions/modals';
 
 const TaskContainer = styled.div`
   box-shadow: 0 0 4px 0 rgba(30 65 165, 0.2);
@@ -114,11 +115,22 @@ interface Props {
   match: Match;
 }
 
-export class TaskList extends React.Component<
-  Props,
-  { categories: FilterCategory[] }
-> {
-  componentWillMount() {
+interface State {
+  categories: FilterCategory[];
+}
+
+export class TaskList extends React.Component<Props, State> {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      categories: [],
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.tasks === prevProps.tasks) return;
+
     const categories = uniq(map(this.props.tasks, 'category')).map(
       (name: string) => ({
         name,
@@ -129,7 +141,7 @@ export class TaskList extends React.Component<
     this.setState({ categories });
   }
   onSortEnd = ({ oldIndex, newIndex }) => {
-    this.props.actions.setTasks(
+    this.props.actions.orderTasks(
       arrayMove(this.props.tasks, oldIndex, newIndex),
     );
   };
@@ -158,8 +170,6 @@ export class TaskList extends React.Component<
     const filteredTasks = tasks.filter(t =>
       categories.map(c => !!c.active && c.name).includes(t.category),
     );
-
-    console.log(filteredTasks);
 
     const taskDisplay =
       tasks.length > 0 ? (
@@ -225,7 +235,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
-    { getTasks, setTasks, setTaskStatus, showModal, hideModal },
+    { getTasks, orderTasks, setTaskStatus, showModal, hideModal },
     dispatch,
   ),
 });

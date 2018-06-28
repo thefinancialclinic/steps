@@ -34,7 +34,7 @@ const StyledSidebar = styled.div`
   height: 100%;
   margin-left: 30px;
   padding-left: 1.5em;
-  padding-top: 1em;
+  padding-top: 3em;
 `;
 
 export default Sidebar;

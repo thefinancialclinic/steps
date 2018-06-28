@@ -16,6 +16,7 @@ export type Task = {
   date_completed: string;
   recurring: {};
   steps: Step[];
+  order: number;
 };
 
 export type Step = {
@@ -49,6 +50,7 @@ const initialState: TasksState = {
           task_id: 0,
         },
       ],
+      order: 0,
     },
   ],
 };

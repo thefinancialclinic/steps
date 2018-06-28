@@ -1,13 +1,12 @@
-import BackButton from 'atoms/Buttons/BackButton';
+import { showModal } from 'actions/modals';
+import EditButton from 'atoms/Buttons/EditButton';
 import Sidebar from 'components/Sidebar/Sidebar';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
-import styled from 'styled-components';
-import EditButton from 'atoms/Buttons/EditButton';
-import { bindActionCreators } from 'redux';
-import { showModal } from 'actions/modals';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { EDIT_PROFILE } from 'routes/Coach/Clients/EditProfile';
+import styled from 'styled-components';
 
 interface Props {
   actions?: any;
@@ -37,7 +36,6 @@ class UserLayout extends React.Component<Props, {}> {
         <Flex>
           <Box width={[1, 1 / 3]}>
             <Sidebar links={links}>
-              <BackButton to="/clients" />
               <EditButton onClick={this.editClientProfile} />
               <h2>
                 {user.first_name} {user.last_name}

@@ -41,4 +41,16 @@ export class TaskController {
       throw `Unable to update task (${err})`;
     }
   }
+  async updateMany(request: Request, response: Response, next: NextFunction) {
+    try {
+      const tasks = request.body;
+      const result = tasks.map(
+        async t => await this.repo.update(t, parseInt(t.id)),
+      );
+
+      return Promise.all(result);
+    } catch (err) {
+      throw `Unable to update task (${err})`;
+    }
+  }
 }

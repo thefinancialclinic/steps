@@ -131,6 +131,9 @@ components:
           type: array
           items:
             $ref: '#components/schemas/Step'
+        order:
+          nullable: true
+          type: integer
     User:
       properties:
         first_name:
