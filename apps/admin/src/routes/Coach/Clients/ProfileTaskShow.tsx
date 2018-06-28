@@ -9,10 +9,12 @@ import { findById } from 'helpers';
 import BackButton from 'atoms/Buttons/BackButton';
 import { addAlert } from 'actions/alerts';
 import { showModal, hideModal } from 'actions/modals';
+import { User } from 'reducers/auth';
 
 interface Props {
   className?: string;
-  user: any;
+  user: User;
+  client: User;
   task: any;
   history: any;
   location: Location;
@@ -31,14 +33,15 @@ class TaskShow extends React.Component<Props> {
   }
 
   render() {
-    const { user, task, actions, history, location } = this.props;
+    const { client, task, actions, history, location, user } = this.props;
     return (
       <Flex flexDirection="column">
         <Box mb={20}>
-          <BackButton to={`/clients/${user.id}/tasks`} />
+          <BackButton to={`/clients/${client.id}/tasks`} />
         </Box>
         <TaskDetails
           user={user}
+          client={client}
           task={task}
           actions={actions}
           history={history}
@@ -51,7 +54,8 @@ class TaskShow extends React.Component<Props> {
 
 const mapStateToProps = (state, props) => ({
   task: findById(state.tasks.tasks, props.match.params.taskId),
-  user: findById(state.clients.clients, props.match.params.id),
+  client: findById(state.clients.clients, props.match.params.id),
+  user: state.auth.user,
 });
 
 const mapDispatchToProps = dispatch => ({

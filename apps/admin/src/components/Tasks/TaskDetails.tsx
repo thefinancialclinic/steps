@@ -1,6 +1,6 @@
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
-import { Link, Location } from 'react-router-dom';
+import { History, Link, Location } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Badge from 'atoms/Badge';
@@ -13,13 +13,14 @@ import { green, white } from 'styles/colors';
 import { remCalc, sansSerif } from 'styles/type';
 import { AlertLevel } from '../Alert/types';
 import { ModalSize } from '../Modal';
-import { USER_TYPE } from 'reducers/auth';
+import { USER_TYPE, User } from 'reducers/auth';
 import { Task } from 'reducers/tasks';
 
 interface Props {
   className?: string;
-  user: any;
-  history: any;
+  client: User;
+  user: User;
+  history: History;
   location: Location;
   task: Task;
   actions: { addTask; deleteTask; hideModal; showModal; addAlert };
@@ -53,7 +54,7 @@ class TaskDetails extends React.Component<Props> {
   };
 
   render() {
-    const { className, user, location, task, actions } = this.props;
+    const { className, client, location, task, actions, user } = this.props;
     if (!task) return null;
 
     return (
@@ -64,7 +65,7 @@ class TaskDetails extends React.Component<Props> {
           onClose={() => actions.hideModal(DELETE_TASK_MODAL)}
           noPadding
         >
-          <DeleteTask user={user} task={task} undoDelete={this.undoDelete} />
+          <DeleteTask user={client} task={task} undoDelete={this.undoDelete} />
         </Modal>
         <Panel className={className}>
           {user.type === USER_TYPE.CLIENT ? (

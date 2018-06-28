@@ -44,6 +44,7 @@ class TaskShow extends React.Component<Props> {
         <TaskDetails
           history={history}
           user={user}
+          client={user}
           task={task}
           actions={actions}
           location={location}
