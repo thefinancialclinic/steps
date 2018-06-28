@@ -3,7 +3,7 @@ import BackButton from 'atoms/Buttons/BackButton';
 import Button from 'atoms/Buttons/Button';
 import Header from 'atoms/Header';
 import Main from 'atoms/Main';
-import Filter from 'components/Filter';
+import Filter, { FilterCategory } from 'components/Filter';
 import PageHeader from 'components/Headers/PageHeader';
 import TaskTemplate from 'components/Tasks/TaskTemplate';
 import React from 'react';
@@ -35,7 +35,24 @@ const StyledLink = styled.span`
   }
 `;
 
-class AddTask extends React.Component<Props, {}> {
+interface State {
+  categories: FilterCategory[];
+}
+
+class AddTask extends React.Component<Props, State> {
+  state = {
+    categories: [],
+  };
+
+  updateCategories = category => {
+    const categories = this.state.categories.map(c => {
+      if (c.name !== category.name) return c;
+      return { ...c, active: !c.active };
+    });
+
+    this.setState({ categories });
+  };
+
   render() {
     return (
       <Main>
@@ -47,6 +64,7 @@ class AddTask extends React.Component<Props, {}> {
         </Header>
         <PageHeader label="Add New Task" />
         <Filter
+          update={this.updateCategories}
           categories={[
             { name: 'debt', active: true },
             { name: 'budget', active: false },

@@ -34,7 +34,7 @@ class EditTask extends React.Component<Props, {}> {
   render() {
     const { user } = this.props;
 
-    const task = {
+    const task: Task = {
       id: null,
       title: null,
       category: null,
@@ -47,6 +47,7 @@ class EditTask extends React.Component<Props, {}> {
       date_completed: null,
       recurring: {},
       steps: [],
+      order: 1,
     };
 
     return (

@@ -37,6 +37,7 @@ const Stories = storiesOf('Atoms', module)
   ))
   .add('Filter', () => (
     <Filter
+      update={() => {}}
       categories={[
         { name: 'Debt', active: boolean('Debt: active', false), color: pink },
         {

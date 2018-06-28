@@ -36,6 +36,7 @@ import StaffListItem from './StaffList/StaffListItem';
 import { TaskList } from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
 import DeleteTask from 'components/Tasks/DeleteTask';
+import { Task } from 'reducers/tasks';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -271,7 +272,11 @@ export const Components = storiesOf('Components', module)
         ModalSize.Medium,
       )}
     >
-      <DeleteTask user={{ id: 1 }} />
+      <DeleteTask
+        task={{ id: 1 } as Task}
+        user={{ id: 1 }}
+        undoDelete={() => {}}
+      />
     </Modal>
   ))
   .add('TermsModal', () => (
@@ -280,7 +285,13 @@ export const Components = storiesOf('Components', module)
   .add('VideoModal', () => (
     <VideoModal embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q" />
   ))
-  .add('Delete Task', () => <DeleteTask user={{ id: 1 }} />)
+  .add('Delete Task', () => (
+    <DeleteTask
+      task={{ id: 1 } as Task}
+      user={{ id: 1 }}
+      undoDelete={() => {}}
+    />
+  ))
   // .add('Task Step', () => (
   //   <TaskStep name="thing" removeField={i => null} count={1} />
   // ))
