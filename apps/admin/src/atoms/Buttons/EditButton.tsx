@@ -1,7 +1,5 @@
-import styled from 'styled-components';
 import React from 'react';
-import { Flex } from 'grid-styled';
-import { grey } from 'styles/colors';
+import IconButton from './IconButton';
 
 interface Props {
   component?: string;
@@ -9,16 +7,9 @@ interface Props {
 }
 
 const EditButton: React.SFC<Props> = ({ component, onClick }) => (
-  <StyledEditButton alignItems="center" onClick={onClick}>
-    <i className="material-icons">edit</i>
+  <IconButton iconName="edit" onClick={onClick}>
     Edit{component ? ` ${component}` : ''}
-  </StyledEditButton>
+  </IconButton>
 );
-
-const StyledEditButton = styled(Flex)`
-  color: ${grey};
-  cursor: pointer;
-  text-transform: uppercase;
-`;
 
 export default EditButton;

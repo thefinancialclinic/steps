@@ -1,4 +1,4 @@
-import { select, text } from '@storybook/addon-knobs/react';
+import { select, text, boolean } from '@storybook/addon-knobs/react';
 import { storiesOf } from '@storybook/react';
 import Button from 'atoms/Buttons/Button';
 import Input from 'atoms/Input/Input';
@@ -35,6 +35,7 @@ import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
 import { TaskList } from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
+import DeleteTask from 'components/Tasks/DeleteTask';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -258,6 +259,8 @@ export const Components = storiesOf('Components', module)
   ))
   .add('Modal', () => (
     <Modal
+      onClose={() => {}}
+      noPadding={boolean('No Padding', true)}
       size={select(
         'Size',
         {
@@ -268,7 +271,7 @@ export const Components = storiesOf('Components', module)
         ModalSize.Medium,
       )}
     >
-      <div>This is a child in a panel.</div>
+      <DeleteTask user={{ id: 1 }} />
     </Modal>
   ))
   .add('TermsModal', () => (
@@ -277,30 +280,31 @@ export const Components = storiesOf('Components', module)
   .add('VideoModal', () => (
     <VideoModal embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q" />
   ))
-  .add('Task Step', () => (
-    <TaskStep name="thing" removeField={i => null} count={1} />
-  ))
-  .add('Task List', () => {
-    const match = { url: 'foo' };
-    return (
-      <TaskList
-        match={match}
-        tasks={[
-          {
-            id: 1,
-            title: 'Task #1',
-            description: 'A helpful description',
-          },
-          {
-            id: 2,
-            title: 'Task #2',
-            description: 'A helpful description',
-          },
-        ]}
-        user={{ id: 1 }}
-      />
-    );
-  })
+  .add('Delete Task', () => <DeleteTask user={{ id: 1 }} />)
+  // .add('Task Step', () => (
+  //   <TaskStep name="thing" removeField={i => null} count={1} />
+  // ))
+  // .add('Task List', () => {
+  //   const match = { url: 'foo' };
+  //   return (
+  //     <TaskList
+  //       match={match}
+  //       tasks={[
+  //         {
+  //           id: 1,
+  //           title: 'Task #1',
+  //           description: 'A helpful description',
+  //         },
+  //         {
+  //           id: 2,
+  //           title: 'Task #2',
+  //           description: 'A helpful description',
+  //         },
+  //       ]}
+  //       user={{ id: 1 }}
+  //     />
+  //   );
+  // })
   .add('Error Alert', () => (
     <Alert onClose={() => {}} level={AlertLevel.Error}>
       This is an error alert

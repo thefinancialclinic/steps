@@ -1,24 +1,25 @@
-import Button from 'atoms/Buttons/Button';
-import { Box } from 'grid-styled';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Match } from 'react-router-dom';
-import { SortableContainer, arrayMove } from 'react-sortable-hoc';
+import { arrayMove, SortableContainer } from 'react-sortable-hoc';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
+import { Box, Flex } from 'grid-styled';
+
+import { svgBackgroundImageUrl } from 'styles';
 import { mediumBlue, white } from 'styles/colors';
 import { remCalc } from 'styles/type';
-import { svgBackgroundImageUrl } from 'styles';
-import NoTasks from './NoTasks';
-import TaskListItem from './TaskListItem';
-import { getTasks, orderTasks, setTaskStatus } from 'actions/tasks';
-import { Flex } from 'grid-styled';
 import { filterById, findById } from 'helpers';
-import { showModal, hideModal } from 'actions/modals';
+
+import Button from 'atoms/Buttons/Button';
 import Modal from 'containers/Modal';
 import TermsModal, { TERMS } from 'components/Clients/TermsModal';
-import TaskStepNote from './TaskStepNote';
 import { ModalSize } from '../Modal';
+import NoTasks from './NoTasks';
+import TaskListItem from './TaskListItem';
+
+import { getTasks, orderTasks, setTaskStatus } from 'actions/tasks';
+import { hideModal, showModal } from 'actions/modals';
 
 const TaskContainer = styled.div`
   box-shadow: 0 0 4px 0 rgba(30 65 165, 0.2);
