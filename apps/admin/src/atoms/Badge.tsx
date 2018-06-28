@@ -19,6 +19,7 @@ interface Props {
   color?: string;
   text: string;
   rounded?: boolean;
+  onClick?: any;
 }
 
 const Badge: React.SFC<Props> = props => (

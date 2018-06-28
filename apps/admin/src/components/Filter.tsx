@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { grey, mediumBlue } from 'styles/colors';
 import Badge from '../atoms/Badge';
 
-interface FilterCategory {
+export interface FilterCategory {
   name: string;
   active: boolean;
   color?: string;
@@ -11,13 +11,26 @@ interface FilterCategory {
 
 interface Props {
   categories: FilterCategory[];
+  update: (category: FilterCategory, event: MouseEvent) => void;
 }
 
-const Filter: React.SFC<Props> = ({ categories, children }) => (
+const compose = (category, fn) => event => {
+  return fn(category, event);
+};
+
+const Filter: React.SFC<Props> = ({ categories, children, update }) => (
   <BaseFilter>
     <span>Filter</span>
     {categories.map((cat, key) => (
-      <Badge text={cat.name} key={key} color={!cat.active ? grey : cat.color} />
+      <Badge
+        text={cat.name}
+        key={key}
+        color={!cat.active ? grey : cat.color}
+        onClick={compose(
+          cat,
+          update,
+        )}
+      />
     ))}
   </BaseFilter>
 );

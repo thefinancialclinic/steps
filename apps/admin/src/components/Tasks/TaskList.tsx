@@ -5,6 +5,8 @@ import { arrayMove, SortableContainer } from 'react-sortable-hoc';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
+import map from 'lodash/map';
+import uniq from 'lodash/uniq';
 
 import { svgBackgroundImageUrl } from 'styles';
 import { mediumBlue, white } from 'styles/colors';
@@ -15,6 +17,7 @@ import Button from 'atoms/Buttons/Button';
 import Modal from 'containers/Modal';
 import TermsModal, { TERMS } from 'components/Clients/TermsModal';
 import { ModalSize } from '../Modal';
+import Filter, { FilterCategory } from 'components/Filter';
 import NoTasks from './NoTasks';
 import TaskListItem from './TaskListItem';
 
@@ -112,7 +115,31 @@ interface Props {
   match: Match;
 }
 
-export class TaskList extends React.Component<Props, {}> {
+interface State {
+  categories: FilterCategory[];
+}
+
+export class TaskList extends React.Component<Props, State> {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      categories: [],
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.tasks === prevProps.tasks) return;
+
+    const categories = uniq(map(this.props.tasks, 'category')).map(
+      (name: string) => ({
+        name,
+        active: true,
+      }),
+    );
+
+    this.setState({ categories });
+  }
   onSortEnd = ({ oldIndex, newIndex }) => {
     this.props.actions.orderTasks(
       arrayMove(this.props.tasks, oldIndex, newIndex),
@@ -128,15 +155,29 @@ export class TaskList extends React.Component<Props, {}> {
     }
   };
 
+  updateCategories = category => {
+    const categories = this.state.categories.map(c => {
+      if (c.name !== category.name) return c;
+      return { ...c, active: !c.active };
+    });
+
+    this.setState({ categories });
+  };
+
   render() {
     const { tasks, user, match, actions } = this.props;
+    const { categories } = this.state;
+    const filteredTasks = tasks.filter(t =>
+      categories.map(c => !!c.active && c.name).includes(t.category),
+    );
 
     const taskDisplay =
       tasks.length > 0 ? (
         <Box>
           <h2>Tasks</h2>
+          <Filter categories={categories} update={this.updateCategories} />
           <SortableList
-            items={tasks}
+            items={filteredTasks}
             onSortEnd={this.onSortEnd}
             shouldCancelStart={this.shouldCancelStart}
             setTaskStatus={this.props.actions.setTaskStatus}
