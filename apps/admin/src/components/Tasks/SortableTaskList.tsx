@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Match } from 'react-router-dom';
-import { arrayMove, SortableContainer } from 'react-sortable-hoc';
+import {
+  arrayMove,
+  SortableContainer,
+  SortableElement,
+} from 'react-sortable-hoc';
 import { bindActionCreators } from 'redux';
 import { Box, Flex } from 'grid-styled';
 import map from 'lodash/map';
@@ -18,6 +22,13 @@ import NoTasks from './NoTasks';
 import { getTasks, orderTasks, setTaskStatus } from 'actions/tasks';
 import { hideModal, showModal } from 'actions/modals';
 import TaskList from './TaskList';
+import TaskListItem, { TaskListItemProps } from './TaskListItem';
+
+export const SortableTaskListItem = SortableElement(
+  (props: TaskListItemProps) => {
+    return <TaskListItem {...props} />;
+  },
+);
 
 interface ListProps {
   setTaskStatus;
@@ -26,7 +37,11 @@ interface ListProps {
 }
 
 const SortableList = SortableContainer((props: ListProps) => {
-  return <TaskList {...props} sortable={true} />;
+  return (
+    <TaskList {...props}>
+      {childProps => <SortableTaskListItem {...childProps} />}
+    </TaskList>
+  );
 });
 
 interface Props {

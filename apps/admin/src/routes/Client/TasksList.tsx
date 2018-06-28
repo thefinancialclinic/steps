@@ -8,6 +8,7 @@ import { Task } from 'reducers/tasks';
 import { bindActionCreators } from 'redux';
 import { AlertLevel } from 'components/Alert/types';
 import { addAlert } from 'actions/alerts';
+import TaskListItem from 'components/Tasks/TaskListItem';
 
 interface Props {
   tasks: Task[];
@@ -34,7 +35,9 @@ class Tasks extends React.Component<Props> {
         items={tasks}
         setTaskStatus={actions.setTaskStatus}
         url={match.url}
-      />
+      >
+        {childProps => <TaskListItem {...childProps} />}
+      </TaskList>
     );
   }
 }

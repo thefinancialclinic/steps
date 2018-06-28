@@ -37,6 +37,7 @@ import TaskList from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
 import DeleteTask from 'components/Tasks/DeleteTask';
 import { Task } from 'reducers/tasks';
+import TaskListItem from './Tasks/TaskListItem';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -312,7 +313,9 @@ export const Components = storiesOf('Components', module)
             description: 'A helpful description',
           },
         ]}
-      />
+      >
+        {childProps => <TaskListItem {...childProps} />}
+      </TaskList>
     );
   })
   .add('Error Alert', () => (

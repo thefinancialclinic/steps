@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { blue, green, lightGrey, white } from 'styles/colors';
 import { remCalc, sansSerif } from 'styles/type';
+import { Task } from 'reducers/tasks';
 
 const StyledLink = styled(Link)`
   color: ${green};
@@ -13,7 +14,19 @@ const StyledLink = styled(Link)`
   text-transform: uppercase;
 `;
 
-export default ({ setTaskStatus, task, url, index }) => {
+export interface TaskListItemProps {
+  setTaskStatus;
+  task: Partial<Task>;
+  url: string;
+  index: number;
+  key: string;
+}
+
+const TaskListItem: React.SFC<TaskListItemProps> = ({
+  setTaskStatus,
+  task,
+  url,
+}) => {
   const toggleTaskStatus = e => {
     const status = task.status === 'COMPLETED' ? 'ACTIVE' : 'COMPLETED';
     setTaskStatus(task, status);
@@ -31,7 +44,7 @@ export default ({ setTaskStatus, task, url, index }) => {
       width={1}
     >
       <Flex flexDirection="row" alignItems="center">
-        <div onClick={toggleTaskStatus}>
+        <div className="task-completed" onClick={toggleTaskStatus}>
           <i className={`material-icons ${checked}`}>{checked}</i>
         </div>
         <Title>{task.title}</Title>
@@ -71,3 +84,5 @@ const Title = styled.h3`
   margin-right: 0;
   margin-bottom: ${remCalc(10)};
 `;
+
+export default TaskListItem;

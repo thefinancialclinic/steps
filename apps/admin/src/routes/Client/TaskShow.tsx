@@ -1,9 +1,9 @@
 import React from 'react';
 import { Flex, Box } from 'grid-styled';
-import { Location } from 'react-router-dom';
+import { Location, History } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { deleteTask, getTasks } from 'actions/tasks';
+import { deleteTask, getTasks, addTask } from 'actions/tasks';
 import TaskDetails from 'components/Tasks/TaskDetails';
 import { findById } from 'helpers';
 import BackButton from 'atoms/Buttons/BackButton';
@@ -16,9 +16,10 @@ import { AlertLevel } from 'components/Alert/types';
 interface Props {
   className?: string;
   user: User;
-  task: Partial<Task>;
+  task: Task;
   location: Location;
-  actions: { deleteTask; getTasks; showModal; hideModal; addAlert };
+  actions: { deleteTask; getTasks; showModal; hideModal; addAlert; addTask };
+  history: History;
 }
 
 class TaskShow extends React.Component<Props> {
@@ -34,14 +35,14 @@ class TaskShow extends React.Component<Props> {
   }
 
   render() {
-    const { user, task, actions, location } = this.props;
-    console.log(this.props);
+    const { user, task, actions, location, history } = this.props;
     return (
       <Flex flexDirection="column">
         <Box mb={20}>
           <BackButton to={`/tasks`} />
         </Box>
         <TaskDetails
+          history={history}
           user={user}
           task={task}
           actions={actions}
@@ -59,7 +60,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
-    { deleteTask, getTasks, addAlert, showModal, hideModal },
+    { deleteTask, getTasks, addAlert, showModal, hideModal, addTask },
     dispatch,
   ),
 });
