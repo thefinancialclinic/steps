@@ -4,6 +4,7 @@ interface Auth0Client {
   login: any;
   signup: any;
   parseHash: any;
+  passwordlessStart: any;
 }
 
 interface Auth0SignupResponse {
@@ -27,6 +28,26 @@ export class Auth0Service {
         responseType: 'token id_token',
         scope: 'openid',
       });
+  }
+
+  magicLink(email) {
+    return new Promise((resolve, reject) => {
+      this.webAuth.passwordlessStart(
+        {
+          email: email,
+          send: 'link',
+          connection: 'email',
+        },
+        err => {
+          if (err) {
+            const { description } = err;
+            reject({ message: description || 'Something went wrong.' });
+          } else {
+            resolve();
+          }
+        },
+      );
+    });
   }
 
   login(email, password) {

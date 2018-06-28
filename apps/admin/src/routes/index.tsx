@@ -33,7 +33,7 @@ export type RoutesElement = (props: RoutesProps) => any;
 
 class Routes extends React.Component<Props, {}> {
   componentDidMount() {
-    process.env.NODE_ENV !== 'development' &&
+    process.env.AUTH0_ENABLED == 'true' &&
       this.props.actions.getAuthenticatedUser();
   }
 

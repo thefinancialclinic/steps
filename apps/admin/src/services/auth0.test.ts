@@ -9,8 +9,30 @@ describe('auth0 service', () => {
       login: jest.fn(),
       signup: jest.fn(),
       parseHash: jest.fn(),
+      passwordlessStart: jest.fn(),
     });
     localStorage.clear();
+  });
+
+  describe('magicLink', () => {
+    it('calls auth0 with email', done => {
+      auth0.webAuth.passwordlessStart = (opts, _cb) => {
+        expect(opts.email).toBe('fake@example.com');
+        expect(opts.send).toBe('link');
+        expect(opts.connection).toBe('email');
+        done();
+      };
+      auth0.magicLink('fake@example.com');
+    });
+
+    it('rejects promise with error on error', () => {
+      auth0.webAuth.passwordlessStart = (_opts, cb) => {
+        cb({ message: 'error' });
+      };
+      return auth0.magicLink('fake@example.com').catch(err => {
+        expect(err.message).toBe('Something went wrong.');
+      });
+    });
   });
 
   describe('login', () => {

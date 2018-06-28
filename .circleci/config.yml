@@ -82,6 +82,7 @@ jobs:
           environment:
             NODE_ENV: production
             API_URL: /api
+            AUTH0_ENABLED: true
             PORT: "3000"
           command: ./run-cypress.sh
 
