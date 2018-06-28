@@ -1,23 +1,26 @@
-import Badge from 'atoms/Badge';
-import Panel from 'atoms/Panel';
-import DeleteTask, { DELETE_TASK_MODAL } from 'components/Tasks/DeleteTask';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
-import { Link, Location } from 'react-router-dom';
+import { History, Link, Location } from 'react-router-dom';
 import styled from 'styled-components';
-import { green, grey, white } from 'styles/colors';
-import { remCalc, sansSerif } from 'styles/type';
-import { ModalSize } from '../Modal';
-import Modal from 'containers/Modal';
-import { Task } from 'reducers/tasks';
-import EditButton from 'atoms/Buttons/EditButton';
+
+import Badge from 'atoms/Badge';
 import DeleteButton from 'atoms/Buttons/DeleteButton';
+import EditButton from 'atoms/Buttons/EditButton';
+import Panel from 'atoms/Panel';
+import DeleteTask, { DELETE_TASK_MODAL } from 'components/Tasks/DeleteTask';
+import Modal from 'containers/Modal';
+import { green, white } from 'styles/colors';
+import { remCalc, sansSerif } from 'styles/type';
 import { AlertLevel } from '../Alert/types';
+import { ModalSize } from '../Modal';
+import { USER_TYPE, User } from 'reducers/auth';
+import { Task } from 'reducers/tasks';
 
 interface Props {
   className?: string;
-  user: any;
-  history: any;
+  client: User;
+  user: User;
+  history: History;
   location: Location;
   task: Task;
   actions: { addTask; deleteTask; hideModal; showModal; addAlert };
@@ -51,7 +54,7 @@ class TaskDetails extends React.Component<Props> {
   };
 
   render() {
-    const { className, user, location, task, actions } = this.props;
+    const { className, client, location, task, actions, user } = this.props;
     if (!task) return null;
 
     return (
@@ -62,22 +65,28 @@ class TaskDetails extends React.Component<Props> {
           onClose={() => actions.hideModal(DELETE_TASK_MODAL)}
           noPadding
         >
-          <DeleteTask user={user} task={task} undoDelete={this.undoDelete} />
+          <DeleteTask user={client} task={task} undoDelete={this.undoDelete} />
         </Modal>
         <Panel className={className}>
-          <Flex alignItems="center" justifyContent="space-between">
+          {user.type === USER_TYPE.CLIENT ? (
             <Box>
               <Badge text={task.category} />
             </Box>
-            <Box className="action-links">
-              <Link className="action-link" to={`${location.pathname}/edit`}>
-                <EditButton />
-              </Link>
-              <span className="action-link" onClick={this.handleDelete}>
-                <DeleteButton />
-              </span>
-            </Box>
-          </Flex>
+          ) : (
+            <Flex alignItems="center" justifyContent="space-between">
+              <Box>
+                <Badge text={task.category} />
+              </Box>
+              <Box className="action-links">
+                <Link className="action-link" to={`${location.pathname}/edit`}>
+                  <EditButton />
+                </Link>
+                <span className="action-link" onClick={this.handleDelete}>
+                  <DeleteButton />
+                </span>
+              </Box>
+            </Flex>
+          )}
           <H3>{task.title}</H3>
           <p>{task.description}</p>
           <div className="action-link">Steps</div>

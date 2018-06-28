@@ -1,10 +1,8 @@
-import Close from 'atoms/Icons/Close';
 import Panel from 'atoms/Panel';
-import { Flex, Box } from 'grid-styled';
+import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import styled from 'styled-components';
 import { black } from 'styles/colors';
-import { remCalc } from 'styles/type';
 
 interface Props {
   className?: string;

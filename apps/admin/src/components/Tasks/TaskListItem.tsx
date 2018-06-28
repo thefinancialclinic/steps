@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { SortableElement } from 'react-sortable-hoc';
-import { Flex, Box } from 'grid-styled';
-import { blue, lightGrey, green, white } from 'styles/colors';
-import { remCalc, sansSerif } from 'styles/type';
+import { Box, Flex } from 'grid-styled';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { blue, green, lightGrey, white } from 'styles/colors';
+import { remCalc, sansSerif } from 'styles/type';
 import { Task } from 'reducers/tasks';
 
 const StyledLink = styled(Link)`
@@ -15,16 +14,19 @@ const StyledLink = styled(Link)`
   text-transform: uppercase;
 `;
 
-interface Props {
-  key: string;
+export interface TaskListItemProps {
   setTaskStatus;
-  index: number;
-  task: Task;
+  task: Partial<Task>;
   url: string;
+  index: number;
+  key: string;
 }
 
-export default SortableElement((props: Props) => {
-  const { setTaskStatus, task, url } = props;
+const TaskListItem: React.SFC<TaskListItemProps> = ({
+  setTaskStatus,
+  task,
+  url,
+}) => {
   const toggleTaskStatus = e => {
     const status = task.status === 'COMPLETED' ? 'ACTIVE' : 'COMPLETED';
     setTaskStatus(task, status);
@@ -42,7 +44,7 @@ export default SortableElement((props: Props) => {
       width={1}
     >
       <Flex flexDirection="row" alignItems="center">
-        <div onClick={toggleTaskStatus}>
+        <div className="task-completed" onClick={toggleTaskStatus}>
           <i className={`material-icons ${checked}`}>{checked}</i>
         </div>
         <Title>{task.title}</Title>
@@ -52,7 +54,7 @@ export default SortableElement((props: Props) => {
       </Box>
     </Background>
   );
-});
+};
 
 const Background = styled(Flex)`
   background: ${white};
@@ -82,3 +84,5 @@ const Title = styled.h3`
   margin-right: 0;
   margin-bottom: ${remCalc(10)};
 `;
+
+export default TaskListItem;

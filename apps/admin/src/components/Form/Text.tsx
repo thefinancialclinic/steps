@@ -66,14 +66,14 @@ const InputWrapper = styled<any, 'div'>('div')`
     padding-right: ${remCalc(20)};
     padding-top: ${remCalc(21)};
   }
-  // span {
-  //   position: absolute;
-  //   right: 1em;
-  //   color: ${red};
-  //   font-size: ${remCalc(14)};
-  //   text-transform: uppercase;
-  //   margin-bottom: ${remCalc(10)};
-  // }
+  span {
+    position: absolute;
+    right: 1em;
+    color: ${red};
+    font-size: ${remCalc(14)};
+    text-transform: uppercase;
+    margin-bottom: ${remCalc(10)};
+  }
 `;
 
 export default Text;

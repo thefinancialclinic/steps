@@ -33,10 +33,11 @@ import PhotoUpload from './PhotoUpload';
 import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
-import { TaskList } from './Tasks/TaskList';
+import TaskList from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
 import DeleteTask from 'components/Tasks/DeleteTask';
 import { Task } from 'reducers/tasks';
+import TaskListItem from './Tasks/TaskListItem';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -292,30 +293,31 @@ export const Components = storiesOf('Components', module)
       undoDelete={() => {}}
     />
   ))
-  // .add('Task Step', () => (
-  //   <TaskStep name="thing" removeField={i => null} count={1} />
-  // ))
-  // .add('Task List', () => {
-  //   const match = { url: 'foo' };
-  //   return (
-  //     <TaskList
-  //       match={match}
-  //       tasks={[
-  //         {
-  //           id: 1,
-  //           title: 'Task #1',
-  //           description: 'A helpful description',
-  //         },
-  //         {
-  //           id: 2,
-  //           title: 'Task #2',
-  //           description: 'A helpful description',
-  //         },
-  //       ]}
-  //       user={{ id: 1 }}
-  //     />
-  //   );
-  // })
+  .add('Task Step', () => (
+    <TaskStep name="thing" removeField={i => null} count={1} />
+  ))
+  .add('Task List', () => {
+    return (
+      <TaskList
+        url="foo/bar"
+        setTaskStatus={() => {}}
+        items={[
+          {
+            id: 1,
+            title: 'Task #1',
+            description: 'A helpful description',
+          },
+          {
+            id: 2,
+            title: 'Task #2',
+            description: 'A helpful description',
+          },
+        ]}
+      >
+        {childProps => <TaskListItem {...childProps} />}
+      </TaskList>
+    );
+  })
   .add('Error Alert', () => (
     <Alert onClose={() => {}} level={AlertLevel.Error}>
       This is an error alert
