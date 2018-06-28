@@ -16,7 +16,7 @@ interface Props {
   actions: { setTaskStatus; getTasks; addAlert };
 }
 
-class Tasks extends React.Component<Props> {
+export class Tasks extends React.Component<Props> {
   componentWillMount() {
     const { actions } = this.props;
     actions.getTasks().catch(err => {
