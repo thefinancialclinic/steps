@@ -1,22 +1,25 @@
-import { hideModal, showModal } from 'actions/modals';
-import { getTasks, setTasks, setTaskStatus } from 'actions/tasks';
-import Button from 'atoms/Buttons/Button';
-import TermsModal, { TERMS } from 'components/Clients/TermsModal';
-import Modal from 'containers/Modal';
-import { Box, Flex } from 'grid-styled';
-import { filterById, findById } from 'helpers';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Match } from 'react-router-dom';
 import { arrayMove, SortableContainer } from 'react-sortable-hoc';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
+import { Box, Flex } from 'grid-styled';
+
 import { svgBackgroundImageUrl } from 'styles';
 import { mediumBlue, white } from 'styles/colors';
 import { remCalc } from 'styles/type';
+import { filterById, findById } from 'helpers';
+
+import Button from 'atoms/Buttons/Button';
+import Modal from 'containers/Modal';
+import TermsModal, { TERMS } from 'components/Clients/TermsModal';
 import { ModalSize } from '../Modal';
 import NoTasks from './NoTasks';
 import TaskListItem from './TaskListItem';
+
+import { getTasks, orderTasks, setTaskStatus } from 'actions/tasks';
+import { hideModal, showModal } from 'actions/modals';
 
 const TaskContainer = styled.div`
   box-shadow: 0 0 4px 0 rgba(30 65 165, 0.2);
@@ -111,7 +114,7 @@ interface Props {
 
 export class TaskList extends React.Component<Props, {}> {
   onSortEnd = ({ oldIndex, newIndex }) => {
-    this.props.actions.setTasks(
+    this.props.actions.orderTasks(
       arrayMove(this.props.tasks, oldIndex, newIndex),
     );
   };
@@ -191,7 +194,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
-    { getTasks, setTasks, setTaskStatus, showModal, hideModal },
+    { getTasks, orderTasks, setTaskStatus, showModal, hideModal },
     dispatch,
   ),
 });
