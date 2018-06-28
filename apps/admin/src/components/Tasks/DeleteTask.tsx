@@ -4,23 +4,28 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { red } from 'styles/colors';
+import { Task } from 'reducers/tasks';
 
 export const DELETE_TASK_MODAL = 'DELETE_TASK_MODAL';
 
 interface Props {
   className?: string;
+  task: Task;
   user: any;
+  undoDelete: () => void;
 }
 
 class DeleteTask extends React.Component<Props, {}> {
   render() {
-    const { className, user } = this.props;
+    const { className, undoDelete, user } = this.props;
 
     return (
       <Box className={className} pb={4}>
         <Background>
           <NoMargin>Task Deleted</NoMargin>
-          <Button white>UNDO</Button>
+          <div onClick={undoDelete}>
+            <Button white>UNDO</Button>
+          </div>
         </Background>
         <Flex className="actions" justifyContent="center">
           <Box>

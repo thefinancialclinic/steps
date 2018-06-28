@@ -9,7 +9,7 @@ import { green, grey, white } from 'styles/colors';
 import { remCalc, sansSerif } from 'styles/type';
 import { ModalSize } from '../Modal';
 import Modal from 'containers/Modal';
-import { DELETE_TASK } from 'actions/tasks';
+import { Task } from 'reducers/tasks';
 import EditButton from 'atoms/Buttons/EditButton';
 import DeleteButton from 'atoms/Buttons/DeleteButton';
 import { AlertLevel } from '../Alert/types';
@@ -17,14 +17,16 @@ import { AlertLevel } from '../Alert/types';
 interface Props {
   className?: string;
   user: any;
+  history: any;
   location: Location;
-  task: any;
-  actions: { deleteTask; hideModal; showModal; addAlert };
+  task: Task;
+  actions: { addTask; deleteTask; hideModal; showModal; addAlert };
 }
 
 class TaskDetails extends React.Component<Props> {
   handleDelete = () => {
     const { actions, task } = this.props;
+
     actions
       .deleteTask(task.id)
       .then(() => {
@@ -39,6 +41,15 @@ class TaskDetails extends React.Component<Props> {
       });
   };
 
+  undoDelete = () => {
+    const { actions, history, task } = this.props;
+
+    actions.addTask(task).then(() => {
+      actions.hideModal(DELETE_TASK_MODAL);
+      history.goBack();
+    });
+  };
+
   render() {
     const { className, user, location, task, actions } = this.props;
     if (!task) return null;
@@ -46,12 +57,12 @@ class TaskDetails extends React.Component<Props> {
     return (
       <div>
         <Modal
-          id={DELETE_TASK}
+          id={DELETE_TASK_MODAL}
           size={ModalSize.Medium}
           onClose={() => actions.hideModal(DELETE_TASK_MODAL)}
           noPadding
         >
-          <DeleteTask user={user} />
+          <DeleteTask user={user} task={task} undoDelete={this.undoDelete} />
         </Modal>
         <Panel className={className}>
           <Flex alignItems="center" justifyContent="space-between">

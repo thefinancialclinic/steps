@@ -3,7 +3,7 @@ import { Flex, Box } from 'grid-styled';
 import { Location } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { deleteTask, getTasks } from 'actions/tasks';
+import { addTask, deleteTask, getTasks } from 'actions/tasks';
 import TaskDetails from 'components/Tasks/TaskDetails';
 import { findById } from 'helpers';
 import BackButton from 'atoms/Buttons/BackButton';
@@ -14,8 +14,9 @@ interface Props {
   className?: string;
   user: any;
   task: any;
+  history: any;
   location: Location;
-  actions: { deleteTask; getTasks; showModal; hideModal; addAlert };
+  actions: { addTask; deleteTask; getTasks; showModal; hideModal; addAlert };
 }
 
 const steps = task => {
@@ -30,7 +31,7 @@ class TaskShow extends React.Component<Props> {
   }
 
   render() {
-    const { user, task, actions, location } = this.props;
+    const { user, task, actions, history, location } = this.props;
     return (
       <Flex flexDirection="column">
         <Box mb={20}>
@@ -40,6 +41,7 @@ class TaskShow extends React.Component<Props> {
           user={user}
           task={task}
           actions={actions}
+          history={history}
           location={location}
         />
       </Flex>
@@ -54,7 +56,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
-    { deleteTask, getTasks, addAlert, showModal, hideModal },
+    { addTask, deleteTask, getTasks, addAlert, showModal, hideModal },
     dispatch,
   ),
 });

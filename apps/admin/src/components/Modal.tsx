@@ -41,35 +41,42 @@ const getContainerWidth = (size: ModalSize) => {
   }
 };
 
-const Modal: React.SFC<Props> = ({
-  children,
-  onClose,
-  size = ModalSize.FullWidth,
-  noPadding = false,
-}) => {
-  return (
-    <Container>
-      <Box width={getModalWidth(size)} m="auto">
-        <Panel noPadding={noPadding}>
-          {onClose && (
-            <IconContainer>
-              <CloseIcon className="material-icons" onClick={onClose}>
-                close
-              </CloseIcon>
-            </IconContainer>
-          )}
-          {noPadding ? (
-            <div>{children}</div>
-          ) : (
-            <Box width={getContainerWidth(size)} m="auto" mb="1em">
-              {children}
-            </Box>
-          )}
-        </Panel>
-      </Box>
-    </Container>
-  );
-};
+class Modal extends React.Component<Props> {
+  componentWillUnmount() {
+    this.props.onClose();
+  }
+
+  render() {
+    const {
+      children,
+      onClose,
+      size = ModalSize.FullWidth,
+      noPadding = false,
+    } = this.props;
+    return (
+      <Container>
+        <Box width={getModalWidth(size)} m="auto">
+          <Panel noPadding={noPadding}>
+            {onClose && (
+              <IconContainer>
+                <CloseIcon className="material-icons" onClick={onClose}>
+                  close
+                </CloseIcon>
+              </IconContainer>
+            )}
+            {noPadding ? (
+              <div>{children}</div>
+            ) : (
+              <Box width={getContainerWidth(size)} m="auto" mb="1em">
+                {children}
+              </Box>
+            )}
+          </Panel>
+        </Box>
+      </Container>
+    );
+  }
+}
 
 const CloseIcon = styled.i`
   cursor: pointer;
