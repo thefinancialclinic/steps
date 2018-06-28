@@ -11,7 +11,6 @@ import Coach from './Coach/index';
 import Superadmin from './Superadmin/index';
 import UserSwitcher from 'components/util/UserSwitcher';
 import AuthRoutes from './Auth/index';
-import Alert from 'containers/Alert';
 import Login from 'routes/Auth/Login';
 import { getAuthenticatedUser } from 'actions/auth';
 import { bindActionCreators } from 'redux';
@@ -53,7 +52,6 @@ class Routes extends React.Component<Props, {}> {
     } else {
       return (
         <Wrapper>
-          <Alert />
           {process.env.NODE_ENV === 'development' && <UserSwitcher />}
           <Switch>
             <AuthRoutes user={user} history={history}>

@@ -2,7 +2,7 @@ import api from 'api';
 import { Client } from 'reducers/clients';
 import moment from 'moment';
 import { Message, Request } from 'components/Chat/types';
-import { findById } from 'helpers';
+import { findById, updateById } from 'helpers';
 import bot from 'services/bot';
 
 type DispatchFn = (dispatch?: any, getState?: any) => any;
@@ -152,8 +152,10 @@ export const setClientFollowUpDate = async (
 };
 
 export const createReply = (
-  text: String,
-  client: Client & { messages: Message[]; requests: Request[] },
+  text: string,
+  client: Client,
+  requests: any,
+  messages: any,
   requestId: number,
 ): DispatchFn => async (dispatch, getState) => {
   const { user } = getState().auth;
@@ -165,7 +167,7 @@ export const createReply = (
     timestamp: moment.utc().toLocaleString(),
   });
 
-  const request = findById(client.requests, requestId);
+  const request = findById(requests, requestId);
   const { data: requestData } = await api.put(`/requests/${requestId}`, {
     status: 'REPLIED',
     user_id: client.id,
@@ -174,17 +176,9 @@ export const createReply = (
 
   bot.helpCallback(client.id);
 
-  dispatch(setClientMessages(client.id, [...client.messages, messageData]));
+  dispatch(setClientMessages(client.id, [...messages, messageData]));
   dispatch(
-    setClientRequests(
-      client.id,
-      client.requests.map(request => {
-        if (request.id == requestId) {
-          return requestData;
-        }
-        return request;
-      }),
-    ),
+    setClientRequests(client.id, updateById(requests, client.id, requestData)),
   );
 };
 

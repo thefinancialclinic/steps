@@ -1,7 +1,7 @@
 import 'jest';
 import { RequestDetailRoute, addMessagesToRequest } from './RequestDetail';
 import { shallow } from 'enzyme';
-import RequestDetail from 'components/Chat/RequestDetail';
+import RequestDetail from '../../../../components/Chat/RequestDetail';
 import React from 'react';
 
 const request = { id: 1 };
@@ -37,7 +37,13 @@ it('handles the form submission', () => {
     messages: messages,
   };
   const wrapper = shallow(
-    <RequestDetailRoute user={user} match={match} actions={actions} />,
+    <RequestDetailRoute
+      user={user}
+      messages={messages}
+      requests={[request]}
+      match={match}
+      actions={actions}
+    />,
   );
   const form = wrapper.find(RequestDetail);
 
@@ -63,7 +69,13 @@ it('displays an error if the form submission returns an error', () => {
     messages: messages,
   };
   const wrapper = shallow(
-    <RequestDetailRoute user={user} match={match} actions={actions} />,
+    <RequestDetailRoute
+      user={user}
+      messages={messages}
+      requests={[request]}
+      match={match}
+      actions={actions}
+    />,
   );
   const form = wrapper.find(RequestDetail);
 

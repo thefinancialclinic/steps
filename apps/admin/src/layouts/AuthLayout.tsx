@@ -5,11 +5,13 @@ import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 import { svgBackgroundImageUrl } from 'styles';
 import { darkBlue } from 'styles/colors';
+import Alert from 'containers/Alert';
 
 class AuthLayout extends React.Component<any, any> {
   render() {
     return (
       <div>
+        <Alert />
         <Flex flexWrap="wrap">
           <Box width={[1, 3 / 4]}>
             <Header>A brighter financial future starts today</Header>

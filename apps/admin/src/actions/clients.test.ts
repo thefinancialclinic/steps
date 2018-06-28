@@ -18,9 +18,9 @@ describe('createReply', () => {
       'Help response',
       {
         id: 1,
-        messages: [],
-        requests: [{ id: 1, task_id: 2 }],
       },
+      [{ id: 1, task_id: 2 }],
+      [],
       1,
     )(fakeDispatch, fakeGetState);
     expect(bot.helpCallback).toHaveBeenCalledWith(1);

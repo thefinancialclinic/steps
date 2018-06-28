@@ -1,4 +1,3 @@
-import { User } from 'reducers/auth';
 import 'jest';
 import {
   SET_CLIENT_GOALS,
@@ -6,9 +5,9 @@ import {
   SET_CLIENT_REQUESTS,
   UPDATE_CLIENT,
 } from './../actions/clients';
-import reducer, { ClientsState } from './clients';
+import reducer, { ClientsState, Client } from './clients';
 
-const client: User = {
+const client: Client = {
   id: 0,
   first_name: 'Jane',
   last_name: 'Smith',
@@ -35,6 +34,8 @@ const client: User = {
 
 const initialState: ClientsState = {
   clients: [client],
+  clientMessages: {},
+  clientRequests: {},
 };
 
 describe('clients reducer', () => {
@@ -58,7 +59,7 @@ describe('clients reducer', () => {
     };
 
     const updatedState = reducer(initialState, mockAction);
-    expect(updatedState.clients[0].messages).toEqual(messages);
+    expect(updatedState.clientMessages[0]).toEqual(messages);
   });
 
   it('sets requests by client', () => {
@@ -70,7 +71,7 @@ describe('clients reducer', () => {
     };
 
     const updatedState = reducer(initialState, mockAction);
-    expect(updatedState.clients[0].requests).toEqual(requests);
+    expect(updatedState.clientRequests[0]).toEqual(requests);
   });
 
   it('updates a client', () => {

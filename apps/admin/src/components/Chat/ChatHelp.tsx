@@ -7,15 +7,16 @@ import Requests from './Requests';
 interface Props {
   className?: string;
   user: any;
+  messages: any;
+  requests: any;
 }
 
 class ChatList extends React.Component<Props, {}> {
   render() {
-    const { user } = this.props;
-    const { messages, requests } = this.props.user;
+    const { user, messages, requests } = this.props;
 
     return requests && requests.length > 0 ? (
-      <Requests user={user} />
+      <Requests user={user} messages={messages} requests={requests} />
     ) : (
       <Box width={1}>
         <NoChat type="help" />
