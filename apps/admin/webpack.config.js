@@ -82,23 +82,6 @@ const baseConfig = {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     modules: ['node_modules', SRC],
   },
-  optimization: {
-    splitChunks: {
-      name: true,
-      cacheGroups: {
-        commons: {
-          chunks: 'initial',
-          minChunks: 2,
-        },
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          chunks: 'all',
-          priority: -10,
-        },
-      },
-    },
-    runtimeChunk: true,
-  },
 };
 
 const devConfig = merge.smart(baseConfig, {
@@ -125,7 +108,7 @@ const devConfig = merge.smart(baseConfig, {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new SimpleProgressPlugin({ format: 'compact' }),
+    new SimpleProgressPlugin({ format: 'expanded' }),
   ],
   watch: true,
 });
@@ -139,6 +122,23 @@ const productionConfig = merge.smart(baseConfig, {
     path: BUILD,
   },
   plugins: [new SimpleProgressPlugin({ format: 'expanded' })],
+  optimization: {
+    splitChunks: {
+      name: true,
+      cacheGroups: {
+        commons: {
+          chunks: 'initial',
+          minChunks: 2,
+        },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'all',
+          priority: -10,
+        },
+      },
+    },
+    runtimeChunk: true,
+  },
 });
 
 module.exports = isProduction ? productionConfig : devConfig;
