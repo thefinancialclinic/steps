@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../../.env' });
 
 const webpack = require('webpack');
 const path = require('path');
@@ -10,13 +10,6 @@ const SimpleProgressPlugin = require('simple-progress-webpack-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 const SRC = path.resolve(__dirname, 'src');
 const BUILD = path.resolve(__dirname, '.build');
-
-const AUTH0_ENABLED = process.env.AUTH0_ENABLED;
-const AUTH0_DOMAIN = process.env.AUTH0_DOMAIN;
-const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID;
-const AUTH0_REDIRECT_URL = process.env.AUTH0_REDIRECT_URL;
-const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE;
-const BOT_URL = process.env.BOT_URL;
 
 const baseConfig = {
   output: {
@@ -74,12 +67,12 @@ const baseConfig = {
     }),
     new webpack.EnvironmentPlugin({
       API_URL: isProduction ? '/api' : 'http://localhost:3001/api',
-      AUTH0_ENABLED: AUTH0_ENABLED,
-      AUTH0_REDIRECT_URL: AUTH0_REDIRECT_URL,
-      AUTH0_AUDIENCE: AUTH0_AUDIENCE,
-      AUTH0_DOMAIN: AUTH0_DOMAIN,
-      AUTH0_CLIENT_ID: AUTH0_CLIENT_ID,
-      BOT_URL: BOT_URL,
+      AUTH0_ENABLED: 'true',
+      AUTH0_REDIRECT_URL: 'http://localhost:3000/authenticate',
+      AUTH0_AUDIENCE: 'http://steps-admin.herokuapp.com',
+      AUTH0_DOMAIN: 'steps.auth0.com',
+      AUTH0_CLIENT_ID: 'R4uBotWz7sHgmvfmlsBI3othCDEpo4Ga',
+      BOT_URL: 'https://mockbin.org/request',
       NODE_ENV: 'development',
       CI: false,
     }),
@@ -132,7 +125,7 @@ const devConfig = merge.smart(baseConfig, {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new SimpleProgressPlugin({ format: 'compact' }),
+    new SimpleProgressPlugin({ format: 'expanded' }),
   ],
   watch: true,
 });
