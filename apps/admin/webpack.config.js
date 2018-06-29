@@ -11,13 +11,6 @@ const isProduction = process.env.NODE_ENV === 'production';
 const SRC = path.resolve(__dirname, 'src');
 const BUILD = path.resolve(__dirname, '.build');
 
-const AUTH0_ENABLED = process.env.AUTH0_ENABLED;
-const AUTH0_DOMAIN = process.env.AUTH0_DOMAIN;
-const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID;
-const AUTH0_REDIRECT_URL = process.env.AUTH0_REDIRECT_URL;
-const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE;
-const BOT_URL = process.env.BOT_URL;
-
 const baseConfig = {
   output: {
     publicPath: '/',
@@ -74,12 +67,12 @@ const baseConfig = {
     }),
     new webpack.EnvironmentPlugin({
       API_URL: isProduction ? '/api' : 'http://localhost:3001/api',
-      AUTH0_ENABLED: AUTH0_ENABLED,
-      AUTH0_REDIRECT_URL: AUTH0_REDIRECT_URL,
-      AUTH0_AUDIENCE: AUTH0_AUDIENCE,
-      AUTH0_DOMAIN: AUTH0_DOMAIN,
-      AUTH0_CLIENT_ID: AUTH0_CLIENT_ID,
-      BOT_URL: BOT_URL,
+      AUTH0_ENABLED: null,
+      AUTH0_REDIRECT_URL: 'http://localhost:3000/authenticate',
+      AUTH0_AUDIENCE: null,
+      AUTH0_DOMAIN: null,
+      AUTH0_CLIENT_ID: null,
+      BOT_URL: null,
       NODE_ENV: 'development',
       CI: false,
     }),
