@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 
 import styled from 'styled-components';
-import LoginForm from 'forms/LoginForm';
 import Panel from 'atoms/Panel';
 import auth0 from 'services/auth0';
 import Auth0LoginForm from 'forms/Auth0LoginForm';
@@ -14,11 +13,6 @@ import { AlertLevel } from 'components/Alert/types';
 import AuthLayout from 'layouts/AuthLayout';
 
 class Login extends React.Component<any, any> {
-  private onSubmit = async ({ user_type, user_email }) => {
-    await this.props.actions.login(user_type, user_email);
-    this.props.history.push('/');
-  };
-
   private onAuth0Submit = async ({ email, password }) => {
     try {
       await auth0.login(email, password);
@@ -36,11 +30,7 @@ class Login extends React.Component<any, any> {
       <AuthLayout>
         <FormContainer>
           <h1>Log In</h1>
-          {this.props.location.search === '?auth0' ? (
-            <Auth0LoginForm onSubmit={this.onAuth0Submit} />
-          ) : (
-            <LoginForm onSubmit={this.onSubmit} />
-          )}
+          <Auth0LoginForm onSubmit={this.onAuth0Submit} />
         </FormContainer>
       </AuthLayout>
     );

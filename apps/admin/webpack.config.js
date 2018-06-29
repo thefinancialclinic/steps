@@ -12,6 +12,8 @@ const SRC = path.resolve(__dirname, 'src');
 const BUILD = path.resolve(__dirname, '.build');
 
 const AUTH0_ENABLED = process.env.AUTH0_ENABLED;
+const AUTH0_DOMAIN = process.env.AUTH0_DOMAIN;
+const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID;
 const AUTH0_REDIRECT_URL = process.env.AUTH0_REDIRECT_URL;
 const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE;
 const BOT_URL = process.env.BOT_URL;
@@ -75,6 +77,8 @@ const baseConfig = {
       AUTH0_ENABLED: AUTH0_ENABLED,
       AUTH0_REDIRECT_URL: AUTH0_REDIRECT_URL,
       AUTH0_AUDIENCE: AUTH0_AUDIENCE,
+      AUTH0_DOMAIN: AUTH0_DOMAIN,
+      AUTH0_CLIENT_ID: AUTH0_CLIENT_ID,
       BOT_URL: BOT_URL,
       NODE_ENV: 'development',
       CI: false,
