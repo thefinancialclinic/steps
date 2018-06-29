@@ -23,7 +23,10 @@ interface Props {
 class NameCard extends React.Component<Props, {}> {
   render() {
     return (
-      <BaseNameCard {...this.props} className={this.props.status === 'AWAITING_HELP' && 'needs-help'}>
+      <BaseNameCard
+        {...this.props}
+        className={this.props.status === 'AWAITING_HELP' && 'needs-help'}
+      >
         <Panel shadow fill>
           <h3 className="title">{this.props.title}</h3>
         </Panel>
