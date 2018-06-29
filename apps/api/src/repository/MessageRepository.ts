@@ -90,7 +90,7 @@ export class MessageRepository implements Repository<MessageId, Message> {
     let client;
     try {
       client = await this.pool.connect();
-      let q = 'SELECT * FROM task WHERE 1 = 1';
+      let q = 'SELECT * FROM message WHERE 1 = 1';
       let val;
       Object.keys(conditions).forEach(label => {
         val = conditions[label];
@@ -100,9 +100,49 @@ export class MessageRepository implements Repository<MessageId, Message> {
       const res = await this.pool.query(q);
       return res.rows.map(user => new Message(user));
     } catch (err) {
-      throw `Could not query Tasks (${err})`;
+      throw `Could not query Messages (${err})`;
     } finally {
       client.release();
+    }
+  }
+
+  async getAllMessagesForOrg(orgId: OrgId): Promise<Message[]> {
+    try {
+      const res = await this.pool.query(
+        `
+        SELECT msg.*
+        FROM message msg
+        JOIN "user" from_user ON from_user.id = msg.from_user
+        JOIN "user" to_user ON to_user.id = msg.to_user
+        JOIN org ON org.id = from_user.org_id
+        WHERE from_user.org_id = to_user.org_id
+        AND org.id = $1
+
+        `,
+        [orgId],
+      );
+      return res.rows.map(row => new Message(row));
+    } catch (err) {
+      throw `Could not get Messages for org, ${orgId} (${err})`;
+    }
+  }
+
+  async getAllMessagesForUser(userId: UserId): Promise<Message[]> {
+    try {
+      const res = await this.pool.query(
+        `
+        SELECT msg.*
+        FROM message msg
+        JOIN "user" usr1 ON usr1.id = msg.from_user
+        JOIN "user" usr2 ON usr2.id = msg.to_user
+        WHERE usr1.id <> usr2.id
+        AND (usr1.id = $1 OR usr2.id = $1)
+        `,
+        [userId],
+      );
+      return res.rows.map(row => new Message(row));
+    } catch (err) {
+      throw `Could not get Messages for org, ${userId} (${err})`;
     }
   }
 
@@ -178,7 +218,7 @@ export class MessageRepository implements Repository<MessageId, Message> {
         FROM message msg
         JOIN "user" usr ON (usr.id = msg.from_user OR usr.id = msg.to_user)
         WHERE msg.id = $1
-        AND usr.type = 'Coach'        
+        AND usr.type = 'Coach'
         `,
         [msgId],
       );

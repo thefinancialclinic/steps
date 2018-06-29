@@ -3,7 +3,7 @@ import {
   RequestRepository,
   RequestItem,
 } from '../repository/RequestRepository';
-import { User } from '../repository/UserRepository';
+import { UserRepository, User } from '../repository/UserRepository';
 import { pool } from '../index';
 
 export class RequestController {
@@ -39,8 +39,15 @@ export class RequestController {
     return { deleted: num };
   }
 
-  async isAllowed({ user, params, method }) {
-    return true;
+  private async updateUserStatus(requestItem: RequestItem) {
+    if (requestItem.status === 'NEEDS_ASSISTANCE') {
+      await this.userRepo.update(
+        { status: 'AWAITING_HELP' },
+        requestItem.user_id,
+      );
+    } else {
+      await this.userRepo.update({ status: 'WORKING' }, requestItem.user_id);
+    }
   }
 
   async isAllowed({ user, params, method }) {
