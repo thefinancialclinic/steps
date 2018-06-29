@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ToalsList.tsx displays goals 1`] = `
+<Component
+  goals={
+    Array [
+      "first goal",
+      "second goal",
+    ]
+  }
+/>
+`;

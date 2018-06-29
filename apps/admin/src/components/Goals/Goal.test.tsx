@@ -20,7 +20,7 @@ describe('Goal.tsx', () => {
   it('can be edited', () => {
     const onEdit = jest.fn();
     const wrapper = shallow(<Goal text="This is my goal" onEdit={onEdit} />);
-    const editButton = wrapper.find(EditButton);
+    const editButton = wrapper.dive().find(EditButton);
 
     editButton.simulate('click');
 

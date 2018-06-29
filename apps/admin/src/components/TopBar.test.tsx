@@ -10,7 +10,11 @@ describe('TopBar.tsx', () => {
       first_name: 'bob',
       last_name: 'villa',
     };
-    const wrapper = shallow(<TopBar user={user} />);
+
+    const org = {
+      name: 'Steps',
+    };
+    const wrapper = shallow(<TopBar user={user} org={org} />);
 
     expect(wrapper).toBeDefined();
   });

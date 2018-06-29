@@ -7,9 +7,11 @@ import NoGoals from 'components/Goals/NoGoals';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, History } from 'react-router-dom';
 import { Client } from 'reducers/clients';
 import { bindActionCreators } from 'redux';
+import Goal from 'components/Goals/Goal';
+import styled from 'styled-components';
 
 interface Props {
   actions: {
@@ -17,14 +19,31 @@ interface Props {
     getClients(): Promise<void>;
   };
   client?: Client;
+  history: History;
 }
 
-export const GoalListLayout: React.SFC<{ goals: string[]; client: Client }> = ({
+interface GoalListLayoutProps {
+  goals: string[];
+  client: Client;
+  history: History;
+}
+
+export const GoalListLayout: React.SFC<GoalListLayoutProps> = ({
   goals,
   client,
+  history,
 }) => (
   <div>
-    <GoalList goals={goals} client={client} />
+    <GoalList goals={goals}>
+      {childProps => (
+        <Goal
+          {...childProps}
+          onEdit={() =>
+            history.push(`/clients/${client.id}/goals/${childProps.index}/edit`)
+          }
+        />
+      )}
+    </GoalList>
     <Flex justifyContent="center">
       <Link to={`/clients/${client.id}/goals/new`}>
         <Button>New Goal</Button>
@@ -45,12 +64,14 @@ export class ViewGoalList extends React.Component<Props> {
   }
 
   render() {
+    const { client, history } = this.props;
     return (
       <Box width={1} p={4}>
         {this.hasGoals() ? (
           <GoalListLayout
-            goals={this.props.client ? this.props.client.goals : []}
-            client={this.props.client}
+            goals={client ? client.goals : []}
+            client={client}
+            history={history}
           />
         ) : (
           <NoGoals client={this.props.client} />
@@ -67,6 +88,7 @@ export class ViewGoalList extends React.Component<Props> {
     );
   }
 }
+
 const mapStateToProps = (state, props) => {
   return {
     client: state.clients.clients.find(c => c.id == props.match.params.id),
