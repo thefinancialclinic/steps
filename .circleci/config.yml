@@ -104,9 +104,8 @@ jobs:
           environment:
             NODE_ENV: production
             API_URL: /api
-            AUTH0_ENABLED: true
             PORT: "3000"
-            AUTH0_ENABLED: false
+            AUTH0_ENABLED: "false"
           command: ./run-cypress.sh cypress/integration/api/authz_spec.js
 
       - store_artifacts:
