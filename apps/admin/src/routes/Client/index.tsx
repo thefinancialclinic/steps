@@ -9,7 +9,7 @@ import TaskShow from './TaskShow';
 import GoalList from './Goals/GoalList';
 import EditGoal from './Goals/EditGoal';
 
-const Client: RoutesElement = ({ user }) => {
+const Client: RoutesElement = ({ user, org }) => {
   if (!user) return null;
 
   const links = [
@@ -22,7 +22,7 @@ const Client: RoutesElement = ({ user }) => {
 
   return (
     <div>
-      <TopBar user={user} />
+      <TopBar user={user} org={org} />
       <Alert />
       <Switch>
         <Route path="/tasks/:id" render={composeLayout(TaskShow)} />

@@ -1,23 +1,24 @@
 import NavDropdown from 'components/Dropdowns/NavDropdown';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { User } from 'reducers/auth';
+import { User, Org } from 'reducers/auth';
 import styled from 'styled-components';
 import { darkBlue, white } from 'styles/colors';
 import { serif } from 'styles/type';
 
 interface Props {
   color?: string;
-  user?: User;
+  user: User;
+  org?: Org;
 }
 
 class TopBar extends React.Component<Props> {
   render() {
-    const { user } = this.props;
+    const { user, org } = this.props;
 
     return (
       <StyledTopBar>
-        <Link to="/">{user.org.name}</Link>
+        <Link to="/">{org && org.name}</Link>
         <NavDropdown
           title={`${user.first_name} ${user.last_name}`}
           links={[

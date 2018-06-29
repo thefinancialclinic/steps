@@ -41,7 +41,6 @@ export type User = {
   status?: string;
   type: null | USER_TYPE;
   updated?: string;
-  org?: Org;
 };
 
 export interface State {

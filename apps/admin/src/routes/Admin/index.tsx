@@ -11,7 +11,7 @@ import AdminStaff from './Staff';
 import TopBar from 'components/TopBar';
 import Alert from 'containers/Alert';
 
-const Admin: RoutesElement = ({ user }) => {
+const Admin: RoutesElement = ({ user, org }) => {
   if (!user) return null;
 
   const links = [
@@ -25,7 +25,7 @@ const Admin: RoutesElement = ({ user }) => {
 
   return (
     <div>
-      <TopBar user={user} />
+      <TopBar user={user} org={org} />
       <Alert />
       <Switch>
         <Route path="/profile/edit" render={composeLayout(AdminEditProfile)} />
