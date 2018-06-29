@@ -43,19 +43,21 @@ class Clients extends React.Component<Props, {}> {
 
         return (
           <Flex className="clients" flexDirection="column">
-            <GroupTitle>{title} <span className="count">({collection.length})</span></GroupTitle>
-            <Flex flexDirection="row" mx='-10px'>
-            {collection.map((client, key) => (
-              <Box key={key} width={[1, 1 / 3, 1 / 5]}>
-                <StyledLink to={`/clients/${client.id}`}>
-                  <NameCard
-                    title={`${client.first_name} ${client.last_name}`}
-                    status={client.status}
-                    subtitle=""
-                  />
-                </StyledLink>
-              </Box>
-            ))}
+            <GroupTitle>
+              {title} <span className="count">({collection.length})</span>
+            </GroupTitle>
+            <Flex flexDirection="row" mx="-10px">
+              {collection.map((client, key) => (
+                <Box key={key} width={[1, 1 / 3, 1 / 5]}>
+                  <StyledLink to={`/clients/${client.id}`}>
+                    <NameCard
+                      title={`${client.first_name} ${client.last_name}`}
+                      status={client.status}
+                      subtitle=""
+                    />
+                  </StyledLink>
+                </Box>
+              ))}
             </Flex>
           </Flex>
         );
