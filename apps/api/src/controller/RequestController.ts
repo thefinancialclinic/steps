@@ -49,4 +49,8 @@ export class RequestController {
       await this.userRepo.update({ status: 'WORKING' }, requestItem.user_id);
     }
   }
+
+  async isAllowed({ user, params, method }) {
+    return true;
+  }
 }

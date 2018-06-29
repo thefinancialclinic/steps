@@ -38,15 +38,7 @@ export const signup = (userType, userAttrs) => async () => {
     userAttrs.auth0_id = auth0User.Id;
     userAttrs.type = userType;
     delete userAttrs.password;
-    if (userType === USER_TYPE.ADMIN) {
-      const org = await api.post('/orgs', {
-        name: userAttrs.organization_name,
-      });
-      userAttrs.org_id = parseInt(org.data.id.id);
-    }
-    userAttrs.goals = [];
-    userAttrs.status = 'WORKING';
-    await api.post('/users', userAttrs);
+    await api.post('/signup', userAttrs);
     auth0.login(email, password);
   } catch (err) {
     const { message } = err;
