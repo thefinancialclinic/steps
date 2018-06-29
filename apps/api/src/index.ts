@@ -18,22 +18,33 @@ import { userPermissionMiddleware } from './permission';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
-import 'dotenv/config';
+require('dotenv').config({ path: '../../.env' });
 import { AuthController } from './controller/AuthController';
 
-const isProduction = process.env.NODE_ENV === 'production';
-const isCI = process.env.CI && JSON.parse(process.env.CI) === true;
-const PORT = process.env.PORT || '3001';
+const {
+  NODE_ENV,
+  CI,
+  PORT,
+  DATABASE_URL,
+  ENABLE_POSTGRAPHILE,
+  AUTH0_ENABLED,
+} = process.env;
+
+const isProduction = NODE_ENV === 'production';
+const isCI = CI && JSON.parse(CI) === true;
+const port = PORT || '3001';
 const localConnString = 'postgres://postgres@localhost:5432/steps_admin_test';
-const databaseUrl = process.env.DATABASE_URL || localConnString;
+
+const databaseUrl = DATABASE_URL || localConnString;
 const connUrl = url.parse(databaseUrl);
 const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
-const ENABLE_POSTGRAPHILE = process.env.ENABLE_POSTGRAPHILE === 'true';
-const AUTH0_ENABLED = process.env.AUTH0_ENABLED === 'true';
+
+const enablePostgraphile = ENABLE_POSTGRAPHILE === 'true';
+const enableAuth0 = AUTH0_ENABLED === 'true';
 
 // Auth0 Config
-const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE;
-const AUTH0_ISSUER = process.env.AUTH0_ISSUER;
+const { AUTH0_AUDIENCE, AUTH0_DOMAIN } = process.env;
+const AUTH0_ISSUER = `https://${AUTH0_DOMAIN}/`;
 
 export const pool = new Pool({
   user: connUrl.auth.split(':')[0],
@@ -154,7 +165,7 @@ const userIdAuthMiddleware = (req, res, next) => {
 };
 
 const middlewareForEnivronment = controller => {
-  if (AUTH0_ENABLED) {
+  if (enableAuth0) {
     return [
       checkJwt, // JWT -> adds req.token
       bearerTokenAuthMiddleware, // token -> req.'x-userid'
@@ -207,7 +218,7 @@ app.get('/api/user', checkJwt, async (req, res, next) => {
 });
 
 // Postgraphile
-if (ENABLE_POSTGRAPHILE) {
+if (enablePostgraphile) {
   app.use(postgraphile(databaseUrl, 'public', { graphiql: true }));
 }
 
@@ -220,8 +231,8 @@ if (isProduction) {
 ////////////////////////////////////////////////////////////////////////////////
 // Run server
 
-app.listen(PORT);
-console.log(`Express server has started on port ${PORT}.`);
+app.listen(port);
+console.log(`Express server has started on port ${port}.`);
 process.env.NODE_ENV !== 'production'
   ? console.log('docs at: /api-docs')
   : false;
