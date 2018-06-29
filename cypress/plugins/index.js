@@ -26,7 +26,7 @@ module.exports = (on, config) => {
           env: {
             API_URL: 'http://localhost:3001/api',
             AUTH0_BEARER_TOKEN: CYPRESS_AUTH0_BEARER_TOKEN,
-            AUTH0_ENABLED: AUTH0_ENABLED,
+            AUTH0_ENABLED,
           },
           defaultCommandTimeout: 10000,
         };
