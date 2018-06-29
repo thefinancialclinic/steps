@@ -2,7 +2,7 @@ import { Request } from 'express';
 import { UserRepository, User } from '../repository/UserRepository';
 
 export const getUserFromAuthToken: (
-  request: Request & { token: any },
+  request: any,
   repo: UserRepository,
 ) => Promise<User> = async (req, repo) => {
   let _provider, id;
