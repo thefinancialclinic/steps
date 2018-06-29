@@ -6,8 +6,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { RoutesElement } from '..';
 import TasksList from './TasksList';
 import TaskShow from './TaskShow';
-import GoalList from './Goals/GoalList';
-import EditGoal from './Goals/EditGoal';
+import GoalList from './GoalList';
 
 const Client: RoutesElement = ({ user, org }) => {
   if (!user) return null;
@@ -27,7 +26,6 @@ const Client: RoutesElement = ({ user, org }) => {
       <Switch>
         <Route path="/tasks/:id" render={composeLayout(TaskShow)} />
         <Route path="/tasks" render={composeLayout(TasksList)} />
-        <Route path="/goals/:id/edit" render={composeLayout(EditGoal)} />
         <Route path="/goals" render={composeLayout(GoalList)} />
         <Route exact path="/" render={_props => <Redirect to="/tasks" />} />
       </Switch>

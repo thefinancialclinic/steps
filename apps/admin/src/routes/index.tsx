@@ -40,7 +40,6 @@ class Routes extends React.Component<Props, {}> {
       actions.getAuthenticatedUser().then(() => {
         if (user.org_id) {
           actions.getOrg(user.org_id);
-          console.log(this.props.org);
         }
       });
   }

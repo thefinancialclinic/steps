@@ -8,15 +8,17 @@ import { Flex } from 'grid-styled';
 
 interface Props {
   text: string;
-  onEdit(): void;
+  onEdit?(): void;
   className?: string;
 }
 
 const Goal: React.SFC<Props> = ({ text, onEdit, className }) => (
   <Panel className={className}>
-    <Flex justifyContent="flex-end">
-      <EditButton component="Goal" onClick={onEdit} />
-    </Flex>
+    {onEdit && (
+      <Flex justifyContent="flex-end">
+        <EditButton component="Goal" onClick={onEdit} />
+      </Flex>
+    )}
     <Flex flexDirection="column" alignItems="center">
       <StarIcon className="material-icons">star</StarIcon>
       <StyledText>{text}</StyledText>
