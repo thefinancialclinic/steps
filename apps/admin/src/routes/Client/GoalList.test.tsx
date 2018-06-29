@@ -18,13 +18,4 @@ describe('ToalsList.tsx', () => {
 
     expect(goalsList).toHaveLength(2);
   });
-
-  it('routes to /goals/edit', () => {
-    const wrapper = shallow(<Goals history={history} goals={goals} />);
-    const goalsList = wrapper.dive().find(Goal);
-
-    goalsList.first().simulate('edit');
-
-    expect(history.push).toHaveBeenCalledWith('/goals/0/edit');
-  });
 });
