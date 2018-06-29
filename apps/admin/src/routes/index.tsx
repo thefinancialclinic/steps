@@ -14,13 +14,19 @@ import AuthRoutes from './Auth/index';
 import Login from 'routes/Auth/Login';
 import { getAuthenticatedUser, getOrg } from 'actions/auth';
 import { bindActionCreators } from 'redux';
+import { addAlert } from 'actions/alerts';
+import { AlertLevel } from 'components/Alert/types';
 
 interface Props {
   children?: any;
   user: null | User;
   org?: Org;
   history: any;
-  actions: { getAuthenticatedUser: Function; getOrg: Function };
+  actions: {
+    getAuthenticatedUser: Function;
+    getOrg: Function;
+    addAlert: Function;
+  };
   isAuthenticated: null | boolean;
 }
 
@@ -37,11 +43,20 @@ class Routes extends React.Component<Props, {}> {
   componentDidMount() {
     const { actions, user } = this.props;
     process.env.AUTH0_ENABLED === 'true' &&
-      actions.getAuthenticatedUser().then(() => {
-        if (user.org_id) {
-          actions.getOrg(user.org_id);
-        }
-      });
+      actions
+        .getAuthenticatedUser()
+        .then(() => {
+          if (user.org_id) {
+            actions.getOrg(user.org_id);
+          }
+        })
+        .catch(err => {
+          actions.addAlert({
+            level: AlertLevel.Error,
+            message: err.message,
+            id: 'user-authentication-error',
+          });
+        });
   }
 
   render() {
@@ -87,7 +102,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ getAuthenticatedUser, getOrg }, dispatch),
+  actions: bindActionCreators(
+    { getAuthenticatedUser, getOrg, addAlert },
+    dispatch,
+  ),
 });
 
 export default withRouter(
