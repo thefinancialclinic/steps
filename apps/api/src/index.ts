@@ -28,6 +28,7 @@ const localConnString = 'postgres://postgres@localhost:5432/steps_admin_test';
 const databaseUrl = process.env.DATABASE_URL || localConnString;
 const connUrl = url.parse(databaseUrl);
 const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
+const ENABLE_POSTGRAPHILE = process.env.ENABLE_POSTGRAPHILE === 'true';
 
 // Auth0 Config
 const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE;
@@ -123,7 +124,9 @@ app.get('/api/user', checkJwt, async (req, res, next) => {
 });
 
 // Postgraphile
-app.use(postgraphile(databaseUrl, 'public', { graphiql: true }));
+if (ENABLE_POSTGRAPHILE) {
+  app.use(postgraphile(databaseUrl, 'public', { graphiql: true }));
+}
 
 // Send any unmatched routes to the React app for frontend routing
 if (isProduction) {
