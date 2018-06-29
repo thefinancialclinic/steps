@@ -6,17 +6,17 @@ export type OrgId = number;
 export type OrgOpts = {
   id?: OrgId;
   name: string;
-  sms_number: string;
+  sms_number?: string;
   logo?: string;
 };
 
 export class Org {
   id?: number;
   name: string;
-  sms_number: string;
+  sms_number?: string;
   logo?: string;
 
-  constructor(opts: OrgOpts) {
+  constructor(opts: Partial<Org>) {
     this.id = opts.id;
     this.name = opts.name;
     this.sms_number = opts.sms_number;
@@ -26,6 +26,26 @@ export class Org {
 
 export class OrgRepository implements Repository<OrgId, Org> {
   constructor(public pool: Pool) {}
+
+  async get(conditions = {}) {
+    let client;
+    try {
+      client = await this.pool.connect();
+      let q = 'SELECT * FROM org WHERE 1 = 1';
+      let val;
+      Object.keys(conditions).forEach(label => {
+        val = conditions[label];
+        val = typeof val === 'string' ? client.escapeLiteral(val) : val;
+        q = q + ` AND ${client.escapeIdentifier(label)} = ${val}`;
+      });
+      const res = await this.pool.query(q);
+      return res.rows.map(user => new Org(user));
+    } catch (err) {
+      throw `Could not query Orgs (${err})`;
+    } finally {
+      client.release();
+    }
+  }
 
   async getOne(oid: OrgId) {
     const res = await this.pool.query(`SELECT * FROM org WHERE id = $1`, [oid]);

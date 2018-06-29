@@ -70,21 +70,43 @@ jobs:
             npm test
 
       - run:
+          name: Drop test DB
+          command: dropdb -U postgres -h localhost steps_admin_test
+
+      - run:
+          name: Create test DB
+          command: createdb -U postgres -h localhost steps_admin_test
+
+      - run:
+          name: Database migrations
+          command: sqitch deploy --target pg://postgres@localhost/steps_admin_test
+
+      - run:
           name: build
           environment:
             NODE_ENV: production
             API_URL: /api
+            AUTH0_ENABLED: "true"
           command: |
             $(npm bin)/lerna run build --stream
 
       - run:
-          name: cypress
+          name: cypress (Auth0 Enabled)
           environment:
             NODE_ENV: production
             API_URL: /api
-            AUTH0_ENABLED: true
             PORT: "3000"
-          command: ./run-cypress.sh
+            AUTH0_ENABLED: "true"
+          command: ./run-cypress.sh cypress/integration/coach_spec.js
+
+      - run:
+          name: cypress (Auth0 Disabled)
+          environment:
+            NODE_ENV: production
+            API_URL: /api
+            PORT: "3000"
+            AUTH0_ENABLED: "false"
+          command: ./run-cypress.sh cypress/integration/api/authz_spec.js
 
       - store_artifacts:
           path: cypress/videos

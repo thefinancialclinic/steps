@@ -1,4 +1,4 @@
-const { API_URL } = Cypress.env();
+const { API_URL, AUTH0_BEARER_TOKEN } = Cypress.env();
 let user, org, coach, task;
 
 const taskTitle = 'The ultra awesome task';
@@ -17,27 +17,51 @@ Cypress.Commands.add('setUser', u => {
 });
 
 Cypress.Commands.add('cleanCoach', () => {
-  cy.request('DELETE', `${API_URL}/coaches/${coach.id}`);
-  cy.request('DELETE', `${API_URL}/orgs/${org.id}`);
+  cy.request({
+    method: 'DELETE',
+    url: `${API_URL}/coaches/${coach}`,
+    headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+  });
+  cy.request({
+    method: 'DELETE',
+    url: `${API_URL}/orgs/${org}`,
+    headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+  });
 });
 
 Cypress.Commands.add('clearJohnDoe', () => {
   cy.log('Clean up test data');
 
-  cy.request('GET', `${API_URL}/clients`).then(({ body: clients }) => {
+  cy.request({
+    method: 'GET',
+    url: `${API_URL}/clients`,
+    headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+  }).then(({ body: clients }) => {
     const johns = clients.filter(
       c => c.first_name === 'John' && c.last_name === 'Doe',
     );
-    johns.forEach(j =>
-      cy
-        .request('GET', `${API_URL}/clients/${j.id}/tasks`)
-        .then(({ body: tasks }) => {
-          tasks.forEach(t => {
-            cy.request('DELETE', `${API_URL}/tasks/${t.id}`);
+    johns.forEach(j => {
+      console.log({ j });
+      cy.request({
+        method: 'GET',
+        url: `${API_URL}/clients/${j.id}/tasks`,
+        headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+      }).then(({ body: tasks }) => {
+        console.log(tasks);
+        tasks.forEach(t => {
+          cy.request({
+            method: 'DELETE',
+            url: `${API_URL}/tasks/${t.id}`,
+            headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
           });
-          cy.request('DELETE', `${API_URL}/clients/${j.id}`);
-        }),
-    );
+        });
+        cy.request({
+          method: 'DELETE',
+          url: `${API_URL}/clients/${j.id}`,
+          headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+        });
+      });
+    });
   });
 });
 
@@ -70,32 +94,50 @@ describe('Auth', () => {
 
 describe('Coach', () => {
   before(() => {
-    cy.request('POST', `${API_URL}/orgs`, {
-      name: 'My Org',
-      sms_number: '1234567890',
+    cy.request({
+      method: 'POST',
+      url: `${API_URL}/orgs`,
+      body: {
+        name: 'My Org',
+        sms_number: '1234567890',
+      },
+      headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
     }).then(resp => {
       org = resp.body.id;
-      cy.request('POST', `${API_URL}/coaches`, {
-        first_name: 'Coach',
-        last_name: 'Bob',
-        email: COACH_EMAIL,
-        org_id: org.id,
-        color: 'red',
-        goals: [],
-        status: 'AWAITING_HELP',
-        checkin_times: [],
-        auth0_id: COACH_AUTH0_ID,
+      console.log({ org });
+
+      cy.request({
+        method: 'POST',
+        url: `${API_URL}/coaches`,
+        body: {
+          first_name: 'Coach',
+          last_name: 'Bob',
+          email: COACH_EMAIL,
+          org_id: org,
+          color: 'red',
+          goals: [],
+          status: 'AWAITING_HELP',
+          checkin_times: [],
+          auth0_id: COACH_AUTH0_ID,
+        },
+        headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
       }).then(r => {
         coach = r.body.id;
+        console.log({ coach });
       });
     });
 
-    cy.request('POST', `${API_URL}/tasks`, {
-      title: taskTitle,
-      category: 'category',
-      user_id: null,
-      status: 'ACTIVE',
-      date_created: new Date(),
+    cy.request({
+      method: 'POST',
+      url: `${API_URL}/tasks`,
+      body: {
+        title: taskTitle,
+        category: 'category',
+        user_id: null,
+        status: 'ACTIVE',
+        date_created: new Date(),
+      },
+      headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
     }).then(r => {
       task = r.body.id;
     });

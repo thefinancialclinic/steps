@@ -73,7 +73,7 @@ describe('API endpoints (accessed directly)', () => {
             }).then(resp => {
               mediaId = resp.body.id;
 
-              cy.request(
+              request(
                 'POST',
                 `${API_URL}/clients/${clientId}/viewed_media/${mediaId}`,
               );
@@ -85,7 +85,7 @@ describe('API endpoints (accessed directly)', () => {
   });
 
   after(() => {
-    cy.request(
+    request(
       'DELETE',
       `${API_URL}/clients/${clientId}/viewed_media/${mediaId}`,
     ).then(() =>
@@ -235,5 +235,37 @@ describe('API endpoints (accessed directly)', () => {
           );
         });
       });
+    });
+
+  it('Missing auth header', () => {
+    cy.request({
+      method: 'GET',
+      url: 'http://localhost:3001/api/clients',
+      failOnStatusCode: false,
+    }).then(response => {
+      expect(response.status).to.equal(403);
+    });
+  });
+
+  it('Malformed auth header', () => {
+    cy.request({
+      method: 'GET',
+      url: 'http://localhost:3001/api/clients',
+      headers: { 'X-UserId': 'BARF' },
+      failOnStatusCode: false,
+    }).then(response => {
+      expect(response.status).to.equal(400);
+    });
+  });
+
+  it('Unknown user attempts auth', () => {
+    cy.request({
+      method: 'GET',
+      url: 'http://localhost:3001/api/clients',
+      headers: { 'X-UserId': -1 },
+      failOnStatusCode: false,
+    }).then(response => {
+      expect(response.status).to.equal(404);
+    });
   });
 });

@@ -89,89 +89,123 @@ export class UserRepository implements Repository<UserId, User> {
     return new User(res.rows[0]);
   }
 
+  async save(user: Partial<User>): Promise<User> {
+    try {
+      const res = await this.pool.query(
+        `
+        INSERT INTO "user" (
+          first_name,
+          last_name,
+          email,
+          phone,
+          coach_id,
+          org_id,
+          color,
+          goals,
+          status,
+          type,
+          updated,
+          platform,
+          image,
+          follow_up_date,
+          plan_url,
+          checkin_times,
+          topic,
+          fb_id,
+          temp_help_response,
+          auth0_id
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
+        RETURNING *
+      `,
+        [
+          user.first_name,
+          user.last_name,
+          user.email,
+          user.phone,
+          user.coach_id,
+          user.org_id,
+          user.color,
+          user.goals,
+          user.status,
+          user.type,
+          user.updated,
+          user.platform,
+          user.image,
+          user.follow_up_date,
+          user.plan_url,
+          user.checkin_times,
+          user.topic,
+          user.fb_id,
+          user.temp_help_response,
+          user.auth0_id,
+        ],
+      );
+      return new User(res.rows[0]);
+    } catch (err) {
+      throw `Could not create user (${err})`;
+    }
+  }
+
+  async get(conditions = {}) {
+    let client;
+    try {
+      client = await this.pool.connect();
+      let q = 'SELECT * FROM "user" WHERE 1 = 1';
+      let val;
+      Object.keys(conditions).forEach(label => {
+        val = conditions[label];
+        val = typeof val === 'string' ? client.escapeLiteral(val) : val;
+        q = q + ` AND ${client.escapeIdentifier(label)} = ${val}`;
+      });
+      const res = await this.pool.query(q);
+      return res.rows.map(user => new User(user));
+    } catch (err) {
+      throw `Could not query Users (${err})`;
+    } finally {
+      client.release();
+    }
+  }
+
   async getOne(uid: UserId) {
-    const res = await this.pool.query(`SELECT * FROM "user" WHERE id = $1`, [
-      uid,
-    ]);
-    return new User(res.rows[0]);
+    let result;
+    try {
+      result = await this.get({ id: uid });
+      return result[0];
+    } catch (err) {
+      throw `Could not get User (${err})`;
+    }
   }
 
   async getAll() {
-    const res = await this.pool.query(`SELECT * FROM "user"`);
-    return res.rows.map(row => new User(row));
+    return this.get({});
   }
 
-  async save(user: User): Promise<User> {
-    const res = await this.pool.query(
-      `
-      INSERT INTO "user" (
-        first_name,
-        last_name,
-        email,
-        phone,
-        coach_id,
-        org_id,
-        color,
-        goals,
-        status,
-        type,
-        updated,
-        platform,
-        image,
-        follow_up_date,
-        plan_url,
-        checkin_times,
-        topic,
-        fb_id,
-        temp_help_response,
-        auth0_id
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
-      RETURNING *
-    `,
-      [
-        user.first_name,
-        user.last_name,
-        user.email,
-        user.phone,
-        user.coach_id,
-        user.org_id,
-        user.color,
-        user.goals,
-        user.status,
-        user.type,
-        user.updated,
-        user.platform,
-        user.image,
-        user.follow_up_date,
-        user.plan_url,
-        user.checkin_times,
-        user.topic,
-        user.fb_id,
-        user.temp_help_response,
-        user.auth0_id,
-      ],
-    );
-    return new User(res.rows[0]);
-  }
-
-  async update(userOpts: Partial<User>, userId: UserId): Promise<User> {
+  async update(userOpts: Partial<User>, conditions = {}): Promise<User> {
     if (Object.keys(userOpts).length === 0) {
-      return this.getOne(userId);
+      if (conditions['id']) {
+        return (await this.get({ id: conditions['id'] }))[0];
+      } else {
+        throw 'Cannot update User, "id" is missing.';
+      }
     }
     const client = await this.pool.connect();
     const rawColumns = Object.keys(userOpts);
     const columns = rawColumns.map(col => client.escapeIdentifier(col));
     const values = rawColumns.map(col => userOpts[col]);
-    const valPlaceholders = placeholders(2, values.length);
+    const valPlaceholders = placeholders(1, values.length);
     try {
-      const res = await client.query(
-        `
+      let q: string = `
         UPDATE "user" SET (${columns.join(', ')}) = ROW(${valPlaceholders})
-        WHERE id = $1
-        RETURNING *
-      `,
-        [userId, ...values],
-      );
+        WHERE 1 = 1
+      `;
+      let val;
+      Object.keys(conditions).forEach(label => {
+        val = conditions[label];
+        val = typeof val === 'string' ? client.escapeLiteral(val) : val;
+        q = q + ` AND ${client.escapeIdentifier(label)} = ${val}`;
+      });
+      q = q + ' RETURNING *';
+      const res = await client.query(q, values);
       return new User(res.rows[0]);
     } catch (err) {
       throw `Could not update User (${err})`;
@@ -186,6 +220,13 @@ export class UserRepository implements Repository<UserId, User> {
     ]);
     return res.rowCount;
   }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Parameterized (CRUD)
+
+  // Get all users but restrict the query based on the given conditions:
+  //   an argument of: {type: 'Client'}
+  //   runs the query: SELECT * FROM "user" WHERE 1=1 AND type = 'Client'
 
   // Parameterized
   async getAllByType(type: UserType): Promise<User[]> {
@@ -217,11 +258,15 @@ export class UserRepository implements Repository<UserId, User> {
 
   // TEMPORARY: Seeding DB
   async seed() {
-    await this.pool.query(`
-      INSERT INTO "user" (id, first_name, last_name, email, org_id, color, status, "type")
-      VALUES (1, 'First', 'Last', 'coach@example.com', 1, 'blue', 'WORKING', 'Coach')
+    const idToken = process.env.AUTH0_SUPERADMIN_ID;
+    await this.pool.query(
+      `
+      INSERT INTO "user" (id, first_name, last_name, email, org_id, color, status, "type", auth0_id)
+      VALUES (1, 'Super', 'Admin', 'superadmin@example.com', 1, 'blue', 'WORKING', 'Superadmin', $1)
       ON CONFLICT (id) DO NOTHING;
-    `);
+    `,
+      [idToken],
+    );
 
     // advance the auto-incrementing sequence by one. This avoids the
     // problem that the next (very first!) User to be added will clash
