@@ -12,7 +12,8 @@ import Main from 'atoms/Main';
 import PageHeader from 'components/Headers/PageHeader';
 import BackButton from 'atoms/Buttons/BackButton';
 import Button from 'atoms/Buttons/Button';
-import { black } from 'styles/colors';
+import { grey, black } from 'styles/colors';
+import { sansSerif, remCalc } from 'styles/type';
 
 interface Props {
   className?: string;
@@ -28,25 +29,50 @@ class Clients extends React.Component<Props, {}> {
   render() {
     const { clients, className } = this.props;
 
-    const ClientsList =
-      clients.length > 0 ? (
-        clients.map((client, key) => (
-          <Box key={key} width={[1, 1 / 3, 1 / 5]}>
-            <StyledLink to={`/clients/${client.id}`}>
-              <NameCard
-                title={`${client.first_name} ${client.last_name}`}
-                subtitle=""
-              />
-            </StyledLink>
-          </Box>
-        ))
-      ) : (
+    let ClientsList;
+    if (clients.length === 0) {
+      ClientsList = (
         <Panel>
           Looks like you don’t have any clients using this program. At your next
           client session, invite them to join.
         </Panel>
       );
+    } else {
+      const ClientGroup = ({ collection, title }) => {
+        if (collection.length === 0) return null;
 
+        return (
+          <Flex className="clients" flexDirection="column">
+            <GroupTitle>{title} <span className="count">({collection.length})</span></GroupTitle>
+            <Flex flexDirection="row" mx='-10px'>
+            {collection.map((client, key) => (
+              <Box key={key} width={[1, 1 / 3, 1 / 5]}>
+                <StyledLink to={`/clients/${client.id}`}>
+                  <NameCard
+                    title={`${client.first_name} ${client.last_name}`}
+                    status={client.status}
+                    subtitle=""
+                  />
+                </StyledLink>
+              </Box>
+            ))}
+            </Flex>
+          </Flex>
+        );
+      };
+
+      const clientsNeedingHelp = clients.filter(
+        c => c.status === 'AWAITING_HELP',
+      );
+      const otherClients = clients.filter(c => c.status !== 'AWAITING_HELP');
+
+      ClientsList = (
+        <Box width={1}>
+          <ClientGroup collection={clientsNeedingHelp} title="Awaiting Help" />
+          <ClientGroup collection={otherClients} title="Everyone Else" />
+        </Box>
+      );
+    }
     return (
       <Main className={className}>
         <BackButtonContainer>
@@ -57,9 +83,7 @@ class Clients extends React.Component<Props, {}> {
             <Button>Add New Client</Button>
           </Link>
         </PageHeader>
-        <Flex className="clients" flexWrap="wrap">
-          {ClientsList}
-        </Flex>
+        {ClientsList}
       </Main>
     );
   }
@@ -76,6 +100,18 @@ const StyledLink = styled(Link)`
   &:active,
   &:visited {
     color: ${black};
+  }
+`;
+
+const GroupTitle = styled.h4`
+  font-family: ${sansSerif};
+  font-size: ${remCalc(16)};
+  font-weight: 500;
+  margin-bottom: ${remCalc(10)};
+  text-transform: uppercase;
+
+  .count {
+    color: ${grey};
   }
 `;
 
