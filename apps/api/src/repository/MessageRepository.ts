@@ -10,17 +10,6 @@ export type ObjectType = {
   [key: string]: string | number | boolean | ObjectType;
 };
 
-export type MessageOpts = {
-  id?: MessageId;
-  text: string;
-  to_user: UserId;
-  from_user: UserId;
-  media_id?: MediaId;
-  request_id?: RequestId;
-  timestamp: Date;
-  responses?: ObjectType;
-};
-
 export class Message {
   id: MessageId;
   text: string;
@@ -30,8 +19,9 @@ export class Message {
   request_id?: RequestId;
   timestamp: Date;
   responses?: ObjectType;
+  topic?: string;
 
-  constructor(opts: MessageOpts) {
+  constructor(opts: Partial<Message>) {
     this.id = opts.id;
     this.text = opts.text;
     this.to_user = opts.to_user;
@@ -40,6 +30,7 @@ export class Message {
     this.request_id = opts.request_id;
     this.timestamp = opts.timestamp;
     this.responses = opts.responses;
+    this.topic = opts.topic;
   }
 }
 
@@ -60,30 +51,36 @@ export class MessageRepository implements Repository<MessageId, Message> {
   }
 
   async save(msg: Message): Promise<Message> {
-    const res = await this.pool.query(
-      `
-      INSERT INTO public.message (
-        text,
-        to_user,
-        from_user,
-        media_id,
-        request_id,
-        timestamp,
-        responses
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7)
-      RETURNING *
-    `,
-      [
-        msg.text,
-        msg.to_user,
-        msg.from_user,
-        msg.media_id,
-        msg.request_id,
-        msg.timestamp,
-        msg.responses,
-      ],
-    );
-    return new Message(res.rows[0]);
+    try {
+      const res = await this.pool.query(
+        `
+        INSERT INTO public.message (
+          text,
+          to_user,
+          from_user,
+          media_id,
+          request_id,
+          timestamp,
+          responses,
+          topic
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        RETURNING *
+      `,
+        [
+          msg.text,
+          msg.to_user,
+          msg.from_user,
+          msg.media_id,
+          msg.request_id,
+          msg.timestamp,
+          msg.responses,
+          msg.topic,
+        ],
+      );
+      return new Message(res.rows[0]);
+    } catch (err) {
+      throw `Could not create message (${err})`;
+    }
   }
 
   async get(conditions = {}) {

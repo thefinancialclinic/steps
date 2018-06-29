@@ -15,3 +15,4 @@ user_auth0_id [appschema] 2018-06-24T21:09:12Z Connor Mendenhall <connor@8thligh
 org_sms_number_nullable [appschema] 2018-06-25T16:23:53Z Connor Mendenhall <connor@8thlight.com> # Make org.sms_number nullable
 user_color_nullable [appschema] 2018-06-25T16:26:54Z Connor Mendenhall <connor@8thlight.com> # Make user.color nullable.
 task_ordering [appschema] 2018-06-25T17:52:35Z Kevin Altman <kevin@adorable.io> # add ordering for tasks
+message_topic [appschema] 2018-06-29T20:19:24Z Chris Wilson <chris@adorable.io> # Add topic field to message
