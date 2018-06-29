@@ -30,6 +30,26 @@ export class RequestItem {
 export class RequestRepository implements Repository<RequestId, RequestItem> {
   constructor(public pool: Pool) {}
 
+  async get(conditions = {}) {
+    let client;
+    try {
+      client = await this.pool.connect();
+      let q = 'SELECT * FROM task WHERE 1 = 1';
+      let val;
+      Object.keys(conditions).forEach(label => {
+        val = conditions[label];
+        val = typeof val === 'string' ? client.escapeLiteral(val) : val;
+        q = q + ` AND ${client.escapeIdentifier(label)} = ${val}`;
+      });
+      const res = await this.pool.query(q);
+      return res.rows.map(user => new RequestItem(user));
+    } catch (err) {
+      throw `Could not query Tasks (${err})`;
+    } finally {
+      client.release();
+    }
+  }
+
   async getOne(id: RequestId) {
     const res = await this.pool.query(`SELECT * FROM request WHERE id = $1`, [
       id,
