@@ -2,7 +2,7 @@ import { shallow } from 'enzyme';
 import 'jest';
 import * as React from 'react';
 import { GoalList } from './GoalList';
-import Goal from './goal';
+import Goal from './Goal';
 
 describe('GoalList.tsx', () => {
   it('displays a list of goals', () => {

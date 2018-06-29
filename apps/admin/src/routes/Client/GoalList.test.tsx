@@ -11,7 +11,7 @@ describe('ToalsList.tsx', () => {
   };
 
   it('displays goals', () => {
-    const wrapper = shallow(<Goals history={history} goals={goals} />);
+    const wrapper = shallow(<Goals goals={goals} />);
 
     expect(wrapper).toMatchSnapshot();
     const goalsList = wrapper.dive().find(Goal);

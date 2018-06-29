@@ -1,7 +1,7 @@
 import Goal from 'components/Goals/Goal';
 import { GoalList } from 'components/Goals/GoalList';
 import React from 'react';
-import { connect, History } from 'react-redux';
+import { connect } from 'react-redux';
 
 interface Props {
   goals: string[];
