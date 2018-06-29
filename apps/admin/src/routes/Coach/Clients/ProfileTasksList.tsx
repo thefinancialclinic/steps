@@ -9,6 +9,7 @@ import SortableTaskList from 'components/Tasks/SortableTaskList';
 import TermsModal, { TERMS } from 'components/Clients/TermsModal';
 import Modal from 'containers/Modal';
 import { ModalSize } from 'components/Modal';
+import NoTasks from 'components/Tasks/NoTasks';
 
 import { Client } from 'reducers/clients';
 import { Task } from 'reducers/tasks';
@@ -44,12 +45,15 @@ class Tasks extends React.Component<Props, {}> {
         match={match}
       />
     ) : (
-      <Modal size={ModalSize.Large} id={TERMS}>
-        <TermsModal
-          onClose={() => actions.hideModal(TERMS)}
-          phoneNumber="+16467988004"
-        />
-      </Modal>
+      <div>
+        <NoTasks user={user} />
+        <Modal size={ModalSize.Large} id={TERMS}>
+          <TermsModal
+            onClose={() => actions.hideModal(TERMS)}
+            phoneNumber="+16467988004"
+          />
+        </Modal>
+      </div>
     );
   }
 }

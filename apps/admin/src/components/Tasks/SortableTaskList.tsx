@@ -11,7 +11,6 @@ import uniq from 'lodash/uniq';
 
 import Button from 'atoms/Buttons/Button';
 import Filter, { FilterCategory } from 'components/Filter';
-import NoTasks from './NoTasks';
 
 import TaskList from './TaskList';
 import TaskListItem, { TaskListItemProps } from './TaskListItem';
@@ -94,8 +93,6 @@ export default class SortableTaskList extends React.Component<Props, State> {
 
   render() {
     const { tasks, user, match, actions } = this.props;
-    if (tasks.length === 0) return <NoTasks user={user} />;
-
     const { categories } = this.state;
     const filteredTasks = tasks.filter(t =>
       categories.map(c => !!c.active && c.name).includes(t.category),
