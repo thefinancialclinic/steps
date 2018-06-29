@@ -67,7 +67,7 @@ const baseConfig = {
     }),
     new webpack.EnvironmentPlugin({
       API_URL: isProduction ? '/api' : 'http://localhost:3001/api',
-      AUTH0_ENABLED: null,
+      AUTH0_ENABLED: 'true',
       AUTH0_REDIRECT_URL: 'http://localhost:3000/authenticate',
       AUTH0_AUDIENCE: null,
       AUTH0_DOMAIN: null,
