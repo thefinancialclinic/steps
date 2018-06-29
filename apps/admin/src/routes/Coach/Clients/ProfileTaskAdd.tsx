@@ -99,7 +99,7 @@ class AddTask extends React.Component<Props, State> {
 
 const mapStateToProps = (state, props) => {
   return {
-    tasks: state.tasks.tasks.filter(t => !t.user_id),
+    tasks: state.tasks.filter(t => !t.user_id),
     user: findById(
       state.clients.clients,
       props.clientId || props.match.params.id,

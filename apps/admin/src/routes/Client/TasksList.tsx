@@ -43,7 +43,7 @@ class Tasks extends React.Component<Props> {
 }
 
 const mapStateToProps = state => ({
-  tasks: filterById(state.tasks.tasks, state.auth.user.id, 'user_id'),
+  tasks: filterById(state.tasks, state.auth.user.id, 'user_id'),
   user: state.auth.user,
 });
 
