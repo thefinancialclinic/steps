@@ -405,7 +405,7 @@ describe('Authorization', () => {
         });
       });
 
-      xit('Admin 1 views own client', () => {
+      it('Admin 1 views own client', () => {
         request('GET', `/clients/${clientId1}`, null, {
           'X-UserId': adminId1,
         }).then(resp => {
