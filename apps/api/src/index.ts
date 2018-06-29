@@ -111,7 +111,7 @@ const bearerTokenAuthMiddleware = (req, res, next) => {
 
   if (!id) {
     res.status(403);
-    return res.send({ error: 'Forbidden by bearer token middleware' });
+    return res.send({ error: 'Forbidden' });
   }
   userRepo
     .get({ auth0_id: id })
