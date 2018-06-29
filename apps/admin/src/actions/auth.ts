@@ -27,8 +27,8 @@ export const setUnauthenticatedUser = () => async dispatch => {
 export const SET_AUTHENTICATED_USER = 'SET_AUTHENTICATED_USER';
 export const setAuthenticatedUser = user => async dispatch => {
   const org = await api.get(`/orgs/${user.org_id}`);
-  user.org = org.data;
-  dispatch({ type: SET_AUTHENTICATED_USER, user });
+  dispatch(setOrg(org));
+  return dispatch({ type: SET_AUTHENTICATED_USER, user });
 };
 
 export const signup = (userType, userAttrs) => async () => {
@@ -82,9 +82,10 @@ export const updateUser = async user => {
   };
 };
 
-export const updateOrganization = async (org, user) => dispatch => {
+export const UPDATE_ORG = 'UPDATE_ORG';
+export const updateOrganization = async org => dispatch => {
   // TODO: Update company via API
-  return dispatch(updateUser({ ...user, org }));
+  return dispatch(setOrg(org));
 };
 
 ///////////////////////////////////////////////// User switcher
@@ -108,23 +109,20 @@ export const login = (userType, userEmail) => async dispatch => {
     if (userType === USER_TYPE.SUPER_ADMIN) {
       user.first_name = 'SuperAdmin';
       user.last_name = 'User';
-      user.org = org;
     } else if (userType === USER_TYPE.ADMIN) {
       user.first_name = 'Admin';
       user.last_name = 'User';
-      user.org = org;
     } else if (userType === USER_TYPE.COACH) {
       const coaches = await api.get('/coaches');
       user = coaches.data.find(c => c.email === userEmail) || coaches.data[0];
       org = await api.get(`/orgs/${user.org_id}`);
-      user.org = org.data;
     } else if (userType === USER_TYPE.CLIENT) {
       const clients = await api.get('/clients');
       user = clients.data.find(c => c.email === userEmail) || clients.data[0];
       org = await api.get(`/orgs/${user.org_id}`);
-      user.org = org.data;
     }
 
+    dispatch(setOrg(org));
     dispatch({ type: LOGIN, user });
   } catch (error) {
     console.error(error);

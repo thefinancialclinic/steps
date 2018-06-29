@@ -2,11 +2,16 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import NoGoals from 'components/Goals/NoGoals';
 import { GoalListLayout, ViewGoalList } from './ViewGoalList';
+import { Goal } from 'components/Goals/types';
 
 describe('ViewGoalList.tsx', () => {
   const client = {
     id: 123,
   };
+  const history = {
+    push: jest.fn(),
+  };
+
   it('renders correctly', () => {
     const actions = {
       getClients: jest.fn().mockReturnValue(Promise.resolve()),
@@ -23,7 +28,11 @@ describe('ViewGoalList.tsx', () => {
       ],
     };
 
-    const wrapper = shallow(<ViewGoalList client={client} actions={actions} />);
+    const wrapper = shallow(
+      <ViewGoalList history={history} client={client} actions={actions}>
+        {childProps => <Goal {...childProps} />}
+      </ViewGoalList>,
+    );
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -34,7 +43,11 @@ describe('ViewGoalList.tsx', () => {
       getClients: jest.fn().mockReturnValue(Promise.resolve()),
     };
 
-    shallow(<ViewGoalList actions={actions} />);
+    shallow(
+      <ViewGoalList history={history} client={client} actions={actions}>
+        {childProps => <Goal {...childProps} />}
+      </ViewGoalList>,
+    );
 
     expect(actions.getClients).toHaveBeenCalled();
   });
@@ -56,7 +69,11 @@ describe('ViewGoalList.tsx', () => {
       ],
     };
 
-    const wrapper = shallow(<ViewGoalList client={client} actions={actions} />);
+    const wrapper = shallow(
+      <ViewGoalList history={history} client={client} actions={actions}>
+        {childProps => <Goal {...childProps} />}
+      </ViewGoalList>,
+    );
     const goalList = wrapper.find(GoalListLayout);
 
     expect(goalList).toHaveLength(1);
@@ -72,7 +89,11 @@ describe('ViewGoalList.tsx', () => {
       goals: [],
     };
 
-    const wrapper = shallow(<ViewGoalList client={client} actions={actions} />);
+    const wrapper = shallow(
+      <ViewGoalList history={history} client={client} actions={actions}>
+        {childProps => <Goal {...childProps} />}
+      </ViewGoalList>,
+    );
     const noGoals = wrapper.find(NoGoals);
 
     expect(noGoals).toHaveLength(1);
@@ -86,7 +107,11 @@ describe('ViewGoalList.tsx', () => {
       addAlert: jest.fn(),
     };
 
-    const wrapper = shallow(<ViewGoalList actions={actions} />);
+    const wrapper = shallow(
+      <ViewGoalList history={history} client={client} actions={actions}>
+        {childProps => <Goal {...childProps} />}
+      </ViewGoalList>,
+    );
 
     expect(await actions.addAlert).toHaveBeenCalledWith({
       level: 'error',

@@ -1,21 +1,16 @@
 import OrganizationProfile from 'components/Admin/OrganizationProfile';
 import { shallow } from 'enzyme';
 import React from 'react';
-import { User } from 'reducers/auth';
-import { Organization } from './Organization';
+import { Org } from 'reducers/auth';
+import Organization from './Organization';
 
-const testUser: User = {
-  first_name: 'Jane',
-  last_name: 'Smith',
-  email: 'jane@example.com',
-  org: {
-    name: 'My organization',
-  },
+const org: Org = {
+  name: 'My organization',
 };
 
 describe('Organization.tsx', () => {
   it('displays a user profile', () => {
-    const wrapper = shallow(<Organization user={testUser} />);
+    const wrapper = shallow(<Organization org={org} />);
 
     const profile = wrapper.find(OrganizationProfile);
 
