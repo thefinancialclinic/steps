@@ -372,5 +372,25 @@ describe('Coach', () => {
 
     cy.contains('Successfully updated client');
     cy.contains('Jane Dough');
+
+    cy.contains('Edit').click();
+    cy.contains('Edit Profile');
+
+    cy.get('input[name="first_name"]')
+      .clear()
+      .type('John');
+    cy.get('input[name="last_name"]')
+      .clear()
+      .type('Doe');
+    cy.get('input[name="email"]')
+      .clear()
+      .type('john@doe.com');
+    cy.get('input[name="phone"]')
+      .clear()
+      .type('1234567890');
+    cy.contains('Save').click();
+
+    cy.contains('Successfully updated client');
+    cy.contains('Jane Dough');
   });
 });
