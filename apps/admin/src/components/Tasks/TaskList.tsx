@@ -71,9 +71,10 @@ const TaskList: React.SFC<Props> = ({
   let taskClass = status => {
     return status === 'COMPLETED' ? 'completed' : 'active';
   };
+
   return (
     <Box>
-      {items.map((task, index) => {
+      {items.map((task: any, index) => {
         return (
           <TaskContainer key={index} className={taskClass(task.status)}>
             <TaskNumber>
