@@ -30,14 +30,10 @@ export const setTasks = tasks => {
 };
 
 export const ORDER_TASKS = 'ORDER_TASKS';
-export const orderTasks = async tasks => {
+export const orderTasks = tasks => async dispatch => {
   try {
-    const orderedtasks = tasks.map((t, i) => {
-      const taskOrder = { id: t.id, order: i };
-      return taskOrder;
-    });
-    await api.put(`/tasks`, orderedtasks);
-    return { type: ORDER_TASKS, orderedtasks };
+    dispatch({ type: ORDER_TASKS, tasks: tasks });
+    return await api.put(`/tasks`, tasks);
   } catch (error) {
     return Promise.reject(error);
   }

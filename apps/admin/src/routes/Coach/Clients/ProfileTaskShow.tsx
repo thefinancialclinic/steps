@@ -53,7 +53,7 @@ class TaskShow extends React.Component<Props> {
 }
 
 const mapStateToProps = (state, props) => ({
-  task: findById(state.tasks.tasks, props.match.params.taskId),
+  task: findById(state.tasks, props.match.params.taskId),
   client: findById(state.clients.clients, props.match.params.id),
   user: state.auth.user,
 });
