@@ -39,6 +39,9 @@ components:
         responses:
           type: object
           nullable: true
+        topic:
+          type: string
+          nullable: true
     Media:
       properties:
         task_id:

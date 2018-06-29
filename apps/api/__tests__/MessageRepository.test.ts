@@ -11,6 +11,7 @@ describe('Message entity operations', () => {
   let message: Message;
   let repo: MessageRepository;
   const expectedText = 'My Text';
+  const expectedTopic = 'My Topic';
 
   beforeAll(async () => {
     pool = await getTestConnectionPool({ createFixtures: true });
@@ -23,6 +24,7 @@ describe('Message entity operations', () => {
         media_id: fixtures.media.id,
         request_id: fixtures.request.id,
         timestamp: new Date(),
+        topic: expectedTopic,
       }),
     );
   });
@@ -40,5 +42,10 @@ describe('Message entity operations', () => {
   it('gets all messages', async () => {
     let actual = await repo.getAll();
     expect(actual.find(x => x.id == message.id).text).toBe(expectedText);
+  });
+
+  it('has a topic', async () => {
+    let actual = await repo.getOne(message.id);
+    expect(actual.topic).toBe(expectedTopic);
   });
 });
