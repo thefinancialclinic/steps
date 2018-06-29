@@ -14,8 +14,6 @@ require('dotenv').config({ path: '.env' });
 const { CYPRESS_AUTH0_BEARER_TOKEN, AUTH0_ENABLED } = process.env;
 
 module.exports = (on, config) => {
-  console.log(process.env);
-
   const env = config.env.configFile || 'development';
 
   const configFile =
