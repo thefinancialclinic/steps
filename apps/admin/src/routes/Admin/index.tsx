@@ -4,7 +4,9 @@ import { RoutesElement } from '../index';
 import { composeUserLayout } from 'layouts';
 
 import AdminProfile from './Profile';
+import AdminEditProfile from './EditProfile';
 import AdminOrganization from './Organization';
+import AdminEditOrganization from './EditOrganization';
 import AdminStaff from './Staff';
 import TopBar from 'components/TopBar';
 import Alert from 'containers/Alert';
@@ -26,7 +28,12 @@ const Admin: RoutesElement = ({ user }) => {
       <TopBar user={user} />
       <Alert />
       <Switch>
+        <Route path="/profile/edit" render={composeLayout(AdminEditProfile)} />
         <Route path="/profile" render={composeLayout(AdminProfile)} />
+        <Route
+          path="/organization/edit"
+          render={composeLayout(AdminEditOrganization)}
+        />
         <Route path="/organization" render={composeLayout(AdminOrganization)} />
         <Route path="/staff" render={composeLayout(AdminStaff)} />
         <Route render={() => <Redirect to="/profile" />} />

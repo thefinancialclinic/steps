@@ -1,4 +1,5 @@
 import { addAlert } from 'actions/alerts';
+import { hideModal, showModal } from 'actions/modals';
 import {
   deleteCoach,
   getCoaches,
@@ -10,12 +11,13 @@ import Main from 'atoms/Main';
 import { AlertLevel } from 'components/Alert/types';
 import PageHeader from 'components/Headers/PageHeader';
 import StaffList from 'components/StaffList/StaffList';
+import Modal from 'containers/Modal';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Route, Switch } from 'react-router-dom';
 import { User, USER_TYPE } from 'reducers/auth';
 import { bindActionCreators } from 'redux';
-import AdminNewStaff from './NewStaff';
+import AdminNewStaff, { NEW_STAFF } from './NewStaff';
+import { ModalSize } from 'components/Modal';
 
 interface Props {
   coaches: User[];
@@ -25,6 +27,8 @@ interface Props {
     deleteCoach;
     resendInvite;
     updatePermissions;
+    hideModal;
+    showModal;
   };
 }
 
@@ -71,12 +75,13 @@ export class Staff extends React.Component<Props> {
   };
 
   render() {
+    const { actions } = this.props;
     return (
       <Main>
         <PageHeader label="Staff">
-          <Link to="/staff/new">
-            <Button>Invite Staff</Button>
-          </Link>
+          <Button onClick={() => actions.showModal(NEW_STAFF)}>
+            Invite Staff
+          </Button>
         </PageHeader>
         <StaffList
           onDelete={this.onDelete}
@@ -84,9 +89,13 @@ export class Staff extends React.Component<Props> {
           onUpdateRole={this.onUpdateRole}
           staff={this.props.coaches}
         />
-        <Switch>
-          <Route path="/staff/new" component={AdminNewStaff} />
-        </Switch>
+        <Modal
+          id={NEW_STAFF}
+          onClose={() => actions.hideModal(NEW_STAFF)}
+          size={ModalSize.Medium}
+        >
+          <AdminNewStaff />
+        </Modal>
       </Main>
     );
   }
@@ -98,7 +107,15 @@ const mapStateToProps = ({ staff }) => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
-    { getCoaches, addAlert, deleteCoach, resendInvite, updatePermissions },
+    {
+      getCoaches,
+      addAlert,
+      deleteCoach,
+      resendInvite,
+      updatePermissions,
+      showModal,
+      hideModal,
+    },
     dispatch,
   ),
 });

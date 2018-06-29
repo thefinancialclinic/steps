@@ -8,15 +8,15 @@ interface Props {
 }
 
 export class Profile extends React.Component<Props> {
-  get fullName() {
-    const { user } = this.props;
-    return `${user.first_name} ${user.last_name}`;
-  }
-
   render() {
+    const { user } = this.props;
     return (
       <Box width={1} p={4}>
-        <UserProfile name={this.fullName} email={this.props.user.email} />
+        <UserProfile
+          email={user.email}
+          firstName={user.first_name}
+          lastName={user.last_name}
+        />
       </Box>
     );
   }

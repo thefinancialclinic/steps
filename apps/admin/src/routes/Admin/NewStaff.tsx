@@ -1,61 +1,45 @@
 import { addAlert } from 'actions/alerts';
+import { hideModal } from 'actions/modals';
 import { inviteStaff } from 'actions/staff';
-import { AlertLevel, Alert } from 'components/Alert/types';
-import Modal from 'components/Modal';
+import { Alert, AlertLevel } from 'components/Alert/types';
 import NewStaffForm from 'forms/NewStaffForm';
-import { Flex } from 'grid-styled';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { History } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import styled from 'styled-components';
+
+export const NEW_STAFF = 'NEW_STAFF';
 
 interface Props {
-  actions: { inviteStaff; addAlert: (alert: Alert) => void };
-  history: History;
+  actions: { inviteStaff; addAlert: (alert: Alert) => void; hideModal };
 }
 
-export class NewStaff extends React.Component<Props, {}> {
+export class NewStaff extends React.Component<Props> {
   createStaff = ({ emails }) => {
+    const { actions } = this.props;
     const splitEmails = emails.split(/,\s*/);
-    this.props.actions
+    actions
       .inviteStaff(splitEmails)
-      .then(_res => {
-        this.props.history.push('/staff');
-      })
       .catch(err => {
-        this.props.actions.addAlert({
+        actions.addAlert({
           message: err.message,
           level: AlertLevel.Error,
           id: 'new-staff-error',
         });
+        actions.hideModal(NEW_STAFF);
+      })
+      .then(() => {
+        actions.hideModal(NEW_STAFF);
       });
   };
 
   render() {
-    return (
-      <StyledModal>
-        <Flex justifyContent="center">
-          <NewStaffForm onSubmit={this.createStaff} />
-        </Flex>
-      </StyledModal>
-    );
+    return <NewStaffForm onSubmit={this.createStaff} />;
   }
 }
 
-const StyledModal = styled(Modal)`
-  div {
-    position: relative;
-    min-width: 400px;
-    max-width: 840px;
-    margin: auto;
-  }
-  margin: auto;
-`;
-
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ inviteStaff, addAlert }, dispatch),
+  actions: bindActionCreators({ inviteStaff, addAlert, hideModal }, dispatch),
 });
 
 export default connect(

@@ -1,3 +1,4 @@
+import { UPDATE_CLIENT } from './../actions/clients';
 import {
   ADD_CLIENT,
   SET_CLIENTS,
@@ -44,10 +45,14 @@ export type Org = {
 
 export interface ClientsState {
   clients: Client[];
+  clientMessages: any;
+  clientRequests: any;
 }
 
 const initialState: ClientsState = {
   clients: [],
+  clientMessages: {},
+  clientRequests: {},
 };
 
 export default (state = initialState, action) => {
@@ -81,28 +86,16 @@ export default (state = initialState, action) => {
     case SET_CLIENT_MESSAGES: {
       return {
         ...state,
-        clients: state.clients.map(client => {
-          if (client.id === action.clientId) {
-            return {
-              ...client,
-              messages: action.messages,
-            };
-          }
-          return client;
+        clientMessages: Object.assign(state.clientMessages, {
+          [action.clientId]: action.messages,
         }),
       };
     }
     case SET_CLIENT_REQUESTS: {
       return {
         ...state,
-        clients: state.clients.map(client => {
-          if (client.id === action.clientId) {
-            return {
-              ...client,
-              requests: action.requests,
-            };
-          }
-          return client;
+        clientRequests: Object.assign(state.clientRequests, {
+          [action.clientId]: action.requests,
         }),
       };
     }
@@ -115,6 +108,17 @@ export default (state = initialState, action) => {
               ...client,
               follow_up_date: action.followUpDate,
             };
+          }
+          return client;
+        }),
+      };
+    }
+    case UPDATE_CLIENT: {
+      return {
+        ...state,
+        clients: state.clients.map(client => {
+          if (client.id === action.client.id) {
+            return action.client;
           }
           return client;
         }),

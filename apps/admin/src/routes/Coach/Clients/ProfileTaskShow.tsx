@@ -3,17 +3,22 @@ import { Flex, Box } from 'grid-styled';
 import { Location } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { deleteTask, getTasks } from 'actions/tasks';
+import { addTask, deleteTask, getTasks } from 'actions/tasks';
 import TaskDetails from 'components/Tasks/TaskDetails';
 import { findById } from 'helpers';
 import BackButton from 'atoms/Buttons/BackButton';
+import { addAlert } from 'actions/alerts';
+import { showModal, hideModal } from 'actions/modals';
+import { User } from 'reducers/auth';
 
 interface Props {
   className?: string;
-  user: any;
+  user: User;
+  client: User;
   task: any;
+  history: any;
   location: Location;
-  actions: { deleteTask; getTasks };
+  actions: { addTask; deleteTask; getTasks; showModal; hideModal; addAlert };
 }
 
 const steps = task => {
@@ -28,16 +33,18 @@ class TaskShow extends React.Component<Props> {
   }
 
   render() {
-    const { user, task, actions, location } = this.props;
+    const { client, task, actions, history, location, user } = this.props;
     return (
       <Flex flexDirection="column">
         <Box mb={20}>
-          <BackButton to={`/clients/${user.id}/tasks`} />
+          <BackButton to={`/clients/${client.id}/tasks`} />
         </Box>
         <TaskDetails
           user={user}
+          client={client}
           task={task}
           actions={actions}
+          history={history}
           location={location}
         />
       </Flex>
@@ -47,11 +54,15 @@ class TaskShow extends React.Component<Props> {
 
 const mapStateToProps = (state, props) => ({
   task: findById(state.tasks.tasks, props.match.params.taskId),
-  user: findById(state.clients.clients, props.match.params.id),
+  client: findById(state.clients.clients, props.match.params.id),
+  user: state.auth.user,
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ deleteTask, getTasks }, dispatch),
+  actions: bindActionCreators(
+    { addTask, deleteTask, getTasks, addAlert, showModal, hideModal },
+    dispatch,
+  ),
 });
 
 export default connect(

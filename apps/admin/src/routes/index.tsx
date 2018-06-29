@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Route, Redirect, withRouter, Switch } from 'react-router-dom';
+import { Redirect, withRouter, Switch } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { User, USER_TYPE } from 'reducers/auth';
@@ -8,16 +8,19 @@ import { User, USER_TYPE } from 'reducers/auth';
 import Admin from './Admin/index';
 import Client from './Client/index';
 import Coach from './Coach/index';
-import Login from './Login';
 import Superadmin from './Superadmin/index';
 import UserSwitcher from 'components/util/UserSwitcher';
-import Logout from 'routes/Logout';
-import Authenticate from 'routes/Authenticate';
+import AuthRoutes from './Auth/index';
+import Login from 'routes/Auth/Login';
+import { getAuthenticatedUser } from 'actions/auth';
+import { bindActionCreators } from 'redux';
 
 interface Props {
   children?: any;
   user: null | User;
   history: any;
+  actions: { getAuthenticatedUser: Function };
+  isAuthenticated: null | boolean;
 }
 
 export interface RoutesProps {
@@ -28,26 +31,38 @@ export interface RoutesProps {
 
 export type RoutesElement = (props: RoutesProps) => any;
 
-const Routes: React.SFC<Props> = ({ history, user }) => {
-  const { type } = user;
-  let RoleRoutes: RoutesElement = DefaultRoutes;
+class Routes extends React.Component<Props, {}> {
+  componentDidMount() {
+    process.env.AUTH0_ENABLED == 'true' &&
+      this.props.actions.getAuthenticatedUser();
+  }
 
-  if (type === USER_TYPE.SUPER_ADMIN) RoleRoutes = Superadmin;
-  else if (type === USER_TYPE.ADMIN) RoleRoutes = Admin;
-  else if (type === USER_TYPE.COACH) RoleRoutes = Coach;
-  else if (type === USER_TYPE.CLIENT) RoleRoutes = Client;
+  render() {
+    const { history, user, isAuthenticated } = this.props;
+    const { type } = user;
+    let RoleRoutes: RoutesElement = DefaultRoutes;
 
-  return (
-    <Wrapper>
-      {process.env.NODE_ENV === 'development' && <UserSwitcher />}
-      <Switch>
-        <Route path="/authenticate" component={Authenticate} />
-        <Route path="/logout" component={Logout} />
-        <RoleRoutes user={user} history={history} />
-      </Switch>
-    </Wrapper>
-  );
-};
+    if (type === USER_TYPE.SUPER_ADMIN) RoleRoutes = Superadmin;
+    else if (type === USER_TYPE.ADMIN) RoleRoutes = Admin;
+    else if (type === USER_TYPE.COACH) RoleRoutes = Coach;
+    else if (type === USER_TYPE.CLIENT) RoleRoutes = Client;
+
+    if (isAuthenticated === null) {
+      return null;
+    } else {
+      return (
+        <Wrapper>
+          {process.env.NODE_ENV === 'development' && <UserSwitcher />}
+          <Switch>
+            <AuthRoutes user={user} history={history}>
+              <RoleRoutes user={user} history={history} />
+            </AuthRoutes>
+          </Switch>
+        </Wrapper>
+      );
+    }
+  }
+}
 
 const DefaultRoutes: RoutesElement = ({ history }) =>
   history.location.pathname !== '/' ? <Redirect to="/" /> : <Login />;
@@ -60,6 +75,16 @@ const Wrapper = styled.div`
 
 const mapStateToProps = state => ({
   user: state.auth.user,
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default withRouter(connect(mapStateToProps)(Routes));
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ getAuthenticatedUser }, dispatch),
+});
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Routes),
+);

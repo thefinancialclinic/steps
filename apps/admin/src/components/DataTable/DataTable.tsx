@@ -1,16 +1,10 @@
-import Table from 'atoms/Table/Table';
+import { Flex } from 'grid-styled';
 import React from 'react';
-import TableBody from 'atoms/Table/TableBody';
-import styled from 'styled-components';
 
 const DataTable: React.SFC<{}> = ({ children }) => (
-  <StyledTable>
-    <TableBody>{children}</TableBody>
-  </StyledTable>
+  <Flex mb={3} flexDirection="column">
+    {children}
+  </Flex>
 );
-
-const StyledTable = styled(Table)`
-  width: 100%;
-`;
 
 export default DataTable;

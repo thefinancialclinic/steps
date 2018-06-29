@@ -29,6 +29,20 @@ export const setTasks = tasks => {
   };
 };
 
+export const ORDER_TASKS = 'ORDER_TASKS';
+export const orderTasks = async tasks => {
+  try {
+    const orderedtasks = tasks.map((t, i) => {
+      const taskOrder = { id: t.id, order: i };
+      return taskOrder;
+    });
+    await api.put(`/tasks`, orderedtasks);
+    return { type: ORDER_TASKS, orderedtasks };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
 export const SET_TASK_STATUS = 'SET_TASK_STATUS';
 export const setTaskStatus = (task, status): DispatchFn => async dispatch => {
   const newTask = { ...task, status };

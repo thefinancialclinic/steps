@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Match } from 'react-router-dom';
 
-import TaskList from 'components/Tasks/TaskList';
+import SortableTaskList from 'components/Tasks/SortableTaskList';
 import { Client } from 'reducers/clients';
 import { filterById, findById } from 'helpers';
 
@@ -16,7 +16,11 @@ class Tasks extends React.Component<Props, {}> {
   render() {
     const { location, match } = this.props;
     return (
-      <TaskList user={this.props.user} location={location} match={match} />
+      <SortableTaskList
+        user={this.props.user}
+        location={location}
+        match={match}
+      />
     );
   }
 }

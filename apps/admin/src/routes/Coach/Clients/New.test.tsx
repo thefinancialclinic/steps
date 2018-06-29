@@ -16,6 +16,8 @@ describe('ClientNew.tsx', () => {
     const actions = {
       addAlert: jest.fn(),
       createClient,
+      hideModal: jest.fn(),
+      showModal: jest.fn(),
     };
     const wrapper = shallow(<ClientNew actions={actions} history={history} />);
     const form = wrapper.find(NewClientForm);
@@ -43,6 +45,8 @@ describe('ClientNew.tsx', () => {
     const actions = {
       addAlert: jest.fn(),
       createClient,
+      hideModal: jest.fn(),
+      showModal: jest.fn(),
     };
     const wrapper = shallow(<ClientNew actions={actions} history={history} />);
     const form = wrapper.find(NewClientForm);

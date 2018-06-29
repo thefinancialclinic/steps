@@ -9,6 +9,8 @@ import { black } from 'styles/colors';
 interface Props {
   className?: string;
   user: any;
+  messages: any;
+  requests: any;
 }
 
 export const joinRequestsAndMessages = (requests, messages) => {
@@ -25,8 +27,7 @@ export const joinRequestsAndMessages = (requests, messages) => {
 
 class Requests extends React.Component<Props, {}> {
   render() {
-    const { user } = this.props;
-    const { requests, messages } = user;
+    const { user, requests, messages } = this.props;
     const joined = joinRequestsAndMessages(requests, messages);
     return (
       <Container>

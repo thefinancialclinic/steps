@@ -12,6 +12,8 @@ import { AlertLevel } from 'components/Alert/types';
 interface Props {
   user: any;
   match: any;
+  messages: any;
+  requests: any;
   actions: { createReply; addAlert };
 }
 
@@ -26,9 +28,9 @@ export const addMessagesToRequest = (request, messages) => {
 
 export class RequestDetailRoute extends React.Component<Props> {
   onSubmit = ({ reply }) => {
-    const { user, match } = this.props;
+    const { user, match, requests, messages } = this.props;
     this.props.actions
-      .createReply(reply, user, match.params.requestId)
+      .createReply(reply, user, requests, messages, match.params.requestId)
       .catch(err => {
         this.props.actions.addAlert({
           level: AlertLevel.Error,
@@ -39,8 +41,7 @@ export class RequestDetailRoute extends React.Component<Props> {
   };
 
   render() {
-    const { user, match } = this.props;
-    const { messages, requests } = user;
+    const { user, match, messages, requests } = this.props;
     const request = findById(requests, match.params.requestId);
     const withMessages = addMessagesToRequest(request, messages);
     return (

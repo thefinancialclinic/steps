@@ -5,6 +5,7 @@ import { Task } from '../repository/TaskRepository';
 import { Message } from '../repository/MessageRepository';
 import { RequestItem } from '../repository/RequestRepository';
 import { Media } from '../repository/MediaRepository';
+import { EmailService } from '../services/Email';
 
 export class ClientController {
   private repo = new UserRepository(pool);
@@ -21,6 +22,7 @@ export class ClientController {
     const newClient = new User(request.body);
     response.status(201); // created
     const client = await this.repo.saveByType(newClient, 'Client');
+    await new EmailService(pool).sendClientWelcome(newClient);
     return client;
   }
 

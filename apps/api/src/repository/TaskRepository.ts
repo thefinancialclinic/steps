@@ -29,6 +29,7 @@ export class Task {
   date_completed?: Date;
   recurring?: ObjectType;
   steps?: Step[];
+  order?: number;
 
   constructor(opts: Partial<Task>) {
     this.id = opts.id;
@@ -43,6 +44,7 @@ export class Task {
     this.date_completed = opts.date_completed;
     this.recurring = opts.recurring;
     this.steps = opts.steps;
+    this.order = opts.order;
   }
 }
 
@@ -65,7 +67,8 @@ export class TaskRepository implements Repository<TaskId, Task> {
         t.date_created,
         t.date_completed,
         t.recurring,
-        t.steps
+        t.steps,
+        t.order
       FROM task t
       WHERE id = $1;
       `,
@@ -105,8 +108,9 @@ export class TaskRepository implements Repository<TaskId, Task> {
         date_created,
         date_completed,
         recurring,
-        steps
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        steps,
+        "order"
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
       RETURNING *
     `,
       [
@@ -121,6 +125,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         task.date_completed,
         task.recurring,
         task.steps,
+        task.order,
       ],
     );
     return new Task(res.rows[0]);

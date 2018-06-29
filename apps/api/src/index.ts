@@ -19,9 +19,10 @@ import { postgraphile } from 'postgraphile';
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
 import 'dotenv/config';
-import { AuthenticatedUserController } from './controller/AuthenticatedUserController';
+import { AuthController } from './controller/AuthController';
 
 const isProduction = process.env.NODE_ENV === 'production';
+const isCI = process.env.CI && JSON.parse(process.env.CI) === true;
 const PORT = process.env.PORT || '3001';
 const localConnString = 'postgres://postgres@localhost:5432/steps_admin_test';
 const databaseUrl = process.env.DATABASE_URL || localConnString;
@@ -29,7 +30,7 @@ const connUrl = url.parse(databaseUrl);
 const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
 
 // Auth0 Config
-const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID;
+const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE;
 const AUTH0_ISSUER = process.env.AUTH0_ISSUER;
 
 export const pool = new Pool({
@@ -53,7 +54,7 @@ const checkJwt = jwt({
   }),
 
   // Validate the audience of the issuer
-  audience: 'http://steps-admin.herokuapp.com',
+  audience: AUTH0_AUDIENCE || 'http://steps-admin.herokuapp.com',
   issuer: AUTH0_ISSUER,
   algorithms: ['RS256'],
   complete: true,
@@ -69,10 +70,6 @@ const httpsRedirect = (req, res, next) => {
   }
 };
 
-// TEMPORARY: Seed Org (id: 1) and Coach (id: 1) needed for Client creation
-new OrgRepository(pool).seed();
-new UserRepository(pool).seed();
-
 ////////////////////////////////////////////////////////////////////////////////
 // App / Middlewares
 
@@ -80,8 +77,9 @@ const app = express();
 
 app.use(bodyParser.json());
 
+if (isProduction && !isCI) app.use(httpsRedirect);
+
 if (isProduction) {
-  app.use(httpsRedirect);
   app.use(express.static(buildPath));
 } else {
   app.use(cors());
@@ -119,8 +117,8 @@ Routes.forEach(route => {
 });
 
 app.get('/api/user', checkJwt, async (req, res, next) => {
-  const controller = new AuthenticatedUserController();
-  const result = await controller['one'](req, res, next);
+  const controller = new AuthController();
+  const result = await controller['user'](req, res, next);
   res.send(result);
 });
 

@@ -3,6 +3,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { green } from 'styles/colors';
+import IconButton from './IconButton';
 
 interface Props {
   to: string;
@@ -11,18 +12,19 @@ interface Props {
 
 const BackButton: React.SFC<Props> = ({ to, className }) => (
   <Link className={className} to={to}>
-    &larr; Back
+    <IconButton iconName="arrow_back">Back</IconButton>
   </Link>
 );
 
 const StyledBackButton = styled(BackButton)`
-  text-transform: uppercase;
   text-decoration: none;
-  color: ${green};
-  &:visited,
-  &:hover,
-  &:active {
+  div {
     color: ${green};
+    &:visited,
+    &:hover,
+    &:active {
+      color: ${green};
+    }
   }
 `;
 

@@ -11,10 +11,10 @@ const isProduction = process.env.NODE_ENV === 'production';
 const SRC = path.resolve(__dirname, 'src');
 const BUILD = path.resolve(__dirname, '.build');
 
-const env = [].reduce((result, v) => {
-  result[v] = JSON.stringify(process.env[v]);
-  return result;
-}, {});
+const AUTH0_ENABLED = process.env.AUTH0_ENABLED;
+const AUTH0_REDIRECT_URL = process.env.AUTH0_REDIRECT_URL;
+const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE;
+const BOT_URL = process.env.BOT_URL;
 
 const baseConfig = {
   output: {
@@ -70,16 +70,14 @@ const baseConfig = {
       template: 'src/index.html',
       inject: true,
     }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: isProduction
-          ? JSON.stringify('production')
-          : JSON.stringify('development'),
-        API_URL: isProduction
-          ? JSON.stringify('/api')
-          : JSON.stringify('http://localhost:3001/api'),
-        ...env,
-      },
+    new webpack.EnvironmentPlugin({
+      API_URL: isProduction ? '/api' : 'http://localhost:3001/api',
+      AUTH0_ENABLED: AUTH0_ENABLED,
+      AUTH0_REDIRECT_URL: AUTH0_REDIRECT_URL,
+      AUTH0_AUDIENCE: AUTH0_AUDIENCE,
+      BOT_URL: BOT_URL,
+      NODE_ENV: 'development',
+      CI: false,
     }),
     new webpack.NamedModulesPlugin(),
   ],

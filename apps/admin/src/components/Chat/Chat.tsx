@@ -10,11 +10,13 @@ interface Props extends RouteComponentProps {
   className?: string;
   user: any;
   match?: any;
+  messages: any;
+  requests: any;
 }
 
 class Chat extends React.Component<Props, {}> {
   render() {
-    const { className, user, match } = this.props;
+    const { className, user, match, messages, requests } = this.props;
     const { url, params } = match;
 
     return (
@@ -30,10 +32,27 @@ class Chat extends React.Component<Props, {}> {
         <Switch>
           <Route
             path={`${url}/help/requests/:requestId/`}
-            render={props => <RequestDetail user={user} match={props.match} />}
+            render={props => (
+              <RequestDetail
+                user={user}
+                messages={messages}
+                requests={requests}
+                match={props.match}
+              />
+            )}
           />
-          <Route path={`${url}/log`} render={() => <ChatLog user={user} />} />
-          <Route path={`${url}/help`} render={() => <ChatHelp user={user} />} />
+          <Route
+            path={`${url}/log`}
+            render={() => (
+              <ChatLog user={user} messages={messages} requests={requests} />
+            )}
+          />
+          <Route
+            path={`${url}/help`}
+            render={() => (
+              <ChatHelp user={user} messages={messages} requests={requests} />
+            )}
+          />
           <Redirect exact from="" to={`/clients/${user.id}/chat/log`} />
         </Switch>
       </div>

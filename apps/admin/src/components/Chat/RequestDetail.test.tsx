@@ -18,6 +18,8 @@ const replied: RequestStatus = 'REPLIED';
 const resolved: RequestStatus = 'RESOLVED';
 let request;
 
+const fakeSubmit = jest.fn();
+
 const requestMessage = {
   id: 1,
   text: 'Help me!',
@@ -49,7 +51,9 @@ describe('RequestDetail', () => {
     });
 
     it('shows message', () => {
-      const wrapper = shallow(<RequestDetail request={request} />);
+      const wrapper = shallow(
+        <RequestDetail request={request} onSubmit={fakeSubmit} />,
+      );
       expect(
         wrapper
           .find(RequestMessages)
@@ -59,7 +63,9 @@ describe('RequestDetail', () => {
     });
 
     it('shows reply form', () => {
-      const wrapper = shallow(<RequestDetail request={request} />);
+      const wrapper = shallow(
+        <RequestDetail request={request} onSubmit={fakeSubmit} />,
+      );
       expect(
         wrapper
           .find(ReplyFormSection)
@@ -81,7 +87,9 @@ describe('RequestDetail', () => {
     });
 
     it('shows message', () => {
-      const wrapper = shallow(<RequestDetail request={request} />);
+      const wrapper = shallow(
+        <RequestDetail request={request} onSubmit={fakeSubmit} />,
+      );
       expect(
         wrapper
           .find(RequestMessages)
@@ -91,12 +99,26 @@ describe('RequestDetail', () => {
     });
 
     it('shows reply', () => {
-      const wrapper = shallow(<RequestDetail request={request} />);
+      const wrapper = shallow(
+        <RequestDetail request={request} onSubmit={fakeSubmit} />,
+      );
       expect(
         wrapper
           .find(ReplyMessages)
           .shallow()
           .find(Reply),
+      ).toHaveLength(1);
+    });
+
+    it('shows reply form', () => {
+      const wrapper = shallow(
+        <RequestDetail request={request} onSubmit={fakeSubmit} />,
+      );
+      expect(
+        wrapper
+          .find(ReplyFormSection)
+          .shallow()
+          .find(ReplyForm),
       ).toHaveLength(1);
     });
   });
@@ -113,7 +135,9 @@ describe('RequestDetail', () => {
     });
 
     it('shows message', () => {
-      const wrapper = shallow(<RequestDetail request={request} />);
+      const wrapper = shallow(
+        <RequestDetail request={request} onSubmit={fakeSubmit} />,
+      );
       expect(
         wrapper
           .find(RequestMessages)
@@ -123,7 +147,9 @@ describe('RequestDetail', () => {
     });
 
     it('shows reply', () => {
-      const wrapper = shallow(<RequestDetail request={request} />);
+      const wrapper = shallow(
+        <RequestDetail request={request} onSubmit={fakeSubmit} />,
+      );
       expect(
         wrapper
           .find(ReplyMessages)
@@ -133,7 +159,9 @@ describe('RequestDetail', () => {
     });
 
     it('shows resolved', () => {
-      const wrapper = shallow(<RequestDetail request={request} />);
+      const wrapper = shallow(
+        <RequestDetail request={request} onSubmit={fakeSubmit} />,
+      );
       expect(
         wrapper
           .find(ResolvedSection)

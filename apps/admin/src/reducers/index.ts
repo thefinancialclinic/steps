@@ -4,6 +4,7 @@ import alerts from './alerts';
 import auth from './auth';
 import tasks from './tasks';
 import staff from './staff';
+import modals from './modals';
 
 export default combineReducers({
   clients,
@@ -11,4 +12,5 @@ export default combineReducers({
   auth,
   alerts,
   staff,
+  modals,
 });

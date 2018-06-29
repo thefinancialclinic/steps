@@ -11,6 +11,8 @@ describe('Staff.tsx', () => {
       resendInvite: jest.fn(),
       deleteCoach: jest.fn(),
       updatePermissions: jest.fn(),
+      showModal: jest.fn(),
+      hideModal: jest.fn(),
     };
     shallow(<Staff coaches={[]} actions={actions} />);
 
@@ -26,6 +28,8 @@ describe('Staff.tsx', () => {
       resendInvite: jest.fn(),
       deleteCoach: jest.fn(),
       updatePermissions: jest.fn(),
+      showModal: jest.fn(),
+      hideModal: jest.fn(),
     };
     shallow(<Staff coaches={[]} actions={actions} />);
 

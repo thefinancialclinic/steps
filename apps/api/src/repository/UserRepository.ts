@@ -44,6 +44,7 @@ export class User {
   topic?: string;
   fb_id?: string;
   temp_help_response?: string;
+  auth0_id?: string;
 
   constructor(opts: Partial<User>) {
     this.id = opts.id;
@@ -66,6 +67,7 @@ export class User {
     this.topic = opts.topic;
     this.fb_id = opts.fb_id;
     this.temp_help_response = opts.temp_help_response;
+    this.auth0_id = opts.auth0_id;
   }
 }
 
@@ -76,6 +78,14 @@ export class UserRepository implements Repository<UserId, User> {
     const res = await this.pool.query(`SELECT * FROM "user" WHERE email = $1`, [
       email,
     ]);
+    return new User(res.rows[0]);
+  }
+
+  async getByAuth0Id(auth0Id: string) {
+    const res = await this.pool.query(
+      `SELECT * FROM "user" WHERE auth0_id = $1`,
+      [auth0Id],
+    );
     return new User(res.rows[0]);
   }
 
@@ -113,8 +123,9 @@ export class UserRepository implements Repository<UserId, User> {
         checkin_times,
         topic,
         fb_id,
-        temp_help_response
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
+        temp_help_response,
+        auth0_id
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
       RETURNING *
     `,
       [
@@ -137,6 +148,7 @@ export class UserRepository implements Repository<UserId, User> {
         user.topic,
         user.fb_id,
         user.temp_help_response,
+        user.auth0_id,
       ],
     );
     return new User(res.rows[0]);

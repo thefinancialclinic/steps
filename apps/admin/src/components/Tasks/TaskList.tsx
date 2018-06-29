@@ -1,19 +1,11 @@
-import Button from 'atoms/Buttons/Button';
-import { Box } from 'grid-styled';
 import React from 'react';
-import { connect } from 'react-redux';
-import { Link, Match } from 'react-router-dom';
-import { SortableContainer, arrayMove } from 'react-sortable-hoc';
-import { bindActionCreators } from 'redux';
+import { Task } from 'reducers/tasks';
 import styled from 'styled-components';
+import { Box } from 'grid-styled';
+
+import { svgBackgroundImageUrl } from 'styles';
 import { mediumBlue, white } from 'styles/colors';
 import { remCalc } from 'styles/type';
-import { svgBackgroundImageUrl } from 'styles';
-import NoTasks from './NoTasks';
-import TaskListItem from './TaskListItem';
-import { getTasks, setTasks, setTaskStatus } from 'actions/tasks';
-import { Flex } from 'grid-styled';
-import { filterById, findById } from 'helpers';
 
 const TaskContainer = styled.div`
   box-shadow: 0 0 4px 0 rgba(30 65 165, 0.2);
@@ -21,8 +13,7 @@ const TaskContainer = styled.div`
   flex-direction: row;
   margin-bottom: ${remCalc(20)};
   position: relative;
-
-  &.completed {
+  ./TaskList &.completed {
     div {
       background-color: ${mediumBlue};
     }
@@ -64,121 +55,43 @@ const SVG = styled<SVGProps, 'div'>('div')`
   top: 0;
 `;
 
-interface ListProps {
-  setTaskStatus;
-  items: any;
-  url: string;
-}
-
-const SortableList = SortableContainer(
-  ({ items, setTaskStatus, url }: ListProps) => {
-    let taskClass = status => {
-      return status === 'COMPLETED' ? 'compelted' : 'active';
-    };
-    return (
-      <Box>
-        {items.map((task, index) => {
-          return (
-            <TaskContainer key={index} className={taskClass(task.status)}>
-              <TaskNumber>
-                <div>{index + 1}</div>
-                <SVG i={index + 1} />
-              </TaskNumber>
-              <TaskListItem
-                key={`item-${index}`}
-                setTaskStatus={setTaskStatus}
-                index={index}
-                task={task}
-                url={url}
-              />
-            </TaskContainer>
-          );
-        })}
-      </Box>
-    );
-  },
-);
-
 interface Props {
-  actions?: any;
-  tasks?: any;
-  user: any;
-  match: Match;
+  setTaskStatus;
+  items: Partial<Task>[];
+  url: string;
+  children({ task, index, setTaskStatus, url, key }): JSX.Element;
 }
 
-export class TaskList extends React.Component<Props, {}> {
-  onSortEnd = ({ oldIndex, newIndex }) => {
-    this.props.actions.setTasks(
-      arrayMove(this.props.tasks, oldIndex, newIndex),
-    );
+const TaskList: React.SFC<Props> = ({
+  items,
+  setTaskStatus,
+  url,
+  children,
+}) => {
+  let taskClass = status => {
+    return status === 'COMPLETED' ? 'completed' : 'active';
   };
-
-  shouldCancelStart = e => {
-    if (
-      e.target.tagName.toLowerCase() === 'a' ||
-      e.target.tagName.toLowerCase() === 'i'
-    ) {
-      return true;
-    }
-  };
-
-  render() {
-    const { tasks, user, match } = this.props;
-
-    const taskDisplay =
-      tasks.length > 0 ? (
-        <Box>
-          <h2>Tasks</h2>
-          <SortableList
-            items={tasks}
-            onSortEnd={this.onSortEnd}
-            shouldCancelStart={this.shouldCancelStart}
-            setTaskStatus={this.props.actions.setTaskStatus}
-            url={match.url}
-          />
-          <Flex justifyContent="center">
-            <Link to={`/clients/${user.id}/tasks/add`}>
-              <Button>Add New Task</Button>
-            </Link>
-          </Flex>
-        </Box>
-      ) : (
-        <NoTasks user={user} />
-      );
-
-    return <div>{taskDisplay}</div>;
-  }
-}
-
-export class ConnectedTaskList extends React.Component<Props, {}> {
-  componentWillMount() {
-    this.props.actions.getTasks();
-  }
-
-  render() {
-    return <TaskList {...this.props} />;
-  }
-}
-
-const mapStateToProps = (state, props) => {
-  return {
-    tasks: filterById(
-      state.tasks.tasks,
-      props.user.id || props.match.params.id,
-      'user_id',
-    ),
-    user: findById(
-      state.clients.clients,
-      props.user.id || props.match.params.id,
-    ),
-  };
+  return (
+    <Box>
+      {items.map((task, index) => {
+        return (
+          <TaskContainer key={index} className={taskClass(task.status)}>
+            <TaskNumber>
+              <div>{index + 1}</div>
+              <SVG i={index + 1} />
+            </TaskNumber>
+            {children({
+              task,
+              index,
+              setTaskStatus,
+              url,
+              key: `item-${index}`,
+            })}
+          </TaskContainer>
+        );
+      })}
+    </Box>
+  );
 };
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ getTasks, setTasks, setTaskStatus }, dispatch),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConnectedTaskList);
+export default TaskList;

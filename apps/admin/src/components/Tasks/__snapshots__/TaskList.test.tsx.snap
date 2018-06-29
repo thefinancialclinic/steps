@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TaskList.tsx renders correctly 1`] = `
+<Box
+  theme={
+    Object {
+      "breakpoints": Array [
+        "40em",
+        "52em",
+        "64em",
+      ],
+      "fontSizes": Array [
+        12,
+        14,
+        16,
+        20,
+        24,
+        32,
+        48,
+        64,
+        96,
+        128,
+      ],
+      "space": Array [
+        0,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128,
+        256,
+        512,
+      ],
+    }
+  }
+>
+  <styled.div
+    className="active"
+    key="0"
+  >
+    <styled.div>
+      <div>
+        1
+      </div>
+      <styled.div
+        i={1}
+      />
+    </styled.div>
+    <TaskListItem
+      index={0}
+      key="item-0"
+      setTaskStatus={[Function]}
+      task={
+        Object {
+          "description": "Task description",
+          "title": "My first task",
+        }
+      }
+      url="foo/bar"
+    />
+  </styled.div>
+  <styled.div
+    className="active"
+    key="1"
+  >
+    <styled.div>
+      <div>
+        2
+      </div>
+      <styled.div
+        i={2}
+      />
+    </styled.div>
+    <TaskListItem
+      index={1}
+      key="item-1"
+      setTaskStatus={[Function]}
+      task={
+        Object {
+          "description": "Task description",
+          "title": "My second task",
+        }
+      }
+      url="foo/bar"
+    />
+  </styled.div>
+</Box>
+`;

@@ -51,7 +51,7 @@ export const ReplyFormSection: React.SFC<Props & Submittable> = ({
   onSubmit,
 }) => {
   const { status } = request;
-  if (status === 'NEEDS_ASSISTANCE') {
+  if (['NEEDS_ASSISTANCE', 'REPLIED'].includes(status)) {
     return <ReplyForm onSubmit={onSubmit} />;
   } else {
     return null;

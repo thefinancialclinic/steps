@@ -7,12 +7,13 @@ import ChatMessages from './ChatMessages';
 interface Props {
   className?: string;
   user: any;
+  messages: any;
+  requests: any;
 }
 
 class ChatList extends React.Component<Props, {}> {
   render() {
-    const { user } = this.props;
-    const { messages } = user;
+    const { user, messages } = this.props;
 
     const chatDisplay =
       messages && messages.length > 0 ? (

@@ -1,4 +1,4 @@
-import { select, text } from '@storybook/addon-knobs/react';
+import { select, text, boolean } from '@storybook/addon-knobs/react';
 import { storiesOf } from '@storybook/react';
 import Button from 'atoms/Buttons/Button';
 import Input from 'atoms/Input/Input';
@@ -27,14 +27,17 @@ import DataRow from './DataTable/DataRow';
 import DataTable from './DataTable/DataTable';
 import NavDropdown from './Dropdowns/NavDropdown';
 import Goal from './Goals/Goal';
-import Modal from './Modal';
+import Modal, { ModalSize } from './Modal';
 import NavGroup from './NavGroup/NavGroup';
 import PhotoUpload from './PhotoUpload';
 import Sidebar from './Sidebar/Sidebar';
 import StaffList from './StaffList/StaffList';
 import StaffListItem from './StaffList/StaffListItem';
-import { TaskList } from './Tasks/TaskList';
+import TaskList from './Tasks/TaskList';
 import TaskStep from './Tasks/TaskStep';
+import DeleteTask from 'components/Tasks/DeleteTask';
+import { Task } from 'reducers/tasks';
+import TaskListItem from './Tasks/TaskListItem';
 
 export const Components = storiesOf('Components', module)
   .add('ChatMedia', () => (
@@ -257,33 +260,48 @@ export const Components = storiesOf('Components', module)
     />
   ))
   .add('Modal', () => (
-    <Modal>
-      <div>This is a child in a panel.</div>
+    <Modal
+      onClose={() => {}}
+      noPadding={boolean('No Padding', true)}
+      size={select(
+        'Size',
+        {
+          Medium: ModalSize.Medium,
+          Large: ModalSize.Large,
+          FullWidth: ModalSize.FullWidth,
+        },
+        ModalSize.Medium,
+      )}
+    >
+      <DeleteTask
+        task={{ id: 1 } as Task}
+        user={{ id: 1 }}
+        undoDelete={() => {}}
+      />
     </Modal>
   ))
-  .add('TermsModal', () => <TermsModal phoneNumber="+15558675309" />)
+  .add('TermsModal', () => (
+    <TermsModal phoneNumber="+15558675309" onClose={() => {}} />
+  ))
   .add('VideoModal', () => (
-    <VideoModal
-      embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q"
-      onClose={() => {}}
+    <VideoModal embedURL="https://www.youtube.com/embed/WpHtdkKQz8Q" />
+  ))
+  .add('Delete Task', () => (
+    <DeleteTask
+      task={{ id: 1 } as Task}
+      user={{ id: 1 }}
+      undoDelete={() => {}}
     />
   ))
   .add('Task Step', () => (
     <TaskStep name="thing" removeField={i => null} count={1} />
   ))
-  // TODO: FIX LATER
-  // .add('Task Template', () => <TaskTemplate task={{
-  //   id: 1,
-  //   title: 'As sample task',
-  //   description: 'A sample description',
-  //   category: 'income'
-  // }}/>);
   .add('Task List', () => {
-    const match = { url: 'foo' };
     return (
       <TaskList
-        match={match}
-        tasks={[
+        url="foo/bar"
+        setTaskStatus={() => {}}
+        items={[
           {
             id: 1,
             title: 'Task #1',
@@ -295,8 +313,9 @@ export const Components = storiesOf('Components', module)
             description: 'A helpful description',
           },
         ]}
-        user={{ id: 1 }}
-      />
+      >
+        {childProps => <TaskListItem {...childProps} />}
+      </TaskList>
     );
   })
   .add('Error Alert', () => (
@@ -330,7 +349,7 @@ export const Components = storiesOf('Components', module)
     <Goal text="My goal is to go to the moon" onEdit={() => {}} />
   ))
   .add('User Profile', () => (
-    <UserProfile name="Jane Smith" email="jane@example.com" />
+    <UserProfile firstName="Jane" lastName="Smith" email="jane@example.com" />
   ))
   .add('Organization Profile', () => (
     <OrganizationProfile name="Organization name" />

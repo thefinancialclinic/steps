@@ -14,7 +14,7 @@ interface Props {
 class Sidebar extends React.Component<Props, {}> {
   render() {
     return (
-      <StyledSidebar>
+      <StyledSidebar className="sidebar">
         {this.props.children}
         {this.props.links.map((link, i) => (
           <SidebarItem to={link.to} key={i}>
@@ -34,7 +34,7 @@ const StyledSidebar = styled.div`
   height: 100%;
   margin-left: 30px;
   padding-left: 1.5em;
-  padding-top: 1em;
+  padding-top: 3em;
 `;
 
 export default Sidebar;
