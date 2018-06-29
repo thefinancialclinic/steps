@@ -18,7 +18,7 @@ import { postgraphile } from 'postgraphile';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
-import 'dotenv/config';
+require('dotenv').config({ path: '../../.env' });
 import { AuthController } from './controller/AuthController';
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -31,8 +31,8 @@ const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
 const ENABLE_POSTGRAPHILE = process.env.ENABLE_POSTGRAPHILE === 'true';
 
 // Auth0 Config
-const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE;
-const AUTH0_ISSUER = process.env.AUTH0_ISSUER;
+const { AUTH0_AUDIENCE, AUTH0_PROTOCOL, AUTH0_DOMAIN } = process.env;
+const AUTH0_ISSUER = `https://${AUTH0_DOMAIN}/`;
 
 export const pool = new Pool({
   user: connUrl.auth.split(':')[0],
