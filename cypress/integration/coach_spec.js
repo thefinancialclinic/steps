@@ -1,5 +1,5 @@
 const { API_URL, AUTH0_BEARER_TOKEN } = Cypress.env();
-let user, org, coach, task, client, superadmin;
+let user, org, coach, task, client, superadmin, request;
 let tokens;
 
 const taskTitle = 'The ultra awesome task';
@@ -55,6 +55,20 @@ Cypress.Commands.add('clearJohnDoe', () => {
             method: 'DELETE',
             url: `${API_URL}/messages/${m.id}`,
             headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+          });
+        });
+        cy.request({
+          method: 'GET',
+          url: `${API_URL}/clients/${c.id}/requests`,
+          headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+        }).then(({ body: requests }) => {
+          console.log(requests);
+          requests.forEach(r => {
+            cy.request({
+              method: 'DELETE',
+              url: `${API_URL}/requests/${r.id}`,
+              headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+            });
           });
         });
         cy.request({
@@ -316,6 +330,25 @@ describe('Coach', () => {
         cy.contains('Delete');
         cy.contains('My first step (edited)');
       });
+
+      it('Completes tasks', () => {
+        cy.loadTokens(tokens);
+
+        cy.contains('My Clients').click();
+        cy.get('div[title="John Doe"]').click();
+        cy.contains('This is an awesome task');
+        cy.get('.task-completed > .material-icons').contains(
+          'check_circle_outline',
+        );
+        cy.get('.task-completed').click();
+        cy.get('.task-completed > .material-icons').contains('check_circle');
+
+        cy.visit('http://localhost:3000');
+        cy.contains('My Clients').click();
+        cy.get('div[title="John Doe"]').click();
+        cy.contains('This is an awesome task');
+        cy.get('.task-completed > .material-icons').contains('check_circle');
+      });
     });
 
     describe('Goals', () => {
@@ -436,15 +469,117 @@ describe('Coach', () => {
         cy.contains('From Other to Client');
       });
 
-      it('Shows help', () => {
-        cy.loadTokens(tokens);
+      describe('Chat Help', () => {
+        before(() => {
+          cy.request({
+            method: 'POST',
+            url: `${API_URL}/requests`,
+            body: {
+              status: 'NEEDS_ASSISTANCE',
+              task_id: task,
+              user_id: client,
+            },
+            headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+          }).then(resp => {
+            request = resp.body.id;
+            cy.request({
+              method: 'POST',
+              url: `${API_URL}/messages`,
+              body: {
+                text: 'Help Message from Client to Coach',
+                to_user: coach,
+                from_user: client,
+                timestamp: new Date(),
+                request_id: request,
+              },
+              headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+            });
+          });
+        });
 
-        cy.contains('My Clients').click();
-        cy.get('div[title="Needs Help"]').click();
-        cy.contains('Next').click();
-        cy.contains('Chat').click();
-        cy.contains('log');
-        cy.contains('help').click();
+        it('Shows help', () => {
+          cy.loadTokens(tokens);
+
+          cy.contains('My Clients').click();
+          cy.get('div[title="Needs Help"]').click();
+          cy.contains('Next').click();
+          cy.contains('Chat').click();
+          cy.contains('log').click();
+          cy.contains('Help Message from Client to Coach');
+
+          cy.contains('help').click();
+          cy.contains('Needs assistance');
+          cy.contains('Help Message from Client to Coach');
+        });
+
+        it('Replies', () => {
+          cy.loadTokens(tokens);
+
+          cy.contains('My Clients').click();
+          cy.get('div[title="Needs Help"]').click();
+          cy.contains('Next').click();
+          cy.contains('Chat').click();
+          cy.contains('help').click();
+
+          cy.contains('Needs assistance').click();
+          cy.contains('Reply');
+          cy.get('textarea[name="reply"]')
+            .clear()
+            .type('Help Reply from Coach to Client');
+          cy.get('button')
+            .contains('Reply')
+            .click();
+          cy.contains('Help Reply from Coach to Client');
+          cy.contains('Back').click();
+          cy.contains('log').click();
+          cy.contains('Help Reply from Coach to Client');
+
+          cy.loadTokens(tokens);
+
+          cy.contains('My Clients').click();
+          cy.get('div[title="Needs Help"]').click();
+          cy.contains('Next').click();
+          cy.contains('Chat').click();
+          cy.contains('help').click();
+          cy.contains('Replied');
+          cy.contains('Help Message from Client to Coach').click();
+
+          cy.contains('Replied').click();
+          cy.contains('Reply');
+          cy.get('textarea[name="reply"]')
+            .clear()
+            .type('Second Help Reply from Coach to Client');
+          cy.get('button')
+            .contains('Reply')
+            .click();
+          cy.contains('Second Help Reply from Coach to Client');
+          cy.contains('Back').click();
+          cy.contains('log').click();
+          cy.contains('Second Help Reply from Coach to Client');
+
+          cy.request({
+            method: 'PUT',
+            url: `${API_URL}/requests/${request}`,
+            body: {
+              status: 'RESOLVED',
+              task_id: task,
+              user_id: client,
+            },
+            headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+          }).then(() => {
+            cy.loadTokens(tokens);
+
+            cy.contains('My Clients').click();
+            cy.get('div[title="Needs Help"]').click();
+            cy.contains('Next').click();
+            cy.contains('Chat').click();
+            cy.contains('help').click();
+            cy.contains('Resolved');
+            cy.contains('Help Message from Client to Coach').click();
+
+            cy.contains('Your response helped resolve the problem');
+          });
+        });
       });
     });
 

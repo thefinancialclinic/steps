@@ -54,9 +54,11 @@ class Requests extends React.Component<Props, {}> {
 
 const Container = styled(Box)`
   a {
+    display: block;
     text-decoration: none;
   }
-  a:visited {
+  a:visited,
+  a:active {
     color: ${black};
   }
 `;
