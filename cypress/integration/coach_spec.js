@@ -1,5 +1,5 @@
 const { API_URL, AUTH0_BEARER_TOKEN } = Cypress.env();
-let user, org, coach, task, client, superadmin, request;
+let user, org, coach, task, client, superadmin, request, incomeTask, creditTask;
 let tokens;
 
 const taskTitle = 'The ultra awesome task';
@@ -187,6 +187,36 @@ describe('Coach', () => {
       task = r.body.id;
     });
 
+    cy.request({
+      method: 'POST',
+      url: `${API_URL}/tasks`,
+      body: {
+        title: 'Debt Task',
+        category: 'Debt',
+        user_id: null,
+        status: 'ACTIVE',
+        date_created: new Date(),
+      },
+      headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+    }).then(r => {
+      incomeTask = r.body.id;
+    });
+
+    cy.request({
+      method: 'POST',
+      url: `${API_URL}/tasks`,
+      body: {
+        title: 'Credit task',
+        category: 'Credit',
+        user_id: null,
+        status: 'ACTIVE',
+        date_created: new Date(),
+      },
+      headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+    }).then(r => {
+      creditTask = r.body.id;
+    });
+
     cy.clearLocalStorage();
     cy.clearJohnDoe();
   });
@@ -267,6 +297,22 @@ describe('Coach', () => {
 
         cy.contains('View Steps');
         cy.contains('Add New Task');
+      });
+
+      it('Filters tasks', () => {
+        cy.loadTokens(tokens);
+
+        cy.contains('My Clients').click();
+        cy.get('div[title="John Doe"]').click();
+        cy.contains('Add New Task').click();
+        cy.contains('Credit').click();
+        cy.contains('Debt').click();
+        cy.get('.add-tasks-list')
+          .invoke('text')
+          .should('not.contain', 'Credit task');
+        cy.get('.add-tasks-list')
+          .invoke('text')
+          .should('not.contain', 'Debt task');
       });
 
       it('Edit task content', () => {

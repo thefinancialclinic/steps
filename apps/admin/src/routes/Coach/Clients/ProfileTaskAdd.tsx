@@ -15,6 +15,8 @@ import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import { grey } from 'styles/colors';
 import { findById } from 'helpers';
+import map from 'lodash/map';
+import uniq from 'lodash/uniq';
 
 interface Props {
   className?: string;
@@ -44,6 +46,17 @@ class AddTask extends React.Component<Props, State> {
     categories: [],
   };
 
+  componentWillMount() {
+    const categories = uniq(map(this.props.tasks, 'category')).map(
+      (name: string) => ({
+        name,
+        active: true,
+      }),
+    );
+
+    this.setState({ categories });
+  }
+
   updateCategories = category => {
     const categories = this.state.categories.map(c => {
       if (c.name !== category.name) return c;
@@ -54,6 +67,11 @@ class AddTask extends React.Component<Props, State> {
   };
 
   render() {
+    const { tasks } = this.props;
+    const { categories } = this.state;
+    const filteredTasks = tasks.filter(t =>
+      categories.map(c => !!c.active && c.name).includes(t.category),
+    );
     return (
       <Main>
         <Header>
@@ -63,35 +81,31 @@ class AddTask extends React.Component<Props, State> {
           </Link>
         </Header>
         <PageHeader label="Add New Task" />
-        <Filter
-          update={this.updateCategories}
-          categories={[
-            { name: 'debt', active: true },
-            { name: 'budget', active: false },
-          ]}
-        />
+        <Filter update={this.updateCategories} categories={categories} />
         <h3>Task</h3>
         {/* TODO: Extract to TaskList */}
-        {this.props.tasks.map((task, i) => {
-          const userTask = {
-            ...task,
-            user_id: this.props.user.id,
-            title: task.title,
-            category: task.category,
-            description: task.description,
-          };
-          delete userTask.steps;
+        <div className="add-tasks-list">
+          {filteredTasks.map((task, i) => {
+            const userTask = {
+              ...task,
+              user_id: this.props.user.id,
+              title: task.title,
+              category: task.category,
+              description: task.description,
+            };
+            delete userTask.steps;
 
-          return (
-            <TaskTemplate
-              task={userTask}
-              key={i}
-              user={this.props.user}
-              addTask={this.props.actions.addTask}
-              history={this.props.history}
-            />
-          );
-        })}
+            return (
+              <TaskTemplate
+                task={userTask}
+                key={i}
+                user={this.props.user}
+                addTask={this.props.actions.addTask}
+                history={this.props.history}
+              />
+            );
+          })}
+        </div>
       </Main>
     );
   }
