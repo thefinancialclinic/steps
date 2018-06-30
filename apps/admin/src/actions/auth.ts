@@ -9,13 +9,13 @@ export const getAuthenticatedUser = () => async dispatch => {
       const apiToken = auth0.getAppToken();
       api.defaults.headers.common['Authorization'] = `Bearer ${apiToken}`;
       const user = await api.get('/user');
-      dispatch(setAuthenticatedUser(user.data));
+      return dispatch(setAuthenticatedUser(user.data));
     } else {
-      dispatch(setUnauthenticatedUser());
+      return dispatch(setUnauthenticatedUser());
     }
   } catch (err) {
     console.log(err);
-    dispatch(setUnauthenticatedUser());
+    return dispatch(setUnauthenticatedUser());
   }
 };
 
