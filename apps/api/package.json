@@ -35,7 +35,8 @@
     "pg": "^7.3.0",
     "pg-connection-string": "^2.0.0",
     "postgraphile": "^4.0.0-rc.1",
-    "reflect-metadata": "^0.1.12"
+    "reflect-metadata": "^0.1.12",
+    "serve-favicon": "^2.5.0"
   },
   "scripts": {
     "start": "$(npm bin)/nodemon",
