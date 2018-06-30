@@ -39,6 +39,9 @@ components:
         responses:
           type: object
           nullable: true
+        topic:
+          type: string
+          nullable: true
     Media:
       properties:
         task_id:
@@ -77,6 +80,9 @@ components:
           type: integer
         task_id:
           type: integer
+        created_at:
+          type: date-time
+          nullable: true
     Step:
       properties:
         text:

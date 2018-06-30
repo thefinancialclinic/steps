@@ -65,7 +65,7 @@ class EditTask extends React.Component<Props, {}> {
 
 // TODO: Need to request the specific task in order to get the steps
 const mapStateToProps = (state, props) => ({
-  task: findById(state.tasks.tasks, props.match.params.taskId),
+  task: findById(state.tasks, props.match.params.taskId),
   user: findById(state.clients.clients, props.match.params.id),
 });
 

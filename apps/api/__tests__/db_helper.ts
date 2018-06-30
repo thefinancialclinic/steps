@@ -57,25 +57,23 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
     }
 
     // User
-    user = (await new UserRepository(pool).getAll())[0];
+    user = (await new UserRepository(pool).get())[0];
     if (!user) {
-      user = await new UserRepository(pool).save(
-        new User({
-          first_name: 'FIRST',
-          last_name: 'LAST',
-          email: 'EMAIL',
-          phone: 'PHONE',
-          org_id: org.id,
-          color: 'COLOR',
-          goals: ['walk', 'run'],
-          status: 'AWAITING_HELP',
-          type: 'Client',
-          updated: new Date(),
-          platform: 'SMS',
-          follow_up_date: new Date(),
-          checkin_times: [],
-        }),
-      );
+      user = await new UserRepository(pool).save({
+        first_name: 'FIRST',
+        last_name: 'LAST',
+        email: 'EMAIL',
+        phone: 'PHONE',
+        org_id: org.id,
+        color: 'COLOR',
+        goals: ['walk', 'run'],
+        status: 'AWAITING_HELP',
+        type: 'Client',
+        updated: new Date(),
+        platform: 'SMS',
+        follow_up_date: new Date(),
+        checkin_times: [],
+      });
     }
 
     // Task

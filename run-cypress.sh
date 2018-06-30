@@ -17,11 +17,12 @@ start() {
 echo -e "🌲 Preparing to run cypress...\n"
 echo "Environment variables..."
 
-echo -e "- \$CI       -> $CI"
-echo -e "- \$NODE_ENV -> $NODE_ENV"
-echo -e "- \$API_URL  -> $API_URL"
-echo -e "- \$PORT     -> $PORT\n"
+echo -e "- \$CI            -> $CI"
+echo -e "- \$NODE_ENV      -> $NODE_ENV"
+echo -e "- \$API_URL       -> $API_URL"
+echo -e "- \$PORT          -> $PORT"
+echo -e "- \$AUTH0_ENABLED -> $AUTH0_ENABLED\n"
 
 is_running || start
 $(npm bin)/cypress install
-$(npm bin)/cypress run --env configFile=ci
+$(npm bin)/cypress run --env configFile=ci --spec $1

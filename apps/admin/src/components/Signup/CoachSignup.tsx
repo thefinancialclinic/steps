@@ -38,10 +38,11 @@ class CoachSignup extends React.Component<any, any> {
   }
 
   render() {
+    const { org } = this.props;
     return (
       <FormContainer>
         <h1>Sign Up</h1>
-        <OrgInfo org={this.props.org} />
+        <OrgInfo org={org} />
         <CoachSignupForm onSubmit={this.onSubmit} />
         <p className="login">
           Already have an account? <Link to="/login">Log In</Link>

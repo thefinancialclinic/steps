@@ -7,11 +7,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { EDIT_PROFILE } from 'routes/Coach/Clients/EditProfile';
 import styled from 'styled-components';
+import { USER_TYPE, User } from '../reducers/auth';
 
 interface Props {
-  actions?: any;
+  actions?: { showModal };
   children?: any;
-  user: any;
+  user: User;
   links: any;
   role: any;
   routes: any;
@@ -19,16 +20,19 @@ interface Props {
 }
 
 class UserLayout extends React.Component<Props, {}> {
-  private static defaultProps = {
-    withAddTask: false,
-  };
-
   editClientProfile = () => {
     this.props.actions.showModal(EDIT_PROFILE);
   };
 
   render() {
-    const { user, links, routes, component: Component, ...rest } = this.props;
+    const {
+      user,
+      role,
+      links,
+      routes,
+      component: Component,
+      ...rest
+    } = this.props;
     if (!user) return null;
 
     return (
@@ -36,7 +40,9 @@ class UserLayout extends React.Component<Props, {}> {
         <Flex>
           <Box width={[1, 1 / 3]}>
             <Sidebar links={links}>
-              <EditButton onClick={this.editClientProfile} />
+              {role !== USER_TYPE.CLIENT && (
+                <EditButton onClick={this.editClientProfile} />
+              )}
               <h2>
                 {user.first_name} {user.last_name}
               </h2>

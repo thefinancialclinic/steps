@@ -3,9 +3,9 @@ import { RoutesElement } from '../index';
 import TopBar from 'components/TopBar';
 import Alert from 'containers/Alert';
 
-const Superadmin: RoutesElement = ({ user }) => (
+const Superadmin: RoutesElement = ({ user, org }) => (
   <div>
-    <TopBar user={user} />
+    <TopBar user={user} org={org} />
     <Alert />
     <h1>Superadmin Route</h1>
   </div>

@@ -17,6 +17,7 @@ const BackButton: React.SFC<Props> = ({ to, className }) => (
 );
 
 const StyledBackButton = styled(BackButton)`
+  display: block;
   text-decoration: none;
   div {
     color: ${green};

@@ -14,10 +14,10 @@ type Props = {
   user: User;
 };
 
-const Coach: RoutesElement = ({ user }) => {
+const Coach: RoutesElement = ({ user, org }) => {
   return (
     <div>
-      <TopBar user={user} />
+      <TopBar user={user} org={org} />
       <Alert />
 
       <Switch>
