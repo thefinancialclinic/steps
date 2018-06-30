@@ -6,29 +6,44 @@ import { Pool, Client } from 'pg';
 export type RequestId = number;
 export type RequestStatus = 'NEEDS_ASSISTANCE' | 'REPLIED' | 'RESOLVED';
 
-export type RequestOpts = {
-  id?: RequestId;
-  status?: RequestStatus;
-  user_id: UserId;
-  task_id: TaskId;
-};
-
 export class RequestItem {
   id?: RequestId;
   status?: RequestStatus;
   user_id: UserId;
   task_id: TaskId;
+  created_at?: Date;
 
-  constructor(opts: RequestOpts) {
+  constructor(opts: Partial<RequestItem>) {
     this.id = opts.id;
     this.status = opts.status;
     this.user_id = opts.user_id;
     this.task_id = opts.task_id;
+    this.created_at = opts.created_at;
   }
 }
 
 export class RequestRepository implements Repository<RequestId, RequestItem> {
   constructor(public pool: Pool) {}
+
+  async get(conditions = {}) {
+    let client;
+    try {
+      client = await this.pool.connect();
+      let q = 'SELECT * FROM task WHERE 1 = 1';
+      let val;
+      Object.keys(conditions).forEach(label => {
+        val = conditions[label];
+        val = typeof val === 'string' ? client.escapeLiteral(val) : val;
+        q = q + ` AND ${client.escapeIdentifier(label)} = ${val}`;
+      });
+      const res = await this.pool.query(q);
+      return res.rows.map(user => new RequestItem(user));
+    } catch (err) {
+      throw `Could not query Tasks (${err})`;
+    } finally {
+      client.release();
+    }
+  }
 
   async getOne(id: RequestId) {
     const res = await this.pool.query(`SELECT * FROM request WHERE id = $1`, [

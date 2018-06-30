@@ -10,6 +10,8 @@
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
+require('dotenv').config({ path: '.env' });
+const { CYPRESS_AUTH0_BEARER_TOKEN, AUTH0_ENABLED } = process.env;
 
 module.exports = (on, config) => {
   const env = config.env.configFile || 'development';
@@ -21,6 +23,8 @@ module.exports = (on, config) => {
           baseUrl: 'http://localhost:3000',
           env: {
             API_URL: 'http://localhost:3001/api',
+            AUTH0_BEARER_TOKEN: CYPRESS_AUTH0_BEARER_TOKEN,
+            AUTH0_ENABLED,
           },
           defaultCommandTimeout: 10000,
         };

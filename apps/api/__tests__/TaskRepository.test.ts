@@ -33,26 +33,26 @@ describe('Task entity operations', () => {
   });
 
   it('find a task', async () => {
-    let actual = await repo.getOne(task.id);
-    expect(actual.id).toBe(task.id);
+    let actual = await repo.get({ id: task.id });
+    expect(actual[0].id).toBe(task.id);
   });
 
   it('gets all tasks', async () => {
-    let actual = await repo.getAll();
+    let actual = await repo.get();
     expect(actual.filter(x => x.id == task.id).length).toBe(1);
   });
 
   it('updates the task', async () => {
     const expectedTitle = 'NEW TITLE';
-    let newTask = await repo.getOne(task.id);
-    newTask.title = expectedTitle;
-    const actual = await repo.update(newTask, task.id);
+    let newTask = await repo.get({ id: task.id });
+    newTask[0].title = expectedTitle;
+    const actual = await repo.update(newTask[0], task.id);
     expect(actual.title).toBe(expectedTitle);
   });
 
   it('can retrieve steps', async () => {
-    const subject = await repo.getOne(task.id);
-    expect(subject.steps[1].note).toBe('NOTE2');
+    const subject = await repo.get({ id: task.id });
+    expect(subject[0].steps[1].note).toBe('NOTE2');
   });
 
   it('can partially update a task', async () => {

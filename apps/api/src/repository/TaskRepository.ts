@@ -1,6 +1,7 @@
 import { Repository } from './Repository';
 import { Pool, Client } from 'pg';
 import { placeholders } from '../util';
+import { User } from './UserRepository';
 
 export type TaskId = number;
 export type TaskStatus = 'ACTIVE' | 'COMPLETED' | 'ARCHIVED';
@@ -51,37 +52,6 @@ export class Task {
 export class TaskRepository implements Repository<TaskId, Task> {
   constructor(public pool: Pool) {}
 
-  async getOne(id: TaskId): Promise<Task> {
-    // Return a single Task along with the all the steps that belong to it.
-    const res = await this.pool.query(
-      `
-      SELECT
-        t.id,
-        t.title,
-        t.category,
-        t.description,
-        t.status,
-        t.created_by,
-        t.user_id,
-        t.difficulty,
-        t.date_created,
-        t.date_completed,
-        t.recurring,
-        t.steps,
-        t.order
-      FROM task t
-      WHERE id = $1;
-      `,
-      [id],
-    );
-    return new Task(res.rows[0]);
-  }
-
-  async getAll(): Promise<Task[]> {
-    const res = await this.pool.query(`SELECT * FROM task`);
-    return res.rows.map(row => new Task(row));
-  }
-
   async filterAll(filters: { status: TaskStatus }): Promise<Task[]> {
     const res = await this.pool.query(
       `
@@ -131,6 +101,47 @@ export class TaskRepository implements Repository<TaskId, Task> {
     return new Task(res.rows[0]);
   }
 
+  async get(conditions = {}) {
+    let client;
+    try {
+      client = await this.pool.connect();
+      let q = 'SELECT * FROM task WHERE 1 = 1';
+      let val;
+      Object.keys(conditions).forEach(label => {
+        val = conditions[label];
+        val = typeof val === 'string' ? client.escapeLiteral(val) : val;
+        q = q + ` AND ${client.escapeIdentifier(label)} = ${val}`;
+      });
+      const res = await this.pool.query(q);
+      return res.rows.map(user => new Task(user));
+    } catch (err) {
+      throw `Could not query Tasks (${err})`;
+    } finally {
+      client.release();
+    }
+  }
+
+  async getOne(id: TaskId) {
+    try {
+      const result = await this.get({ id });
+      if (result.length > 0) {
+        return result[0];
+      } else {
+        throw `Task not found (id: ${id})`;
+      }
+    } catch (err) {
+      throw `Could not query tasks (${err})`;
+    }
+  }
+
+  async getAll() {
+    try {
+      return this.get({});
+    } catch (err) {
+      throw `Could not query all tasks (${err})`;
+    }
+  }
+
   async delete(id: TaskId): Promise<number> {
     const res = await this.pool.query(`DELETE FROM task WHERE id = $1`, [id]);
     return res.rowCount;
@@ -138,7 +149,8 @@ export class TaskRepository implements Repository<TaskId, Task> {
 
   async update(taskOpts, taskId: TaskId): Promise<Task> {
     if (Object.keys(taskOpts).length === 0) {
-      return this.getOne(taskId);
+      const result = await this.get({ id: taskId });
+      return result[0];
     }
     const client = await this.pool.connect();
     const rawColumns = Object.keys(taskOpts);
@@ -157,6 +169,52 @@ export class TaskRepository implements Repository<TaskId, Task> {
       throw `Could not update Task (${err})`;
     } finally {
       client.release();
+    }
+  }
+
+  async owner(taskId?: TaskId): Promise<User> {
+    if (taskId == null || taskId == undefined) {
+      return null;
+    }
+    try {
+      const res = await this.pool.query(
+        `
+        SELECT client.*
+        FROM task
+        JOIN "user" client ON client.id = task.user_id
+        WHERE client.type = 'Client'
+        AND task.id = $1;
+      `,
+        [taskId],
+      );
+      if (res.rows.length < 1) throw `Could not find task owner`;
+      return new User(res.rows[0]);
+    } catch (err) {
+      return null;
+    }
+  }
+
+  async creator(taskId?: TaskId): Promise<User> {
+    if (taskId == null || taskId == undefined) {
+      return null;
+    }
+    try {
+      const res = await this.pool.query(
+        `
+      SELECT coach.*
+      FROM task
+      JOIN "user" client ON client.id = task.user_id
+      JOIN "user" coach ON coach.id = client.coach_id
+      WHERE client.type = 'Client'
+      AND coach.type = 'Coach'
+      AND task.id = $1;
+      `,
+        [taskId],
+      );
+      if (res.rows.length < 1) throw `Could not find task creator`;
+      return new User(res.rows[0]);
+    } catch (err) {
+      return null;
     }
   }
 }

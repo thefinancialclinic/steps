@@ -16,7 +16,7 @@ describe('EditOrganization.tsx', () => {
 
     const wrapper = shallow(
       <EditOrganization
-        user={{ id: 1, email: 'my-email@example.com' }}
+        org={{ id: 1, name: 'my org' }}
         actions={actions}
         history={history}
       />,
@@ -26,12 +26,9 @@ describe('EditOrganization.tsx', () => {
 
     form.simulate('submit', { name: 'my organization' });
 
-    expect(actions.updateOrganization).toHaveBeenCalledWith(
-      {
-        name: 'my organization',
-      },
-      { id: 1, email: 'my-email@example.com' },
-    );
+    expect(actions.updateOrganization).toHaveBeenCalledWith({
+      name: 'my organization',
+    });
   });
 
   it('navigates back to profile if update user is successful', async () => {
@@ -42,7 +39,7 @@ describe('EditOrganization.tsx', () => {
 
     const wrapper = shallow(
       <EditOrganization
-        user={{ id: 1, email: 'my-email@example.com' }}
+        org={{ id: 1, name: 'my org' }}
         actions={actions}
         history={history}
       />,
@@ -63,7 +60,7 @@ describe('EditOrganization.tsx', () => {
 
     const wrapper = shallow(
       <EditOrganization
-        user={{ id: 1, email: 'my-email@example.com' }}
+        org={{ id: 1, name: 'my org' }}
         actions={actions}
         history={history}
       />,
@@ -86,7 +83,7 @@ describe('EditOrganization.tsx', () => {
 
     const wrapper = shallow(
       <EditOrganization
-        user={{ id: 1, email: 'my-email@example.com' }}
+        org={{ id: 1, name: 'my org' }}
         actions={actions}
         history={history}
       />,
