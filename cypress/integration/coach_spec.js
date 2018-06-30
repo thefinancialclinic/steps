@@ -90,6 +90,11 @@ describe('Auth', () => {
     cy.visit('http://localhost:3000/signup/1');
     cy.contains('Sign Up');
   });
+
+  it('can see the client login page', () => {
+    cy.visit('http://localhost:3000/my-tasks');
+    cy.contains('Continue');
+  });
 });
 
 describe('Coach', () => {
@@ -249,5 +254,143 @@ describe('Coach', () => {
     cy.contains('Edit');
     cy.contains('Delete');
     cy.contains('My first step (edited)');
+  });
+
+  it('Adds a goal', () => {
+    cy.logIn(COACH_EMAIL);
+
+    cy.contains('My Clients').click();
+    cy.get('div[title="John Doe"]').click();
+    cy.contains('Goals').click();
+    cy.contains('Add Goal').click();
+
+    cy.get('textarea[name="goal"]')
+      .clear()
+      .type('My first goal');
+    cy.contains('Save').click();
+
+    cy.contains('Success!');
+    cy.contains('Edit Goal');
+    cy.contains('My first goal');
+  });
+
+  it('Edits a goal', () => {
+    cy.logIn(COACH_EMAIL);
+
+    cy.contains('My Clients').click();
+    cy.get('div[title="John Doe"]').click();
+    cy.contains('Goals').click();
+    cy.contains('Edit Goal').click();
+
+    cy.get('textarea[name="goal"]')
+      .clear()
+      .type('My first goal (edited)');
+    cy.contains('Save').click();
+
+    cy.contains('Success!');
+    cy.contains('Edit Goal');
+    cy.contains('My first goal (edited)');
+  });
+
+  it('Adds a new goal', () => {
+    cy.logIn(COACH_EMAIL);
+
+    cy.contains('My Clients').click();
+    cy.get('div[title="John Doe"]').click();
+    cy.contains('Goals').click();
+    cy.contains('New Goal').click();
+
+    cy.get('textarea[name="goal"]')
+      .clear()
+      .type('My second goal');
+    cy.contains('Save').click();
+
+    cy.contains('Success!');
+    cy.contains('Edit Goal');
+    cy.contains('My second goal');
+  });
+
+  it('Sets follow up', () => {
+    cy.logIn(COACH_EMAIL);
+
+    cy.contains('My Clients').click();
+    cy.get('div[title="John Doe"]').click();
+    cy.contains('Follow Up').click();
+    cy.contains("Let's follow up");
+
+    cy.get('input[name="weeks"]')
+      .clear()
+      .type('2');
+    cy.contains('Save').click();
+
+    cy.contains('Saved!');
+    cy.contains("Let's follow up in");
+    cy.get('input[name="weeks"]').should('have.value', '2');
+    cy.contains('weeks.');
+  });
+
+  it('Updates follow up', () => {
+    cy.logIn(COACH_EMAIL);
+
+    cy.contains('My Clients').click();
+    cy.get('div[title="John Doe"]').click();
+    cy.contains('Follow Up').click();
+    cy.contains("Let's follow up");
+
+    cy.get('input[name="weeks"]')
+      .clear()
+      .type('3');
+    cy.contains('Save').click();
+
+    cy.contains('Saved!');
+    cy.contains("Let's follow up in");
+    cy.get('input[name="weeks"]').should('have.value', '3');
+    cy.contains('weeks.');
+  });
+
+  it('Edits client profile', () => {
+    cy.logIn(COACH_EMAIL);
+
+    cy.contains('My Clients').click();
+    cy.get('div[title="John Doe"]').click();
+    cy.contains('Edit').click();
+    cy.contains('Edit Profile');
+
+    cy.get('input[name="first_name"]')
+      .clear()
+      .type('Jane');
+    cy.get('input[name="last_name"]')
+      .clear()
+      .type('Dough');
+    cy.get('input[name="email"]')
+      .clear()
+      .type('jane@dough.com');
+    cy.get('input[name="phone"]')
+      .clear()
+      .type('5551234567');
+    cy.contains('Save').click();
+
+    cy.contains('Successfully updated client');
+    cy.contains('Jane Dough');
+
+    cy.contains('Edit').click();
+    cy.contains('Edit Profile');
+
+    cy.get('input[name="first_name"]')
+      .clear()
+      .type('John');
+    cy.get('input[name="last_name"]')
+      .clear()
+      .type('Doe');
+    cy.get('input[name="email"]')
+      .clear()
+      .type('john@doe.com');
+    cy.get('input[name="phone"]')
+      .clear()
+      .type('1234567890');
+    cy.contains('Save').click();
+
+    cy.contains('Successfully updated client');
+    cy.contains('John Doe');
   });
 });
