@@ -62,9 +62,12 @@ export class TaskController {
 
   async isAllowed({ user, params, method }) {
     try {
-      const taskId = parseInt(params.id);
-      const client = await this.repo.owner(taskId);
-      const coach = await this.repo.creator(taskId);
+      let taskId, client, coach;
+      if (params.id) {
+        taskId = parseInt(params.id);
+        client = await this.repo.owner(taskId);
+        coach = await this.repo.creator(taskId);
+      }
 
       return (
         {

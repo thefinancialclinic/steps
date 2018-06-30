@@ -26,8 +26,8 @@ export const setUnauthenticatedUser = () => async dispatch => {
 
 export const SET_AUTHENTICATED_USER = 'SET_AUTHENTICATED_USER';
 export const setAuthenticatedUser = user => async dispatch => {
-  const org = await api.get(`/orgs/${user.org_id}`);
-  dispatch(setOrg(org));
+  const { data } = await api.get(`/orgs/${user.org_id}`);
+  dispatch(setOrg(data));
   return dispatch({ type: SET_AUTHENTICATED_USER, user });
 };
 
@@ -56,21 +56,18 @@ export const logout = () => dispatch => {
   return dispatch({ type: LOGOUT, user: null });
 };
 
+export const GET_ORG = 'GET_ORG';
+export const getOrg = id => async dispatch => {
+  const { data } = await api.get(`/orgs/${id}`);
+  return dispatch(setOrg(data));
+};
+
 export const SET_ORG = 'SET_ORG';
 export const setOrg = org => {
   return {
     type: SET_ORG,
     org,
   };
-};
-
-export const getOrg = (id): DispatchFn => async dispatch => {
-  try {
-    const { data } = await api.get(`/orgs/${id}`);
-    return dispatch(setOrg(data));
-  } catch (err) {
-    return Promise.reject(err);
-  }
 };
 
 export const UPDATE_USER = 'UPDATE_USER';

@@ -1,20 +1,10 @@
 const { API_URL, AUTH0_BEARER_TOKEN } = Cypress.env();
-let user, org, coach, task;
+let user, org, coach, task, client, superadmin;
+let tokens;
 
 const taskTitle = 'The ultra awesome task';
 const COACH_EMAIL = 'connor+steps-cypress-coach@8thlight.com';
 const COACH_AUTH0_ID = '5b3307d352e65360e5e0e13b';
-
-Cypress.Commands.add('setUser', u => {
-  cy.visit('http://localhost:3000')
-    .window()
-    .should(win => {
-      win.localStorage.setItem('USER', JSON.stringify(u));
-      win.localStorage.setItem('AUTHENTICATED', 'true');
-    });
-
-  cy.visit('http://localhost:3000');
-});
 
 Cypress.Commands.add('cleanCoach', () => {
   cy.request({
@@ -37,14 +27,12 @@ Cypress.Commands.add('clearJohnDoe', () => {
     url: `${API_URL}/clients`,
     headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
   }).then(({ body: clients }) => {
-    const johns = clients.filter(
-      c => c.first_name === 'John' && c.last_name === 'Doe',
-    );
-    johns.forEach(j => {
-      console.log({ j });
+    const testClients = clients.filter(c => c.email === 'client@example.com');
+    testClients.forEach(c => {
+      console.log({ c });
       cy.request({
         method: 'GET',
-        url: `${API_URL}/clients/${j.id}/tasks`,
+        url: `${API_URL}/clients/${c.id}/tasks`,
         headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
       }).then(({ body: tasks }) => {
         console.log(tasks);
@@ -55,9 +43,23 @@ Cypress.Commands.add('clearJohnDoe', () => {
             headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
           });
         });
+      });
+      cy.request({
+        method: 'GET',
+        url: `${API_URL}/clients/${c.id}/messages`,
+        headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+      }).then(({ body: messages }) => {
+        console.log(messages);
+        messages.forEach(m => {
+          cy.request({
+            method: 'DELETE',
+            url: `${API_URL}/messages/${m.id}`,
+            headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+          });
+        });
         cy.request({
           method: 'DELETE',
-          url: `${API_URL}/clients/${j.id}`,
+          url: `${API_URL}/clients/${c.id}`,
           headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
         });
       });
@@ -73,6 +75,30 @@ Cypress.Commands.add('logIn', email => {
   cy.contains('button', 'Log In')
     .trigger('click')
     .click();
+});
+
+Cypress.Commands.add('storeTokens', () => {
+  cy.visit('http://localhost:3000');
+  cy.window().then(win => {
+    const access_token = win.localStorage.getItem('access_token');
+    const id_token = win.localStorage.getItem('id_token');
+    const expires_at = win.localStorage.getItem('expires_at');
+    tokens = {
+      access_token,
+      id_token,
+      expires_at,
+    };
+  });
+});
+
+Cypress.Commands.add('loadTokens', tokens => {
+  cy.window().then(win => {
+    const { access_token, id_token, expires_at } = tokens;
+    win.localStorage.setItem('access_token', access_token);
+    win.localStorage.setItem('id_token', id_token);
+    win.localStorage.setItem('expires_at', expires_at);
+  });
+  cy.visit('http://localhost:3000');
 });
 
 describe('Auth', () => {
@@ -156,241 +182,358 @@ describe('Coach', () => {
     cy.cleanCoach();
   });
 
-  it('Logs in as a coach', () => {
-    cy.logIn(COACH_EMAIL);
+  describe('Login', () => {
+    it('Logs in as a coach', () => {
+      cy.logIn(COACH_EMAIL);
 
-    cy.url().should('equal', 'http://localhost:3000/');
+      cy.url().should('equal', 'http://localhost:3000/');
 
-    cy.contains('My Clients');
-    cy.contains('New Client');
+      cy.contains('My Clients');
+      cy.contains('New Client');
+      cy.storeTokens(tokens);
+    });
   });
 
-  it('Creates a new client', () => {
-    cy.logIn(COACH_EMAIL);
+  describe('New Client', () => {
+    it('Creates a new client', () => {
+      console.log(tokens);
+      cy.loadTokens(tokens);
 
-    cy.contains('New Client').click();
-    cy.contains('Add New Client');
+      cy.contains('New Client').click();
+      cy.contains('Add New Client');
 
-    cy.get('input[name=first_name]').type('John');
-    cy.get('input[name=last_name]').type('Doe');
-    cy.get('input[name=email]').type('john@doe.com');
-    cy.get('input[name=phone]').type('1234567890');
-    cy.contains('Save').click();
-    cy.contains('Text START to (646) 798-8004 to get started.');
+      cy.get('input[name=first_name]').type('John');
+      cy.get('input[name=last_name]').type('Doe');
+      cy.get('input[name=email]').type('client@example.com');
+      cy.get('input[name=phone]').type('1234567890');
+      cy.contains('Save').click();
+      cy.contains('Text START to (646) 798-8004 to get started.');
+    });
   });
 
-  it('Adds a new task for a client', () => {
-    cy.logIn(COACH_EMAIL);
+  describe('My Clients', () => {
+    it('Shows clients who need assistance', () => {
+      console.log(tokens);
+      cy.request({
+        method: 'POST',
+        url: `${API_URL}/clients`,
+        body: {
+          first_name: 'Needs',
+          last_name: 'Help',
+          email: 'client@example.com',
+          status: 'AWAITING_HELP',
+          org_id: org,
+          coach_id: coach,
+          goals: [],
+        },
+        headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+      }).then(resp => {
+        client = resp.body.id;
+        cy.loadTokens(tokens);
 
-    cy.contains('My Clients').click();
-    cy.get('div[title="John Doe"]').click();
-    cy.contains('Next').click();
-    cy.contains('Add New Task').click();
-    cy.contains(taskTitle).click();
-    cy.contains('SAVE TO WORKPLAN').click();
-    cy.contains(taskTitle);
-
-    cy.contains('View Steps');
-    cy.contains('Add New Task');
+        cy.contains('My Clients').click();
+        cy.contains('Awaiting Help (1)');
+        cy.contains('Everyone Else (1)');
+      });
+    });
   });
 
-  it('Edit task content', () => {
-    cy.logIn(COACH_EMAIL);
+  describe('Client Profile', () => {
+    describe('Tasks', () => {
+      it('Adds a new task for a client', () => {
+        cy.loadTokens(tokens);
 
-    cy.contains('My Clients').click();
-    cy.get('div[title="John Doe"]').click();
-    cy.contains('View Steps').click();
-    cy.get('div.content')
-      .contains('Edit')
-      .click();
-    cy.get('input[name=title]')
-      .clear()
-      .type('This is an awesome task');
-    cy.get('input[name=description]')
-      .clear()
-      .type('And it has an awesome description');
-    cy.contains('SAVE TO WORKPLAN').click();
+        cy.contains('My Clients').click();
+        cy.get('div[title="John Doe"]').click();
+        cy.contains('Next').click();
+        cy.contains('Add New Task').click();
+        cy.contains(taskTitle).click();
+        cy.contains('SAVE TO WORKPLAN').click();
+        cy.contains(taskTitle);
 
-    cy.contains('Edit');
-    cy.contains('Delete');
-    cy.contains('This is an awesome task');
-    cy.contains('And it has an awesome description');
-  });
+        cy.contains('View Steps');
+        cy.contains('Add New Task');
+      });
 
-  it('Adds a new task step', () => {
-    cy.logIn(COACH_EMAIL);
+      it('Edit task content', () => {
+        cy.loadTokens(tokens);
 
-    cy.contains('My Clients').click();
-    cy.get('div[title="John Doe"]').click();
-    cy.contains('View Steps').click();
-    cy.get('div.content')
-      .contains('Edit')
-      .click();
-    cy.get('.add-step-link').click();
-    cy.get('textarea[name="steps[0].text"]')
-      .clear()
-      .type('My first step');
-    cy.contains('SAVE TO WORKPLAN').click();
+        cy.contains('My Clients').click();
+        cy.get('div[title="John Doe"]').click();
+        cy.contains('View Steps').click();
+        cy.get('div.content')
+          .contains('Edit')
+          .click();
+        cy.get('input[name=title]')
+          .clear()
+          .type('This is an awesome task');
+        cy.get('input[name=description]')
+          .clear()
+          .type('And it has an awesome description');
+        cy.contains('SAVE TO WORKPLAN').click();
 
-    cy.contains('Edit');
-    cy.contains('Delete');
-    cy.contains('My first step');
-  });
+        cy.contains('Edit');
+        cy.contains('Delete');
+        cy.contains('This is an awesome task');
+        cy.contains('And it has an awesome description');
+      });
 
-  it('Edit task steps', () => {
-    cy.logIn(COACH_EMAIL);
+      it('Adds a new task step', () => {
+        cy.loadTokens(tokens);
 
-    cy.contains('My Clients').click();
-    cy.get('div[title="John Doe"]').click();
-    cy.contains('View Steps').click();
-    cy.get('div.content')
-      .contains('Edit')
-      .click();
-    cy.get('textarea[name="steps[0].text"]')
-      .clear()
-      .type('My first step (edited)');
-    cy.contains('SAVE TO WORKPLAN').click();
+        cy.contains('My Clients').click();
+        cy.get('div[title="John Doe"]').click();
+        cy.contains('View Steps').click();
+        cy.get('div.content')
+          .contains('Edit')
+          .click();
+        cy.get('.add-step-link').click();
+        cy.get('textarea[name="steps[0].text"]')
+          .clear()
+          .type('My first step');
+        cy.contains('SAVE TO WORKPLAN').click();
 
-    cy.contains('Edit');
-    cy.contains('Delete');
-    cy.contains('My first step (edited)');
-  });
+        cy.contains('Edit');
+        cy.contains('Delete');
+        cy.contains('My first step');
+      });
 
-  it('Adds a goal', () => {
-    cy.logIn(COACH_EMAIL);
+      it('Edit task steps', () => {
+        cy.loadTokens(tokens);
 
-    cy.contains('My Clients').click();
-    cy.get('div[title="John Doe"]').click();
-    cy.contains('Goals').click();
-    cy.contains('Add Goal').click();
+        cy.contains('My Clients').click();
+        cy.get('div[title="John Doe"]').click();
+        cy.contains('View Steps').click();
+        cy.get('div.content')
+          .contains('Edit')
+          .click();
+        cy.get('textarea[name="steps[0].text"]')
+          .clear()
+          .type('My first step (edited)');
+        cy.contains('SAVE TO WORKPLAN').click();
 
-    cy.get('textarea[name="goal"]')
-      .clear()
-      .type('My first goal');
-    cy.contains('Save').click();
+        cy.contains('Edit');
+        cy.contains('Delete');
+        cy.contains('My first step (edited)');
+      });
+    });
 
-    cy.contains('Success!');
-    cy.contains('Edit Goal');
-    cy.contains('My first goal');
-  });
+    describe('Goals', () => {
+      it('Adds a goal', () => {
+        cy.loadTokens(tokens);
 
-  it('Edits a goal', () => {
-    cy.logIn(COACH_EMAIL);
+        cy.contains('My Clients').click();
+        cy.get('div[title="John Doe"]').click();
+        cy.contains('Goals').click();
+        cy.contains('Add Goal').click();
 
-    cy.contains('My Clients').click();
-    cy.get('div[title="John Doe"]').click();
-    cy.contains('Goals').click();
-    cy.contains('Edit Goal').click();
+        cy.get('textarea[name="goal"]')
+          .clear()
+          .type('My first goal');
+        cy.contains('Save').click();
 
-    cy.get('textarea[name="goal"]')
-      .clear()
-      .type('My first goal (edited)');
-    cy.contains('Save').click();
+        cy.contains('Success!');
+        cy.contains('Edit Goal');
+        cy.contains('My first goal');
+      });
 
-    cy.contains('Success!');
-    cy.contains('Edit Goal');
-    cy.contains('My first goal (edited)');
-  });
+      it('Edits a goal', () => {
+        cy.loadTokens(tokens);
 
-  it('Adds a new goal', () => {
-    cy.logIn(COACH_EMAIL);
+        cy.contains('My Clients').click();
+        cy.get('div[title="John Doe"]').click();
+        cy.contains('Goals').click();
+        cy.contains('Edit Goal').click();
 
-    cy.contains('My Clients').click();
-    cy.get('div[title="John Doe"]').click();
-    cy.contains('Goals').click();
-    cy.contains('New Goal').click();
+        cy.get('textarea[name="goal"]')
+          .clear()
+          .type('My first goal (edited)');
+        cy.contains('Save').click();
 
-    cy.get('textarea[name="goal"]')
-      .clear()
-      .type('My second goal');
-    cy.contains('Save').click();
+        cy.contains('Success!');
+        cy.contains('Edit Goal');
+        cy.contains('My first goal (edited)');
+      });
 
-    cy.contains('Success!');
-    cy.contains('Edit Goal');
-    cy.contains('My second goal');
-  });
+      it('Adds a new goal', () => {
+        cy.loadTokens(tokens);
 
-  it('Sets follow up', () => {
-    cy.logIn(COACH_EMAIL);
+        cy.contains('My Clients').click();
+        cy.get('div[title="John Doe"]').click();
+        cy.contains('Goals').click();
+        cy.contains('New Goal').click();
 
-    cy.contains('My Clients').click();
-    cy.get('div[title="John Doe"]').click();
-    cy.contains('Follow Up').click();
-    cy.contains("Let's follow up");
+        cy.get('textarea[name="goal"]')
+          .clear()
+          .type('My second goal');
+        cy.contains('Save').click();
 
-    cy.get('input[name="weeks"]')
-      .clear()
-      .type('2');
-    cy.contains('Save').click();
+        cy.contains('Success!');
+        cy.contains('Edit Goal');
+        cy.contains('My second goal');
+      });
+    });
 
-    cy.contains('Saved!');
-    cy.contains("Let's follow up in");
-    cy.get('input[name="weeks"]').should('have.value', '2');
-    cy.contains('weeks.');
-  });
+    describe('Chat', () => {
+      before(() => {
+        cy.request({
+          method: 'GET',
+          url: `${API_URL}/user`,
+          headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+        }).then(resp => {
+          superadmin = resp.body.id;
+          cy.request({
+            method: 'POST',
+            url: `${API_URL}/messages`,
+            body: {
+              text: 'From Coach to Client',
+              to_user: client,
+              from_user: coach,
+              timestamp: new Date(),
+            },
+            headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+          })
+            .then(() => {
+              cy.request({
+                method: 'POST',
+                url: `${API_URL}/messages`,
+                body: {
+                  text: 'From Client to Coach',
+                  to_user: coach,
+                  from_user: client,
+                  timestamp: new Date(),
+                },
+                headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+              });
+            })
+            .then(() => {
+              cy.request({
+                method: 'POST',
+                url: `${API_URL}/messages`,
+                body: {
+                  text: 'From Other to Client',
+                  to_user: client,
+                  from_user: superadmin,
+                  timestamp: new Date(),
+                },
+                headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+              });
+            });
+        });
+      });
 
-  it('Updates follow up', () => {
-    cy.logIn(COACH_EMAIL);
+      it('Views chat messages', () => {
+        cy.loadTokens(tokens);
 
-    cy.contains('My Clients').click();
-    cy.get('div[title="John Doe"]').click();
-    cy.contains('Follow Up').click();
-    cy.contains("Let's follow up");
+        cy.contains('My Clients').click();
+        cy.get('div[title="Needs Help"]').click();
+        cy.contains('Next').click();
+        cy.contains('Chat').click();
+        cy.contains('log');
+        cy.contains('help');
+        cy.contains('From Coach to Client');
+        cy.contains('From Client to Coach');
+        cy.contains('From Other to Client');
+      });
 
-    cy.get('input[name="weeks"]')
-      .clear()
-      .type('3');
-    cy.contains('Save').click();
+      it('Shows help', () => {
+        cy.loadTokens(tokens);
 
-    cy.contains('Saved!');
-    cy.contains("Let's follow up in");
-    cy.get('input[name="weeks"]').should('have.value', '3');
-    cy.contains('weeks.');
-  });
+        cy.contains('My Clients').click();
+        cy.get('div[title="Needs Help"]').click();
+        cy.contains('Next').click();
+        cy.contains('Chat').click();
+        cy.contains('log');
+        cy.contains('help').click();
+      });
+    });
 
-  it('Edits client profile', () => {
-    cy.logIn(COACH_EMAIL);
+    describe('Follow up', () => {
+      it('Sets follow up', () => {
+        cy.loadTokens(tokens);
 
-    cy.contains('My Clients').click();
-    cy.get('div[title="John Doe"]').click();
-    cy.contains('Edit').click();
-    cy.contains('Edit Profile');
+        cy.contains('My Clients').click();
+        cy.get('div[title="John Doe"]').click();
+        cy.contains('Follow Up').click();
+        cy.contains("Let's follow up");
 
-    cy.get('input[name="first_name"]')
-      .clear()
-      .type('Jane');
-    cy.get('input[name="last_name"]')
-      .clear()
-      .type('Dough');
-    cy.get('input[name="email"]')
-      .clear()
-      .type('jane@dough.com');
-    cy.get('input[name="phone"]')
-      .clear()
-      .type('5551234567');
-    cy.contains('Save').click();
+        cy.get('input[name="weeks"]')
+          .clear()
+          .type('2');
+        cy.contains('Save').click();
 
-    cy.contains('Successfully updated client');
-    cy.contains('Jane Dough');
+        cy.contains('Saved!');
+        cy.contains("Let's follow up in");
+        cy.get('input[name="weeks"]').should('have.value', '2');
+        cy.contains('weeks.');
+      });
 
-    cy.contains('Edit').click();
-    cy.contains('Edit Profile');
+      it('Updates follow up', () => {
+        cy.loadTokens(tokens);
 
-    cy.get('input[name="first_name"]')
-      .clear()
-      .type('John');
-    cy.get('input[name="last_name"]')
-      .clear()
-      .type('Doe');
-    cy.get('input[name="email"]')
-      .clear()
-      .type('john@doe.com');
-    cy.get('input[name="phone"]')
-      .clear()
-      .type('1234567890');
-    cy.contains('Save').click();
+        cy.contains('My Clients').click();
+        cy.get('div[title="John Doe"]').click();
+        cy.contains('Follow Up').click();
+        cy.contains("Let's follow up");
 
-    cy.contains('Successfully updated client');
-    cy.contains('John Doe');
+        cy.get('input[name="weeks"]')
+          .clear()
+          .type('3');
+        cy.contains('Save').click();
+
+        cy.contains('Saved!');
+        cy.contains("Let's follow up in");
+        cy.get('input[name="weeks"]').should('have.value', '3');
+        cy.contains('weeks.');
+      });
+    });
+
+    describe('Profile', () => {
+      it('Edits client profile', () => {
+        cy.loadTokens(tokens);
+
+        cy.contains('My Clients').click();
+        cy.get('div[title="John Doe"]').click();
+        cy.contains('Edit').click();
+        cy.contains('Edit Profile');
+
+        cy.get('input[name="first_name"]')
+          .clear()
+          .type('Jane');
+        cy.get('input[name="last_name"]')
+          .clear()
+          .type('Dough');
+        cy.get('input[name="email"]')
+          .clear()
+          .type('jane@dough.com');
+        cy.get('input[name="phone"]')
+          .clear()
+          .type('5551234567');
+        cy.contains('Save').click();
+
+        cy.contains('Successfully updated client');
+        cy.contains('Jane Dough');
+
+        cy.contains('Edit').click();
+        cy.contains('Edit Profile');
+
+        cy.get('input[name="first_name"]')
+          .clear()
+          .type('John');
+        cy.get('input[name="last_name"]')
+          .clear()
+          .type('Doe');
+        cy.get('input[name="email"]')
+          .clear()
+          .type('client@example.com');
+        cy.get('input[name="phone"]')
+          .clear()
+          .type('1234567890');
+        cy.contains('Save').click();
+
+        cy.contains('Successfully updated client');
+        cy.contains('John Doe');
+      });
+    });
   });
 });
