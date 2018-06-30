@@ -13,7 +13,7 @@ export class AuthController {
       return getUserFromAuthToken(request, this.userRepo);
     } catch (err) {
       console.log(err);
-      response.send(401);
+      response.sendStatus(401);
     }
   }
 
@@ -30,6 +30,6 @@ export class AuthController {
     userAttrs.goals = [];
     userAttrs.status = 'WORKING';
     await this.userRepo.save(new User(userAttrs));
-    response.send(200);
+    response.sendStatus(200);
   }
 }
