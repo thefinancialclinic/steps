@@ -45,8 +45,8 @@ class Routes extends React.Component<Props, {}> {
     process.env.AUTH0_ENABLED === 'true' &&
       actions
         .getAuthenticatedUser()
-        .then(({ user }) => {
-          if (user.org_id) {
+        .then(action => {
+          if (action && action.user.org_id) {
             actions.getOrg(user.org_id);
           }
         })
