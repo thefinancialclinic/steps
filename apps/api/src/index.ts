@@ -237,7 +237,7 @@ app.use(favicon(join(publicPath, 'favicon.ico')));
 // Send any unmatched routes to the React app for frontend routing
 if (isProduction) {
   app.all('/api/*', (_, res) => res.status(404).send({ message: 'Not found' }));
-  app.all('*', (_, res) => res.sendfile(resolve(buildPath, 'index.html')));
+  app.all('*', (_, res) => res.sendFile(resolve(buildPath, 'index.html')));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
