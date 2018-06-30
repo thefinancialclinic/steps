@@ -17,6 +17,7 @@ import { postgraphile } from 'postgraphile';
 import { userPermissionMiddleware } from './permission';
 import * as favicon from 'serve-favicon';
 import * as Raven from 'raven';
+import { getUserFromAuthToken } from './services/Auth';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
@@ -122,31 +123,19 @@ if (isProduction) {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 }
 
-const bearerTokenAuthMiddleware = (req, res, next) => {
-  let _provider, id;
-  if (req.token.gty) {
-    // M2M token
-    id = req.token.azp;
-  } else {
-    [_provider, id] = req.token.sub.split('|');
-  }
-
-  if (!id) {
-    res.status(403);
-    return res.send({ error: 'Forbidden' });
-  }
-  userRepo
-    .get({ auth0_id: id })
-    .then(users => {
-      const user = users[0];
-      // Case sensitive
-      req.headers['x-userid'] = user.id;
-      return next();
-    })
-    .catch(err => {
-      res.status(404);
+const bearerTokenAuthMiddleware = async (req, res, next) => {
+  try {
+    const user = await getUserFromAuthToken(req, userRepo);
+    if (!user) {
+      res.status(401);
       return res.send({ error: 'Unknown user, cannot auth' });
-    });
+    }
+    req.headers['x-userid'] = user.id;
+    return next();
+  } catch (err) {
+    res.status(401);
+    return res.send({ error: 'Unknown user, cannot auth' });
+  }
 };
 
 const userIdAuthMiddleware = (req, res, next) => {
