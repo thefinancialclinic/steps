@@ -8,6 +8,7 @@ describe('media entity operations', () => {
   let pool: Pool;
   let request: RequestItem;
   let repo: RequestRepository;
+  let creationTime: Date;
 
   beforeAll(async () => {
     pool = await getTestConnectionPool({ createFixtures: true });
@@ -19,6 +20,7 @@ describe('media entity operations', () => {
         task_id: fixtures.task.id,
       }),
     );
+    creationTime = new Date();
   });
 
   afterAll(async () => {
@@ -42,5 +44,13 @@ describe('media entity operations', () => {
     await repo.update(requestItem);
     let reloadedItem = await repo.getOne(request.id);
     expect(reloadedItem.status).toBe('RESOLVED');
+  });
+
+  it('has a created_at timestamp', async () => {
+    const actual = await repo.getOne(request.id);
+    const t1 = actual.created_at.getTime();
+    const t2 = creationTime.getTime();
+    let timeDelta = Math.abs(t1 - t2);
+    expect(timeDelta).toBeLessThan(500);
   });
 });

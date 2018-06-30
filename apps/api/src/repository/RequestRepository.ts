@@ -6,24 +6,19 @@ import { Pool, Client } from 'pg';
 export type RequestId = number;
 export type RequestStatus = 'NEEDS_ASSISTANCE' | 'REPLIED' | 'RESOLVED';
 
-export type RequestOpts = {
-  id?: RequestId;
-  status?: RequestStatus;
-  user_id: UserId;
-  task_id: TaskId;
-};
-
 export class RequestItem {
   id?: RequestId;
   status?: RequestStatus;
   user_id: UserId;
   task_id: TaskId;
+  created_at?: Date;
 
-  constructor(opts: RequestOpts) {
+  constructor(opts: Partial<RequestItem>) {
     this.id = opts.id;
     this.status = opts.status;
     this.user_id = opts.user_id;
     this.task_id = opts.task_id;
+    this.created_at = opts.created_at;
   }
 }
 
