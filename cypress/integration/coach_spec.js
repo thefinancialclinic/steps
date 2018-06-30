@@ -391,6 +391,6 @@ describe('Coach', () => {
     cy.contains('Save').click();
 
     cy.contains('Successfully updated client');
-    cy.contains('Jane Dough');
+    cy.contains('John Doe');
   });
 });
