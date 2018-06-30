@@ -25,7 +25,14 @@ class UserLayout extends React.Component<Props, {}> {
   };
 
   render() {
-    const { user, links, routes, component: Component, ...rest } = this.props;
+    const {
+      user,
+      role,
+      links,
+      routes,
+      component: Component,
+      ...rest
+    } = this.props;
     if (!user) return null;
 
     return (
@@ -33,7 +40,7 @@ class UserLayout extends React.Component<Props, {}> {
         <Flex>
           <Box width={[1, 1 / 3]}>
             <Sidebar links={links}>
-              {user.type !== USER_TYPE.CLIENT && (
+              {role !== USER_TYPE.CLIENT && (
                 <EditButton onClick={this.editClientProfile} />
               )}
               <h2>
