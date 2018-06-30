@@ -1,4 +1,4 @@
-import { resolve } from 'path';
+import { join, resolve } from 'path';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import { Request, Response } from 'express';
@@ -15,6 +15,7 @@ import { expressJwtSecret } from 'jwks-rsa';
 import * as token from 'jsonwebtoken';
 import { postgraphile } from 'postgraphile';
 import { userPermissionMiddleware } from './permission';
+import * as favicon from 'serve-favicon';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
@@ -39,6 +40,7 @@ const localConnString = 'postgres://postgres@localhost:5432/steps_admin_test';
 const databaseUrl = DATABASE_URL || localConnString;
 const connUrl = url.parse(databaseUrl);
 const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
+const publicPath = resolve(__dirname, '..', 'public');
 
 const enablePostgraphile = ENABLE_POSTGRAPHILE === 'true';
 const enableAuth0 = AUTH0_ENABLED === 'true';
@@ -228,6 +230,9 @@ app.get('/api/orgs/:id', async (req, res, next) => {
 if (enablePostgraphile) {
   app.use(postgraphile(databaseUrl, 'public', { graphiql: true }));
 }
+
+// Favicon
+app.use(favicon(join(publicPath, 'favicon.ico')));
 
 // Send any unmatched routes to the React app for frontend routing
 if (isProduction) {
