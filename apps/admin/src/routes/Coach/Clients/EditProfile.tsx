@@ -16,27 +16,24 @@ interface Props {
 }
 
 class EditProfile extends React.Component<Props> {
-  onSubmit = (client: User) => {
+  onSubmit = async (client: User) => {
     const { actions } = this.props;
-    actions
-      .updateClient(client)
-      .then(() => {
-        actions.addAlert({
-          level: AlertLevel.Success,
-          message: 'Successfully updated client',
-          id: 'update-client-success',
-        });
-      })
-      .catch(err => {
-        actions.addAlert({
-          level: AlertLevel.Error,
-          message: err.message,
-          id: 'update-client-error',
-        });
-      })
-      .finally(() => {
-        actions.hideModal(UPDATE_CLIENT);
+    try {
+      await actions.updateClient(client);
+      await actions.addAlert({
+        level: AlertLevel.Success,
+        message: 'Successfully updated client',
+        id: 'update-client-success',
       });
+    } catch (err) {
+      actions.addAlert({
+        level: AlertLevel.Error,
+        message: err.message,
+        id: 'update-client-error',
+      });
+    } finally {
+      actions.hideModal(UPDATE_CLIENT);
+    }
   };
 
   render() {
