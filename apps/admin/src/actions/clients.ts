@@ -42,12 +42,10 @@ export const createClient = (clientData): DispatchFn => async (
   getState,
 ) => {
   try {
-    // TODO: Coach should be stored in the auth store, with current user information
     const { user } = getState().auth;
     clientData.org_id = user.org_id;
     clientData.coach_id = user.id;
-    clientData.color = 'blue';
-    clientData.status = 'AWAITING_HELP';
+    clientData.status = 'WORKING';
     clientData.goals = [];
 
     const client = await api.post('/clients', clientData);
