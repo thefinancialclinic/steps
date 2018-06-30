@@ -16,6 +16,7 @@ import * as token from 'jsonwebtoken';
 import { postgraphile } from 'postgraphile';
 import { userPermissionMiddleware } from './permission';
 import * as favicon from 'serve-favicon';
+import * as Raven from 'raven';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
@@ -30,6 +31,7 @@ const {
   DATABASE_URL,
   ENABLE_POSTGRAPHILE,
   AUTH0_ENABLED,
+  SENTRY_DSN,
 } = process.env;
 
 const isProduction = NODE_ENV === 'production';
@@ -44,6 +46,12 @@ const publicPath = resolve(__dirname, '..', 'public');
 
 const enablePostgraphile = ENABLE_POSTGRAPHILE === 'true';
 const enableAuth0 = AUTH0_ENABLED === 'true';
+const sentryDSN = SENTRY_DSN;
+
+// Sentry
+if (isProduction) {
+  Raven.config(sentryDSN).install();
+}
 
 // Auth0 Config
 const { AUTH0_AUDIENCE, AUTH0_DOMAIN } = process.env;

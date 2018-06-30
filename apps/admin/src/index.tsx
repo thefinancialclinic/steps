@@ -5,9 +5,12 @@ import { AppContainer } from 'react-hot-loader';
 import Root from './Root';
 import configureStore from './store';
 import styleGlobals from 'styles/global';
+import Raven from 'raven-js';
 
-if (process.env.NODE_ENV === 'production' && !JSON.parse(process.env.CI))
+if (process.env.NODE_ENV === 'production' && !JSON.parse(process.env.CI)) {
   require('./chat-widget');
+  Raven.config(process.env.SENTRY_DSN).install();
+}
 
 const store = configureStore();
 const rootEl = document.getElementById('root');
