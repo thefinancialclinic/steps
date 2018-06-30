@@ -12,7 +12,7 @@ import Superadmin from './Superadmin/index';
 import UserSwitcher from 'components/util/UserSwitcher';
 import AuthRoutes from './Auth/index';
 import Login from 'routes/Auth/Login';
-import { getAuthenticatedUser, getOrg } from 'actions/auth';
+import { getAuthenticatedUser } from 'actions/auth';
 import { bindActionCreators } from 'redux';
 import { addAlert } from 'actions/alerts';
 import { AlertLevel } from 'components/Alert/types';
@@ -24,7 +24,6 @@ interface Props {
   history: any;
   actions: {
     getAuthenticatedUser: Function;
-    getOrg: Function;
     addAlert: Function;
   };
   isAuthenticated: null | boolean;
@@ -43,20 +42,13 @@ class Routes extends React.Component<Props, {}> {
   componentDidMount() {
     const { actions, user } = this.props;
     process.env.AUTH0_ENABLED === 'true' &&
-      actions
-        .getAuthenticatedUser()
-        .then(action => {
-          if (action && action.user.org_id) {
-            actions.getOrg(user.org_id);
-          }
-        })
-        .catch(err => {
-          actions.addAlert({
-            level: AlertLevel.Error,
-            message: err.message,
-            id: 'user-authentication-error',
-          });
+      actions.getAuthenticatedUser().catch(err => {
+        actions.addAlert({
+          level: AlertLevel.Error,
+          message: err.message,
+          id: 'user-authentication-error',
         });
+      });
   }
 
   render() {
@@ -102,10 +94,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    { getAuthenticatedUser, getOrg, addAlert },
-    dispatch,
-  ),
+  actions: bindActionCreators({ getAuthenticatedUser, addAlert }, dispatch),
 });
 
 export default withRouter(
