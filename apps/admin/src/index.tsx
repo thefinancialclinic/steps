@@ -9,7 +9,7 @@ import Raven from 'raven-js';
 
 if (process.env.NODE_ENV === 'production' && !JSON.parse(process.env.CI)) {
   require('./chat-widget');
-  Raven.config(process.env.SENTRY_DSN).install();
+  Raven.config(process.env.SENTRY_FRONTEND_DSN).install();
 }
 
 const store = configureStore();

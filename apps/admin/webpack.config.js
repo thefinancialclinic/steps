@@ -74,7 +74,7 @@ const baseConfig = {
       AUTH0_CLIENT_ID: 'R4uBotWz7sHgmvfmlsBI3othCDEpo4Ga',
       BOT_URL: 'https://mockbin.org/request',
       NODE_ENV: 'development',
-      SENTRY_DSN: '',
+      SENTRY_FRONTEND_DSN: '',
       CI: false,
     }),
     new webpack.NamedModulesPlugin(),
