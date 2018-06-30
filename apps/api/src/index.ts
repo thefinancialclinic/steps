@@ -20,6 +20,7 @@ import { userPermissionMiddleware } from './permission';
 // Configuration
 require('dotenv').config({ path: '../../.env' });
 import { AuthController } from './controller/AuthController';
+import { OrgController } from './controller/OrgController';
 
 const {
   NODE_ENV,
@@ -205,15 +206,21 @@ Routes.forEach(route => {
   );
 });
 
+app.get('/api/user', checkJwt, async (req, res, next) => {
+  const controller = new AuthController();
+  const result = await controller['user'](req, res, next);
+  res.send(result);
+});
+
 app.post('/api/signup', async (req, res, next) => {
   const controller = new AuthController();
   const result = await controller['signup'](req, res, next);
   res.send(result);
 });
 
-app.get('/api/user', checkJwt, async (req, res, next) => {
-  const controller = new AuthController();
-  const result = await controller['user'](req, res, next);
+app.get('/api/orgs/:id', async (req, res, next) => {
+  const controller = new OrgController();
+  const result = await controller['one'](req, res, next);
   res.send(result);
 });
 

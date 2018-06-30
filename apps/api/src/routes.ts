@@ -106,12 +106,6 @@ export const Routes = [
     action: 'all',
   },
   {
-    method: 'get',
-    route: '/api/orgs/:id',
-    controller: OrgController,
-    action: 'one',
-  },
-  {
     method: 'post',
     route: '/api/orgs',
     controller: OrgController,
