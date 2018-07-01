@@ -49,12 +49,12 @@ class AddTask extends React.Component<Props, State> {
   };
 
   componentWillMount() {
-    const categories = uniq(map(this.props.tasks, 'category').concat(['custom'])).map(
-      (name: string) => ({
-        name,
-        active: true,
-      }),
-    );
+    const categories = uniq(
+      map(this.props.tasks, 'category').concat(['custom']),
+    ).map((name: string) => ({
+      name,
+      active: true,
+    }));
 
     this.setState({ categories });
   }
@@ -87,35 +87,40 @@ class AddTask extends React.Component<Props, State> {
         <h3>Task</h3>
         {/* TODO: Extract to TaskList */}
         <div className="add-tasks-list">
-          {filteredTasks.length > 0 ? filteredTasks.map((task, i) => {
-            const userTask = {
-              ...task,
-              user_id: this.props.user.id,
-              title: task.title,
-              category: task.category,
-              description: task.description,
-            };
-            delete userTask.steps;
+          {filteredTasks.length > 0 ? (
+            filteredTasks.map((task, i) => {
+              const userTask = {
+                ...task,
+                user_id: this.props.user.id,
+                title: task.title,
+                category: task.category,
+                description: task.description,
+              };
+              delete userTask.steps;
 
-            return (
-              <TaskTemplate
-                task={userTask}
-                key={i}
-                user={this.props.user}
-                addTask={this.props.actions.addTask}
-                history={this.props.history}
-              />
-            );
-          }) :
-          <Flex justifyContent="center">
-          <NoTasksFound>
-            <h3>We can't seem to find this task. Would you like to create your own?</h3>
-            <Link to={`/clients/${this.props.user.id}/tasks/create`}>
-              <Button>Create New Task</Button>
-            </Link>
-          </NoTasksFound>
-          </Flex>
-        }
+              return (
+                <TaskTemplate
+                  task={userTask}
+                  key={i}
+                  user={this.props.user}
+                  addTask={this.props.actions.addTask}
+                  history={this.props.history}
+                />
+              );
+            })
+          ) : (
+            <Flex justifyContent="center">
+              <NoTasksFound>
+                <h3>
+                  We can't seem to find this task. Would you like to create your
+                  own?
+                </h3>
+                <Link to={`/clients/${this.props.user.id}/tasks/create`}>
+                  <Button>Create New Task</Button>
+                </Link>
+              </NoTasksFound>
+            </Flex>
+          )}
         </div>
       </Main>
     );
@@ -123,7 +128,9 @@ class AddTask extends React.Component<Props, State> {
 }
 
 const NoTasksFound = styled(Panel)`
-  h3 { font-size: 28px; }
+  h3 {
+    font-size: 28px;
+  }
   padding-right: 8em;
   padding-left: 8em;
   width: 100%;
