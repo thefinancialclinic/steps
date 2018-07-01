@@ -54,7 +54,11 @@ class EditTask extends React.Component<Props, {}> {
       <Main>
         <h2>Create New Task</h2>
         <p>
-          Create a personalized task for your client after you've talked with them to understand their financial goal(s). In the rationale, explain how the task is connected to their goal(s). List the individual steps they will need to achieve their task, and include any references or referrals available to help.
+          Create a personalized task for your client after you've talked with
+          them to understand their financial goal(s). In the rationale, explain
+          how the task is connected to their goal(s). List the individual steps
+          they will need to achieve their task, and include any references or
+          referrals available to help.
         </p>
         <TaskForm task={task} user={user} onSubmit={this.handleSubmit} />
       </Main>
