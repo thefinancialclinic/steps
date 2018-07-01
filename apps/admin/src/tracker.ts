@@ -143,16 +143,10 @@ function initKeen() {
 }
 export const keenClient = initKeen();
 
-interface WithTrackerProps {
-  location: any;
-}
 /* HOC for tracking page views with React Router */
 
-export const withTracker = <P extends object>(
-  Component: React.ComponentType<P>,
-  options = {},
-) =>
-  class WithTracker extends React.Component<P & WithTrackerProps> {
+export const withTracker = (Component, options = {}) => {
+  return class extends React.Component<any, any> {
     private trackPage = page => {
       keenClient.recordEvent('pageviews', { ...options });
       GoogleAnalytics.set({
@@ -177,10 +171,11 @@ export const withTracker = <P extends object>(
     }
 
     render() {
-      const { location, ...props } = this.props as WithTrackerProps;
+      const { location, ...props } = this.props;
 
-      return <Component {...props} />;
+      return React.createElement(Component, props);
     }
   };
+};
 
 export default withTracker;
