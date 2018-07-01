@@ -165,9 +165,7 @@ export const withTracker = (Component, options = {}) => {
     }
 
     render() {
-      const { location, ...props } = this.props;
-
-      return React.createElement(Component, props);
+      return React.createElement(Component, this.props);
     }
   };
 };
