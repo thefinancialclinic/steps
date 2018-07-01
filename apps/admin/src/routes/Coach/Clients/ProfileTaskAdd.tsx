@@ -17,6 +17,8 @@ import { grey } from 'styles/colors';
 import { findById } from 'helpers';
 import map from 'lodash/map';
 import uniq from 'lodash/uniq';
+import Panel from 'atoms/Panel';
+import { Flex, Box } from 'grid-styled';
 
 interface Props {
   className?: string;
@@ -47,7 +49,7 @@ class AddTask extends React.Component<Props, State> {
   };
 
   componentWillMount() {
-    const categories = uniq(map(this.props.tasks, 'category')).map(
+    const categories = uniq(map(this.props.tasks, 'category').concat(['custom'])).map(
       (name: string) => ({
         name,
         active: true,
@@ -85,7 +87,7 @@ class AddTask extends React.Component<Props, State> {
         <h3>Task</h3>
         {/* TODO: Extract to TaskList */}
         <div className="add-tasks-list">
-          {filteredTasks.map((task, i) => {
+          {filteredTasks.length > 0 ? filteredTasks.map((task, i) => {
             const userTask = {
               ...task,
               user_id: this.props.user.id,
@@ -104,12 +106,29 @@ class AddTask extends React.Component<Props, State> {
                 history={this.props.history}
               />
             );
-          })}
+          }) :
+          <Flex justifyContent="center">
+          <NoTasksFound>
+            <h3>We can't seem to find this task. Would you like to create your own?</h3>
+            <Link to={`/clients/${this.props.user.id}/tasks/create`}>
+              <Button>Create New Task</Button>
+            </Link>
+          </NoTasksFound>
+          </Flex>
+        }
         </div>
       </Main>
     );
   }
 }
+
+const NoTasksFound = styled(Panel)`
+  h3 { font-size: 28px; }
+  padding-right: 8em;
+  padding-left: 8em;
+  width: 100%;
+  text-align: center;
+`;
 
 const mapStateToProps = (state, props) => {
   return {
