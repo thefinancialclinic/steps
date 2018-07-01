@@ -112,7 +112,6 @@ export class TaskRepository implements Repository<TaskId, Task> {
         val = typeof val === 'string' ? client.escapeLiteral(val) : val;
         q = q + ` AND ${client.escapeIdentifier(label)} = ${val}`;
       });
-      console.log(q);
       const res = await this.pool.query(q);
       return res.rows.map(user => new Task(user));
     } catch (err) {
@@ -143,7 +142,8 @@ export class TaskRepository implements Repository<TaskId, Task> {
         FROM task
         WHERE user_id is null
         AND created_by is null
-      `);
+      `,
+      );
       return res.rows.map(row => new Task(row));
     } catch (err) {
       throw `Could not query template tasks (${err})`;
@@ -169,9 +169,9 @@ export class TaskRepository implements Repository<TaskId, Task> {
         WHERE user_id is not null
         AND created_by = $1;
       `,
-      [orgId]
-    );
-    return res.rows.map(row => new Task(row));
+        [orgId],
+      );
+      return res.rows.map(row => new Task(row));
     } catch (err) {
       throw `Could not query org client tasks (${err})`;
     }
@@ -186,9 +186,9 @@ export class TaskRepository implements Repository<TaskId, Task> {
         WHERE user_id is null
         AND created_by = $1;
       `,
-      [orgId]
-    );
-    return res.rows.map(row => new Task(row));
+        [orgId],
+      );
+      return res.rows.map(row => new Task(row));
     } catch (err) {
       throw `Could not query org template tasks (${err})`;
     }
@@ -203,7 +203,8 @@ export class TaskRepository implements Repository<TaskId, Task> {
         JOIN "user" usr ON usr.id = task.user_id
         WHERE usr.coach_id = $1;
       `,
-    [coachId]);
+        [coachId],
+      );
       return res.rows.map(row => new Task(row));
     } catch (err) {
       throw `Could not query assigned tasks by coach (${err})`;

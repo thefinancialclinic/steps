@@ -794,7 +794,9 @@ describe('Authorization', () => {
         }).then(resp => {
           expect(resp.status).to.equal(200);
           expect(resp.body.length).to.equal(3);
-          expect(resp.body.filter(t => t.id === templateTaskId).length).to.equal(1);
+          expect(
+            resp.body.filter(t => t.id === templateTaskId).length,
+          ).to.equal(1);
           expect(resp.body.filter(t => t.id === taskId1).length).to.equal(1);
           expect(resp.body.filter(t => t.id === taskId3).length).to.equal(1);
         });
@@ -1066,10 +1068,11 @@ describe('Authorization', () => {
           'X-UserId': coachId1,
         }).then(resp => {
           expect(resp.status).to.equal(200);
-          expect(resp.body.length).to.equal(3);
-          expect(resp.body.filter(t => t.id === templateTaskId).length).to.equal(1);
+          expect(resp.body.length).to.equal(2);
+          expect(
+            resp.body.filter(t => t.id === templateTaskId).length,
+          ).to.equal(1);
           expect(resp.body.filter(t => t.id === taskId1).length).to.equal(1);
-          expect(resp.body.filter(t => t.id === taskId3).length).to.equal(1);
         });
       });
 
@@ -1367,9 +1370,8 @@ describe('Authorization', () => {
           'X-UserId': clientId1,
         }).then(resp => {
           expect(resp.status).to.equal(200);
-          expect(resp.body.length).to.equal(2);
-          expect(resp.body.filter(t => t.id === taskId1).length).to.equal(1);
-          expect(resp.body.filter(t => t.id === templateTaskId).length).to.equal(1);
+          expect(resp.body.length).to.equal(1);
+          expect(resp.body[0].id).to.equal(taskId1);
         });
       });
 

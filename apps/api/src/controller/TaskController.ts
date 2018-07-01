@@ -26,9 +26,7 @@ export class TaskController {
           const clientTasks = await this.repo.getAssignedByCoach(user.id);
           return [...templateTasks, ...orgTasks, ...clientTasks];
         } else if (request.user.type === 'Client') {
-          const orgTasks = await this.repo.getCreatedByOrgCoaches(user.org_id);
-          const clientTasks = await this.repo.get({user_id: user.id});
-          return [...templateTasks, ...orgTasks, ...clientTasks];
+          return this.repo.get({ user_id: user.id });
         }
       }
     } else {
