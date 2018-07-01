@@ -42,7 +42,6 @@ interface Props {
   match: Match;
 }
 
-
 export default class SortableTaskList extends React.Component<Props, {}> {
   constructor(props) {
     super(props);
