@@ -3,15 +3,9 @@ import Keen from 'keen-tracking';
 import MobileDetect from 'mobile-detect';
 import GoogleAnalytics from 'react-ga';
 
-const {
-  GA_PROPERTY_ID,
-  KEEN_PROJECT_ID,
-  KEEN_WRITE_KEY,
-  NODE_ENV,
-} = process.env;
-const debug = NODE_ENV === 'development';
+const debug = process.env.NODE_ENV === 'development';
 
-GoogleAnalytics.initialize(GA_PROPERTY_ID, { debug });
+GoogleAnalytics.initialize(process.env.GA_PROPERTY_ID, { debug });
 
 function initKeen() {
   const md = new MobileDetect(window.navigator.userAgent);
@@ -28,8 +22,8 @@ function initKeen() {
   }
 
   const keenClient = new Keen({
-    projectId: KEEN_PROJECT_ID,
-    writeKey: KEEN_WRITE_KEY,
+    projectId: process.env.KEEN_PROJECT_ID,
+    writeKey: process.env.KEEN_WRITE_KEY,
     host: 'api.keen.io',
     protocol: 'https',
     requestType: 'jsonp',
