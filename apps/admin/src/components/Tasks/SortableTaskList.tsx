@@ -8,6 +8,7 @@ import {
 import { Box, Flex } from 'grid-styled';
 import map from 'lodash/map';
 import uniq from 'lodash/uniq';
+import styled from 'styled-components';
 
 import Button from 'atoms/Buttons/Button';
 import Filter, { FilterCategory } from 'components/Filter';
@@ -109,12 +110,16 @@ export default class SortableTaskList extends React.Component<Props, State> {
           setTaskStatus={this.props.actions.setTaskStatus}
           url={match.url}
         />
-        <Flex justifyContent="center">
+        <AddTaskContainer justifyContent="center">
           <Link to={`/clients/${user.id}/tasks/add`}>
             <Button>Add New Task</Button>
           </Link>
-        </Flex>
+        </AddTaskContainer>
       </Box>
     );
   }
 }
+
+const AddTaskContainer = styled(Flex)`
+  a { display: block; }
+`;
