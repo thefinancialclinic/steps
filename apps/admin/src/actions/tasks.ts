@@ -75,7 +75,6 @@ export const deleteTask = (id): DispatchFn => async dispatch => {
 
 export const ADD_TASK = 'ADD_TASK';
 export const addTask = (task): DispatchFn => async dispatch => {
-  console.log(task);
   try {
     const contents = {
       title: task.title,
