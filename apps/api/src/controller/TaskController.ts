@@ -12,10 +12,25 @@ export class TaskController {
   private repo = new TaskRepository(pool);
 
   async all(request: Request, response: Response, next: NextFunction) {
-    if (isEmpty(request.query)) {
-      return this.repo.getAll();
+    const { user } = request;
+    if (user.type === 'Superadmin') {
+      if (isEmpty(request.query)) {
+        return this.repo.getAll();
+      } else {
+        return this.repo.filterAll(request.query);
+      }
     } else {
-      return this.repo.filterAll(request.query);
+      const templateTasks = await this.repo.getTemplateTasks();
+      if (user.type === 'Admin') {
+        const orgTasks = await this.repo.getOrgTasks(user.org_id);
+        return [...templateTasks, ...orgTasks];
+      } else if (user.type === 'Coach') {
+        const orgTasks = await this.repo.getCreatedByOrgCoaches(user.org_id);
+        const clientTasks = await this.repo.getAssignedByCoach(user.id);
+        return [...templateTasks, ...orgTasks, ...clientTasks];
+      } else if (request.user.type === 'Client') {
+        return this.repo.get({ user_id: user.id });
+      }
     }
   }
 

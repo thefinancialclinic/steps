@@ -11,6 +11,7 @@ interface Props {
   className?: string;
   actions: any;
   user: any;
+  org: any;
   history: any;
   task: Task;
 }
@@ -20,7 +21,6 @@ class EditTask extends React.Component<Props, {}> {
     try {
       const response = await this.props.actions.addTask({
         ...task,
-        user_id: null,
       });
 
       this.props.history.push(
@@ -32,7 +32,7 @@ class EditTask extends React.Component<Props, {}> {
   };
 
   render() {
-    const { user } = this.props;
+    const { user, org } = this.props;
 
     const task: Task = {
       id: null,
@@ -40,8 +40,8 @@ class EditTask extends React.Component<Props, {}> {
       category: null,
       description: null,
       status: null,
-      created_by: null,
-      user_id: null,
+      created_by: org.id,
+      user_id: user.id,
       difficulty: null,
       date_created: null,
       date_completed: null,
@@ -52,10 +52,13 @@ class EditTask extends React.Component<Props, {}> {
 
     return (
       <Main>
-        <h2>Add Task</h2>
+        <h2>Create New Task</h2>
         <p>
-          Personalize this task better for your user by editing, adding, or
-          deleting steps.
+          Create a personalized task for your client after you've talked with
+          them to understand their financial goal(s). In the rationale, explain
+          how the task is connected to their goal(s). List the individual steps
+          they will need to achieve their task, and include any references or
+          referrals available to help.
         </p>
         <TaskForm task={task} user={user} onSubmit={this.handleSubmit} />
       </Main>
@@ -67,6 +70,7 @@ class EditTask extends React.Component<Props, {}> {
 const mapStateToProps = (state, props) => ({
   task: findById(state.tasks, props.match.params.taskId),
   user: findById(state.clients.clients, props.match.params.id),
+  org: state.auth.org,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -88,6 +88,7 @@ export const addTask = (task): DispatchFn => async dispatch => {
           .slice(0, 19)
           .replace('T', ' '),
       status: task.status || 'ACTIVE',
+      created_by: parseInt(task.created_by),
       user_id: parseInt(task.user_id) || null,
     };
     const newTask = await api.post('/tasks', contents);
