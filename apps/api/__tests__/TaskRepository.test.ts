@@ -25,6 +25,7 @@ describe('Task entity operations', () => {
         date_completed: new Date(),
         date_assigned: dateAssigned,
         steps: [{ text: 'TEXT1' }, { text: 'TEXT2', note: 'NOTE2' }],
+        original_task_id: fixtures.task.id,
       }),
     );
   });
@@ -68,5 +69,10 @@ describe('Task entity operations', () => {
     expect(subject[0].date_assigned.toLocaleDateString()).toBe(
       dateAssigned.toLocaleDateString(),
     );
+  });
+
+  it('links back to an original task (template)', async () => {
+    const subject = await repo.get({ id: task.id });
+    expect(subject[0].original_task_id).toBe(fixtures.task.id);
   });
 });

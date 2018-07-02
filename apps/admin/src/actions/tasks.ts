@@ -90,6 +90,7 @@ export const addTask = (task): DispatchFn => async dispatch => {
       status: task.status || 'ACTIVE',
       created_by: parseInt(task.created_by),
       user_id: parseInt(task.user_id) || null,
+      original_task_id: task.id,
     };
     const newTask = await api.post('/tasks', contents);
     return {
