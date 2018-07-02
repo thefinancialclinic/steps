@@ -21,7 +21,7 @@ const Admin: RoutesElement = ({ user, org }) => {
   ];
 
   const composeLayout = Component =>
-    composeUserLayout(Component, { links, user, role: user.type });
+    composeUserLayout(Component, { links, user, org, role: user.type });
 
   return (
     <div>
