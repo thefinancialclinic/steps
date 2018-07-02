@@ -3,6 +3,9 @@ import Text from 'components/Form/Text';
 import { Box, Flex } from 'grid-styled';
 import React from 'react';
 import { Form } from 'react-final-form';
+import Checkbox from 'components/Form/Checkbox';
+import styled from 'styled-components';
+import { serif } from 'styles/type';
 
 let NewClientForm = ({ onSubmit }) => (
   <Form
@@ -23,11 +26,24 @@ let NewClientForm = ({ onSubmit }) => (
           <Box width={1} px={2}>
             <Text name="phone" label="Phone Number" autoComplete="tel" />
           </Box>
+          <Box width={1}>
+            <StyledCheckbox
+              name="has_messenger"
+              label="Do you have and use Facebook Messenger?"
+            />
+          </Box>
         </Flex>
         <Button>Save</Button>
       </form>
     )}
   />
 );
+
+const StyledCheckbox = styled(Checkbox)`
+  font-family: ${serif};
+  font-size: 21px;
+  text-transform: none;
+  line-height: 21px;
+`;
 
 export default NewClientForm;

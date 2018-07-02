@@ -29,7 +29,7 @@ interface Props {
 export class ClientNew extends React.Component<Props> {
   createClient = clientData => {
     this.props.actions
-      .createClient(clientData)
+      .createClient(this.selectPlatform(clientData))
       .then(({ client }) => {
         this.props.history.push(`/clients/${client.id}`);
       })
@@ -40,6 +40,18 @@ export class ClientNew extends React.Component<Props> {
           id: 'new-client-error',
         });
       });
+  };
+
+  selectPlatform = clientData => {
+    const hasMessenger = clientData.has_messenger;
+    delete clientData.has_messenger;
+    if (hasMessenger) {
+      const randomPlatform = ['SMS', 'FBOOK'][Math.floor(Math.random() * 2)];
+      clientData.platform = randomPlatform;
+    } else {
+      clientData.platform = 'SMS';
+    }
+    return clientData;
   };
 
   render() {
