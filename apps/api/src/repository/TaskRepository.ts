@@ -67,42 +67,46 @@ export class TaskRepository implements Repository<TaskId, Task> {
   }
 
   async save(task: Task): Promise<Task> {
-    const res = await this.pool.query(
-      `
-      INSERT INTO task (
-        title,
-        category,
-        description,
-        status,
-        created_by,
-        user_id,
-        difficulty,
-        date_created,
-        date_completed,
-        recurring,
-        steps,
-        "order",
-        date_assigned
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-      RETURNING *
-    `,
-      [
-        task.title,
-        task.category,
-        task.description,
-        task.status,
-        task.created_by,
-        task.user_id,
-        task.difficulty,
-        task.date_created,
-        task.date_completed,
-        task.recurring,
-        task.steps,
-        task.order,
-        task.date_assigned,
-      ],
-    );
-    return new Task(res.rows[0]);
+    try {
+      const res = await this.pool.query(
+        `
+        INSERT INTO task (
+          title,
+          category,
+          description,
+          status,
+          created_by,
+          user_id,
+          difficulty,
+          date_created,
+          date_completed,
+          recurring,
+          steps,
+          "order",
+          date_assigned
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+        RETURNING *
+      `,
+        [
+          task.title,
+          task.category,
+          task.description,
+          task.status,
+          task.created_by,
+          task.user_id,
+          task.difficulty,
+          task.date_created,
+          task.date_completed,
+          task.recurring,
+          task.steps,
+          task.order,
+          task.date_assigned,
+        ],
+      );
+      return new Task(res.rows[0]);
+    } catch (err) {
+      throw `Could not create Task (${err})`;
+    }
   }
 
   async get(conditions = {}) {
