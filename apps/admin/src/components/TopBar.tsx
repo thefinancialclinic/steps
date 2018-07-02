@@ -13,6 +13,25 @@ interface Props {
 }
 
 class TopBar extends React.Component<Props> {
+  navLinks() {
+    const { user } = this.props;
+    if (user.type === 'Admin') {
+      return [{ to: '/profile', text: 'My Profile' }];
+    } else if (user.type === 'Coach') {
+      return [
+        { to: '/clients', text: 'My Clients' },
+        { to: '/clients/new', text: 'Add New Client' },
+      ];
+    } else if (user.type === 'Client') {
+      return [
+        { to: '/tasks', text: 'My Tasks' },
+        { to: '/goals', text: 'My Goals' },
+      ];
+    } else {
+      return [];
+    }
+  }
+
   render() {
     const { user, org } = this.props;
 
@@ -21,10 +40,7 @@ class TopBar extends React.Component<Props> {
         <Link to="/">{org && org.name}</Link>
         <NavDropdown
           title={`${user.first_name} ${user.last_name}`}
-          links={[
-            { to: '/clients', text: 'My Clients' },
-            { to: '/clients/new', text: 'Add New Client' },
-          ]}
+          links={this.navLinks()}
         />
       </StyledTopBar>
     );
