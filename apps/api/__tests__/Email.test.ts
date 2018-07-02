@@ -6,6 +6,7 @@ import { UserRepository, User } from '../src/repository/UserRepository';
 import { getTestConnectionPool, Pool } from './db_helper';
 
 let sendgridEnabled,
+  baseUrl,
   mockSendgridClient,
   email,
   pool,
@@ -17,7 +18,9 @@ let sendgridEnabled,
 describe('Email service', () => {
   beforeAll(async () => {
     sendgridEnabled = process.env.SENDGRID_ENABLED;
+    baseUrl = process.env.BASE_URL;
     process.env.SENDGRID_ENABLED = 'true';
+    process.env.BASE_URL = 'https://example.com';
     pool = await getTestConnectionPool({ createFixtures: true });
     orgRepo = new OrgRepository(pool);
     userRepo = new UserRepository(pool);
@@ -37,6 +40,7 @@ describe('Email service', () => {
 
   afterAll(async () => {
     process.env.SENDGRID_ENABLED = sendgridEnabled;
+    process.env.BASE_URL = baseUrl;
     await userRepo.delete(coach.id);
     await orgRepo.delete(org.id);
     await pool.end();
@@ -82,7 +86,7 @@ describe('Email service', () => {
         chatbotName: 'Roo',
         orgName: 'Org',
         coachName: 'Coach',
-        clientPlanUrl: 'https://example.com',
+        clientPlanUrl: 'https://example.com/my-tasks',
       },
     });
   });

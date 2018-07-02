@@ -14,7 +14,8 @@ describe('Authorization', () => {
     coachId2,
     coachId3,
     clientId3; // users
-  let taskId1,
+  let templateTaskId,
+    taskId1,
     taskId2,
     taskId3,
     mediaId1,
@@ -64,6 +65,18 @@ describe('Authorization', () => {
           failOnStatusCode: true,
         });
       };
+
+      //////////////////////////////////////////////////////////////////////////
+      // Global
+
+      requestWithFail('POST', '/tasks', {
+        title: 'TEMPLATETASK1',
+        category: 'Global',
+        status: 'ACTIVE',
+        date_created: new Date(),
+      }).then(resp => {
+        templateTaskId = resp.body.id;
+      });
 
       //////////////////////////////////////////////////////////////////////////
       // Org 1
@@ -307,6 +320,7 @@ describe('Authorization', () => {
     requestWithFail('DELETE', `/media/${mediaId1}`);
     requestWithFail('DELETE', `/media/${mediaId2}`);
     requestWithFail('DELETE', `/media/${mediaId3}`);
+    requestWithFail('DELETE', `/tasks/${templateTaskId}`);
     requestWithFail('DELETE', `/tasks/${taskId1}`);
     requestWithFail('DELETE', `/tasks/${taskId2}`);
     requestWithFail('DELETE', `/tasks/${taskId3}`);
@@ -335,6 +349,7 @@ describe('Authorization', () => {
     requestWithFail('GET', `/users/${clientId1}`);
     requestWithFail('GET', `/users/${clientId2}`);
     requestWithFail('GET', `/users/${clientId3}`);
+    requestWithFail('GET', `/tasks/${templateTaskId}`);
     requestWithFail('GET', `/tasks/${taskId1}`);
     requestWithFail('GET', `/tasks/${taskId2}`);
     requestWithFail('GET', `/tasks/${taskId3}`);
@@ -771,6 +786,22 @@ describe('Authorization', () => {
         });
       });
     });
+
+    describe('/tasks', () => {
+      it('Admin 1 views all tasks', () => {
+        request('GET', `/tasks`, null, {
+          'X-UserId': adminId1,
+        }).then(resp => {
+          expect(resp.status).to.equal(200);
+          expect(resp.body.length).to.equal(3);
+          expect(
+            resp.body.filter(t => t.id === templateTaskId).length,
+          ).to.equal(1);
+          expect(resp.body.filter(t => t.id === taskId1).length).to.equal(1);
+          expect(resp.body.filter(t => t.id === taskId3).length).to.equal(1);
+        });
+      });
+    });
   }); // Admin capabilities
 
   describe('Coach capabilities', () => {
@@ -1032,6 +1063,19 @@ describe('Authorization', () => {
     });
 
     describe('/tasks', () => {
+      it('Coach 1 views all tasks', () => {
+        request('GET', `/tasks`, null, {
+          'X-UserId': coachId1,
+        }).then(resp => {
+          expect(resp.status).to.equal(200);
+          expect(resp.body.length).to.equal(2);
+          expect(
+            resp.body.filter(t => t.id === templateTaskId).length,
+          ).to.equal(1);
+          expect(resp.body.filter(t => t.id === taskId1).length).to.equal(1);
+        });
+      });
+
       it('Coach 1 views own task', () => {
         request('GET', `/tasks/${taskId1}`, null, {
           'X-UserId': coachId1,
@@ -1321,6 +1365,16 @@ describe('Authorization', () => {
     });
 
     describe('/tasks', () => {
+      it('Client 1 views all tasks', () => {
+        request('GET', `/tasks`, null, {
+          'X-UserId': clientId1,
+        }).then(resp => {
+          expect(resp.status).to.equal(200);
+          expect(resp.body.length).to.equal(1);
+          expect(resp.body[0].id).to.equal(taskId1);
+        });
+      });
+
       it('Client 1 views own task', () => {
         request('GET', `/tasks/${taskId1}`, null, {
           'X-UserId': clientId1,
