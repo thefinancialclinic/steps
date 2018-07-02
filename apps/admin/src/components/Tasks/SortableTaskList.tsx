@@ -6,11 +6,10 @@ import {
   SortableElement,
 } from 'react-sortable-hoc';
 import { Box, Flex } from 'grid-styled';
-import map from 'lodash/map';
-import uniq from 'lodash/uniq';
+
+import styled from 'styled-components';
 
 import Button from 'atoms/Buttons/Button';
-import Filter, { FilterCategory } from 'components/Filter';
 
 import TaskList from './TaskList';
 import TaskListItem, { TaskListItemProps } from './TaskListItem';
@@ -43,27 +42,12 @@ interface Props {
   match: Match;
 }
 
-interface State {
-  categories: FilterCategory[];
-}
-
-export default class SortableTaskList extends React.Component<Props, State> {
+export default class SortableTaskList extends React.Component<Props, {}> {
   constructor(props) {
     super(props);
     this.state = {
       categories: [],
     };
-  }
-
-  componentWillMount() {
-    const categories = uniq(map(this.props.tasks, 'category')).map(
-      (name: string) => ({
-        name,
-        active: true,
-      }),
-    );
-
-    this.setState({ categories });
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
@@ -83,38 +67,31 @@ export default class SortableTaskList extends React.Component<Props, State> {
     }
   };
 
-  updateCategories = category => {
-    const categories = this.state.categories.map(c => {
-      if (c.name !== category.name) return c;
-      return { ...c, active: !c.active };
-    });
-    this.setState({ categories });
-  };
-
   render() {
     const { tasks, user, match, actions } = this.props;
-    const { categories } = this.state;
-    const filteredTasks = tasks.filter(t =>
-      categories.map(c => !!c.active && c.name).includes(t.category),
-    );
 
     return (
       <Box>
         <h2>Tasks</h2>
-        <Filter categories={categories} update={this.updateCategories} />
         <SortableList
-          items={filteredTasks}
+          items={tasks}
           onSortEnd={this.onSortEnd}
           shouldCancelStart={this.shouldCancelStart}
-          setTaskStatus={this.props.actions.setTaskStatus}
+          setTaskStatus={actions.setTaskStatus}
           url={match.url}
         />
-        <Flex justifyContent="center">
+        <AddTaskContainer justifyContent="center">
           <Link to={`/clients/${user.id}/tasks/add`}>
             <Button>Add New Task</Button>
           </Link>
-        </Flex>
+        </AddTaskContainer>
       </Box>
     );
   }
 }
+
+const AddTaskContainer = styled(Flex)`
+  a {
+    display: block;
+  }
+`;
