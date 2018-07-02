@@ -80,6 +80,10 @@ const StyledTaskStep = styled(TaskStep)`
   }
 
   .step-text {
+    p {
+      font-family: ${serif};
+    }
+
     > div {
       width: 100%;
     }
