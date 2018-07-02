@@ -10,7 +10,7 @@ it('displays a NavLink for each global link', () => {
     .find('.global-links')
     .shallow()
     .find('NavLink');
-  expect(globalLinks).toHaveLength(2);
+  expect(globalLinks).toHaveLength(1);
 });
 
 it('displays a NavLink for each contextual link', () => {
