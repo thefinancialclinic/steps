@@ -5,7 +5,7 @@ import { Box } from 'grid-styled';
 
 import { svgBackgroundImageUrl } from 'styles';
 import { mediumBlue, white } from 'styles/colors';
-import { remCalc } from 'styles/type';
+import { remCalc, serif } from 'styles/type';
 
 const TaskContainer = styled.div`
   box-shadow: 0 0 4px 0 rgba(30 65 165, 0.2);
@@ -27,6 +27,7 @@ const TaskNumber = styled.div`
   border-top-left-radius: 4px;
   bottom: 0;
   display: flex;
+  font-family: ${serif};
   font-size: ${remCalc(90)};
   font-weight: 700;
   justify-content: center;
@@ -34,6 +35,11 @@ const TaskNumber = styled.div`
   position: relative;
   text-align: center;
   width: 130px;
+
+  > div {
+    line-height: 0.875em;
+    height: 1em;
+  }
 `;
 
 type SVGProps = {
