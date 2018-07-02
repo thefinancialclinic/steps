@@ -1,6 +1,7 @@
 import Main from 'atoms/Main';
 import TaskForm from 'forms/TaskForm';
 import React from 'react';
+import BackButton from 'atoms/Buttons/BackButton';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { addTask } from 'actions/tasks';
@@ -33,6 +34,7 @@ class EditTask extends React.Component<Props, {}> {
 
     return (
       <Main>
+        <BackButton to={`/clients/${this.props.user.id}/tasks/add`} />
         <h2>Add Task</h2>
         <p>
           Personalize this task better for your user by editing, adding, or
