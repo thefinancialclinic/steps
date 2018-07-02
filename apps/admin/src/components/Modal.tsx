@@ -81,6 +81,7 @@ const CloseIcon = styled.i`
   position: absolute;
   top: 10px;
   left: 10px;
+  z-index: 2;
 `;
 
 const IconContainer = styled.div`
