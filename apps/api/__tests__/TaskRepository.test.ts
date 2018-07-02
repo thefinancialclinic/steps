@@ -7,6 +7,7 @@ describe('Task entity operations', () => {
   let pool: Pool;
   let task: Task;
   let repo: TaskRepository;
+  let dateAssigned = new Date();
 
   beforeAll(async () => {
     pool = await getTestConnectionPool({ createFixtures: true });
@@ -22,6 +23,7 @@ describe('Task entity operations', () => {
         difficulty: 'EASY',
         date_created: new Date(),
         date_completed: new Date(),
+        date_assigned: dateAssigned,
         steps: [{ text: 'TEXT1' }, { text: 'TEXT2', note: 'NOTE2' }],
       }),
     );
@@ -59,5 +61,12 @@ describe('Task entity operations', () => {
     const subject = await repo.update({ title: 'New title' }, task.id);
     expect(subject.title).toBe('New title');
     expect(subject.category).toBe('CATEGORY'); // unchanged
+  });
+
+  it('has an assigned date', async () => {
+    const subject = await repo.get({ id: task.id });
+    expect(subject[0].date_assigned.toLocaleDateString()).toBe(
+      dateAssigned.toLocaleDateString(),
+    );
   });
 });

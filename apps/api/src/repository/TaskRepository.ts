@@ -28,6 +28,7 @@ export class Task {
   difficulty?: TaskDifficulty;
   date_created: Date;
   date_completed?: Date;
+  date_assigned?: Date;
   recurring?: ObjectType;
   steps?: Step[];
   order?: number;
@@ -43,6 +44,7 @@ export class Task {
     this.difficulty = opts.difficulty;
     this.date_created = opts.date_created;
     this.date_completed = opts.date_completed;
+    this.date_assigned = opts.date_assigned;
     this.recurring = opts.recurring;
     this.steps = opts.steps;
     this.order = opts.order;
@@ -79,8 +81,9 @@ export class TaskRepository implements Repository<TaskId, Task> {
         date_completed,
         recurring,
         steps,
-        "order"
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+        "order",
+        date_assigned
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
       RETURNING *
     `,
       [
@@ -96,6 +99,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         task.recurring,
         task.steps,
         task.order,
+        task.date_assigned,
       ],
     );
     return new Task(res.rows[0]);
