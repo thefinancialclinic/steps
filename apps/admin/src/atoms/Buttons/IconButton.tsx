@@ -7,10 +7,11 @@ import { remCalc } from 'styles/type';
 interface Props {
   onClick?(): void;
   iconName: string;
+  ml?: number | string;
 }
 
-const IconButton: React.SFC<Props> = ({ children, onClick, iconName }) => (
-  <StyledButton alignItems="center" onClick={onClick}>
+const IconButton: React.SFC<Props> = ({ children, ml, onClick, iconName }) => (
+  <StyledButton alignItems="center" onClick={onClick} ml={ml}>
     <Icon className="material-icons">{iconName}</Icon>
     {children}
   </StyledButton>
@@ -19,7 +20,7 @@ const IconButton: React.SFC<Props> = ({ children, onClick, iconName }) => (
 const StyledButton = styled(Flex)`
   color: ${grey};
   cursor: pointer;
-  font-size: ${remCalc(14)}
+  font-size: ${remCalc(14)};
   text-transform: uppercase;
 `;
 
