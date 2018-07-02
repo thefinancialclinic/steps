@@ -48,9 +48,7 @@ export class NavDropdown extends React.Component<Props, {}> {
         <LinkList className="contextual-links" links={links} />
         <LinkList
           className="global-links"
-          links={[
-            { to: '/logout', text: 'Log Out', className: 'log-out' },
-          ]}
+          links={[{ to: '/logout', text: 'Log Out', className: 'log-out' }]}
         />
       </Dropdown>
     );
