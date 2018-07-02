@@ -5,6 +5,49 @@ import { baseSize, remCalc, serif, sansSerif } from './type';
 export default () => injectGlobal`
   ${styledNormalize}
 
+  @font-face {
+    font-family: 'Tiempos';
+    src: url('${require('../assets/tiempos/TiemposTextWeb-Regular.eot')}?#iefix') format('embedded-opentype'),
+         url('${require('../assets/tiempos/TiemposTextWeb-Regular.woff')}') format('woff');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Tiempos';
+    src: url('${require('../assets/tiempos/TiemposTextWeb-RegularItalic.eot')}?#iefix') format('embedded-opentype'),
+         url('${require('../assets/tiempos/TiemposTextWeb-RegularItalic.woff')}') format('woff');
+    font-weight: 500;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: 'Tiempos';
+    src: url('${require('../assets/tiempos/TiemposTextWeb-Semibold.eot')}?#iefix') format('embedded-opentype'),
+         url('${require('../assets/tiempos/TiemposTextWeb-Semibold.woff')}') format('woff');
+    font-weight: 700;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Tiempos';
+    src: url('${require('../assets/tiempos/TiemposTextWeb-SemiboldItalic.eot')}?#iefix') format('embedded-opentype'),
+         url('${require('../assets/tiempos/TiemposTextWeb-SemiboldItalic.woff')}') format('woff');
+    font-weight: 700;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: 'Calibre';
+    src: url('${require('../assets/calibre/CalibreWeb-Regular.eot')}?#iefix') format('embedded-opentype'),
+         url('${require('../assets/calibre/CalibreWeb-Regular.woff')}') format('woff');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Calibre';
+    src: url('${require('../assets/calibre/CalibreWeb-Medium.eot')}?#iefix') format('embedded-opentype'),
+         url('${require('../assets/calibre/CalibreWeb-Medium.woff')}') format('woff');
+    font-weight: 700;
+    font-style: normal;
+  }
+
   html, body {
     height: 100%;
     margin: 0;
