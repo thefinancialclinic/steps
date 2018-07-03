@@ -74,10 +74,14 @@ export class User {
 export class UserRepository implements Repository<UserId, User> {
   constructor(public pool: Pool) {}
 
-  async getByEmail(email: string) {
-    const res = await this.pool.query(`SELECT * FROM "user" WHERE email = $1`, [
-      email,
-    ]);
+  async getClientByEmail(email: string) {
+    const res = await this.pool.query(
+      `SELECT * FROM "user"
+      WHERE type = 'Client'
+      AND auth0_id is null
+      AND email = $1;`,
+      [email],
+    );
     return new User(res.rows[0]);
   }
 

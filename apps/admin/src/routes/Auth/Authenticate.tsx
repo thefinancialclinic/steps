@@ -13,10 +13,11 @@ interface Props {
   actions: { setAuthenticatedUser: Function };
   auth0?: Auth0Service;
   api?: AxiosInstance;
+  redirect?: string;
 }
 
 interface State {
-  authenticated: boolean;
+  authFinished: boolean;
   message: string;
 }
 
@@ -24,20 +25,27 @@ export class Authenticate extends React.Component<Props, State> {
   static defaultProps = {
     auth0: auth0,
     api: api,
+    redirect: '/',
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      authenticated: false,
+      authFinished: false,
       message: '',
     };
     this.onAppTokenSet = this.onAppTokenSet.bind(this);
   }
 
   async componentDidMount() {
-    await this.props.auth0.authenticate();
-    this.onAppTokenSet();
+    try {
+      await this.props.auth0.authenticate();
+      this.onAppTokenSet();
+    } catch (err) {
+      this.props.auth0.logout();
+      this.setState({ authFinished: true });
+      throw err;
+    }
   }
 
   async onAppTokenSet() {
@@ -56,7 +64,7 @@ export class Authenticate extends React.Component<Props, State> {
       const { api } = this.props;
       const user = await api.get('/user');
       this.props.actions.setAuthenticatedUser(user.data);
-      this.setState({ authenticated: true });
+      this.setState({ authFinished: true });
     } catch (err) {
       this.setState({ message: err.toString() });
     }
@@ -65,8 +73,8 @@ export class Authenticate extends React.Component<Props, State> {
   render() {
     return (
       <AuthLayout>
-        {this.state.authenticated ? (
-          <Redirect to="/" />
+        {this.state.authFinished ? (
+          <Redirect to={this.props.redirect} />
         ) : (
           <Panel>
             Logging in...

@@ -98,4 +98,31 @@ describe('Authenticate', () => {
     await route.onAppTokenSet();
     expect(route.state.message).toBe('something went wrong');
   });
+
+  it('Clears tokens and redirects if auth0 auth fails', async () => {
+    const auth0 = {
+      getAppToken: jest.fn(() => {
+        return 'appToken';
+      }),
+      authenticate: jest.fn(() => {
+        return Promise.reject('something went wrong');
+      }),
+      logout: jest.fn(),
+    };
+    const wrapper = shallow(
+      <Authenticate
+        actions={{ setAuthenticatedUser: jest.fn() }}
+        auth0={auth0}
+        api={api}
+      />,
+    );
+    const route = wrapper.instance() as Authenticate;
+    try {
+      await route.componentDidMount();
+    } catch (err) {
+      expect(err).toBe('something went wrong');
+      expect(auth0.logout).toHaveBeenCalled();
+      expect(route.state.authFinished).toBe(true);
+    }
+  });
 });
