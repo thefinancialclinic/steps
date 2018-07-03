@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux';
 import { addAlert } from 'actions/alerts';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
+import Alert from 'containers/Alert';
 
 const LoginForm: React.SFC<any> = ({ onSubmit }) => {
   return (
@@ -73,17 +74,20 @@ class ClientLogin extends React.Component<any, any> {
     return this.props.isAuthenticated ? (
       <Redirect to="/" />
     ) : (
-      <Flex justifyContent="center">
-        <Box width={[1, 3 / 4, 1 / 2, 1 / 3]} mt={[0, 4, 4, 4]}>
-          <StyledPanel>
-            {this.state.submitted ? (
-              <Submitted />
-            ) : (
-              <LoginForm onSubmit={this.onSubmit} />
-            )}
-          </StyledPanel>
-        </Box>
-      </Flex>
+      <div>
+        <Alert />
+        <Flex justifyContent="center">
+          <Box width={[1, 3 / 4, 1 / 2, 1 / 3]} mt={[0, 4, 4, 4]}>
+            <StyledPanel>
+              {this.state.submitted ? (
+                <Submitted />
+              ) : (
+                <LoginForm onSubmit={this.onSubmit} />
+              )}
+            </StyledPanel>
+          </Box>
+        </Flex>
+      </div>
     );
   }
 }

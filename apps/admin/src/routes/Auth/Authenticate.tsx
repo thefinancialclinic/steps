@@ -8,9 +8,14 @@ import { connect } from 'react-redux';
 import { AxiosInstance } from 'axios';
 import AuthLayout from 'layouts/AuthLayout';
 import Panel from 'atoms/Panel';
+import { addAlert } from 'actions/alerts';
+import { AlertLevel } from 'components/Alert/types';
 
 interface Props {
-  actions: { setAuthenticatedUser: Function };
+  actions: {
+    setAuthenticatedUser: Function;
+    addAlert: Function;
+  };
   auth0?: Auth0Service;
   api?: AxiosInstance;
   redirect?: string;
@@ -18,7 +23,6 @@ interface Props {
 
 interface State {
   authFinished: boolean;
-  message: string;
 }
 
 export class Authenticate extends React.Component<Props, State> {
@@ -32,7 +36,6 @@ export class Authenticate extends React.Component<Props, State> {
     super(props);
     this.state = {
       authFinished: false,
-      message: '',
     };
     this.onAppTokenSet = this.onAppTokenSet.bind(this);
   }
@@ -42,15 +45,28 @@ export class Authenticate extends React.Component<Props, State> {
       await this.props.auth0.authenticate();
       this.onAppTokenSet();
     } catch (err) {
-      this.props.auth0.logout();
-      this.setState({ authFinished: true });
-      throw err;
+      this.failAuth(err);
     }
   }
 
   async onAppTokenSet() {
     this.addAppTokenToAuthHeader();
     this.getAuthenticatedUser();
+  }
+
+  failAuth(err) {
+    let message = 'Something went wrong.';
+    if (err.response && err.response.status == 404) {
+      message = "We can't find a user with your email address.";
+    }
+    this.props.actions.addAlert({
+      id: 'auth-error',
+      level: AlertLevel.Error,
+      message: message,
+    });
+    this.props.auth0.logout();
+    this.setState({ authFinished: true });
+    console.log(err);
   }
 
   addAppTokenToAuthHeader() {
@@ -66,7 +82,7 @@ export class Authenticate extends React.Component<Props, State> {
       this.props.actions.setAuthenticatedUser(user.data);
       this.setState({ authFinished: true });
     } catch (err) {
-      this.setState({ message: err.toString() });
+      this.failAuth(err);
     }
   }
 
@@ -76,10 +92,7 @@ export class Authenticate extends React.Component<Props, State> {
         {this.state.authFinished ? (
           <Redirect to={this.props.redirect} />
         ) : (
-          <Panel>
-            Logging in...
-            {this.state.message}
-          </Panel>
+          <Panel>Logging in...</Panel>
         )}
       </AuthLayout>
     );
@@ -87,7 +100,7 @@ export class Authenticate extends React.Component<Props, State> {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ setAuthenticatedUser }, dispatch),
+  actions: bindActionCreators({ setAuthenticatedUser, addAlert }, dispatch),
 });
 
 export default connect(
