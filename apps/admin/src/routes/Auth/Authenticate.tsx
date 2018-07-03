@@ -13,6 +13,7 @@ interface Props {
   actions: { setAuthenticatedUser: Function };
   auth0?: Auth0Service;
   api?: AxiosInstance;
+  redirect?: string;
 }
 
 interface State {
@@ -24,6 +25,7 @@ export class Authenticate extends React.Component<Props, State> {
   static defaultProps = {
     auth0: auth0,
     api: api,
+    redirect: '/',
   };
 
   constructor(props) {
@@ -72,7 +74,7 @@ export class Authenticate extends React.Component<Props, State> {
     return (
       <AuthLayout>
         {this.state.authFinished ? (
-          <Redirect to="/" />
+          <Redirect to={this.props.redirect} />
         ) : (
           <Panel>
             Logging in...
