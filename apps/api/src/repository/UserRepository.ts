@@ -82,7 +82,11 @@ export class UserRepository implements Repository<UserId, User> {
       AND email = $1;`,
       [email],
     );
-    return new User(res.rows[0]);
+    if (res.rowCount > 0) {
+      return new User(res.rows[0]);
+    } else {
+      return null;
+    }
   }
 
   async getByAuth0Id(auth0Id: string) {
@@ -90,7 +94,11 @@ export class UserRepository implements Repository<UserId, User> {
       `SELECT * FROM "user" WHERE auth0_id = $1`,
       [auth0Id],
     );
-    return new User(res.rows[0]);
+    if (res.rowCount > 0) {
+      return new User(res.rows[0]);
+    } else {
+      return null;
+    }
   }
 
   async save(user: Partial<User>): Promise<User> {

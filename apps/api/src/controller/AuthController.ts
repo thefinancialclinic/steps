@@ -10,9 +10,13 @@ export class AuthController {
 
   async user(request: Request, response: Response, next: NextFunction) {
     try {
-      return getUserFromAuthToken(request, this.userRepo);
+      const user = await getUserFromAuthToken(request, this.userRepo);
+      if (user) {
+        return user;
+      } else {
+        response.sendStatus(404);
+      }
     } catch (err) {
-      console.log(err);
       response.sendStatus(401);
     }
   }
