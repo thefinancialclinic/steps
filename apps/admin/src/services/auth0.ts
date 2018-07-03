@@ -34,10 +34,10 @@ export class Auth0Service {
           email: email,
           send: 'link',
           connection: 'email',
+          redirectUri: process.env.AUTH0_MAGIC_LINK_REDIRECT_URL,
           authParams: {
             state: 'state',
             nonce: 'nonce',
-            redirectUri: `${process.env.BASE_URL}/magic-link`,
           },
         },
         err => {
