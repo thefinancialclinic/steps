@@ -14,19 +14,19 @@ import { withRouter, Redirect } from 'react-router-dom';
 
 const LoginForm: React.SFC<any> = ({ onSubmit }) => {
   return (
-    <div>
+    <Flex flexDirection="column">
       <h1>Welcome back!</h1>
       <p>
-        It's been a while since you visited. Enter your email address below and
-        we'll send a "magic link" to your inbox. Just click the link and we'll
-        take you to your workplan.
+        Enter your email address below and we'll send a "magic link" to your
+        inbox. Just click the link and we'll take you to your workplan.
       </p>
       <MagicLinkLoginForm onSubmit={onSubmit} />
-    </div>
+    </Flex>
   );
 };
 
 const EmailIcon = styled.div`
+  text-align: center;
   i {
     font-size: 200px;
   }
@@ -35,16 +35,16 @@ const EmailIcon = styled.div`
 
 const Submitted: React.SFC<any> = () => {
   return (
-    <div>
+    <Flex flexDirection="column">
       <EmailIcon>
         <i className="material-icons">email</i>
       </EmailIcon>
-      <h3>Email sent!</h3>
+      <h1>Email sent!</h1>
       <p>
         Please check your email for a new message. Click the magic link and
         we'll take you to your workplan.
       </p>
-    </div>
+    </Flex>
   );
 };
 
@@ -74,7 +74,7 @@ class ClientLogin extends React.Component<any, any> {
       <Redirect to="/" />
     ) : (
       <Flex justifyContent="center">
-        <Box width={1 / 2}>
+        <Box width={[1, 3 / 4, 1 / 2, 1 / 3]} mt={[0, 4, 4, 4]}>
           <StyledPanel>
             {this.state.submitted ? (
               <Submitted />
@@ -89,7 +89,6 @@ class ClientLogin extends React.Component<any, any> {
 }
 
 const StyledPanel = styled(Panel)`
-  margin-top: 4em;
   padding: 1em 4em;
 
   h1 {
