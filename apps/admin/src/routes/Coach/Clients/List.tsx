@@ -46,7 +46,7 @@ class Clients extends React.Component<Props, {}> {
             <GroupTitle>
               {title} <span className="count">({collection.length})</span>
             </GroupTitle>
-            <Flex flexDirection="row" mx="-10px">
+            <Flex flexDirection="row" flexWrap="wrap" mx="-10px">
               {collection.map((client, key) => (
                 <Box key={key} width={[1, 1 / 3, 1 / 5]}>
                   <StyledLink to={`/clients/${client.id}`}>

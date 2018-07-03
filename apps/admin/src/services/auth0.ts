@@ -13,6 +13,7 @@ interface Auth0SignupResponse {
 
 export class Auth0Service {
   webAuth: Auth0Client;
+  magicLinkRedirectUri: string;
 
   constructor(webAuth?: Auth0Client) {
     this.webAuth =
@@ -25,6 +26,7 @@ export class Auth0Service {
         responseType: 'token id_token',
         scope: 'openid',
       });
+    this.magicLinkRedirectUri = process.env.AUTH0_MAGIC_LINK_REDIRECT_URL;
   }
 
   magicLink(email) {
@@ -34,6 +36,11 @@ export class Auth0Service {
           email: email,
           send: 'link',
           connection: 'email',
+          redirectUri: this.magicLinkRedirectUri,
+          authParams: {
+            state: 'state',
+            nonce: 'nonce',
+          },
         },
         err => {
           if (err) {
@@ -114,16 +121,18 @@ export class Auth0Service {
   }
 
   authenticate() {
-    return new Promise((resolve, reject) => {
-      this.webAuth.parseHash((err, authResult) => {
-        if (authResult && authResult.accessToken && authResult.idToken) {
-          this.setAuthTokens(authResult);
-          resolve();
-        } else if (err) {
-          reject(err);
-        }
+    if (!this.hasCurrentSessionToken()) {
+      return new Promise((resolve, reject) => {
+        this.webAuth.parseHash((err, authResult) => {
+          if (authResult && authResult.accessToken && authResult.idToken) {
+            this.setAuthTokens(authResult);
+            resolve();
+          } else if (err) {
+            reject(err);
+          }
+        });
       });
-    });
+    }
   }
 
   getAppToken() {
