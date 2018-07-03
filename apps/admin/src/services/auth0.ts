@@ -34,6 +34,11 @@ export class Auth0Service {
           email: email,
           send: 'link',
           connection: 'email',
+          authParams: {
+            state: 'state',
+            nonce: 'nonce',
+            redirectUri: `${process.env.BASE_URL}/magic-link`,
+          },
         },
         err => {
           if (err) {

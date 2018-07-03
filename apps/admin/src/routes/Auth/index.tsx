@@ -4,6 +4,7 @@ import Signup from 'routes/Auth/Signup';
 import Authenticate from 'routes/Auth/Authenticate';
 import Logout from 'routes/Auth/Logout';
 import ClientLogin from 'routes/Auth/ClientLogin';
+import { MagicLinkAuth } from 'routes/Auth/MagicLinkAuth';
 
 class Routes extends React.Component<any, any> {
   render() {
@@ -12,6 +13,7 @@ class Routes extends React.Component<any, any> {
         <Route path="/my-tasks" component={ClientLogin} />
         <Route path="/signup" component={Signup} />
         <Route path="/authenticate" component={Authenticate} />
+        <Route path="/magic-link" component={MagicLinkAuth} />
         <Route path="/logout" component={Logout} />
         {this.props.children}
       </Switch>
