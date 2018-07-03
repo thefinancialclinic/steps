@@ -69,6 +69,7 @@ const baseConfig = {
       API_URL: isProduction ? '/api' : 'http://localhost:3001/api',
       AUTH0_ENABLED: 'true',
       AUTH0_REDIRECT_URL: 'http://localhost:3000/authenticate',
+      AUTH0_MAGIC_LINK_REDIRECT_URL: 'http://localhost:3000/magic-link',
       AUTH0_AUDIENCE: 'http://steps-admin.herokuapp.com',
       AUTH0_DOMAIN: 'steps.auth0.com',
       AUTH0_CLIENT_ID: 'R4uBotWz7sHgmvfmlsBI3othCDEpo4Ga',
