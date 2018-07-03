@@ -8,7 +8,7 @@ describe('MagicLinkAuth', () => {
   it('Sets nonce and state in localStorage as Auth0 workaround', async () => {
     const wrapper = shallow(<MagicLinkAuth />);
     const route = wrapper.instance() as MagicLinkAuth;
-    route.componentDidMount();
+    route.componentWillMount();
     expect(window.localStorage.getItem('com.auth0.auth.state')).toEqual(
       JSON.stringify({
         nonce: 'nonce',
