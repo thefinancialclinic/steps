@@ -13,6 +13,7 @@ interface Auth0SignupResponse {
 
 export class Auth0Service {
   webAuth: Auth0Client;
+  magicLinkRedirectUri: string;
 
   constructor(webAuth?: Auth0Client) {
     this.webAuth =
@@ -25,6 +26,7 @@ export class Auth0Service {
         responseType: 'token id_token',
         scope: 'openid',
       });
+      this.magicLinkRedirectUri = process.env.AUTH0_MAGIC_LINK_REDIRECT_URL;
   }
 
   magicLink(email) {
@@ -34,7 +36,7 @@ export class Auth0Service {
           email: email,
           send: 'link',
           connection: 'email',
-          redirectUri: process.env.AUTH0_MAGIC_LINK_REDIRECT_URL,
+          redirectUri: this.magicLinkRedirectUri,
           authParams: {
             state: 'state',
             nonce: 'nonce',
