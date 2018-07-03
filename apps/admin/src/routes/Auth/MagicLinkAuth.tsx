@@ -1,8 +1,19 @@
 import React from 'react';
 import Authenticate from 'routes/Auth/Authenticate';
 
-export class MagicLinkAuth extends React.Component<{}, {}> {
-  componentDidMount() {
+interface State {
+  nonceSet: boolean;
+}
+
+export class MagicLinkAuth extends React.Component<{}, State> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      nonceSet: false,
+    };
+  }
+
+  componentWillMount() {
     window.localStorage.setItem(
       'com.auth0.auth.state',
       JSON.stringify({
@@ -10,9 +21,10 @@ export class MagicLinkAuth extends React.Component<{}, {}> {
         state: 'state',
       }),
     );
+    this.setState({ nonceSet: true });
   }
 
   render() {
-    return <Authenticate redirect="/my-tasks" />;
+    return this.state.nonceSet ? <Authenticate redirect="/my-tasks" /> : null;
   }
 }
