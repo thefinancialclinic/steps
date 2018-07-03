@@ -16,10 +16,7 @@ export const getUserFromAuthToken: (
       return repo.getByAuth0Id(id);
     } else if (provider === 'email') {
       const email = req.token[`${AUTH0_AUDIENCE}/email`];
-      const user = await repo.getByEmail(email);
-      if (user.type === 'Client') {
-        return user;
-      }
+      return repo.getClientByEmail(email);
     }
     return null;
   }

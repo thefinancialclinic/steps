@@ -16,7 +16,7 @@ interface Props {
 }
 
 interface State {
-  authenticated: boolean;
+  authFinished: boolean;
   message: string;
 }
 
@@ -29,15 +29,21 @@ export class Authenticate extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
-      authenticated: false,
+      authFinished: false,
       message: '',
     };
     this.onAppTokenSet = this.onAppTokenSet.bind(this);
   }
 
   async componentDidMount() {
-    await this.props.auth0.authenticate();
-    this.onAppTokenSet();
+    try {
+      await this.props.auth0.authenticate();
+      this.onAppTokenSet();
+    } catch (err) {
+      console.log(err);
+      this.props.auth0.logout();
+      this.setState({ authFinished: true });
+    }
   }
 
   async onAppTokenSet() {
@@ -56,7 +62,7 @@ export class Authenticate extends React.Component<Props, State> {
       const { api } = this.props;
       const user = await api.get('/user');
       this.props.actions.setAuthenticatedUser(user.data);
-      this.setState({ authenticated: true });
+      this.setState({ authFinished: true });
     } catch (err) {
       this.setState({ message: err.toString() });
     }
@@ -65,7 +71,7 @@ export class Authenticate extends React.Component<Props, State> {
   render() {
     return (
       <AuthLayout>
-        {this.state.authenticated ? (
+        {this.state.authFinished ? (
           <Redirect to="/" />
         ) : (
           <Panel>
