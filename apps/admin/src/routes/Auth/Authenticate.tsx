@@ -42,9 +42,9 @@ export class Authenticate extends React.Component<Props, State> {
       await this.props.auth0.authenticate();
       this.onAppTokenSet();
     } catch (err) {
-      console.log(err);
       this.props.auth0.logout();
       this.setState({ authFinished: true });
+      throw err;
     }
   }
 
