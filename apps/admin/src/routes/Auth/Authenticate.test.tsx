@@ -90,8 +90,9 @@ describe('Authenticate', () => {
   });
 
   it('Clears tokens and redirects on API error', async () => {
+    const err = { response: { status: 401 } };
     api.get = jest.fn(() => {
-      return Promise.reject({ response: { status: 401 } });
+      return Promise.reject(err);
     });
     const auth0 = {
       getAppToken: jest.fn(() => {
@@ -105,23 +106,22 @@ describe('Authenticate', () => {
       <Authenticate actions={actions} auth0={auth0} api={api} />,
     );
     const route = wrapper.instance() as Authenticate;
-    try {
-      await route.onAppTokenSet();
-    } catch (err) {
-      expect(route.state.authFinished).toBe(true);
-      expect(actions.addAlert).toHaveBeenCalledWith({
-        id: 'auth-error',
-        level: AlertLevel.Error,
-        message: 'Something went wrong.',
-      });
-      expect(auth0.logout).toHaveBeenCalled();
-      expect(console.log).toHaveBeenCalledWith(err);
-    }
+
+    await route.onAppTokenSet();
+    expect(route.state.authFinished).toBe(true);
+    expect(actions.addAlert).toHaveBeenCalledWith({
+      id: 'auth-error',
+      level: AlertLevel.Error,
+      message: 'Something went wrong.',
+    });
+    expect(auth0.logout).toHaveBeenCalled();
+    expect(console.log).toHaveBeenCalledWith(err);
   });
 
   it('Sets a helpful alert message if user is not found', async () => {
+    const err = { response: { status: 404 } };
     api.get = jest.fn(() => {
-      return Promise.reject({ response: { status: 404 } });
+      return Promise.reject(err);
     });
     const auth0 = {
       getAppToken: jest.fn(() => {
@@ -135,27 +135,25 @@ describe('Authenticate', () => {
       <Authenticate actions={actions} auth0={auth0} api={api} />,
     );
     const route = wrapper.instance() as Authenticate;
-    try {
-      await route.onAppTokenSet();
-    } catch (err) {
-      expect(route.state.authFinished).toBe(true);
-      expect(actions.addAlert).toHaveBeenCalledWith({
-        id: 'auth-error',
-        level: AlertLevel.Error,
-        message: "We can't find a user with your email address.",
-      });
-      expect(auth0.logout).toHaveBeenCalled();
-      expect(console.log).toHaveBeenCalledWith(err);
-    }
+    await route.onAppTokenSet();
+    expect(route.state.authFinished).toBe(true);
+    expect(actions.addAlert).toHaveBeenCalledWith({
+      id: 'auth-error',
+      level: AlertLevel.Error,
+      message: "We can't find a user with your email address.",
+    });
+    expect(auth0.logout).toHaveBeenCalled();
+    expect(console.log).toHaveBeenCalledWith(err);
   });
 
   it('Clears tokens and redirects if auth0 auth fails', async () => {
+    const err = 'something went wrong';
     const auth0 = {
       getAppToken: jest.fn(() => {
         return 'appToken';
       }),
       authenticate: jest.fn(() => {
-        return Promise.reject('something went wrong');
+        return Promise.reject(err);
       }),
       logout: jest.fn(),
     };
@@ -164,17 +162,14 @@ describe('Authenticate', () => {
       <Authenticate actions={actions} auth0={auth0} api={api} />,
     );
     const route = wrapper.instance() as Authenticate;
-    try {
-      await route.componentDidMount();
-    } catch (err) {
-      expect(route.state.authFinished).toBe(true);
-      expect(actions.addAlert).toHaveBeenCalledWith({
-        id: 'auth-error',
-        level: AlertLevel.Error,
-        message: 'Something went wrong.',
-      });
-      expect(auth0.logout).toHaveBeenCalled();
-      expect(console.log).toHaveBeenCalledWith(err);
-    }
+    await route.componentDidMount();
+    expect(route.state.authFinished).toBe(true);
+    expect(actions.addAlert).toHaveBeenCalledWith({
+      id: 'auth-error',
+      level: AlertLevel.Error,
+      message: 'Something went wrong.',
+    });
+    expect(auth0.logout).toHaveBeenCalled();
+    expect(console.log).toHaveBeenCalledWith(err);
   });
 });
