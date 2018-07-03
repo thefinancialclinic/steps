@@ -26,7 +26,7 @@ export class Auth0Service {
         responseType: 'token id_token',
         scope: 'openid',
       });
-      this.magicLinkRedirectUri = process.env.AUTH0_MAGIC_LINK_REDIRECT_URL;
+    this.magicLinkRedirectUri = process.env.AUTH0_MAGIC_LINK_REDIRECT_URL;
   }
 
   magicLink(email) {
