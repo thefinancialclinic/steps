@@ -4,7 +4,6 @@ import { Auth0Service } from './auth0';
 let auth0, redirectURL;
 
 describe('auth0 service', () => {
-
   beforeEach(() => {
     auth0 = new Auth0Service({
       login: jest.fn(),
@@ -17,7 +16,7 @@ describe('auth0 service', () => {
 
   describe('magicLink', () => {
     it('calls auth0 with email', done => {
-      auth0.magicLinkRedirectUri = 'https://example.com/magic-link'
+      auth0.magicLinkRedirectUri = 'https://example.com/magic-link';
       auth0.webAuth.passwordlessStart = (opts, _cb) => {
         expect(opts.email).toBe('fake@example.com');
         expect(opts.send).toBe('link');
@@ -25,7 +24,7 @@ describe('auth0 service', () => {
         expect(opts.redirectUri).toBe('https://example.com/magic-link');
         expect(opts.authParams).toEqual({
           state: 'state',
-          nonce: 'nonce'
+          nonce: 'nonce',
         });
         done();
       };
@@ -163,8 +162,7 @@ describe('auth0 service', () => {
   });
 
   describe('authenticate', () => {
-
-    it('skips parsing hash if current session tokens are found', () =>{
+    it('skips parsing hash if current session tokens are found', () => {
       localStorage.setItem(
         'expires_at',
         JSON.stringify(new Date().getTime() * 100),

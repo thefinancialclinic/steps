@@ -107,7 +107,7 @@ describe('Authenticate', () => {
       authenticate: jest.fn(() => {
         return Promise.reject('something went wrong');
       }),
-      logout: jest.fn()
+      logout: jest.fn(),
     };
     const wrapper = shallow(
       <Authenticate
