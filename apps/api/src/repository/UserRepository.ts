@@ -74,11 +74,19 @@ export class User {
 export class UserRepository implements Repository<UserId, User> {
   constructor(public pool: Pool) {}
 
-  async getByEmail(email: string) {
-    const res = await this.pool.query(`SELECT * FROM "user" WHERE email = $1`, [
-      email,
-    ]);
-    return new User(res.rows[0]);
+  async getClientByEmail(email: string) {
+    const res = await this.pool.query(
+      `SELECT * FROM "user"
+      WHERE type = 'Client'
+      AND auth0_id is null
+      AND email = $1;`,
+      [email],
+    );
+    if (res.rowCount > 0) {
+      return new User(res.rows[0]);
+    } else {
+      return null;
+    }
   }
 
   async getByAuth0Id(auth0Id: string) {
@@ -86,7 +94,11 @@ export class UserRepository implements Repository<UserId, User> {
       `SELECT * FROM "user" WHERE auth0_id = $1`,
       [auth0Id],
     );
-    return new User(res.rows[0]);
+    if (res.rowCount > 0) {
+      return new User(res.rows[0]);
+    } else {
+      return null;
+    }
   }
 
   async save(user: Partial<User>): Promise<User> {

@@ -6,11 +6,12 @@ import styled from 'styled-components';
 import Badge from 'atoms/Badge';
 import DeleteButton from 'atoms/Buttons/DeleteButton';
 import EditButton from 'atoms/Buttons/EditButton';
+import Label from 'atoms/Label';
 import Panel from 'atoms/Panel';
 import DeleteTask, { DELETE_TASK_MODAL } from 'components/Tasks/DeleteTask';
 import Modal from 'containers/Modal';
-import { green, white } from 'styles/colors';
-import { remCalc, sansSerif } from 'styles/type';
+import { green, lightGrey, white } from 'styles/colors';
+import { remCalc, sansSerif, serif } from 'styles/type';
 import { AlertLevel } from '../Alert/types';
 import { ModalSize } from '../Modal';
 import { USER_TYPE, User } from 'reducers/auth';
@@ -88,8 +89,8 @@ class TaskDetails extends React.Component<Props> {
             </Flex>
           )}
           <H3>{task.title}</H3>
-          <p>{task.description}</p>
-          <div className="action-link">Steps</div>
+          <Description>{task.description}</Description>
+          <Label grey>Steps</Label>
           {task.steps &&
             task.steps.map((step, index) => (
               <Flex className={className} mb={30} key={index}>
@@ -97,7 +98,9 @@ class TaskDetails extends React.Component<Props> {
                   <div className="circle">{index + 1}</div>
                 </Box>
                 <Box width={1}>
-                  <p key={`step-${index}`}>{step.text}</p>
+                  <p key={`step-${index}`} className="step-text">
+                    {step.text}
+                  </p>
                 </Box>
               </Flex>
             ))}
@@ -132,9 +135,28 @@ const StyledViewTask = styled(TaskDetails)`
     text-align: center;
     width: ${remCalc(50)};
   }
+
+  .step-text {
+    font-family: ${serif};
+    font-size: ${remCalc(21)};
+    margin-top: 0;
+  }
+`;
+
+const Description = styled.p`
+  background-color: rgba(244, 244, 244, 0.5);
+  margin-bottom: 30px;
+  margin-left: -24px;
+  margin-right: -24px;
+  margin-top: 0;
+  padding-bottom: 20px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 20px;
 `;
 
 const H3 = styled.h3`
+  font-size: ${remCalc(30)};
   font-family: ${sansSerif};
   margin-top: ${remCalc(10)};
 `;

@@ -28,6 +28,7 @@ export class Task {
   difficulty?: TaskDifficulty;
   date_created: Date;
   date_completed?: Date;
+  date_assigned?: Date;
   recurring?: ObjectType;
   steps?: Step[];
   order?: number;
@@ -43,6 +44,7 @@ export class Task {
     this.difficulty = opts.difficulty;
     this.date_created = opts.date_created;
     this.date_completed = opts.date_completed;
+    this.date_assigned = opts.date_assigned;
     this.recurring = opts.recurring;
     this.steps = opts.steps;
     this.order = opts.order;
@@ -65,40 +67,46 @@ export class TaskRepository implements Repository<TaskId, Task> {
   }
 
   async save(task: Task): Promise<Task> {
-    const res = await this.pool.query(
-      `
-      INSERT INTO task (
-        title,
-        category,
-        description,
-        status,
-        created_by,
-        user_id,
-        difficulty,
-        date_created,
-        date_completed,
-        recurring,
-        steps,
-        "order"
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-      RETURNING *
-    `,
-      [
-        task.title,
-        task.category,
-        task.description,
-        task.status,
-        task.created_by,
-        task.user_id,
-        task.difficulty,
-        task.date_created,
-        task.date_completed,
-        task.recurring,
-        task.steps,
-        task.order,
-      ],
-    );
-    return new Task(res.rows[0]);
+    try {
+      const res = await this.pool.query(
+        `
+        INSERT INTO task (
+          title,
+          category,
+          description,
+          status,
+          created_by,
+          user_id,
+          difficulty,
+          date_created,
+          date_completed,
+          recurring,
+          steps,
+          "order",
+          date_assigned
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+        RETURNING *
+      `,
+        [
+          task.title,
+          task.category,
+          task.description,
+          task.status,
+          task.created_by,
+          task.user_id,
+          task.difficulty,
+          task.date_created,
+          task.date_completed,
+          task.recurring,
+          task.steps,
+          task.order,
+          task.date_assigned,
+        ],
+      );
+      return new Task(res.rows[0]);
+    } catch (err) {
+      throw `Could not create Task (${err})`;
+    }
   }
 
   async get(conditions = {}) {
