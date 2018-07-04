@@ -140,6 +140,9 @@ components:
         order:
           nullable: true
           type: integer
+        date_assigned:
+          nullable: true
+          type: date-time
     User:
       properties:
         first_name:
