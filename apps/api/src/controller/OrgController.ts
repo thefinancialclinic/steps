@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { OrgRepository, Org } from '../repository/OrgRepository';
 import { User } from '../repository/UserRepository';
-import { pool } from '../index';
-import { check_if_present } from '../util';
+import { pool } from '../db';
+import { extend } from './Controller';
 
 const queryParams = user => {
   return {
@@ -11,58 +11,26 @@ const queryParams = user => {
   }[user.type];
 };
 
-export class OrgController {
-  private repo = new OrgRepository(pool);
+const repo = new OrgRepository(pool);
 
-  async all(request: Request, response: Response, next: NextFunction) {
-    return this.repo.get(queryParams(request.user));
-  }
+export const OrgController = extend({
+  all: async (request: Request, response: Response, next: NextFunction) => {
+    const res = await repo.get(queryParams(request.user));
+    response.send(res);
+  },
 
-  async one(request: Request, response: Response, next: NextFunction) {
-    return this.repo.getOne(request.params.id);
-  }
+  one: async (request: Request, response: Response, next: NextFunction) => {
+    const res = await repo.getOne(request.params.id);
+    response.send(res);
+  },
 
-  async save(request: Request, response: Response, next: NextFunction) {
-    try {
-      const org = await this.repo.save(request.body);
-      response.status(201); // created
-      return org;
-    } catch (err) {
-      throw `Could not create Org (${err})`;
-    }
-  }
+  save: async (request: Request, response: Response, next: NextFunction) => {
+    const res = await repo.save(request.body);
+    response.status(201).send(res);
+  },
 
-  async remove(request: Request, response: Response, next: NextFunction) {
-    const num = await this.repo.delete(request.params.id);
-    return { deleted: num };
-  }
-
-  async isAllowed({ user, params, method }) {
-    return {
-      Superadmin: {
-        GET: true,
-        PUT: true,
-        POST: true,
-        DELETE: true,
-      },
-      Admin: {
-        GET: true,
-        PUT: false,
-        POST: false,
-        DELETE: false,
-      },
-      Coach: {
-        GET: true,
-        PUT: false,
-        POST: false,
-        DELETE: false,
-      },
-      Client: {
-        GET: true,
-        PUT: false,
-        POST: false,
-        DELETE: false,
-      },
-    }[user.type][method];
-  }
-}
+  remove: async (request: Request, response: Response, next: NextFunction) => {
+    const num = await repo.delete(request.params.id);
+    response.send({ deleted: num });
+  },
+});

@@ -1,4 +1,3 @@
-import { ClientController } from './controller/ClientController';
 import { CoachController } from './controller/CoachController';
 import { OrgController } from './controller/OrgController';
 import { UserController } from './controller/UserController';
@@ -7,252 +6,115 @@ import { MessageController } from './controller/MessageController';
 import { MediaController } from './controller/MediaController';
 import { RequestController } from './controller/RequestController';
 import { AuthController } from './controller/AuthController';
+import * as middleware from './middleware';
+import { Router } from 'express-serve-static-core';
+import * as express from 'express';
+import { ClientController } from './controller/ClientController';
 
-export const Routes = [
-  {
-    method: 'get',
-    route: '/api/clients',
-    controller: ClientController,
-    action: 'all',
-  },
-  {
-    method: 'get',
-    route: '/api/clients/:id',
-    controller: ClientController,
-    action: 'one',
-  },
-  {
-    method: 'get',
-    route: '/api/clients/:id/tasks',
-    controller: ClientController,
-    action: 'tasks',
-  },
-  {
-    method: 'get',
-    route: '/api/clients/:id/messages',
-    controller: ClientController,
-    action: 'messages',
-  },
-  {
-    method: 'get',
-    route: '/api/clients/:id/viewed_media',
-    controller: ClientController,
-    action: 'viewed_media',
-  },
-  {
-    method: 'get',
-    route: '/api/clients/:id/requests',
-    controller: ClientController,
-    action: 'requests',
-  },
-  {
-    method: 'post',
-    route: '/api/clients/:id/viewed_media/:media_id',
-    controller: ClientController,
-    action: 'create_viewed_media',
-  },
-  {
-    method: 'delete',
-    route: '/api/clients/:id/viewed_media/:media_id',
-    controller: ClientController,
-    action: 'delete_viewed_media',
-  },
-  {
-    method: 'post',
-    route: '/api/clients',
-    controller: ClientController,
-    action: 'save',
-  },
-  {
-    method: 'put',
-    route: '/api/clients/:id',
-    controller: ClientController,
-    action: 'update',
-  },
-  {
-    method: 'delete',
-    route: '/api/clients/:id',
-    controller: ClientController,
-    action: 'remove',
-  },
-  {
-    method: 'get',
-    route: '/api/coaches',
-    controller: CoachController,
-    action: 'all',
-  },
-  {
-    method: 'get',
-    route: '/api/coaches/:id',
-    controller: CoachController,
-    action: 'one',
-  },
-  {
-    method: 'post',
-    route: '/api/coaches',
-    controller: CoachController,
-    action: 'save',
-  },
-  {
-    method: 'delete',
-    route: '/api/coaches/:id',
-    controller: CoachController,
-    action: 'remove',
-  },
-  {
-    method: 'get',
-    route: '/api/orgs',
-    controller: OrgController,
-    action: 'all',
-  },
-  {
-    method: 'post',
-    route: '/api/orgs',
-    controller: OrgController,
-    action: 'save',
-  },
-  {
-    method: 'delete',
-    route: '/api/orgs/:id',
-    controller: OrgController,
-    action: 'remove',
-  },
-  {
-    method: 'get',
-    route: '/api/users',
-    controller: UserController,
-    action: 'all',
-  },
-  {
-    method: 'get',
-    route: '/api/users/:id',
-    controller: UserController,
-    action: 'one',
-  },
-  {
-    method: 'post',
-    route: '/api/users',
-    controller: UserController,
-    action: 'save',
-  },
-  {
-    method: 'delete',
-    route: '/api/users/:id',
-    controller: UserController,
-    action: 'remove',
-  },
-  {
-    method: 'get',
-    route: '/api/tasks',
-    controller: TaskController,
-    action: 'all',
-  },
-  {
-    method: 'get',
-    route: '/api/tasks/:id',
-    controller: TaskController,
-    action: 'one',
-  },
-  {
-    method: 'post',
-    route: '/api/tasks',
-    controller: TaskController,
-    action: 'save',
-  },
-  {
-    method: 'put',
-    route: '/api/tasks',
-    controller: TaskController,
-    action: 'updateMany',
-  },
-  {
-    method: 'delete',
-    route: '/api/tasks/:id',
-    controller: TaskController,
-    action: 'remove',
-  },
-  {
-    method: 'put',
-    route: '/api/tasks/:id',
-    controller: TaskController,
-    action: 'update',
-  },
-  {
-    method: 'get',
-    route: '/api/messages',
-    controller: MessageController,
-    action: 'all',
-  },
-  {
-    method: 'get',
-    route: '/api/messages/:id',
-    controller: MessageController,
-    action: 'one',
-  },
-  {
-    method: 'post',
-    route: '/api/messages',
-    controller: MessageController,
-    action: 'save',
-  },
-  {
-    method: 'delete',
-    route: '/api/messages/:id',
-    controller: MessageController,
-    action: 'remove',
-  },
-  {
-    method: 'get',
-    route: '/api/media',
-    controller: MediaController,
-    action: 'all',
-  },
-  {
-    method: 'get',
-    route: '/api/media/:id',
-    controller: MediaController,
-    action: 'one',
-  },
-  {
-    method: 'post',
-    route: '/api/media',
-    controller: MediaController,
-    action: 'save',
-  },
-  {
-    method: 'delete',
-    route: '/api/media/:id',
-    controller: MediaController,
-    action: 'remove',
-  },
-  {
-    method: 'get',
-    route: '/api/requests',
-    controller: RequestController,
-    action: 'all',
-  },
-  {
-    method: 'get',
-    route: '/api/requests/:id',
-    controller: RequestController,
-    action: 'one',
-  },
-  {
-    method: 'put',
-    route: '/api/requests/:id',
-    controller: RequestController,
-    action: 'update',
-  },
-  {
-    method: 'post',
-    route: '/api/requests',
-    controller: RequestController,
-    action: 'save',
-  },
-  {
-    method: 'delete',
-    route: '/api/requests/:id',
-    controller: RequestController,
-    action: 'remove',
-  },
-];
+require('dotenv').config({ path: '../../.env' });
+const { AUTH0_ENABLED } = process.env;
+const enableAuth0 = AUTH0_ENABLED === 'true';
+const permit = middleware.permit;
+
+const router: Router = express.Router();
+
+// API-specific middleware
+const authScheme = enableAuth0
+  ? [
+      middleware.checkJwt,
+      middleware.bearerTokenAuthMiddleware,
+      middleware.userIdAuthMiddleware,
+    ]
+  : [middleware.userIdAuthMiddleware];
+router.use(authScheme);
+
+// Clients
+router
+  .route('/clients')
+  .get(ClientController.all)
+  .post(ClientController.save);
+router
+  .route('/clients/:id')
+  .get(ClientController.one)
+  .put(ClientController.update)
+  .delete(permit(['Superadmin', 'Admin', 'Coach']), ClientController.remove);
+router.get('/clients/:id/tasks', ClientController.tasks);
+router.get('/clients/:id/messages', ClientController.messages);
+router.get('/clients/:id/viewed_media', ClientController.viewed_media);
+router.get('/clients/:id/requests', ClientController.requests);
+router
+  .route('/clients/:id/viewed_media/:media_id')
+  .post(ClientController.create_viewed_media)
+  .delete(ClientController.delete_viewed_media);
+
+// Coaches
+router
+  .route('/coaches')
+  .get(CoachController.all)
+  .post(permit(['Superadmin', 'Admin']), CoachController.save);
+router
+  .route('/coaches/:id')
+  .get(CoachController.one)
+  .delete(permit(['Superadmin', 'Admin']), CoachController.remove);
+
+// // Orgs
+router
+  .route('/orgs')
+  .get(OrgController.all)
+  .post(permit('Superadmin'), OrgController.save);
+router.delete('/orgs/:id', permit('Superadmin'), OrgController.remove);
+
+// Users
+router
+  .route('/users')
+  .get(UserController.all)
+  .post(UserController.save);
+router
+  .route('/users/:id')
+  .get(UserController.one)
+  .delete(UserController.remove);
+
+// Tasks
+router
+  .route('/tasks')
+  .get(TaskController.all)
+  .post(TaskController.save)
+  .put(TaskController.updateMany);
+router
+  .route('/tasks/:id')
+  .get(TaskController.one)
+  .delete(TaskController.remove)
+  .put(TaskController.update);
+
+// Messages
+router
+  .route('/messages')
+  .get(MessageController.all)
+  .post(MessageController.save);
+router
+  .route('/messages/:id')
+  .get(MessageController.one)
+  .delete(MessageController.remove);
+
+// Media
+router
+  .route('/media')
+  .get(MediaController.all)
+  .post(MediaController.save);
+router
+  .route('/media/:id')
+  .get(MediaController.one)
+  .delete(MediaController.remove);
+
+// Requests
+router
+  .route('/requests')
+  .get(RequestController.all)
+  .post(RequestController.save);
+router
+  .route('/requests/:id')
+  .get(RequestController.one)
+  .put(RequestController.update)
+  .delete(RequestController.remove);
+
+export default router;

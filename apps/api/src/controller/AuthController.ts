@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserRepository, User } from '../repository/UserRepository';
-import { pool } from '../index';
+import { pool } from '../db';
 import { getUserFromAuthToken } from '../services/Auth';
 import { OrgRepository, Org } from '../repository/OrgRepository';
 

@@ -27,6 +27,7 @@ module.exports = (on, config) => {
             AUTH0_ENABLED,
           },
           defaultCommandTimeout: 10000,
+          responseTimeout: 5000,
         };
 
   return configFile;

@@ -1,4 +1,3 @@
-import { pool } from '../index';
 import { UserRepository, User } from '../repository/UserRepository';
 import { OrgRepository, Org } from '../repository/OrgRepository';
 import { Pool } from 'pg';

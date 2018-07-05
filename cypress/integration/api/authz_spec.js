@@ -23,7 +23,8 @@ describe('Authorization', () => {
     mediaId3,
     messageId1,
     messageId2,
-    messageId3;
+    messageId3,
+    viewedMediaId1;
 
   before(() => {
     cy.request({
@@ -118,7 +119,7 @@ describe('Authorization', () => {
           // Client 1
           requestWithFail('POST', '/users', {
             first_name: 'Client',
-            last_name: 'Org1',
+            last_name: 'Org1/Coach1',
             email: 'client1@example.com',
             org_id: orgId1,
             coach_id: coachId1,
@@ -157,6 +158,13 @@ describe('Authorization', () => {
                   responses: {},
                 }).then(resp => {
                   messageId1 = resp.body.id;
+
+                  requestWithFail(
+                    'POST',
+                    `/clients/${clientId1}/viewed_media/${mediaId1}`,
+                  ).then(resp => {
+                    viewedMediaId1 = resp.body.id;
+                  }); // viewed_media 1
                 }); // message 1
               }); // media 1
             }); // task 1
@@ -180,7 +188,7 @@ describe('Authorization', () => {
           // Client 3
           requestWithFail('POST', '/users', {
             first_name: 'Client',
-            last_name: 'Org1',
+            last_name: 'Org1/Coach3',
             email: 'client1@example.com',
             org_id: orgId1,
             coach_id: coachId3,
@@ -266,7 +274,7 @@ describe('Authorization', () => {
           // Client 2
           requestWithFail('POST', '/users', {
             first_name: 'Client',
-            last_name: 'Org2',
+            last_name: 'Org2/Coach2',
             email: 'client2@example.com',
             org_id: orgId2,
             coach_id: coachId2,
@@ -314,6 +322,7 @@ describe('Authorization', () => {
   }); // End before()
 
   after(() => {
+    requestWithFail('DELETE', `/clients/${clientId1}/viewed_media/${mediaId1}`);
     requestWithFail('DELETE', `/messages/${messageId1}`);
     requestWithFail('DELETE', `/messages/${messageId2}`);
     requestWithFail('DELETE', `/messages/${messageId3}`);
@@ -377,7 +386,7 @@ describe('Authorization', () => {
           `/clients`,
           {
             first_name: 'Client',
-            last_name: 'Org1',
+            last_name: 'Org1/Coach1',
             email: 'client1@example.com',
             org_id: orgId1,
             coach_id: coachId1,
@@ -396,13 +405,13 @@ describe('Authorization', () => {
         });
       });
 
-      it('Admin 1 creates client in other org', () => {
+      it('Admin 1 creates client in other org (but belongs to org 1)', () => {
         request(
           'POST',
           `/clients`,
           {
             first_name: 'Client',
-            last_name: 'Org1',
+            last_name: 'Org1/Coach1',
             email: 'client1@example.com',
             org_id: orgId2,
             coach_id: coachId1,
@@ -416,7 +425,9 @@ describe('Authorization', () => {
             'X-UserId': adminId1,
           },
         ).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(201);
+          expect(resp.body.org_id).to.equal(orgId1);
+          requestWithFail('DELETE', `/users/${resp.body.id}`);
         });
       });
 
@@ -429,11 +440,11 @@ describe('Authorization', () => {
         });
       });
 
-      it('Admin 2 views other org client (forbidden)', () => {
+      it('Admin 2 views other org client (not found)', () => {
         request('GET', `/clients/${clientId1}`, null, {
           'X-UserId': adminId2,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(404);
         });
       });
 
@@ -460,7 +471,7 @@ describe('Authorization', () => {
             'X-UserId': adminId1,
           },
         ).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(404);
         });
       });
 
@@ -484,7 +495,7 @@ describe('Authorization', () => {
             'X-UserId': adminId1,
           },
         ).then(resp => {
-          request('DELETE', `/clients/${resp.body.id}`, null, {
+          requestWithFail('DELETE', `/clients/${resp.body.id}`, null, {
             'X-UserId': adminId1,
           }).then(resp => {
             expect(resp.status).to.equal(200);
@@ -496,7 +507,7 @@ describe('Authorization', () => {
         request('DELETE', `/clients/${clientId2}`, null, {
           'X-UserId': adminId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(404);
         });
       });
 
@@ -512,7 +523,8 @@ describe('Authorization', () => {
         request('GET', `/clients/${clientId2}/tasks`, null, {
           'X-UserId': adminId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(200);
+          expect(resp.body).to.eql([]);
         });
       });
 
@@ -528,7 +540,12 @@ describe('Authorization', () => {
         request('GET', `/clients/${clientId2}/messages`, null, {
           'X-UserId': adminId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(200);
+          expect(
+            resp.body.filter(
+              msg => msg.id === messageId1 || msg.id === messageId3,
+            ),
+          ).to.eql([]);
         });
       });
 
@@ -544,7 +561,8 @@ describe('Authorization', () => {
         request('GET', `/clients/${clientId2}/requests`, null, {
           'X-UserId': adminId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(200);
+          expect(resp.body).to.eql([]);
         });
       });
 
@@ -560,7 +578,8 @@ describe('Authorization', () => {
         request('GET', `/clients/${clientId2}/viewed_media`, null, {
           'X-UserId': adminId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(200);
+          expect(resp.body).to.eql([]);
         });
       });
     });
@@ -620,7 +639,9 @@ describe('Authorization', () => {
             'X-UserId': adminId1,
           },
         ).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(201);
+          expect(resp.body.org_id).to.equal(orgId1); // was created in own org
+          requestWithFail('DELETE', `/users/${resp.body.id}`);
         });
       });
 
@@ -637,7 +658,7 @@ describe('Authorization', () => {
         request('GET', `/coaches/${coachId2}`, null, {
           'X-UserId': adminId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(404);
         });
       });
 
@@ -686,7 +707,7 @@ describe('Authorization', () => {
             'X-UserId': adminId1,
           },
         ).then(resp => {
-          request('DELETE', `/coaches/${resp.body.id}`, null, {
+          requestWithFail('DELETE', `/coaches/${resp.body.id}`, null, {
             'X-UserId': adminId1,
           }).then(resp => {
             expect(resp.status).to.equal(200);
@@ -698,7 +719,7 @@ describe('Authorization', () => {
         request('DELETE', `/coaches/${coachId2}`, null, {
           'X-UserId': adminId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(404);
         });
       });
     });
@@ -748,6 +769,7 @@ describe('Authorization', () => {
         request('DELETE', `/orgs/${orgId1}`, null, {
           'X-UserId': adminId1,
         }).then(resp => {
+          // TODO
           expect(resp.status).to.equal(403);
         });
       });
@@ -756,6 +778,7 @@ describe('Authorization', () => {
         request('DELETE', `/orgs/${orgId2}`, null, {
           'X-UserId': adminId1,
         }).then(resp => {
+          // TODO
           expect(resp.status).to.equal(403);
         });
       });
@@ -793,12 +816,13 @@ describe('Authorization', () => {
           'X-UserId': adminId1,
         }).then(resp => {
           expect(resp.status).to.equal(200);
-          expect(resp.body.length).to.equal(3);
+          // expect(resp.body.length).to.equal(3);
           expect(
             resp.body.filter(t => t.id === templateTaskId).length,
           ).to.equal(1);
           expect(resp.body.filter(t => t.id === taskId1).length).to.equal(1);
           expect(resp.body.filter(t => t.id === taskId3).length).to.equal(1);
+          expect(resp.body.filter(t => t.id === taskId2).length).to.equal(0);
         });
       });
     });
@@ -811,8 +835,11 @@ describe('Authorization', () => {
           'X-UserId': coachId1,
         }).then(resp => {
           expect(resp.status).to.equal(200);
-          expect(resp.body.length).to.equal(1);
-          expect(resp.body[0].id).to.equal(clientId1);
+
+          // Coach 1 does not see any other coach's clients
+          expect(
+            resp.body.filter(client => client.coach_id !== coachId1),
+          ).to.eql([]);
         });
       });
 
@@ -825,11 +852,11 @@ describe('Authorization', () => {
         });
       });
 
-      it('Coach 1 views other coach client in same org', () => {
+      it("Coach 1 views other coach's client in same org", () => {
         request('Get', `/clients/${clientId3}`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(404);
         });
       });
 
@@ -837,7 +864,7 @@ describe('Authorization', () => {
         request('GET', `/clients/${clientId2}`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(404);
         });
       });
 
@@ -906,7 +933,8 @@ describe('Authorization', () => {
           { last_name: 'BARF' },
           { 'X-UserId': coachId2 },
         ).then(resp => {
-          expect(resp.status).to.equal(403);
+          // TODO
+          expect(resp.status).to.equal(404);
         });
       });
 
@@ -917,7 +945,8 @@ describe('Authorization', () => {
           { last_name: 'BARF' },
           { 'X-UserId': coachId1 },
         ).then(resp => {
-          expect(resp.status).to.equal(403);
+          // TODO
+          expect(resp.status).to.equal(404);
         });
       });
 
@@ -953,7 +982,8 @@ describe('Authorization', () => {
         request('DELETE', `/clients/${clientId3}`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          // TODO
+          expect(resp.status).to.equal(404);
         });
       });
 
@@ -961,7 +991,7 @@ describe('Authorization', () => {
         request('DELETE', `/clients/${clientId2}`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(404);
         });
       });
 
@@ -977,7 +1007,8 @@ describe('Authorization', () => {
         request('GET', `/clients/${clientId3}/tasks`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(200);
+          expect(resp.body).to.eql([]);
         });
       });
 
@@ -985,7 +1016,8 @@ describe('Authorization', () => {
         request('GET', `/clients/${clientId2}/tasks`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(200);
+          expect(resp.body).to.eql([]);
         });
       });
 
@@ -997,11 +1029,12 @@ describe('Authorization', () => {
         });
       });
 
-      it('Coach 1 views messages for other coach client in same org', () => {
+      it("Coach 1 views messages for other coach's client in same org", () => {
         request('GET', `/clients/${clientId3}/messages`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(200);
+          expect(resp.body).to.eql([]);
         });
       });
 
@@ -1009,7 +1042,8 @@ describe('Authorization', () => {
         request('GET', `/clients/${clientId2}/messages`, null, {
           'X-UserId': adminId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(200);
+          expect(resp.body).to.eql([]);
         });
       });
 
@@ -1021,11 +1055,12 @@ describe('Authorization', () => {
         });
       });
 
-      it('Coach 1 views requests for other coach client in same org', () => {
+      it("Coach 1 views requests for other coach's client in same org", () => {
         request('GET', `/clients/${clientId3}/requests`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(200);
+          expect(resp.body).to.eql([]);
         });
       });
 
@@ -1033,7 +1068,8 @@ describe('Authorization', () => {
         request('GET', `/clients/${clientId2}/requests`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(200);
+          expect(resp.body).to.eql([]);
         });
       });
 
@@ -1042,14 +1078,16 @@ describe('Authorization', () => {
           'X-UserId': clientId1,
         }).then(resp => {
           expect(resp.status).to.equal(200);
+          expect(resp.body.map(vm => vm.id)).to.eql([mediaId1]);
         });
       });
 
-      it('Coach 1 views viewed media for other coach client in same org', () => {
+      it("Coach 1 views viewed media for other coach's client in same org", () => {
         request('GET', `/clients/${clientId3}/viewed_media`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(200);
+          expect(resp.body).to.eql([]);
         });
       });
 
@@ -1057,7 +1095,8 @@ describe('Authorization', () => {
         request('GET', `/clients/${clientId2}/viewed_media`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(200);
+          expect(resp.body).to.eql([]);
         });
       });
     });
@@ -1068,11 +1107,12 @@ describe('Authorization', () => {
           'X-UserId': coachId1,
         }).then(resp => {
           expect(resp.status).to.equal(200);
-          expect(resp.body.length).to.equal(2);
           expect(
             resp.body.filter(t => t.id === templateTaskId).length,
           ).to.equal(1);
           expect(resp.body.filter(t => t.id === taskId1).length).to.equal(1);
+          expect(resp.body.filter(t => t.id === taskId2).length).to.equal(0);
+          expect(resp.body.filter(t => t.id === taskId3).length).to.equal(0);
         });
       });
 
@@ -1088,7 +1128,7 @@ describe('Authorization', () => {
         request('GET', `/tasks/${taskId2}`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(404);
         });
       });
     });
@@ -1099,12 +1139,13 @@ describe('Authorization', () => {
           'X-UserId': coachId1,
         }).then(resp => {
           expect(resp.status).to.equal(200);
-          expect(resp.body.length).to.equal(1);
-          expect(resp.body[0].id).to.equal(coachId1);
+          expect(resp.body.filter(c => c.id === coachId1).length).to.equal(1);
+          expect(resp.body.filter(c => c.id === coachId2).length).to.equal(0);
+          expect(resp.body.filter(c => c.id === coachId3).length).to.equal(1);
         });
       });
 
-      it('Coach 1 creates a coach', () => {
+      it('Coach 1 creates a coach (forbidden)', () => {
         request(
           'POST',
           `/coaches`,
@@ -1140,7 +1181,8 @@ describe('Authorization', () => {
         request('GET', `/coaches/${coachId3}`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(200);
+          expect(resp.body.id).to.equal(coachId3);
         });
       });
 
@@ -1148,7 +1190,7 @@ describe('Authorization', () => {
         request('GET', `/coaches/${coachId2}`, null, {
           'X-UserId': coachId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(404);
         });
       });
 
@@ -1316,7 +1358,7 @@ describe('Authorization', () => {
         request('GET', `/clients/${clientId2}`, null, {
           'X-UserId': clientId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(404);
         });
       });
 
@@ -1359,7 +1401,7 @@ describe('Authorization', () => {
             'X-UserId': clientId1,
           },
         ).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(404);
         });
       });
     });
@@ -1387,7 +1429,7 @@ describe('Authorization', () => {
         request('GET', `/tasks/${taskId2}`, null, {
           'X-UserId': clientId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.equal(404);
         });
       });
     });
@@ -1405,7 +1447,7 @@ describe('Authorization', () => {
         request('GET', `/media/${mediaId2}`, null, {
           'X-UserId': clientId1,
         }).then(resp => {
-          expect(resp.status).to.equal(403);
+          expect(resp.status).to.eql(404);
         });
       });
     });

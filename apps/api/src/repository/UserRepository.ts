@@ -3,7 +3,7 @@ import { Pool } from 'pg';
 import { Task } from './TaskRepository';
 import { Message } from './MessageRepository';
 import { Media, MediaId } from './MediaRepository';
-import { RequestItem } from './RequestRepository';
+import { RequestItem, RequestRepository } from './RequestRepository';
 import { placeholders } from '../util';
 
 export type UserId = number;
@@ -217,7 +217,11 @@ export class UserRepository implements Repository<UserId, User> {
       });
       q = q + ' RETURNING *';
       const res = await client.query(q, values);
-      return new User(res.rows[0]);
+      if (res.rowCount > 0) {
+        return new User(res.rows[0]);
+      } else {
+        throw 'NOT_FOUND';
+      }
     } catch (err) {
       throw `Could not update User (${err})`;
     } finally {
@@ -225,11 +229,30 @@ export class UserRepository implements Repository<UserId, User> {
     }
   }
 
-  async delete(uid: UserId): Promise<number> {
-    const res = await this.pool.query(`DELETE FROM "user" WHERE id = $1`, [
-      uid,
-    ]);
-    return res.rowCount;
+  async delete(uid: UserId, conditions = {}): Promise<number> {
+    let client;
+    try {
+      client = await this.pool.connect();
+      let q = `
+      DELETE FROM "user" WHERE 1 = 1
+      AND id = $1`;
+      let val;
+      Object.keys(conditions).forEach(label => {
+        val = conditions[label];
+        val = typeof val === 'string' ? client.escapeLiteral(val) : val;
+        q = q + ` AND ${client.escapeIdentifier(label)} = ${val}`;
+      });
+      const res = await this.pool.query(q, [uid]);
+      if (res.rowCount > 0) {
+        return res.rowCount;
+      } else {
+        throw 'NOT_FOUND';
+      }
+    } catch (err) {
+      throw `Could not delete user (${err})`;
+    } finally {
+      client.release();
+    }
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -252,11 +275,6 @@ export class UserRepository implements Repository<UserId, User> {
       [uid, type],
     );
     return new User(res.rows[0]);
-  }
-
-  async saveByType(user: User, type: UserType): Promise<User> {
-    user.type = type;
-    return this.save(user);
   }
 
   async deleteByType(uid: UserId, type: UserType): Promise<number> {
@@ -285,40 +303,28 @@ export class UserRepository implements Repository<UserId, User> {
     await this.pool.query(`SELECT nextval('user_id_seq');`);
   }
 
-  async tasks(clientId: UserId): Promise<Task[]> {
-    const res = await this.pool.query(
-      `
+  async tasks(clientId: UserId, conditions = {}): Promise<Task[]> {
+    let q = `
       SELECT task.*
       FROM task
       JOIN "user" usr ON task.user_id = usr.id
       WHERE usr.id = $1
-      AND   usr.type = 'Client'
-      ORDER BY "order"
-      `,
-      [clientId],
-    );
+      AND   usr.type = 'Client'`;
+    q = q + (await this.conditions(conditions));
+    q = q + ' ORDER BY "order"';
+    const res = await this.pool.query(q, [clientId]);
     return res.rows.map(row => new Task(row));
   }
 
-  async messages(clientId: UserId): Promise<Message[]> {
-    const res = await this.pool.query(
-      `
-      SELECT
-        msg.id,
-        msg.text,
-        msg.to_user,
-        msg.from_user,
-        msg.media_id,
-        msg.request_id,
-        msg.timestamp,
-        msg.responses
+  async messages(clientId: UserId, conditions): Promise<Message[]> {
+    let q = `
+      SELECT msg.*
       FROM message msg
       JOIN "user" usr ON (usr.id = msg.from_user OR usr.id = msg.to_user)
       WHERE usr.id = $1
-      AND usr.type = 'Client'
-    `,
-      [clientId],
-    );
+      AND usr.type = 'Client'`;
+    q = q + (await this.conditions(conditions));
+    const res = await this.pool.query(q, [clientId]);
     return res.rows.map(row => new Message(row));
   }
 
@@ -375,21 +381,38 @@ export class UserRepository implements Repository<UserId, User> {
     return res.rowCount;
   }
 
-  async requests(clientId: UserId): Promise<RequestItem[]> {
-    const res = await this.pool.query(
-      `
-      SELECT
-        r.id,
-        r.status,
-        r.user_id,
-        r.task_id
+  async requests(clientId: UserId, conditions): Promise<RequestItem[]> {
+    let q = `
+      SELECT r.*
       FROM request r
       JOIN "user" usr ON usr.id = r.user_id
       AND usr.type = 'Client'
-      AND usr.id = $1;
-      `,
-      [clientId],
-    );
+      AND usr.id = $1
+      `;
+    q = q + (await this.conditions(conditions));
+    const res = await this.pool.query(q, [clientId]);
     return res.rows.map(row => new RequestItem(row));
+  }
+
+  // { id: 1, org_id: 2 } => " AND id = 1 AND org_id = 2"
+  async conditions(opts = {}): Promise<string> {
+    if (Object.keys(opts).length === 1) return '';
+
+    let client,
+      val,
+      q = '';
+    try {
+      client = await this.pool.connect();
+      Object.keys(opts).forEach(label => {
+        val = opts[label];
+        val = typeof val === 'string' ? client.escapeLiteral(val) : val;
+        q = q + ` AND ${client.escapeIdentifier(label)} = ${val}`;
+      });
+      return q;
+    } catch (err) {
+      throw `Error while building query: (${err})`;
+    } finally {
+      client.release();
+    }
   }
 }

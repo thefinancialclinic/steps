@@ -29,13 +29,11 @@ Cypress.Commands.add('clearJohnDoe', () => {
   }).then(({ body: clients }) => {
     const testClients = clients.filter(c => c.email === 'client@example.com');
     testClients.forEach(c => {
-      console.log({ c });
       cy.request({
         method: 'GET',
         url: `${API_URL}/clients/${c.id}/tasks`,
         headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
       }).then(({ body: tasks }) => {
-        console.log(tasks);
         tasks.forEach(t => {
           cy.request({
             method: 'DELETE',
@@ -49,7 +47,6 @@ Cypress.Commands.add('clearJohnDoe', () => {
         url: `${API_URL}/clients/${c.id}/messages`,
         headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
       }).then(({ body: messages }) => {
-        console.log(messages);
         messages.forEach(m => {
           cy.request({
             method: 'DELETE',
@@ -62,7 +59,6 @@ Cypress.Commands.add('clearJohnDoe', () => {
           url: `${API_URL}/clients/${c.id}/requests`,
           headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
         }).then(({ body: requests }) => {
-          console.log(requests);
           requests.forEach(r => {
             cy.request({
               method: 'DELETE',
@@ -149,7 +145,6 @@ describe('Coach', () => {
       headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
     }).then(resp => {
       org = resp.body.id;
-      console.log({ org });
 
       cy.request({
         method: 'POST',
@@ -168,7 +163,6 @@ describe('Coach', () => {
         headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
       }).then(r => {
         coach = r.body.id;
-        console.log({ coach });
       });
     });
 
@@ -240,7 +234,6 @@ describe('Coach', () => {
 
   describe('New Client', () => {
     it('Creates a new client', () => {
-      console.log(tokens);
       cy.loadTokens(tokens);
 
       cy.contains('New Client').click();
@@ -257,7 +250,6 @@ describe('Coach', () => {
 
   describe('My Clients', () => {
     it('Shows clients who need assistance', () => {
-      console.log(tokens);
       cy.request({
         method: 'POST',
         url: `${API_URL}/clients`,

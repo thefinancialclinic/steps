@@ -37,14 +37,6 @@ export class Message {
 export class MessageRepository implements Repository<MessageId, Message> {
   constructor(public pool: Pool) {}
 
-  async getOne(id: MessageId): Promise<Message> {
-    const res = await this.pool.query(
-      `SELECT * FROM public.message WHERE id = $1`,
-      [id],
-    );
-    return new Message(res.rows[0]);
-  }
-
   async getAll(): Promise<Message[]> {
     const res = await this.pool.query(`SELECT * FROM public.message`);
     return res.rows.map(row => new Message(row));

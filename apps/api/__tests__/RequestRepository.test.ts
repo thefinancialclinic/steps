@@ -29,7 +29,7 @@ describe('media entity operations', () => {
   });
 
   it('find a request', async () => {
-    let actual = await repo.getOne(request.id);
+    let actual = (await repo.get({ id: request.id }))[0];
     expect(actual.id).toBe(request.id);
   });
 
@@ -39,15 +39,15 @@ describe('media entity operations', () => {
   });
 
   it('updates', async () => {
-    let requestItem = await repo.getOne(request.id);
+    let requestItem = (await repo.get({ id: request.id }))[0];
     requestItem.status = 'RESOLVED';
     await repo.update(requestItem);
-    let reloadedItem = await repo.getOne(request.id);
+    let reloadedItem = (await repo.get({ id: request.id }))[0];
     expect(reloadedItem.status).toBe('RESOLVED');
   });
 
   it('has a created_at timestamp', async () => {
-    const actual = await repo.getOne(request.id);
+    const actual: RequestItem = (await repo.get({ id: request.id }))[0];
     const t1 = actual.created_at.getTime();
     const t2 = creationTime.getTime();
     let timeDelta = Math.abs(t1 - t2);

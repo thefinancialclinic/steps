@@ -1,45 +1,46 @@
-import { NextFunction, Request, Response } from 'express';
 import {
   RequestRepository,
   RequestItem,
 } from '../repository/RequestRepository';
 import { UserRepository, User } from '../repository/UserRepository';
-import { pool } from '../index';
+import { pool } from '../db';
+import { extend } from './Controller';
 
-export class RequestController {
-  private repo = new RequestRepository(pool);
-  private userRepo = new UserRepository(pool);
+const repo = new RequestRepository(pool);
+const userRepo = new UserRepository(pool);
 
-  async all(request: Request, response: Response, next: NextFunction) {
-    return this.repo.getAll();
-  }
+export const RequestController = extend({
+  all: async (request, response, next) => {
+    return repo.getAll();
+  },
 
-  async one(request: Request, response: Response, next: NextFunction) {
-    return this.repo.getOne(request.params.id);
-  }
+  one: async (request, response, next) => {
+    const res = await repo.get({ id: request.params.id });
+    if (res.length > 0) {
+      return response.send(res[0]);
+    } else {
+      return response.status(404).send({ message: 'Not found' });
+    }
+  },
 
-  async save(request: Request, response: Response, next: NextFunction) {
-    const requestItem = new RequestItem(request.body);
-    const req = await this.repo.save(requestItem);
-    this.updateUserStatus(requestItem);
-    response.status(201); // created
-    return req;
-  }
+  save: async (request, response, next) => {
+    const res = await repo.save(request.body);
+    this.updateUserStatus(request.body);
+    return response.status(201).send(res);
+  },
 
-  async update(request: Request, response: Response, next: NextFunction) {
-    const requestItem = new RequestItem(request.body);
-    requestItem.id = request.params.id;
-    const req = await this.repo.update(requestItem);
-    this.updateUserStatus(requestItem);
-    return req;
-  }
+  update: async (request, response, next) => {
+    const res = await repo.update({ id: request.params.id, ...request.body });
+    this.updateUserStatus(request.body);
+    return response.send(res);
+  },
 
-  async remove(request: Request, response: Response, next: NextFunction) {
-    const num = await this.repo.delete(request.params.id);
-    return { deleted: num };
-  }
+  remove: async (request, response, next) => {
+    const num = await repo.delete(request.params.id);
+    return response.send({ deleted: num });
+  },
 
-  private async updateUserStatus(requestItem: RequestItem) {
+  updateUserStatus: async requestItem => {
     if (requestItem.status === 'NEEDS_ASSISTANCE') {
       await this.userRepo.update(
         { status: 'AWAITING_HELP' },
@@ -51,9 +52,5 @@ export class RequestController {
         { id: requestItem.user_id },
       );
     }
-  }
-
-  async isAllowed({ user, params, method }) {
-    return true;
-  }
-}
+  },
+});

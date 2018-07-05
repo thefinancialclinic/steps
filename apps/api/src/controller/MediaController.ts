@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
+
 import { MediaRepository, Media } from '../repository/MediaRepository';
 import { User } from '../repository/UserRepository';
-import { pool } from '../index';
-import { check_if_present } from '../util';
+import { pool } from '../db';
+import { extend } from './Controller';
 
 const queryParams = user => {
   return {
@@ -22,57 +23,39 @@ const ensureOwnership = (body, user) => {
   return Object.assign(body, filter);
 };
 
-export class MediaController {
-  private repo = new MediaRepository(pool);
+const repo = new MediaRepository(pool);
 
-  async all(request: Request, response: Response, next: NextFunction) {
-    try {
-      switch (request.user.type) {
-        case 'Client':
-          return this.repo.byOwner(request.user.id);
-        default:
-          return this.repo.getAll();
-      }
-    } catch (err) {
-      throw `Could not list all Media (${err})`;
+export const MediaController = extend({
+  all: async (request, response, next) => {
+    if (request.user.type === 'Client') {
+      return repo.byOwner(request.user.id);
+    } else {
+      return repo.getAll();
     }
-  }
+  },
 
-  async one(request: Request, response: Response, next: NextFunction) {
-    return this.repo.getOne(request.params.id);
-  }
-
-  async save(request: Request, response: Response, next: NextFunction) {
-    const newMedia = new Media(request.body);
-    response.status(201); // created
-    const media = await this.repo.save(newMedia);
-    return media;
-  }
-
-  async remove(request: Request, response: Response, next: NextFunction) {
-    const num = await this.repo.delete(request.params.id);
-    return { deleted: num };
-  }
-
-  async isAllowed({ user, params }): Promise<boolean> {
-    try {
-      let subject: User | null = null;
-      if (params.id) {
-        const owner = await this.repo.owner(params.id);
-        if (owner && owner.length > 0) {
-          subject = owner[0];
-        }
-      }
-      return (
-        {
-          Superadmin: true,
-          Admin: true,
-          Coach: true,
-          Client: check_if_present(subject, () => user.id === subject.id),
-        }[user.type] || false
-      );
-    } catch (err) {
-      return false;
+  one: async (request, response, next) => {
+    let res: Media[];
+    if (request.user.type === 'Client') {
+      res = await repo.byOwner(request.user.id, request.params.id);
+    } else {
+      res = await repo.get({ id: request.params.id });
     }
-  }
-}
+
+    if (res.length > 0) {
+      return response.send(res[0]);
+    } else {
+      return response.status(404).send({ message: 'Not found' });
+    }
+  },
+
+  save: async (request, response, next) => {
+    const media = await repo.save(request.body);
+    return response.status(201).send(media);
+  },
+
+  remove: async (request, response, next) => {
+    const num = await repo.delete(request.params.id);
+    return response.send({ deleted: num });
+  },
+});

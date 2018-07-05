@@ -29,7 +29,7 @@ export class RequestRepository implements Repository<RequestId, RequestItem> {
     let client;
     try {
       client = await this.pool.connect();
-      let q = 'SELECT * FROM task WHERE 1 = 1';
+      let q = 'SELECT * FROM request WHERE 1 = 1';
       let val;
       Object.keys(conditions).forEach(label => {
         val = conditions[label];
@@ -43,13 +43,6 @@ export class RequestRepository implements Repository<RequestId, RequestItem> {
     } finally {
       client.release();
     }
-  }
-
-  async getOne(id: RequestId) {
-    const res = await this.pool.query(`SELECT * FROM request WHERE id = $1`, [
-      id,
-    ]);
-    return new RequestItem(res.rows[0]);
   }
 
   async getAll() {

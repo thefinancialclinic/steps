@@ -1,6 +1,7 @@
 import { Repository } from './Repository';
 import { Pool, Client } from 'pg';
 import { User, UserId } from './UserRepository';
+import { TaskId } from './TaskRepository';
 
 export type MediaId = number;
 export type MediaType =
@@ -8,18 +9,6 @@ export type MediaType =
   | 'TASK_RESOURCE'
   | 'STORY'
   | 'GENERAL_EDUCATION';
-
-export type MediaOpts = {
-  id?: MediaId;
-  task_id?: number;
-  title: string;
-  category: string;
-  description?: string;
-  url?: string;
-  image?: string;
-  published_by?: number;
-  type?: MediaType;
-};
 
 export class Media {
   id?: MediaId;
@@ -32,7 +21,7 @@ export class Media {
   published_by?: number;
   type?: MediaType;
 
-  constructor(opts: MediaOpts) {
+  constructor(opts: Partial<Media>) {
     this.id = opts.id;
     this.task_id = opts.task_id;
     this.title = opts.title;
@@ -68,37 +57,28 @@ export class MediaRepository implements Repository<MediaId, Media> {
     }
   }
 
-  async getOne(id: MediaId): Promise<Media> {
-    try {
-      const res = await this.get({ id: id });
-      if (res && res.length > 0) {
-        return res[0];
-      } else {
-        throw `Media ${id} not found`;
-      }
-    } catch (err) {
-      throw `Could not get Media (${err})`;
-    }
-  }
-
   async getAll(): Promise<Media[]> {
     const res = await this.pool.query(`SELECT * FROM media`);
     return res.rows.map(row => new Media(row));
   }
 
   // Get all media of all tasks assigned to userId
-  async byOwner(userId: UserId): Promise<Media[]> {
+  async byOwner(userId: UserId, mediaId?: TaskId): Promise<Media[]> {
     try {
-      const res = await this.pool.query(
-        `
+      let res;
+      let q = `
         SELECT media.*
         FROM media
         JOIN task ON task.id = media.task_id
         JOIN "user" usr ON usr.id = task.user_id
-        WHERE usr.id = $1;
-      `,
-        [userId],
-      );
+        WHERE usr.id = $1
+      `;
+      if (mediaId) {
+        q = q + ' AND media.id = $2';
+        res = await this.pool.query(q, [userId, mediaId]);
+      } else {
+        res = await this.pool.query(q, [userId]);
+      }
       return res.rows.map(row => new Media(row));
     } catch (err) {
       throw `Could not query media belonging to user (${err})`;

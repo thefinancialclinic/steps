@@ -35,7 +35,7 @@ describe('Message entity operations', () => {
   });
 
   it('find a message', async () => {
-    let actual = await repo.getOne(message.id);
+    let actual = (await repo.get({ id: message.id }))[0];
     expect(actual.id).toBe(message.id);
   });
 
@@ -45,7 +45,7 @@ describe('Message entity operations', () => {
   });
 
   it('has a topic', async () => {
-    let actual = await repo.getOne(message.id);
-    expect(actual.topic).toBe(expectedTopic);
+    let actual = await repo.get({ id: message.id });
+    expect(actual[0].topic).toBe(expectedTopic);
   });
 });

@@ -134,19 +134,6 @@ export class TaskRepository implements Repository<TaskId, Task> {
     }
   }
 
-  async getOne(id: TaskId) {
-    try {
-      const result = await this.get({ id });
-      if (result.length > 0) {
-        return result[0];
-      } else {
-        throw `Task not found (id: ${id})`;
-      }
-    } catch (err) {
-      throw `Could not query tasks (${err})`;
-    }
-  }
-
   async getTemplateTasks() {
     try {
       const res = await this.pool.query(

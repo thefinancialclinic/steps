@@ -29,7 +29,7 @@ describe('media entity operations', () => {
   });
 
   it('find a media', async () => {
-    let actual = await repo.getOne(media.id);
+    let actual: Media = (await repo.get({ id: media.id }))[0];
     expect(actual.id).toBe(media.id);
   });
 

@@ -1,44 +1,29 @@
-import { NextFunction, Request, Response } from 'express';
 import { UserRepository, User } from '../repository/UserRepository';
-import { pool } from '../index';
+import { pool } from '../db';
+import { extend } from './Controller';
 
-export class UserController {
-  private repo = new UserRepository(pool);
+const repo = new UserRepository(pool);
 
-  async all(request: Request, response: Response, next: NextFunction) {
-    try {
-      return this.repo.getAll();
-    } catch (err) {
-      throw `Could not list all Users (${err})`;
+export const UserController = extend({
+  all: async (request, response, next) => {
+    return response.send(await repo.getAll());
+  },
+
+  one: async (request, response, next) => {
+    const res = await repo.get({ id: request.params.id });
+    if (res.length > 0) {
+      return response.send(res[0]);
+    } else {
+      return response.status(404).send({ message: 'Not  found' });
     }
-  }
+  },
 
-  async one(request: Request, response: Response, next: NextFunction) {
-    try {
-      return this.repo.getOne(request.params.id);
-    } catch (err) {
-      throw `Could not get User (${err})`;
-    }
-  }
+  save: async (request, response, next) => {
+    return response.status(201).send(await repo.save(request.body));
+  },
 
-  async save(request: Request, response: Response, next: NextFunction) {
-    try {
-      response.status(201);
-      return this.repo.save(request.body);
-    } catch (err) {
-      throw `Could not create User (${err})`;
-    }
-  }
-
-  async remove(request: Request, response: Response, next: NextFunction) {
-    try {
-      await this.repo.delete(request.params.id);
-    } catch (err) {
-      throw `Could not delete User (${err})`;
-    }
-  }
-
-  async isAllowed({ user, params, method }) {
-    return true;
-  }
-}
+  remove: async (request, response, next) => {
+    const num = await repo.delete(request.params.id);
+    return response.send({ deleted: num });
+  },
+});

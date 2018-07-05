@@ -1,36 +1,38 @@
 import { NextFunction, Request, Response } from 'express';
+
 import { MessageRepository, Message } from '../repository/MessageRepository';
 import { User } from '../repository/UserRepository';
-import { pool } from '../index';
-import { check_if_present } from '../util';
+import { pool } from '../db';
+import { extend } from './Controller';
 
-export class MessageController {
-  private repo = new MessageRepository(pool);
+const repo = new MessageRepository(pool);
 
-  async all(request: Request, response: Response, next: NextFunction) {
+export const MessageController = extend({
+  all: async (request, response, next) => {
     if (request.user.type == 'Admin') {
-      return this.repo.getAllMessagesForOrg(request.user.org_id);
+      return response.send(
+        await repo.getAllMessagesForOrg(request.user.org_id),
+      );
     }
-    return this.repo.getAllMessagesForUser(request.user.id);
-  }
+    return response.send(await repo.getAllMessagesForUser(request.user.id));
+  },
 
-  async one(request: Request, response: Response, next: NextFunction) {
-    return this.repo.getOne(request.params.id);
-  }
+  one: async (request, response, next) => {
+    const res = await repo.get({ id: request.params.id });
+    if (res.length > 0) {
+      return response.send(res[0]);
+    } else {
+      return response.status(404).send({ message: 'Not found' });
+    }
+  },
 
-  async save(request: Request, response: Response, next: NextFunction) {
-    const newMessage = new Message(request.body);
-    response.status(201); // created
-    const message = await this.repo.save(newMessage);
-    return message;
-  }
+  save: async (request, response, next) => {
+    const res = await repo.save(request.body);
+    return response.status(201).send(res);
+  },
 
-  async remove(request: Request, response: Response, next: NextFunction) {
-    const num = await this.repo.delete(request.params.id);
-    return { deleted: num };
-  }
-
-  async isAllowed({ user, params, method }) {
-    return true;
-  }
-}
+  remove: async (request, response, next) => {
+    const num = await repo.delete(request.params.id);
+    return response.send({ deleted: num });
+  },
+});

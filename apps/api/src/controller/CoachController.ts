@@ -1,86 +1,44 @@
-import { NextFunction, Request, Response } from 'express';
-import { UserRepository, User, UserId } from '../repository/UserRepository';
-import { pool } from '../index';
-import { check_if_present } from '../util';
+import { NextFunction, Request } from 'express';
+import { Response } from 'express-serve-static-core';
 
-const queryParams = user => {
-  return {
+import { UserRepository, User, UserId } from '../repository/UserRepository';
+import { extend } from './Controller';
+import { pool } from '../db';
+
+const queryParams = (user, query = {}) => {
+  const isSelf = 'id' in query && user.id === query['id'];
+  const filter = {
+    Superadmin: { type: 'Coach' },
     Admin: { type: 'Coach', org_id: user.org_id },
-    Coach: { type: 'Coach', id: user.id },
+    Coach: { type: 'Coach', org_id: user.org_id },
+    Client: { type: 'Coach', id: user.coach_id },
   }[user.type];
+  return { ...query, ...filter };
 };
 
-export class CoachController {
-  private repo = new UserRepository(pool);
+const repo = new UserRepository(pool);
 
-  async all(request: Request, response: Response, next: NextFunction) {
-    return this.repo.get(queryParams(request.user));
-  }
+export const CoachController = extend({
+  all: async (request, response, next) => {
+    const res = await repo.get(queryParams(request.user));
+    return response.send(res);
+  },
 
-  async one(request: Request, response: Response, next: NextFunction) {
-    return this.repo.getOneByType(request.params.id, 'Coach');
-  }
+  one: async (request, response, next) => {
+    const res = await repo.get(
+      queryParams(request.user, { id: request.params.id }),
+    );
+    if (res.length === 0) throw `NOT_FOUND`;
+    return response.send(res[0]);
+  },
 
-  async save(request: Request, response: Response, next: NextFunction) {
-    response.status(201); // created
-    const coach = await this.repo.saveByType(request.body, 'Coach');
-    return coach;
-  }
+  save: async (request, response, next) => {
+    const res = await repo.save(queryParams(request.user, request.body));
+    return response.status(201).send(res);
+  },
 
-  async remove(request: Request, response: Response, next: NextFunction) {
-    const num = await this.repo.deleteByType(request.params.id, 'Coach');
-    return { deleted: num };
-  }
-
-  async isAllowed({ user, params, method, body }) {
-    try {
-      let subject = null;
-      if (params.id) {
-        const result = await this.repo.get({ id: params.id });
-        if (result && result.length > 0) {
-          subject = result[0];
-        }
-      }
-
-      return (
-        {
-          Superadmin: {
-            GET: true,
-            POST: true,
-            PUT: true,
-            DELETE: true,
-          },
-          Admin: {
-            GET: check_if_present(
-              subject,
-              () => subject.org_id === user.org_id,
-            ),
-            POST: check_if_present(
-              body.org_id,
-              () => parseInt(body.org_id) === user.org_id,
-            ),
-            PUT: true,
-            DELETE: check_if_present(
-              subject,
-              () => subject.org_id === user.org_id,
-            ),
-          },
-          Coach: {
-            GET: check_if_present(subject, () => subject.id === user.id),
-            POST: false,
-            PUT: check_if_present(subject, () => subject.id === user.id),
-            DELETE: false,
-          },
-          Client: {
-            GET: false,
-            POST: false,
-            PUT: false,
-            DELETE: false,
-          },
-        }[user.type][method] || false
-      );
-    } catch (err) {
-      return false;
-    }
-  }
-}
+  remove: async (request, response, next) => {
+    const num = await repo.delete(request.params.id, queryParams(request.user));
+    return response.send({ deleted: num });
+  },
+});
