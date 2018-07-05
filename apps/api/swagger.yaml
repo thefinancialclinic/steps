@@ -143,6 +143,9 @@ components:
         date_assigned:
           nullable: true
           type: date-time
+        original_task_id:
+          nullable: true
+          type: integer
     User:
       properties:
         first_name:
