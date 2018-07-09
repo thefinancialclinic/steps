@@ -18,6 +18,7 @@ import { userPermissionMiddleware } from './permission';
 import * as favicon from 'serve-favicon';
 import * as Raven from 'raven';
 import { getUserFromAuthToken } from './services/Auth';
+import initPoolLogger from './poolLogger';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
@@ -65,6 +66,8 @@ export const pool = new Pool({
   database: connUrl.pathname.slice(1), // drop leading slash
   port: parseInt(connUrl.port),
 });
+
+initPoolLogger(pool);
 
 // Authentication middleware. Please see:
 // https://auth0.com/docs/quickstart/backend/nodejs
