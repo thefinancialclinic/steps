@@ -67,7 +67,7 @@ export const pool = new Pool({
   port: parseInt(connUrl.port),
 });
 
-initPoolLogger(pool);
+if (!process.env.CI) initPoolLogger(pool);
 
 // Authentication middleware. Please see:
 // https://auth0.com/docs/quickstart/backend/nodejs
