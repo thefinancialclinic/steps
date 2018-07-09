@@ -16,20 +16,20 @@ export default pool => {
   setInterval(update, refresh);
 
   pool.on('connect', (client: Client) => {
-    console.log('[Pool]:connect');
+    console.log('[Pool]->connect');
   });
 
   pool.on('acquire', (client: Client) => {
-    console.log('[Pool]:acquire');
+    console.log('[Pool]->acquire');
   });
 
   pool.on('error', (err, client: Client) => {
-    console.error('-- [Pool]:error ------------------------------');
+    console.error('-- [Pool]->error ------------------------------');
     console.error('error', err);
     console.error('----------------------------------------------');
   });
 
   pool.on('remove', (client: Client) => {
-    console.log('[Pool]:remove');
+    console.log('[Pool]->remove');
   });
 };
