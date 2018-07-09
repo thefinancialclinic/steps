@@ -3,33 +3,33 @@ import { Client } from 'pg';
 export default pool => {
   const refresh = 60000;
   const update = () => {
-    console.log(
+    process.stdout.write(
       `-- [Pool] Health Update (${refresh / 1000}s) ------------------`,
     );
-    console.log();
-    console.log(' - .totalCount  ', pool.totalCount);
-    console.log(' - .idleCount   ', pool.idleCount);
-    console.log(' - .waitingCount', pool.waitingCount);
-    console.log('------------------------------------------------');
+    process.stdout.write('');
+    process.stdout.write(' - .totalCount  ', pool.totalCount);
+    process.stdout.write(' - .idleCount   ', pool.idleCount);
+    process.stdout.write(' - .waitingCount', pool.waitingCount);
+    process.stdout.write('------------------------------------------------');
   };
   update();
   setInterval(update, refresh);
 
   pool.on('connect', (client: Client) => {
-    console.log('[Pool]:connect');
+    process.stdout.write('[Pool]->connect');
   });
 
   pool.on('acquire', (client: Client) => {
-    console.log('[Pool]:acquire');
+    process.stdout.write('[Pool]->acquire');
   });
 
   pool.on('error', (err, client: Client) => {
-    console.error('-- [Pool]:error ------------------------------');
-    console.error('error', err);
-    console.error('----------------------------------------------');
+    process.stderr.write('-- [Pool]->error ------------------------------');
+    process.stderr.write('error', err);
+    process.stderr.write('----------------------------------------------');
   });
 
   pool.on('remove', (client: Client) => {
-    console.log('[Pool]:remove');
+    process.stdout.write('[Pool]->remove');
   });
 };
