@@ -1,5 +1,5 @@
 import { Repository } from './Repository';
-import { Pool, Client } from 'pg';
+import { Pool } from 'pg';
 import { placeholders } from '../util';
 import { User } from './UserRepository';
 
@@ -62,7 +62,6 @@ export class TaskRepository implements Repository<TaskId, Task> {
       SELECT *
       FROM task
       WHERE status = $1
-      ORDER BY "order"
     `,
       [filters.status],
     );
@@ -156,7 +155,6 @@ export class TaskRepository implements Repository<TaskId, Task> {
         FROM task
         WHERE user_id is null
         AND created_by is null
-        ORDER BY "order"
       `,
       );
       return res.rows.map(row => new Task(row));
@@ -183,7 +181,6 @@ export class TaskRepository implements Repository<TaskId, Task> {
         FROM task
         WHERE user_id is not null
         AND created_by = $1
-        ORDER BY "order"
       `,
         [orgId],
       );
@@ -201,7 +198,6 @@ export class TaskRepository implements Repository<TaskId, Task> {
         FROM task
         WHERE user_id is null
         AND created_by = $1
-        ORDER BY "order"
       `,
         [orgId],
       );
@@ -219,7 +215,6 @@ export class TaskRepository implements Repository<TaskId, Task> {
         FROM task
         JOIN "user" usr ON usr.id = task.user_id
         WHERE usr.coach_id = $1
-        ORDER BY "order"
       `,
         [coachId],
       );
@@ -279,7 +274,6 @@ export class TaskRepository implements Repository<TaskId, Task> {
         JOIN "user" client ON client.id = task.user_id
         WHERE client.type = 'Client'
         AND task.id = $1
-        ORDER BY "order"
       `,
         [taskId],
       );
@@ -304,7 +298,6 @@ export class TaskRepository implements Repository<TaskId, Task> {
       WHERE client.type = 'Client'
       AND coach.type = 'Coach'
       AND task.id = $1
-      ORDER BY "order"
       `,
         [taskId],
       );
