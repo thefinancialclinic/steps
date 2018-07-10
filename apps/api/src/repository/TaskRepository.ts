@@ -62,6 +62,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
       SELECT *
       FROM task
       WHERE status = $1
+      ORDER BY "order"
     `,
       [filters.status],
     );
@@ -124,6 +125,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         val = typeof val === 'string' ? client.escapeLiteral(val) : val;
         q = q + ` AND ${client.escapeIdentifier(label)} = ${val}`;
       });
+      q = q + ` ORDER BY "order"`;
       const res = await this.pool.query(q);
       return res.rows.map(user => new Task(user));
     } catch (err) {
@@ -154,6 +156,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         FROM task
         WHERE user_id is null
         AND created_by is null
+        ORDER BY "order"
       `,
       );
       return res.rows.map(row => new Task(row));
@@ -179,7 +182,8 @@ export class TaskRepository implements Repository<TaskId, Task> {
         SELECT *
         FROM task
         WHERE user_id is not null
-        AND created_by = $1;
+        AND created_by = $1
+        ORDER BY "order"
       `,
         [orgId],
       );
@@ -196,7 +200,8 @@ export class TaskRepository implements Repository<TaskId, Task> {
         SELECT *
         FROM task
         WHERE user_id is null
-        AND created_by = $1;
+        AND created_by = $1
+        ORDER BY "order"
       `,
         [orgId],
       );
@@ -213,7 +218,8 @@ export class TaskRepository implements Repository<TaskId, Task> {
         SELECT task.*
         FROM task
         JOIN "user" usr ON usr.id = task.user_id
-        WHERE usr.coach_id = $1;
+        WHERE usr.coach_id = $1
+        ORDER BY "order"
       `,
         [coachId],
       );
@@ -272,7 +278,8 @@ export class TaskRepository implements Repository<TaskId, Task> {
         FROM task
         JOIN "user" client ON client.id = task.user_id
         WHERE client.type = 'Client'
-        AND task.id = $1;
+        AND task.id = $1
+        ORDER BY "order"
       `,
         [taskId],
       );
@@ -296,7 +303,8 @@ export class TaskRepository implements Repository<TaskId, Task> {
       JOIN "user" coach ON coach.id = client.coach_id
       WHERE client.type = 'Client'
       AND coach.type = 'Coach'
-      AND task.id = $1;
+      AND task.id = $1
+      ORDER BY "order"
       `,
         [taskId],
       );
