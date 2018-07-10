@@ -1,6 +1,5 @@
 import { Repository } from './Repository';
-import { OrgId } from './OrgRepository';
-import { Pool, Client } from 'pg';
+import { Pool } from 'pg';
 import { Task } from './TaskRepository';
 import { Message } from './MessageRepository';
 import { Media, MediaId } from './MediaRepository';
@@ -289,23 +288,13 @@ export class UserRepository implements Repository<UserId, User> {
   async tasks(clientId: UserId): Promise<Task[]> {
     const res = await this.pool.query(
       `
-      SELECT
-        task.id,
-        task.title,
-        task.category,
-        task.description,
-        task.status,
-        task.created_by,
-        task.user_id,
-        task.difficulty,
-        task.date_created,
-        task.date_completed,
-        task.recurring,
-        task.steps
+      SELECT task.*
       FROM task
       JOIN "user" usr ON task.user_id = usr.id
       WHERE usr.id = $1
-      AND   usr.type = 'Client'`,
+      AND   usr.type = 'Client'
+      ORDER BY "order"
+      `,
       [clientId],
     );
     return res.rows.map(row => new Task(row));
