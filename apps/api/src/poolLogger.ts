@@ -1,35 +1,56 @@
 import { Client } from 'pg';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 export default pool => {
+  const { createLogger, format, transports } = require('winston');
+  const Sentry = require('winston-transport-sentry');
+
+  // winstonPapertrail.on('error', function(err) {
+  // // Handle, report, or silently ignore connection errors and failures
+  // });
+  const logger = createLogger({
+    level: 'info',
+    transports: [
+      !isProduction && new transports.Console({ level: 'silly' }),
+      isProduction &&
+        new Sentry({
+          level: 'info',
+          dsn: process.env.SENTRY_DEBUG_DSN,
+          tags: { key: 'value' },
+          extra: { key: 'value' },
+        }),
+    ],
+  });
+
   const refresh = 60000;
+
   const update = () => {
-    process.stdout.write(
-      `-- [Pool] Health Update (${refresh / 1000}s) ------------------`,
+    logger.info(
+      `-- [Pool] Health Update (${refresh / 1000}s) ------------------
+  - .totalCount    ${pool.totalCount}
+  - .idleCount     ${pool.idleCount}
+  - .waitingCount  ${pool.waitingCount}
+------------------------------------------------`,
     );
-    process.stdout.write('');
-    process.stdout.write(' - .totalCount  ', pool.totalCount);
-    process.stdout.write(' - .idleCount   ', pool.idleCount);
-    process.stdout.write(' - .waitingCount', pool.waitingCount);
-    process.stdout.write('------------------------------------------------');
   };
+
   update();
   setInterval(update, refresh);
 
   pool.on('connect', (client: Client) => {
-    process.stdout.write('[Pool]->connect');
+    logger.info('[Pool]->connect');
   });
 
   pool.on('acquire', (client: Client) => {
-    process.stdout.write('[Pool]->acquire');
+    logger.info('[Pool]->acquire');
   });
 
   pool.on('error', (err, client: Client) => {
-    process.stderr.write('-- [Pool]->error ------------------------------');
-    process.stderr.write('error', err);
-    process.stderr.write('----------------------------------------------');
+    logger.error(err);
   });
 
   pool.on('remove', (client: Client) => {
-    process.stdout.write('[Pool]->remove');
+    logger.info('[Pool]->remove');
   });
 };

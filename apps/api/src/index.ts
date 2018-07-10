@@ -34,6 +34,7 @@ const {
   ENABLE_POSTGRAPHILE,
   AUTH0_ENABLED,
   SENTRY_DSN,
+  SENTRY_DEBUG_DSN,
 } = process.env;
 
 const isProduction = NODE_ENV === 'production';
@@ -67,7 +68,7 @@ export const pool = new Pool({
   port: parseInt(connUrl.port),
 });
 
-if (!process.env.CI) initPoolLogger(pool);
+if (!process.env.CI && SENTRY_DEBUG_DSN) initPoolLogger(pool);
 
 // Authentication middleware. Please see:
 // https://auth0.com/docs/quickstart/backend/nodejs
