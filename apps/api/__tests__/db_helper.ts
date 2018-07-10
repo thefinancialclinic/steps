@@ -90,6 +90,7 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
           difficulty: 'EASY',
           date_created: new Date(),
           date_completed: new Date(),
+          order: 2,
         }),
       );
     }
