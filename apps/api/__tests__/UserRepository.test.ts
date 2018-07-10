@@ -97,8 +97,10 @@ describe('User entity operations', () => {
     });
 
     it("Sorts a client's tasks", async () => {
-      const subject = await repo.tasks(fixtures.user.id);
-      expect(subject.map(task => task.order)).toEqual([1, 2]);
+      const subjects = await repo.tasks(fixtures.user.id);
+      const expected = subjects.map(t => t.order).sort();
+
+      expect(subjects.map(t => t.order)).toEqual(expected);
     });
   });
 });
