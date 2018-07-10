@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { TaskRepository, Task } from '../repository/TaskRepository';
-import { User } from '../repository/UserRepository';
+import { TaskRepository } from '../repository/TaskRepository';
 import { pool } from '../index';
 import { check_if_present } from '../util';
 
