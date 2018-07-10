@@ -1,28 +1,9 @@
 import { Client } from 'pg';
+import logger from './winston';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 export default pool => {
-  const { createLogger, format, transports } = require('winston');
-  const Sentry = require('winston-transport-sentry');
-
-  // winstonPapertrail.on('error', function(err) {
-  // // Handle, report, or silently ignore connection errors and failures
-  // });
-  const logger = createLogger({
-    level: 'info',
-    transports: [
-      !isProduction && new transports.Console({ level: 'silly' }),
-      isProduction &&
-        new Sentry({
-          level: 'info',
-          dsn: process.env.SENTRY_DEBUG_DSN,
-          tags: { key: 'value' },
-          extra: { key: 'value' },
-        }),
-    ],
-  });
-
   const refresh = 60000;
 
   const update = () => {
