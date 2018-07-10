@@ -1,7 +1,6 @@
 import { UserRepository, User } from '../src/repository/UserRepository';
+import { TaskRepository, Task } from '../src/repository/TaskRepository';
 import { fixtures, getTestConnectionPool, Pool } from './db_helper';
-
-let activeConn;
 
 describe('User entity operations', () => {
   let pool: Pool;
@@ -82,5 +81,26 @@ describe('User entity operations', () => {
   it('Update a user with empty object', async () => {
     const subject = await repo.update({}, { id: user.id });
     expect(subject.last_name).toEqual('LAST'); // unchanged
+  });
+
+  describe('tasks', () => {
+    let taskRepo: TaskRepository;
+    let task: Task;
+
+    beforeAll(async () => {
+      taskRepo = new TaskRepository(pool);
+      task = await taskRepo.save({ ...fixtures.task, order: 1 });
+    });
+
+    afterAll(() => {
+      taskRepo.delete(task.id);
+    });
+
+    it("Sorts a client's tasks", async () => {
+      const subjects = await repo.tasks(fixtures.user.id);
+      const expected = subjects.map(t => t.order).sort();
+
+      expect(subjects.map(t => t.order)).toEqual(expected);
+    });
   });
 });

@@ -1,5 +1,5 @@
 import { Repository } from './Repository';
-import { Pool, Client } from 'pg';
+import { Pool } from 'pg';
 import { placeholders } from '../util';
 import { User } from './UserRepository';
 
@@ -124,6 +124,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         val = typeof val === 'string' ? client.escapeLiteral(val) : val;
         q = q + ` AND ${client.escapeIdentifier(label)} = ${val}`;
       });
+      q = q + ` ORDER BY "order"`;
       const res = await this.pool.query(q);
       return res.rows.map(user => new Task(user));
     } catch (err) {
@@ -179,7 +180,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         SELECT *
         FROM task
         WHERE user_id is not null
-        AND created_by = $1;
+        AND created_by = $1
       `,
         [orgId],
       );
@@ -196,7 +197,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         SELECT *
         FROM task
         WHERE user_id is null
-        AND created_by = $1;
+        AND created_by = $1
       `,
         [orgId],
       );
@@ -213,7 +214,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         SELECT task.*
         FROM task
         JOIN "user" usr ON usr.id = task.user_id
-        WHERE usr.coach_id = $1;
+        WHERE usr.coach_id = $1
       `,
         [coachId],
       );
@@ -272,7 +273,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         FROM task
         JOIN "user" client ON client.id = task.user_id
         WHERE client.type = 'Client'
-        AND task.id = $1;
+        AND task.id = $1
       `,
         [taskId],
       );
@@ -296,7 +297,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
       JOIN "user" coach ON coach.id = client.coach_id
       WHERE client.type = 'Client'
       AND coach.type = 'Coach'
-      AND task.id = $1;
+      AND task.id = $1
       `,
         [taskId],
       );
