@@ -89,7 +89,7 @@ describe('User entity operations', () => {
 
     beforeAll(async () => {
       taskRepo = new TaskRepository(pool);
-      task = await taskRepo.save({ order: 1, ...fixtures.task });
+      task = await taskRepo.save({ ...fixtures.task, order: 1 });
     });
 
     afterAll(() => {
@@ -98,10 +98,7 @@ describe('User entity operations', () => {
 
     it("Sorts a client's tasks", async () => {
       const subject = await repo.tasks(fixtures.user.id);
-      expect(subject.map(task => task.order)).toEqual([
-        task.order,
-        fixtures.task.order,
-      ]);
+      expect(subject.map(task => task.order)).toEqual([1, 2]);
     });
   });
 });
