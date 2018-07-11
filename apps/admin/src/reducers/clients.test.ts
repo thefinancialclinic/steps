@@ -18,7 +18,7 @@ const client: Client = {
   color: 'string',
   goals: [],
   status: 'AWAITING_HELP',
-  updated: '2018-06-04T14:44:20.085Z',
+  updated_at: '2018-06-04T14:44:20.085Z',
   platform: 'SMS',
   image: 'string',
   follow_up_date: '2018-06-04T14:44:20.085Z',

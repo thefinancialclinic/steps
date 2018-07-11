@@ -20,7 +20,6 @@ describe('User entity operations', () => {
       goals: ['walk', 'run'],
       status: 'AWAITING_HELP',
       type: 'Client',
-      updated: new Date(),
       platform: 'SMS',
       follow_up_date: new Date(),
       plan_url: 'http://plan.example.com',
