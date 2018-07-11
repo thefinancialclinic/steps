@@ -6,6 +6,7 @@ import { AlertLevel } from 'components/Alert/types';
 import VideoModal, { VIDEO_MODAL } from 'components/Clients/VideoModal';
 import NewClientForm from 'forms/NewClientForm';
 import { Box, Flex } from 'grid-styled';
+import sample from 'lodash/sample';
 import React from 'react';
 import { connect, History } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -14,6 +15,7 @@ import styled from 'styled-components';
 import { black, green, white } from 'styles/colors';
 import Modal from 'containers/Modal';
 import { showModal, hideModal } from 'actions/modals';
+import { USER_PLATFORM } from 'reducers/clients';
 
 interface Props {
   className?: string;
@@ -27,7 +29,11 @@ interface Props {
 }
 
 export class ClientNew extends React.Component<Props> {
-  createClient = clientData => {
+  createClient = (clientData = {}) => {
+    clientData.platform = clientData.platform
+      ? sample(USER_PLATFORM)
+      : USER_PLATFORM.SMS;
+
     this.props.actions
       .createClient(clientData)
       .then(({ client }) => {

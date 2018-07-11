@@ -1,3 +1,5 @@
+require('dotenv').config({ path: '../../.env' });
+
 import { join, resolve } from 'path';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
@@ -18,12 +20,10 @@ import { userPermissionMiddleware } from './permission';
 import * as favicon from 'serve-favicon';
 import * as Raven from 'raven';
 import { getUserFromAuthToken } from './services/Auth';
-import initPoolLogger from './poolLogger';
 import logger from './winston';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
-require('dotenv').config({ path: '../../.env' });
 import { AuthController } from './controller/AuthController';
 import { OrgController } from './controller/OrgController';
 
@@ -69,7 +69,7 @@ export const pool = new Pool({
   port: parseInt(connUrl.port),
 });
 
-if (!process.env.CI && SENTRY_DEBUG_DSN) initPoolLogger(pool);
+logger.info('Logger started');
 
 // Authentication middleware. Please see:
 // https://auth0.com/docs/quickstart/backend/nodejs
