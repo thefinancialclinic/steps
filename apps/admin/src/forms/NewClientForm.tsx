@@ -23,6 +23,13 @@ let NewClientForm = ({ onSubmit }) => (
           <Box width={1} px={2}>
             <Text name="phone" label="Phone Number" autoComplete="tel" />
           </Box>
+          <Box width={1} px={2}>
+            <Text
+              name="platform"
+              inputType="checkbox"
+              label="Do you have and use Facebook Messenger?"
+            />
+          </Box>
         </Flex>
         <Button>Save</Button>
       </form>

@@ -24,17 +24,26 @@ const Text: React.SFC<Props> = ({
   ...rest
 }) => (
   <BaseInput>
-    <Field name={name} autoComplete={autoComplete} validate={validate}>
+    <Field
+      name={name}
+      autoComplete={autoComplete}
+      validate={validate}
+      type={inputType}
+    >
       {({ input, meta }) => (
-        <InputWrapper meta={meta}>
-          <Flex flexDirection="column">
+        <InputWrapper>
+          <Flex
+            flexDirection={inputType === 'checkbox' ? 'row-reverse' : 'column'}
+            justifyContent="flex-end"
+            alignItems={inputType === 'checkbox' ? 'center' : 'stretch'}
+          >
             {label && (
-              <Label htmlFor={name} {...rest}>
+              <Label htmlFor={name} {...rest} type={inputType}>
                 {label}
                 {meta.error && meta.touched && <span>{meta.error}</span>}
               </Label>
             )}
-            <input {...input} type={inputType} />
+            <InputStyles {...input} id={name} type={inputType} meta={meta} />
           </Flex>
         </InputWrapper>
       )}
@@ -46,6 +55,21 @@ Text.defaultProps = {
   inputType: 'text',
 };
 
+const InputStyles = styled<any, 'input'>('input')`
+  border-radius: 4px;
+  border: none;
+  box-shadow: 0 0 0 1px
+    ${props => (props.meta.invalid && props.meta.touched ? red : mediumBlue)};
+  font-size: ${remCalc(18)};
+  max-width: 100%;
+  padding-bottom: ${remCalc(21)};
+  padding-left: ${remCalc(20)};
+  padding-right: ${remCalc(20)};
+  padding-top: ${remCalc(21)};
+  margin-bottom: ${props => (props.type === 'checkbox' ? remCalc(10) : 0)};
+  margin-right: ${props => (props.type === 'checkbox' ? remCalc(10) : 0)};
+`;
+
 const BaseInput = styled.div`
   display: flex;
   flex-direction: column;
@@ -54,18 +78,6 @@ const BaseInput = styled.div`
 
 const InputWrapper = styled<any, 'div'>('div')`
   position: relative;
-  input {
-    max-width: 100%;
-    border-radius: 4px;
-    border: none;
-    box-shadow: 0 0 0 1px
-      ${props => (props.meta.invalid && props.meta.touched ? red : mediumBlue)};
-    font-size: ${remCalc(18)};
-    padding-bottom: ${remCalc(21)};
-    padding-left: ${remCalc(20)};
-    padding-right: ${remCalc(20)};
-    padding-top: ${remCalc(21)};
-  }
   span {
     position: absolute;
     right: 1em;
