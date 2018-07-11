@@ -20,7 +20,6 @@ import { userPermissionMiddleware } from './permission';
 import * as favicon from 'serve-favicon';
 import * as Raven from 'raven';
 import { getUserFromAuthToken } from './services/Auth';
-import initPoolLogger from './poolLogger';
 import logger from './winston';
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +69,7 @@ export const pool = new Pool({
   port: parseInt(connUrl.port),
 });
 
-if (!process.env.CI && SENTRY_DEBUG_DSN) initPoolLogger(pool);
+logger.info('Logger started');
 
 // Authentication middleware. Please see:
 // https://auth0.com/docs/quickstart/backend/nodejs
