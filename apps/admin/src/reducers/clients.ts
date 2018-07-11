@@ -8,7 +8,12 @@ import {
   SET_CLIENT_REQUESTS,
 } from 'actions/clients';
 
-export type UserPlatform = 'SMS' | 'FBOOK';
+export enum USER_PLATFORM {
+  SMS = 'SMS',
+  FACEBOOK = 'FBOOK',
+}
+
+export type UserPlatform = USER_PLATFORM.SMS | USER_PLATFORM.FACEBOOK;
 export type UserStatus = 'AWAITING_HELP' | 'WORKING' | 'NON_RESPONSIVE';
 
 export type Client = {
