@@ -10,9 +10,7 @@ import * as url from 'url';
 import { OrgRepository } from './repository/OrgRepository';
 import { UserRepository } from './repository/UserRepository';
 import * as jwt from 'express-jwt';
-import * as jwtAuthz from 'express-jwt-authz';
 import { expressJwtSecret } from 'jwks-rsa';
-import * as token from 'jsonwebtoken';
 import { postgraphile } from 'postgraphile';
 import { userPermissionMiddleware } from './permission';
 import * as favicon from 'serve-favicon';
@@ -26,6 +24,7 @@ import logger from './winston';
 require('dotenv').config({ path: '../../.env' });
 import { AuthController } from './controller/AuthController';
 import { OrgController } from './controller/OrgController';
+import { GraphQLController } from './controller/GraphQLController';
 
 const {
   NODE_ENV,
@@ -248,7 +247,11 @@ app.get('/api/orgs/:id', async (req, res, next) => {
 
 // Postgraphile
 if (enablePostgraphile) {
-  app.use(postgraphile(databaseUrl, 'public', { graphiql: true }));
+  app.use(
+    '/api',
+    ...middlewareForEnivronment(GraphQLController),
+    postgraphile(databaseUrl, 'public'),
+  );
 }
 
 // Favicon

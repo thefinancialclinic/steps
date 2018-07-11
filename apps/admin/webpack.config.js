@@ -49,12 +49,20 @@ const baseConfig = {
         ],
       },
       {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
         test: /\.(bmp|gif|png|jpg|jpeg)?$/,
         loader: ['url-loader?limit=1024'],
       },
       {
         test: /\.svg$/,
         loader: 'svg-inline-loader',
+      },
+      {
+        test: /\.flow$/,
+        loader: 'ignore-loader',
       },
     ],
   },
