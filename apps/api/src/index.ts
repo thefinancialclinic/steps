@@ -18,6 +18,8 @@ import { userPermissionMiddleware } from './permission';
 import * as favicon from 'serve-favicon';
 import * as Raven from 'raven';
 import { getUserFromAuthToken } from './services/Auth';
+import initPoolLogger from './poolLogger';
+import logger from './winston';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
@@ -33,6 +35,7 @@ const {
   ENABLE_POSTGRAPHILE,
   AUTH0_ENABLED,
   SENTRY_DSN,
+  SENTRY_DEBUG_DSN,
 } = process.env;
 
 const isProduction = NODE_ENV === 'production';
@@ -65,6 +68,8 @@ export const pool = new Pool({
   database: connUrl.pathname.slice(1), // drop leading slash
   port: parseInt(connUrl.port),
 });
+
+if (!process.env.CI && SENTRY_DEBUG_DSN) initPoolLogger(pool);
 
 // Authentication middleware. Please see:
 // https://auth0.com/docs/quickstart/backend/nodejs
@@ -159,6 +164,7 @@ const userIdAuthMiddleware = (req, res, next) => {
       next();
     })
     .catch(err => {
+      logger.error(err);
       res.status(404);
       return res.send({ error: 'Unknown user, cannot auth' });
     });
@@ -183,6 +189,11 @@ const middlewareForEnivronment = controller => {
 ////////////////////////////////////////////////////////////////////////////////
 // Routes
 
+const sendStandardError = (res, error: Error) => {
+  logger.error(error);
+  return res.status(500).send({ error: 'A server error has occured' });
+};
+
 Routes.forEach(route => {
   (app as any)[route.method](
     route.route,
@@ -194,10 +205,10 @@ Routes.forEach(route => {
         return res.send(result);
       } catch (error) {
         if (isProduction) {
-          res.status(500);
-          return res.send({ error: 'A server error has occurred.' });
+          return sendStandardError(res, error);
         } else {
           res.status(500);
+          logger.error(error);
           return res.send({ error: error });
         }
       }
@@ -206,21 +217,33 @@ Routes.forEach(route => {
 });
 
 app.get('/api/user', checkJwt, async (req, res, next) => {
-  const controller = new AuthController();
-  const result = await controller['user'](req, res, next);
-  res.send(result);
+  try {
+    const controller = new AuthController();
+    const result = await controller['user'](req, res, next);
+    res.send(result);
+  } catch (error) {
+    return sendStandardError(res, error);
+  }
 });
 
 app.post('/api/signup', async (req, res, next) => {
-  const controller = new AuthController();
-  const result = await controller['signup'](req, res, next);
-  res.send(result);
+  try {
+    const controller = new AuthController();
+    const result = await controller['signup'](req, res, next);
+    res.send(result);
+  } catch (error) {
+    return sendStandardError(res, error);
+  }
 });
 
 app.get('/api/orgs/:id', async (req, res, next) => {
-  const controller = new OrgController();
-  const result = await controller['one'](req, res, next);
-  res.send(result);
+  try {
+    const controller = new OrgController();
+    const result = await controller['one'](req, res, next);
+    res.send(result);
+  } catch (error) {
+    return sendStandardError(res, error);
+  }
 });
 
 // Postgraphile
