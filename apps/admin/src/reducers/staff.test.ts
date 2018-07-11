@@ -12,8 +12,8 @@ describe('Staff reducer', () => {
     const mockAction = {
       type: INVITE_STAFF,
       invitedCoaches: [
-        { email: 'one@example.com', updated: date1 },
-        { email: 'two@example.com', updated: date2 },
+        { email: 'one@example.com', updated_at: date1 },
+        { email: 'two@example.com', updated_at: date2 },
       ],
     };
 
@@ -22,11 +22,11 @@ describe('Staff reducer', () => {
     expect(coaches).toEqual([
       {
         email: 'one@example.com',
-        updated: date1,
+        updated_at: date1,
       },
       {
         email: 'two@example.com',
-        updated: date2,
+        updated_at: date2,
       },
     ]);
   });

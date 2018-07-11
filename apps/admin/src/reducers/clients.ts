@@ -27,7 +27,7 @@ export type Client = {
   color: string;
   goals: string[];
   status: UserStatus;
-  updated: string;
+  updated_at: string;
   platform: UserPlatform;
   image: string;
   follow_up_date: string;

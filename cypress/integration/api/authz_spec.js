@@ -38,7 +38,6 @@ describe('Authorization', () => {
         goals: [],
         status: 'AWAITING_HELP',
         type: 'Superadmin',
-        updated: new Date(),
       },
       headers: { 'X-UserId': 1 },
     }).then(resp => {
@@ -96,7 +95,6 @@ describe('Authorization', () => {
           goals: [],
           status: 'AWAITING_HELP',
           type: 'Admin',
-          updated: new Date(),
         }).then(resp => {
           adminId1 = resp.body.id;
         }); // admin 1
@@ -111,7 +109,6 @@ describe('Authorization', () => {
           goals: [],
           status: 'AWAITING_HELP',
           type: 'Coach',
-          updated: new Date(),
         }).then(resp => {
           coachId1 = resp.body.id;
 
@@ -126,7 +123,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           }).then(resp => {
             clientId1 = resp.body.id;
 
@@ -173,7 +169,6 @@ describe('Authorization', () => {
           goals: [],
           status: 'AWAITING_HELP',
           type: 'Coach',
-          updated: new Date(),
         }).then(resp => {
           coachId3 = resp.body.id;
 
@@ -188,7 +183,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           }).then(resp => {
             clientId3 = resp.body.id;
 
@@ -244,7 +238,6 @@ describe('Authorization', () => {
           goals: [],
           status: 'AWAITING_HELP',
           type: 'Admin',
-          updated: new Date(),
         }).then(resp => {
           adminId2 = resp.body.id;
         });
@@ -259,7 +252,6 @@ describe('Authorization', () => {
           goals: [],
           status: 'AWAITING_HELP',
           type: 'Coach',
-          updated: new Date(),
         }).then(resp => {
           coachId2 = resp.body.id;
 
@@ -274,7 +266,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           }).then(resp => {
             clientId2 = resp.body.id;
 
@@ -385,7 +376,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           },
           {
             'X-UserId': adminId1,
@@ -410,7 +400,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           },
           {
             'X-UserId': adminId1,
@@ -478,7 +467,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           },
           {
             'X-UserId': adminId1,
@@ -590,7 +578,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Coach',
-            updated: new Date(),
           },
           {
             'X-UserId': adminId1,
@@ -614,7 +601,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Coach',
-            updated: new Date(),
           },
           {
             'X-UserId': adminId1,
@@ -680,7 +666,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Coach',
-            updated: new Date(),
           },
           {
             'X-UserId': adminId1,
@@ -935,7 +920,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           },
           {
             'X-UserId': coachId1,
@@ -1117,7 +1101,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Coach',
-            updated: new Date(),
           },
           {
             'X-UserId': coachId1,

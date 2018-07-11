@@ -9,7 +9,7 @@ import moment from 'moment';
 
 export type InvitedCoach = {
   email: string;
-  updated: moment.Moment;
+  updated_at: moment.Moment;
 };
 
 export interface StaffState {
