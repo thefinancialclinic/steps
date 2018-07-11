@@ -1,0 +1,10 @@
+.build/
+.vscode/
+node_modules/
+.awcache/
+*.log
+.env
+.DS_Store
+cypress/screenshots/
+cypress/videos/
+*~
