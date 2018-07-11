@@ -13,5 +13,5 @@ export default createLogger({
         tags: { key: 'value' },
         extra: { key: 'value' },
       }),
-  ],
+  ].filter(t => t),
 });
