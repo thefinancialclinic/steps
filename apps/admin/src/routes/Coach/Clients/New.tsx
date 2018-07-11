@@ -16,6 +16,7 @@ import { black, green, white } from 'styles/colors';
 import Modal from 'containers/Modal';
 import { showModal, hideModal } from 'actions/modals';
 import { USER_PLATFORM } from 'reducers/clients';
+import { keenClient } from '../../../tracker';
 
 interface Props {
   className?: string;
@@ -48,6 +49,11 @@ export class ClientNew extends React.Component<Props> {
       });
   };
 
+  recordPlayClickAndShowModal = () => {
+    keenClient.recordEvent('playClick', { coachId: this.props.coach.id });
+    this.props.actions.showModal(VIDEO_MODAL);
+  }
+
   render() {
     const { actions } = this.props;
     return (
@@ -68,7 +74,7 @@ export class ClientNew extends React.Component<Props> {
                     encouragement.
                   </p>
                 </Box>
-                <Button onClick={() => actions.showModal(VIDEO_MODAL)}>
+                <Button onClick={this.recordPlayClickAndShowModal}>
                   Play Video<i className="material-icons">play_arrow</i>
                 </Button>
               </ContentLeft>
@@ -179,6 +185,10 @@ const Wrapper = styled.div`
   }
 `;
 
+const mapStateToProps = state => ({
+  coach: state.auth.user,
+});
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
     { createClient, addAlert, showModal, hideModal },
@@ -187,6 +197,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(withRouter(ClientNew));
