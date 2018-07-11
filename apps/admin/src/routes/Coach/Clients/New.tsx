@@ -52,7 +52,7 @@ export class ClientNew extends React.Component<Props> {
   recordPlayClickAndShowModal = () => {
     keenClient.recordEvent('playClick', { coachId: this.props.coach.id });
     this.props.actions.showModal(VIDEO_MODAL);
-  }
+  };
 
   render() {
     const { actions } = this.props;
