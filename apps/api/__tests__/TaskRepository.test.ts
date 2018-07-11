@@ -26,6 +26,7 @@ describe('Task entity operations', () => {
         date_assigned: dateAssigned,
         steps: [{ text: 'TEXT1' }, { text: 'TEXT2', note: 'NOTE2' }],
         original_task_id: fixtures.task.id,
+        order: 1,
       }),
     );
   });
@@ -74,5 +75,11 @@ describe('Task entity operations', () => {
   it('links back to an original task (template)', async () => {
     const subject = await repo.get({ id: task.id });
     expect(subject[0].original_task_id).toBe(fixtures.task.id);
+  });
+
+  it('Tasks have an order field (and are sorted by it)', async () => {
+    // subtle: fixture has order=2 & is created first, the task here has order=1
+    const subjects = await repo.get({});
+    expect(subjects.map(task => task.order)).toEqual([1, 2]);
   });
 });
