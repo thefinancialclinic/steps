@@ -29,7 +29,7 @@ interface Props {
 }
 
 export class ClientNew extends React.Component<Props> {
-  createClient = clientData => {
+  createClient = (clientData = {}) => {
     clientData.platform = clientData.platform
       ? sample(USER_PLATFORM)
       : USER_PLATFORM.SMS;
