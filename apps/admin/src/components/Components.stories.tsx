@@ -148,7 +148,9 @@ export const Components = storiesOf('Components', module)
       ]}
     />
   ))
-  .add('NameCard', () => <NameCard title={text('Title', 'Matthew Epler')} />)
+  .add('NameCard', () => (
+    <NameCard title={text('Title', 'Matthew Epler')} status="WORKING" />
+  ))
   .add('NavDropdown', () => (
     <NavDropdown
       title="Coach Name"
