@@ -26,7 +26,7 @@ class UserLayout extends React.Component<Props, {}> {
     // user is a client. widget is loaded in (root)/index.tsx.
     if (this.props.user.type === 'Client') zE.hide();
   }
-  
+
   editClientProfile = () => {
     this.props.actions.showModal(EDIT_PROFILE);
   };
