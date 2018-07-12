@@ -10,6 +10,10 @@ export default class Keen {
     }),
   };
 
+  public recordEvent() {
+    return '';
+  }
+
   public extendEvents() {
     return '';
   }
