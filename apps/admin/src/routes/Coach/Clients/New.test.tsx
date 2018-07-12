@@ -1,3 +1,5 @@
+jest.mock('react-ga');
+
 import 'jest';
 import { shallow } from 'enzyme';
 import { ClientNew } from './New';
