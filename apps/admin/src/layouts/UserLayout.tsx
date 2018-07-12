@@ -8,7 +8,6 @@ import { bindActionCreators } from 'redux';
 import { EDIT_PROFILE } from 'routes/Coach/Clients/EditProfile';
 import styled from 'styled-components';
 import { USER_TYPE, User } from '../reducers/auth';
-import { Z_ERRNO } from 'zlib';
 
 interface Props {
   actions?: { showModal };
