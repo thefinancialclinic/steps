@@ -3,9 +3,6 @@
 // for more customization settings, see https://developer.zendesk.com/embeddables/docs/widget/zesettings
 window.zESettings = {
   webWidget: {
-    chat: {
-      suppress: false,
-    },
     launcher: {
       chatLabel: {
         '*': 'IDEO',
