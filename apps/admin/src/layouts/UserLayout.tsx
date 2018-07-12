@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { EDIT_PROFILE } from 'routes/Coach/Clients/EditProfile';
 import styled from 'styled-components';
 import { USER_TYPE, User } from '../reducers/auth';
+import { Z_ERRNO } from 'zlib';
 
 interface Props {
   actions?: { showModal };
@@ -20,6 +21,12 @@ interface Props {
 }
 
 class UserLayout extends React.Component<Props, {}> {
+  componentDidMount() {
+    // Zendesk chat widget should not be shown if
+    // user is a client. widget is loaded in (root)/index.tsx.
+    if (this.props.user.type === 'Client') zE.hide();
+  }
+  
   editClientProfile = () => {
     this.props.actions.showModal(EDIT_PROFILE);
   };
