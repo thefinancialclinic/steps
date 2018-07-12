@@ -31,7 +31,7 @@ const {
   CI,
   PORT,
   DATABASE_URL,
-  ENABLE_POSTGRAPHILE,
+  POSTGRAPHILE_ENABLED,
   AUTH0_ENABLED,
   SENTRY_DSN,
   SENTRY_DEBUG_DSN,
@@ -47,7 +47,7 @@ const connUrl = url.parse(databaseUrl);
 const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
 const publicPath = resolve(__dirname, '..', 'public');
 
-const enablePostgraphile = ENABLE_POSTGRAPHILE === 'true';
+const enablePostgraphile = POSTGRAPHILE_ENABLED === 'true';
 const enableAuth0 = AUTH0_ENABLED === 'true';
 const sentryDSN = SENTRY_DSN;
 

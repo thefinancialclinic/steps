@@ -118,6 +118,7 @@ jobs:
             API_URL: /api
             PORT: "3000"
             AUTH0_ENABLED: "false"
+            POSTGRAPHILE_ENABLED: "true"
           command: ./run-cypress.sh cypress/integration/api/authz_spec.js
 
       - store_artifacts:
