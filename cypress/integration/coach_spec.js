@@ -280,6 +280,44 @@ describe('Coach', () => {
         cy.contains('Everyone Else (1)');
       });
     });
+
+    it('Shows when a client ceases to need help', () => {
+      cy.request({
+        method: 'POST',
+        url: `${API_URL}/requests`,
+        body: {
+          status: 'RESOLVED',
+          user_id: client,
+          task_id: task,
+        },
+        headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+      }).then(resp => {
+        cy.loadTokens(tokens);
+
+        cy.contains('My Clients').click();
+        // Awaiting Help is not displayed by design
+        cy.contains('Everyone Else (2)');
+      });
+    });
+
+    it('Shows when a client begins to need assistance', () => {
+      cy.request({
+        method: 'POST',
+        url: `${API_URL}/requests`,
+        body: {
+          status: 'NEEDS_ASSISTANCE',
+          user_id: client,
+          task_id: task,
+        },
+        headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
+      }).then(resp => {
+        cy.loadTokens(tokens);
+
+        cy.contains('My Clients').click();
+        cy.contains('Awaiting Help (1)');
+        cy.contains('Everyone Else (1)');
+      });
+    });
   });
 
   describe('Client Profile', () => {
