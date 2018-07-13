@@ -1,3 +1,5 @@
+jest.mock('react-ga');
+import 'jest';
 import { FollowUp } from './FollowUp';
 import { shallow } from 'enzyme';
 import React from 'react';

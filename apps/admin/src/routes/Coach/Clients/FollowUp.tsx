@@ -10,6 +10,7 @@ import { History } from 'react-router-dom';
 import { Client } from 'reducers/clients';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
+import { keenClient } from '../../../tracker';
 
 interface Props {
   client?: Client;
@@ -38,6 +39,7 @@ export class FollowUp extends React.Component<Props, State> {
   }
 
   onSubmit = ({ weeks }) => {
+    keenClient.recordEvent('followUp', { weeks });
     const date = this.dateProvider.today().add(parseInt(weeks), 'weeks');
     this.props.actions
       .setClientFollowUpDate(this.props.client, date)
