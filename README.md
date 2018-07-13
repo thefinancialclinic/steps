@@ -66,6 +66,7 @@ npm install
 $(npm bin)/lerna exec "npm install"
 $(npm bin)/lerna bootstrap
 sqitch deploy
+cp .env.example .env
 ```
 
 ### App Execute
