@@ -49,6 +49,11 @@ export class TermsModal extends React.Component<Props> {
         </p>
 
         <p>By texting the number, you agree to these terms and conditions.</p>
+
+        <p className="terms-link">
+          <a href="http://steps.ideo.org/#/terms">Terms & Conditions</a>
+        </p>
+
         <a onClick={this.props.onClose}>
           <Button>Next</Button>
         </a>
@@ -78,6 +83,9 @@ const Container = styled.div`
   }
   button {
     margin-top: 14px;
+  }
+  .terms-link {
+    text-align: center;
   }
 `;
 
