@@ -484,6 +484,30 @@ paths:
             application/json:
               schema:
                 $ref: '#components/schemas/User'
+    put:
+      summary: Update a single Coach by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Coach ID
+      requestBody:
+        description: Existing Coach to Update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      tags: [users]
+      responses:
+        '200':
+          description: A JSON object representing a single Coach (user)
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/User'
     delete:
       summary: Delete a Coach by the given id
       parameters:

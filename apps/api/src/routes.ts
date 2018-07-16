@@ -94,6 +94,12 @@ export const Routes = [
     action: 'save',
   },
   {
+    method: 'put',
+    route: '/api/coaches/:id',
+    controller: CoachController,
+    action: 'update',
+  },
+  {
     method: 'delete',
     route: '/api/coaches/:id',
     controller: CoachController,

@@ -641,29 +641,30 @@ describe('Authorization', () => {
         });
       });
 
-      it('Admin 1 updates coach in same org (unimplemented)', () => {
+      it('Admin 1 updates coach in same org', () => {
         request(
           'PUT',
           `/coaches/${coachId1}`,
-          { name: 'Coach1' },
+          { first_name: 'Coach1' },
           {
             'X-UserId': adminId1,
           },
         ).then(resp => {
-          expect(resp.status).to.equal(404);
+          expect(resp.status).to.equal(200);
+          expect(resp.body.first_name).to.equal('Coach1');
         });
       });
 
-      it('Admin 1 updates coach in other org (unimplemented)', () => {
+      it('Admin 1 updates coach in other org (forbidden)', () => {
         request(
           'PUT',
           `/coaches/${coachId2}`,
-          { name: 'Forbidden' },
+          { first_name: 'Forbidden' },
           {
             'X-UserId': adminId1,
           },
         ).then(resp => {
-          expect(resp.status).to.equal(404);
+          expect(resp.status).to.equal(403);
         });
       });
 
@@ -1152,7 +1153,7 @@ describe('Authorization', () => {
         });
       });
 
-      it('Coach 1 updates self (unimplemented)', () => {
+      it('Coach 1 updates self', () => {
         request(
           'PUT',
           `/coaches/${coachId1}`,
@@ -1161,11 +1162,12 @@ describe('Authorization', () => {
             'X-UserId': coachId1,
           },
         ).then(resp => {
-          expect(resp.status).to.equal(404);
+          expect(resp.status).to.equal(200);
+          expect(resp.body.first_name).to.equal('Coach1');
         });
       });
 
-      it('Coach 1 updates coach in same org (unimplemented)', () => {
+      it('Coach 1 updates coach in same org (forbidden)', () => {
         request(
           'PUT',
           `/coaches/${coachId3}`,
@@ -1174,11 +1176,11 @@ describe('Authorization', () => {
             'X-UserId': coachId1,
           },
         ).then(resp => {
-          expect(resp.status).to.equal(404);
+          expect(resp.status).to.equal(403);
         });
       });
 
-      it('Coach 1 updates coach in other org (unimplemented)', () => {
+      it('Coach 1 updates coach in other org (forbidden)', () => {
         request(
           'PUT',
           `/coaches/${coachId2}`,
@@ -1187,7 +1189,7 @@ describe('Authorization', () => {
             'X-UserId': coachId1,
           },
         ).then(resp => {
-          expect(resp.status).to.equal(404);
+          expect(resp.status).to.equal(403);
         });
       });
 

@@ -27,6 +27,16 @@ export class CoachController {
     return coach;
   }
 
+  async update(request: Request, response: Response, next: NextFunction) {
+    try {
+      const coachId: number = parseInt(request.params.id);
+      const coach = await this.repo.update(request.body, { id: coachId });
+      return coach;
+    } catch (err) {
+      throw `Unable to update user (${err})`;
+    }
+  }
+
   async remove(request: Request, response: Response, next: NextFunction) {
     const num = await this.repo.deleteByType(request.params.id, 'Coach');
     return { deleted: num };
@@ -59,7 +69,10 @@ export class CoachController {
               body.org_id,
               () => parseInt(body.org_id) === user.org_id,
             ),
-            PUT: true,
+            PUT: check_if_present(
+              subject,
+              () => subject.org_id === user.org_id,
+            ),
             DELETE: check_if_present(
               subject,
               () => subject.org_id === user.org_id,
