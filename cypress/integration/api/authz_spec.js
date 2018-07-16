@@ -359,11 +359,11 @@ describe('Authorization', () => {
   });
 
   describe('Superadmin capabilities', () => {
-    describe('/graphql', () => {
+    describe('/postgraphile/graphql', () => {
       it('Superadmin can access GraphQL', () => {
         request(
           'POST',
-          `/graphql`,
+          `/postgraphile/graphql`,
           {
             query: '{userById(id:1) {id}}',
             variables: null,
@@ -380,11 +380,11 @@ describe('Authorization', () => {
   });
 
   describe('Admin capabilities', () => {
-    describe('/graphql', () => {
+    describe('/postgraphile/graphql', () => {
       it('Admin cannot access GraphQL', () => {
         request(
           'POST',
-          `/graphql`,
+          `/postgraphile/graphql`,
           {
             query: '{userById(id:1) {id}}',
             variables: null,
@@ -845,11 +845,11 @@ describe('Authorization', () => {
   }); // Admin capabilities
 
   describe('Coach capabilities', () => {
-    describe('/graphql', () => {
+    describe('/postgraphile/graphql', () => {
       it('Coach cannot access GraphQL', () => {
         request(
           'POST',
-          `/graphql`,
+          `/postgraphile/graphql`,
           {
             query: '{userById(id:1) {id}}',
             variables: null,
@@ -1361,11 +1361,11 @@ describe('Authorization', () => {
   }); // Coach capabilities
 
   describe('Client capabilities', () => {
-    describe('/graphql', () => {
+    describe('/postgraphile/graphql', () => {
       it('Client cannot access GraphQL', () => {
         request(
           'POST',
-          `/graphql`,
+          `/postgraphile/graphql`,
           {
             query: '{userById(id:1) {id}}',
             variables: null,

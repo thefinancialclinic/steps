@@ -248,7 +248,7 @@ app.get('/api/orgs/:id', async (req, res, next) => {
 // Postgraphile
 if (enablePostgraphile) {
   app.use(
-    '/api',
+    '/api/postgraphile',
     ...middlewareForEnivronment(GraphQLController),
     postgraphile(databaseUrl, 'public'),
   );
