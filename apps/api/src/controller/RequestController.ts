@@ -43,10 +43,13 @@ export class RequestController {
     if (requestItem.status === 'NEEDS_ASSISTANCE') {
       await this.userRepo.update(
         { status: 'AWAITING_HELP' },
-        requestItem.user_id,
+        { id: requestItem.user_id },
       );
     } else {
-      await this.userRepo.update({ status: 'WORKING' }, requestItem.user_id);
+      await this.userRepo.update(
+        { status: 'WORKING' },
+        { id: requestItem.user_id },
+      );
     }
   }
 
