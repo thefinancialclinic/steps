@@ -7,7 +7,7 @@ import 'graphiql/graphiql.css';
 
 export const graphQLFetcher = graphQLParams => {
   return api
-    .post('/graphql', graphQLParams, {
+    .post('/postgraphile/graphql', graphQLParams, {
       headers: {
         'Content-Type': 'application/json',
       },

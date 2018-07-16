@@ -5,13 +5,13 @@ jest.mock('../../api');
 import api from '../../api';
 
 describe('GraphQL', () => {
-  it('fetcher accesses /api/graphql', () => {
+  it('fetcher accesses /api/postgraphile/graphql', () => {
     api.post = jest.fn(() => {
       return Promise.resolve({ data: 'response data' });
     });
     graphQLFetcher({});
     expect(api.post).toHaveBeenCalledWith(
-      '/graphql',
+      '/postgraphile/graphql',
       {},
       {
         headers: {
