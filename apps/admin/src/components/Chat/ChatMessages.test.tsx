@@ -17,7 +17,6 @@ const user = {
   color: null,
   goals: [],
   status: 'WORKING',
-  updated: null,
   platform: 'SMS',
   image: null,
   follow_up_date: null,

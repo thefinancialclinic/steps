@@ -26,7 +26,7 @@ export const inviteStaff = async (emails: string[]) => {
   const invitedCoaches: User[] = emails.map(email => {
     return {
       email,
-      updated: moment.utc().toLocaleString(),
+      updated_at: moment.utc().toLocaleString(),
       type: USER_TYPE.PENDING_INVITE,
     };
   });

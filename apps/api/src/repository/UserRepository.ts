@@ -34,7 +34,8 @@ export class User {
   goals: string[];
   status: string;
   type: string;
-  updated?: Date;
+  created_at?: Date;
+  updated_at?: Date;
   platform?: UserPlatform;
   image?: string | null;
   follow_up_date?: Date;
@@ -57,7 +58,8 @@ export class User {
     this.goals = opts.goals;
     this.status = opts.status;
     this.type = opts.type;
-    this.updated = opts.updated;
+    this.created_at = opts.created_at;
+    this.updated_at = opts.updated_at;
     this.platform = opts.platform;
     this.image = opts.image;
     this.follow_up_date = opts.follow_up_date;
@@ -115,7 +117,6 @@ export class UserRepository implements Repository<UserId, User> {
           goals,
           status,
           type,
-          updated,
           platform,
           image,
           follow_up_date,
@@ -125,7 +126,7 @@ export class UserRepository implements Repository<UserId, User> {
           fb_id,
           temp_help_response,
           auth0_id
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
         RETURNING *
       `,
         [
@@ -139,7 +140,6 @@ export class UserRepository implements Repository<UserId, User> {
           user.goals,
           user.status,
           user.type,
-          user.updated,
           user.platform,
           user.image,
           user.follow_up_date,

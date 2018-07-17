@@ -12,6 +12,7 @@ export class RequestItem {
   user_id: UserId;
   task_id: TaskId;
   created_at?: Date;
+  updated_at?: Date;
 
   constructor(opts: Partial<RequestItem>) {
     this.id = opts.id;
@@ -19,6 +20,7 @@ export class RequestItem {
     this.user_id = opts.user_id;
     this.task_id = opts.task_id;
     this.created_at = opts.created_at;
+    this.updated_at = opts.updated_at;
   }
 }
 

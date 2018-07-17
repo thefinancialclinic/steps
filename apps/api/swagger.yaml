@@ -20,6 +20,14 @@ components:
           type: string
           format: uri
           nullable: true
+        created_at:
+          type: string
+          format: date-time
+          nullable: true
+        updated_at:
+          type: string
+          format: date-time
+          nullable: true
     Message:
       properties:
         text:
@@ -80,8 +88,13 @@ components:
           type: integer
         task_id:
           type: integer
+        updated_at:
+          type: string
+          format: date-time
+          nullable: true
         created_at:
-          type: date-time
+          type: string
+          format: date-time
           nullable: true
     Step:
       properties:
@@ -174,7 +187,11 @@ components:
         status:
           type: string
           enum: [AWAITING_HELP, WORKING, NON_RESPONSIVE]
-        updated:
+        created_at:
+          type: string
+          format: date-time
+          nullable: true
+        updated_at:
           type: string
           format: date-time
           nullable: true

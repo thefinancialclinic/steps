@@ -3,18 +3,13 @@ import { Pool, Client } from 'pg';
 
 export type OrgId = number;
 
-export type OrgOpts = {
-  id?: OrgId;
-  name: string;
-  sms_number?: string;
-  logo?: string;
-};
-
 export class Org {
   id?: number;
   name: string;
   sms_number?: string;
   logo?: string;
+  created_at?: Date;
+  updated_at?: Date;
 
   constructor(opts: Partial<Org>) {
     this.id = opts.id;
