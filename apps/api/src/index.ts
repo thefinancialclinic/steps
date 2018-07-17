@@ -12,9 +12,7 @@ import * as url from 'url';
 import { OrgRepository } from './repository/OrgRepository';
 import { UserRepository } from './repository/UserRepository';
 import * as jwt from 'express-jwt';
-import * as jwtAuthz from 'express-jwt-authz';
 import { expressJwtSecret } from 'jwks-rsa';
-import * as token from 'jsonwebtoken';
 import { postgraphile } from 'postgraphile';
 import { userPermissionMiddleware } from './permission';
 import * as favicon from 'serve-favicon';
@@ -26,13 +24,14 @@ import logger from './winston';
 // Configuration
 import { AuthController } from './controller/AuthController';
 import { OrgController } from './controller/OrgController';
+import { GraphQLController } from './controller/GraphQLController';
 
 const {
   NODE_ENV,
   CI,
   PORT,
   DATABASE_URL,
-  ENABLE_POSTGRAPHILE,
+  POSTGRAPHILE_ENABLED,
   AUTH0_ENABLED,
   SENTRY_DSN,
   SENTRY_DEBUG_DSN,
@@ -48,7 +47,7 @@ const connUrl = url.parse(databaseUrl);
 const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
 const publicPath = resolve(__dirname, '..', 'public');
 
-const enablePostgraphile = ENABLE_POSTGRAPHILE === 'true';
+const enablePostgraphile = POSTGRAPHILE_ENABLED === 'true';
 const enableAuth0 = AUTH0_ENABLED === 'true';
 const sentryDSN = SENTRY_DSN;
 
@@ -251,7 +250,11 @@ app.get('/api/orgs/:id', async (req, res, next) => {
 
 // Postgraphile
 if (enablePostgraphile) {
-  app.use(postgraphile(databaseUrl, 'public', { graphiql: true }));
+  app.use(
+    '/api/postgraphile',
+    ...middlewareForEnivronment(GraphQLController),
+    postgraphile(databaseUrl, 'public'),
+  );
 }
 
 // Favicon
