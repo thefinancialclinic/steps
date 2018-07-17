@@ -42,14 +42,23 @@ export class RequestDetailRoute extends React.Component<Props> {
 
   render() {
     const { user, match, messages, requests } = this.props;
-    const request = findById(requests, match.params.requestId);
-    const withMessages = addMessagesToRequest(request, messages);
-    return (
-      <Main>
-        <BackButton to={`/clients/${user.id}/chat/help`} />
-        <RequestDetail request={withMessages} onSubmit={this.onSubmit} />
-      </Main>
-    );
+    if (requests && messages) {
+      const request = findById(requests, match.params.requestId);
+      const withMessages = addMessagesToRequest(request, messages);
+
+      return (
+        <Main>
+          <BackButton to={`/clients/${user.id}/chat/help`} />
+          <RequestDetail request={withMessages} onSubmit={this.onSubmit} />
+        </Main>
+      );
+    } else {
+      return (
+        <Main>
+          <BackButton to={`/clients/${user.id}/chat/help`} />
+        </Main>
+      );
+    }
   }
 }
 
