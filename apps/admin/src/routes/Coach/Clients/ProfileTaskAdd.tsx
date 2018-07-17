@@ -15,6 +15,7 @@ import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import { grey } from 'styles/colors';
 import { findById } from 'helpers';
+import every from 'lodash/every';
 import map from 'lodash/map';
 import uniq from 'lodash/uniq';
 import Panel from 'atoms/Panel';
@@ -60,10 +61,22 @@ class AddTask extends React.Component<Props, State> {
   }
 
   updateCategories = category => {
-    const categories = this.state.categories.map(c => {
-      if (c.name !== category.name) return c;
-      return { ...c, active: !c.active };
-    });
+    let categories = [];
+    if (every(this.state.categories, 'active')) {
+      categories = this.state.categories.map(c => {
+        if (c.name !== category.name) {
+          c.active = false;
+        } else {
+          c.active = true;
+        }
+        return c;
+      });
+    } else {
+      categories = this.state.categories.map(c => {
+        if (c.name !== category.name) return c;
+        return { ...c, active: !c.active };
+      });
+    }
 
     this.setState({ categories });
   };

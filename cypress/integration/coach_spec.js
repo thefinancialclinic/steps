@@ -191,7 +191,7 @@ describe('Coach', () => {
       method: 'POST',
       url: `${API_URL}/tasks`,
       body: {
-        title: 'Debt Task',
+        title: 'Debt task',
         category: 'Debt',
         user_id: null,
         status: 'ACTIVE',
@@ -344,13 +344,16 @@ describe('Coach', () => {
         cy.get('div[title="John Doe"]').click();
         cy.contains('Add New Task').click();
         cy.contains('Credit').click();
-        cy.contains('Debt').click();
         cy.get('.add-tasks-list')
           .invoke('text')
-          .should('not.contain', 'Credit task');
+          .should('contain', 'Credit task');
         cy.get('.add-tasks-list')
           .invoke('text')
           .should('not.contain', 'Debt task');
+        cy.contains('Debt').click();
+        cy.get('.add-tasks-list')
+          .invoke('text')
+          .should('contain', 'Debt task');
       });
 
       it('Edit task content', () => {
