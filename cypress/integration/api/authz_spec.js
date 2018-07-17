@@ -349,7 +349,47 @@ describe('Authorization', () => {
     requestWithFail('GET', `/messages/${messageId3}`);
   });
 
+  describe('Superadmin capabilities', () => {
+    describe('/postgraphile/graphql', () => {
+      it('Superadmin can access GraphQL', () => {
+        request(
+          'POST',
+          `/postgraphile/graphql`,
+          {
+            query: '{userById(id:1) {id}}',
+            variables: null,
+            operationName: null,
+          },
+          {
+            'X-UserId': superAdminId,
+          },
+        ).then(resp => {
+          expect(resp.status).to.equal(200);
+        });
+      });
+    });
+  });
+
   describe('Admin capabilities', () => {
+    describe('/postgraphile/graphql', () => {
+      it('Admin cannot access GraphQL', () => {
+        request(
+          'POST',
+          `/postgraphile/graphql`,
+          {
+            query: '{userById(id:1) {id}}',
+            variables: null,
+            operationName: null,
+          },
+          {
+            'X-UserId': adminId1,
+          },
+        ).then(resp => {
+          expect(resp.status).to.equal(403);
+        });
+      });
+    });
+
     describe('/clients', () => {
       it('Admin 1 views clients in own org', () => {
         request('GET', `/clients`, null, {
@@ -790,6 +830,25 @@ describe('Authorization', () => {
   }); // Admin capabilities
 
   describe('Coach capabilities', () => {
+    describe('/postgraphile/graphql', () => {
+      it('Coach cannot access GraphQL', () => {
+        request(
+          'POST',
+          `/postgraphile/graphql`,
+          {
+            query: '{userById(id:1) {id}}',
+            variables: null,
+            operationName: null,
+          },
+          {
+            'X-UserId': coachId1,
+          },
+        ).then(resp => {
+          expect(resp.status).to.equal(403);
+        });
+      });
+    });
+
     describe('/clients', () => {
       it('Coach 1 views all clients', () => {
         request('GET', `/clients`, null, {
@@ -1285,6 +1344,25 @@ describe('Authorization', () => {
   }); // Coach capabilities
 
   describe('Client capabilities', () => {
+    describe('/postgraphile/graphql', () => {
+      it('Client cannot access GraphQL', () => {
+        request(
+          'POST',
+          `/postgraphile/graphql`,
+          {
+            query: '{userById(id:1) {id}}',
+            variables: null,
+            operationName: null,
+          },
+          {
+            'X-UserId': clientId1,
+          },
+        ).then(resp => {
+          expect(resp.status).to.equal(403);
+        });
+      });
+    });
+
     describe('/clients', () => {
       it('Client 1 views self', () => {
         request('GET', `/clients/${clientId1}`, null, {
