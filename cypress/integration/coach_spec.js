@@ -344,13 +344,15 @@ describe('Coach', () => {
         cy.get('div[title="John Doe"]').click();
         cy.contains('Add New Task').click();
         cy.contains('Credit').click();
-        cy.contains('Debt').click();
         cy.get('.add-tasks-list')
           .invoke('text')
-          .should('not.contain', 'Credit task');
+          .should('contain', 'Credit task');
         cy.get('.add-tasks-list')
           .invoke('text')
           .should('not.contain', 'Debt task');
+        cy.contains('Debt').click()
+          .invoke('text')
+          .should('contain', 'Debt task');
       });
 
       it('Edit task content', () => {
