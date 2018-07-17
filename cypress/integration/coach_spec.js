@@ -191,7 +191,7 @@ describe('Coach', () => {
       method: 'POST',
       url: `${API_URL}/tasks`,
       body: {
-        title: 'Debt Task',
+        title: 'Debt task',
         category: 'Debt',
         user_id: null,
         status: 'ACTIVE',
@@ -350,7 +350,8 @@ describe('Coach', () => {
         cy.get('.add-tasks-list')
           .invoke('text')
           .should('not.contain', 'Debt task');
-        cy.contains('Debt').click()
+        cy.contains('Debt').click();
+        cy.get('.add-tasks-list')
           .invoke('text')
           .should('contain', 'Debt task');
       });
