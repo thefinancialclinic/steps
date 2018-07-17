@@ -69,7 +69,6 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
         goals: ['walk', 'run'],
         status: 'AWAITING_HELP',
         type: 'Client',
-        updated: new Date(),
         platform: 'SMS',
         follow_up_date: new Date(),
         checkin_times: [],
