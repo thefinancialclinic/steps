@@ -20,6 +20,17 @@ interface Props {
 }
 
 class UserLayout extends React.Component<Props, {}> {
+  componentDidMount() {
+    // Zendesk chat widget should not be shown if
+    // user is a client. widget is loaded in (root)/index.tsx.
+    if (
+      process.env.NODE_ENV === 'production' &&
+      window.zE &&
+      this.props.user.type === 'Client'
+    )
+      window.zE.hide();
+  }
+
   editClientProfile = () => {
     this.props.actions.showModal(EDIT_PROFILE);
   };

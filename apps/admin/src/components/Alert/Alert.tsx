@@ -40,6 +40,8 @@ const StyledAlert = styled<{ level: AlertLevel }, 'div'>('div')`
   background-color: ${({ level }) => alertColor(level)};
   color: ${white};
   padding: 0.75rem;
+  position: relative;
+  z-index: 9999;
 `;
 
 export const CloseIcon = styled.i`

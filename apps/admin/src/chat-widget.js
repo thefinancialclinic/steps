@@ -1,4 +1,20 @@
-/*<![CDATA[*/ window.zE ||
+/*<![CDATA[*/
+
+// for more customization settings, see https://developer.zendesk.com/embeddables/docs/widget/zesettings
+window.zESettings = {
+  webWidget: {
+    launcher: {
+      chatLabel: {
+        '*': 'IDEO',
+      },
+    },
+    offset: {
+      horizontal: '100px',
+    },
+  },
+};
+
+window.zE ||
   (function(e, t, s) {
     var n = (window.zE = window.zEmbed = function() {
         n._.push(arguments);

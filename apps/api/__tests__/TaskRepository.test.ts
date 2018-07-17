@@ -80,6 +80,7 @@ describe('Task entity operations', () => {
   it('Tasks have an order field (and are sorted by it)', async () => {
     // subtle: fixture has order=2 & is created first, the task here has order=1
     const subjects = await repo.get({});
-    expect(subjects.map(task => task.order)).toEqual([1, 2]);
+    const expected = subjects.map(t => t.order).sort();
+    expect(subjects.map(task => task.order)).toEqual(expected);
   });
 });
