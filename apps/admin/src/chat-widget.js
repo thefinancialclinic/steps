@@ -9,7 +9,7 @@ window.zESettings = {
       },
     },
     offset: {
-      horizontal: '100px',
+      vertical: '35px',
     },
   },
 };

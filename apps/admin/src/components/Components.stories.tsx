@@ -77,7 +77,6 @@ export const Components = storiesOf('Components', module)
         color: null,
         goals: [],
         status: 'WORKING',
-        updated: null,
         platform: 'SMS',
         image: null,
         follow_up_date: null,
@@ -148,7 +147,9 @@ export const Components = storiesOf('Components', module)
       ]}
     />
   ))
-  .add('NameCard', () => <NameCard title={text('Title', 'Matthew Epler')} />)
+  .add('NameCard', () => (
+    <NameCard title={text('Title', 'Matthew Epler')} status="WORKING" />
+  ))
   .add('NavDropdown', () => (
     <NavDropdown
       title="Coach Name"

@@ -38,7 +38,6 @@ describe('Authorization', () => {
         goals: [],
         status: 'AWAITING_HELP',
         type: 'Superadmin',
-        updated: new Date(),
       },
       headers: { 'X-UserId': 1 },
     }).then(resp => {
@@ -96,7 +95,6 @@ describe('Authorization', () => {
           goals: [],
           status: 'AWAITING_HELP',
           type: 'Admin',
-          updated: new Date(),
         }).then(resp => {
           adminId1 = resp.body.id;
         }); // admin 1
@@ -111,7 +109,6 @@ describe('Authorization', () => {
           goals: [],
           status: 'AWAITING_HELP',
           type: 'Coach',
-          updated: new Date(),
         }).then(resp => {
           coachId1 = resp.body.id;
 
@@ -126,7 +123,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           }).then(resp => {
             clientId1 = resp.body.id;
 
@@ -173,7 +169,6 @@ describe('Authorization', () => {
           goals: [],
           status: 'AWAITING_HELP',
           type: 'Coach',
-          updated: new Date(),
         }).then(resp => {
           coachId3 = resp.body.id;
 
@@ -188,7 +183,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           }).then(resp => {
             clientId3 = resp.body.id;
 
@@ -244,7 +238,6 @@ describe('Authorization', () => {
           goals: [],
           status: 'AWAITING_HELP',
           type: 'Admin',
-          updated: new Date(),
         }).then(resp => {
           adminId2 = resp.body.id;
         });
@@ -259,7 +252,6 @@ describe('Authorization', () => {
           goals: [],
           status: 'AWAITING_HELP',
           type: 'Coach',
-          updated: new Date(),
         }).then(resp => {
           coachId2 = resp.body.id;
 
@@ -274,7 +266,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           }).then(resp => {
             clientId2 = resp.body.id;
 
@@ -358,7 +349,47 @@ describe('Authorization', () => {
     requestWithFail('GET', `/messages/${messageId3}`);
   });
 
+  describe('Superadmin capabilities', () => {
+    describe('/postgraphile/graphql', () => {
+      it('Superadmin can access GraphQL', () => {
+        request(
+          'POST',
+          `/postgraphile/graphql`,
+          {
+            query: '{userById(id:1) {id}}',
+            variables: null,
+            operationName: null,
+          },
+          {
+            'X-UserId': superAdminId,
+          },
+        ).then(resp => {
+          expect(resp.status).to.equal(200);
+        });
+      });
+    });
+  });
+
   describe('Admin capabilities', () => {
+    describe('/postgraphile/graphql', () => {
+      it('Admin cannot access GraphQL', () => {
+        request(
+          'POST',
+          `/postgraphile/graphql`,
+          {
+            query: '{userById(id:1) {id}}',
+            variables: null,
+            operationName: null,
+          },
+          {
+            'X-UserId': adminId1,
+          },
+        ).then(resp => {
+          expect(resp.status).to.equal(403);
+        });
+      });
+    });
+
     describe('/clients', () => {
       it('Admin 1 views clients in own org', () => {
         request('GET', `/clients`, null, {
@@ -385,7 +416,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           },
           {
             'X-UserId': adminId1,
@@ -410,7 +440,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           },
           {
             'X-UserId': adminId1,
@@ -478,7 +507,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           },
           {
             'X-UserId': adminId1,
@@ -590,7 +618,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Coach',
-            updated: new Date(),
           },
           {
             'X-UserId': adminId1,
@@ -614,7 +641,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Coach',
-            updated: new Date(),
           },
           {
             'X-UserId': adminId1,
@@ -680,7 +706,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Coach',
-            updated: new Date(),
           },
           {
             'X-UserId': adminId1,
@@ -805,6 +830,25 @@ describe('Authorization', () => {
   }); // Admin capabilities
 
   describe('Coach capabilities', () => {
+    describe('/postgraphile/graphql', () => {
+      it('Coach cannot access GraphQL', () => {
+        request(
+          'POST',
+          `/postgraphile/graphql`,
+          {
+            query: '{userById(id:1) {id}}',
+            variables: null,
+            operationName: null,
+          },
+          {
+            'X-UserId': coachId1,
+          },
+        ).then(resp => {
+          expect(resp.status).to.equal(403);
+        });
+      });
+    });
+
     describe('/clients', () => {
       it('Coach 1 views all clients', () => {
         request('GET', `/clients`, null, {
@@ -935,7 +979,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Client',
-            updated: new Date(),
           },
           {
             'X-UserId': coachId1,
@@ -1117,7 +1160,6 @@ describe('Authorization', () => {
             goals: [],
             status: 'AWAITING_HELP',
             type: 'Coach',
-            updated: new Date(),
           },
           {
             'X-UserId': coachId1,
@@ -1302,6 +1344,25 @@ describe('Authorization', () => {
   }); // Coach capabilities
 
   describe('Client capabilities', () => {
+    describe('/postgraphile/graphql', () => {
+      it('Client cannot access GraphQL', () => {
+        request(
+          'POST',
+          `/postgraphile/graphql`,
+          {
+            query: '{userById(id:1) {id}}',
+            variables: null,
+            operationName: null,
+          },
+          {
+            'X-UserId': clientId1,
+          },
+        ).then(resp => {
+          expect(resp.status).to.equal(403);
+        });
+      });
+    });
+
     describe('/clients', () => {
       it('Client 1 views self', () => {
         request('GET', `/clients/${clientId1}`, null, {

@@ -78,7 +78,7 @@ const CloseOnOutsideClickDropdown = onClickOutside(Dropdown);
 
 const StyledDropdown = styled<Props>(CloseOnOutsideClickDropdown)`
   .dropdown {
-    z-index: 1;
+    z-index: 10;
   }
 
   .dropdown-toggle {
