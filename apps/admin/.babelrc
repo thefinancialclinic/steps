@@ -7,6 +7,5 @@
         "useBuiltIns": true
       }
     ]
-  ],
-  "plugins": ["transform-object-assign"]
+  ]
 }
