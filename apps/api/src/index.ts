@@ -43,7 +43,7 @@ const isCI = CI && JSON.parse(CI) === true;
 const port = PORT || '3001';
 const localConnString = 'postgres://postgres@localhost:5432/steps_admin_test';
 
-const databaseUrl = `${DATABASE_URL}?sslmode=require` || localConnString;
+const databaseUrl = DATABASE_URL || localConnString;
 const connUrl = url.parse(databaseUrl);
 const buildPath = resolve(__dirname, '..', '..', 'admin', '.build');
 const publicPath = resolve(__dirname, '..', 'public');
