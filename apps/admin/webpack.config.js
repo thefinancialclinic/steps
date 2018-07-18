@@ -28,7 +28,7 @@ const baseConfig = {
       },
       {
         test: /\.tsx?$/,
-        use: ['babel-loader', 'awesome-typescript-loader'],
+        use: ['awesome-typescript-loader'],
         exclude: [
           'node_modules',
           '__tests__',
@@ -117,7 +117,6 @@ const baseConfig = {
 const devConfig = merge.smart(baseConfig, {
   entry: {
     app: [
-      'babel-polyfill',
       'react-hot-loader/patch',
       'webpack/hot/only-dev-server',
       './src/index.tsx',
@@ -146,7 +145,7 @@ const devConfig = merge.smart(baseConfig, {
 
 const productionConfig = merge.smart(baseConfig, {
   entry: {
-    app: ['babel-polyfill', `${SRC}/index.tsx`],
+    app: [`${SRC}/index.tsx`],
   },
   output: {
     filename: '[name].[hash].bundle.js',
