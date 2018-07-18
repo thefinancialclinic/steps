@@ -20,7 +20,6 @@ interface Props {
 }
 
 class UserLayout extends React.Component<Props, {}> {
-
   editClientProfile = () => {
     this.props.actions.showModal(EDIT_PROFILE);
   };
