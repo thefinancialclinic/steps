@@ -47,7 +47,7 @@ class TaskDetails extends React.Component<Props> {
 
   undoDelete = () => {
     const { actions, history, task } = this.props;
-
+    delete task.id;
     actions.addTask(task).then(() => {
       actions.hideModal(DELETE_TASK_MODAL);
       history.goBack();
