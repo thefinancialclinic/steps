@@ -65,6 +65,7 @@ export default () => injectGlobal`
   }
 
   #root {
+    display: flex;
     min-height: 100%;
   }
 
