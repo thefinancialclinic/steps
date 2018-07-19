@@ -27,7 +27,9 @@ Cypress.Commands.add('clearJohnDoe', () => {
     url: `${API_URL}/clients`,
     headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
   }).then(({ body: clients }) => {
-    const testClients = clients.filter(c => c.email === 'client@example.com');
+    const testClients = clients.filter(c =>
+      c.email.match(/client[0-9]+@example.com/),
+    );
     testClients.forEach(c => {
       console.log({ c });
       cy.request({
@@ -248,7 +250,9 @@ describe('Coach', () => {
 
       cy.get('input[name=first_name]').type('John');
       cy.get('input[name=last_name]').type('Doe');
-      cy.get('input[name=email]').type('client@example.com');
+      cy.get('input[name=email]').type(
+        'client' + new Date().getTime() + '@example.com',
+      );
       cy.get('input[name=phone]').type('1234567890');
       cy.contains('Save').click();
       cy.contains('Text START to (646) 798-8004 to get started.');
@@ -264,7 +268,7 @@ describe('Coach', () => {
         body: {
           first_name: 'Needs',
           last_name: 'Help',
-          email: 'client@example.com',
+          email: 'client' + new Date().getTime() + '@example.com',
           status: 'AWAITING_HELP',
           org_id: org,
           coach_id: coach,
@@ -747,7 +751,7 @@ describe('Coach', () => {
           .type('Doe');
         cy.get('input[name="email"]')
           .clear()
-          .type('client@example.com');
+          .type('client' + new Date().getTime() + '@example.com');
         cy.get('input[name="phone"]')
           .clear()
           .type('1234567890');
