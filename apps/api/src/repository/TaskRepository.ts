@@ -155,6 +155,7 @@ export class TaskRepository implements Repository<TaskId, Task> {
         FROM task
         WHERE user_id is null
         AND created_by is null
+        ORDER BY task.title
       `,
       );
       return res.rows.map(row => new Task(row));
