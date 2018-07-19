@@ -172,7 +172,7 @@ const userIdAuthMiddleware = (req, res, next) => {
     });
 };
 
-const middlewareForEnivronment = controller => {
+const middlewareForEnvironment = controller => {
   if (enableAuth0) {
     return [
       checkJwt, // JWT -> adds req.token
@@ -199,7 +199,7 @@ const sendStandardError = (res, error: Error) => {
 Routes.forEach(route => {
   (app as any)[route.method](
     route.route,
-    ...middlewareForEnivronment(route.controller),
+    ...middlewareForEnvironment(route.controller),
     async (req: Request, res: Response, next: Function) => {
       const controller = new route.controller() as any;
       try {
@@ -252,7 +252,7 @@ app.get('/api/orgs/:id', async (req, res, next) => {
 if (enablePostgraphile) {
   app.use(
     '/api/postgraphile',
-    ...middlewareForEnivronment(GraphQLController),
+    ...middlewareForEnvironment(GraphQLController),
     postgraphile(databaseUrl, 'public'),
   );
 }
