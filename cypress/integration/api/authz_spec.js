@@ -32,7 +32,7 @@ describe('Authorization', () => {
       body: {
         first_name: 'Superadmin',
         last_name: 'Superadmin last name',
-        email: 'superadmin@example.com',
+        email: 'superadmin' + new Date().getTime() + '@example.com',
         org_id: 1,
         color: 'red',
         goals: [],
@@ -89,7 +89,7 @@ describe('Authorization', () => {
         requestWithFail('POST', '/users', {
           first_name: 'Admin',
           last_name: 'Org1',
-          email: 'admin1@example.com',
+          email: 'admin' + new Date().getTime() + '@example.com',
           org_id: orgId1,
           color: 'green',
           goals: [],
@@ -103,7 +103,7 @@ describe('Authorization', () => {
         requestWithFail('POST', '/users', {
           first_name: 'Coach',
           last_name: 'Org1',
-          email: 'coach1@example.com',
+          email: 'coach' + new Date().getTime() + '@example.com',
           org_id: orgId1,
           color: 'green',
           goals: [],
@@ -116,7 +116,7 @@ describe('Authorization', () => {
           requestWithFail('POST', '/users', {
             first_name: 'Client',
             last_name: 'Org1',
-            email: 'client1@example.com',
+            email: 'client' + new Date().getTime() + '@example.com',
             org_id: orgId1,
             coach_id: coachId1,
             color: 'green',
@@ -163,7 +163,7 @@ describe('Authorization', () => {
         requestWithFail('POST', '/users', {
           first_name: 'Coach',
           last_name: 'Org1',
-          email: 'coach1@example.com',
+          email: 'coach' + new Date().getTime() + '@example.com',
           org_id: orgId1,
           color: 'green',
           goals: [],
@@ -176,7 +176,7 @@ describe('Authorization', () => {
           requestWithFail('POST', '/users', {
             first_name: 'Client',
             last_name: 'Org1',
-            email: 'client1@example.com',
+            email: 'client' + new Date().getTime() + '@example.com',
             org_id: orgId1,
             coach_id: coachId3,
             color: 'green',
@@ -232,7 +232,7 @@ describe('Authorization', () => {
         requestWithFail('POST', '/users', {
           first_name: 'Admin',
           last_name: 'Org2',
-          email: 'admin2@example.com',
+          email: 'admin' + new Date().getTime() + '@example.com',
           org_id: orgId2,
           color: 'green',
           goals: [],
@@ -246,7 +246,7 @@ describe('Authorization', () => {
         requestWithFail('POST', '/users', {
           first_name: 'Coach',
           last_name: 'Org2',
-          email: 'coach2@example.com',
+          email: 'coach' + new Date().getTime() + '@example.com',
           org_id: orgId2,
           color: 'red',
           goals: [],
@@ -259,7 +259,7 @@ describe('Authorization', () => {
           requestWithFail('POST', '/users', {
             first_name: 'Client',
             last_name: 'Org2',
-            email: 'client2@example.com',
+            email: 'client' + new Date().getTime() + '@example.com',
             org_id: orgId2,
             coach_id: coachId2,
             color: 'green',
@@ -612,7 +612,7 @@ describe('Authorization', () => {
           {
             first_name: 'Coach',
             last_name: 'Org1',
-            email: 'coach1@example.com',
+            email: 'coach' + new Date().getTime() + '@example.com',
             org_id: orgId1,
             color: 'red',
             goals: [],
@@ -635,7 +635,7 @@ describe('Authorization', () => {
           {
             first_name: 'Coach',
             last_name: 'Org1',
-            email: 'coach1@example.com',
+            email: 'coach' + new Date().getTime() + '@example.com',
             org_id: orgId2,
             color: 'red',
             goals: [],
@@ -700,7 +700,7 @@ describe('Authorization', () => {
           {
             first_name: 'Coach',
             last_name: 'Org1',
-            email: 'coach1@example.com',
+            email: 'coach' + new Date().getTime() + '@example.com',
             org_id: orgId1,
             color: 'red',
             goals: [],
@@ -1154,7 +1154,7 @@ describe('Authorization', () => {
           {
             first_name: 'Coach',
             last_name: 'Org1',
-            email: 'coach1@example.com',
+            email: 'coach' + new Date().getTime() + '@example.com',
             org_id: orgId1,
             color: 'red',
             goals: [],
