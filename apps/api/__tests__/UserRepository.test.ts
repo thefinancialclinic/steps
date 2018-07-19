@@ -13,7 +13,7 @@ describe('User entity operations', () => {
     user = await repo.save({
       first_name: 'FIRST',
       last_name: 'LAST',
-      email: 'EMAIL',
+      email: `EMAIL+${new Date().getTime()}@EXAMPLE.COM`,
       phone: 'PHONE',
       org_id: fixtures.org.id,
       color: 'COLOR',

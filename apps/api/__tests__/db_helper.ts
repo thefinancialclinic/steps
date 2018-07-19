@@ -62,7 +62,7 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
       user = await new UserRepository(pool).save({
         first_name: 'FIRST',
         last_name: 'LAST',
-        email: 'EMAIL',
+        email: `EMAIL+${new Date().getTime()}@EXAMPLE.COM`,
         phone: 'PHONE',
         org_id: org.id,
         color: 'COLOR',
