@@ -1,3 +1,5 @@
+import uuid from 'uuid4';
+
 const { API_URL, AUTH0_BEARER_TOKEN } = Cypress.env();
 let user, org, coach, task, client, superadmin, request, incomeTask, creditTask;
 let tokens;
@@ -251,7 +253,7 @@ describe('Coach', () => {
       cy.get('input[name=first_name]').type('John');
       cy.get('input[name=last_name]').type('Doe');
       cy.get('input[name=email]').type(
-        'client' + new Date().getTime() + '@example.com',
+        'client' + uuid() + '@example.com',
       );
       cy.get('input[name=phone]').type('1234567890');
       cy.contains('Save').click();
@@ -268,7 +270,7 @@ describe('Coach', () => {
         body: {
           first_name: 'Needs',
           last_name: 'Help',
-          email: 'client' + new Date().getTime() + '@example.com',
+          email: 'client' + uuid() + '@example.com',
           status: 'AWAITING_HELP',
           org_id: org,
           coach_id: coach,
@@ -751,7 +753,7 @@ describe('Coach', () => {
           .type('Doe');
         cy.get('input[name="email"]')
           .clear()
-          .type('client' + new Date().getTime() + '@example.com');
+          .type('client' + uuid() + '@example.com');
         cy.get('input[name="phone"]')
           .clear()
           .type('1234567890');

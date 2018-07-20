@@ -1,6 +1,7 @@
 import { UserRepository, User } from '../src/repository/UserRepository';
 import { TaskRepository, Task } from '../src/repository/TaskRepository';
 import { fixtures, getTestConnectionPool, Pool } from './db_helper';
+import uuid from 'uuid4';
 
 describe('User entity operations', () => {
   let pool: Pool;
@@ -13,7 +14,7 @@ describe('User entity operations', () => {
     user = await repo.save({
       first_name: 'FIRST',
       last_name: 'LAST',
-      email: `EMAIL+${new Date().getTime()}@EXAMPLE.COM`,
+      email: `EMAIL+${uuid()}@EXAMPLE.COM`,
       phone: 'PHONE',
       org_id: fixtures.org.id,
       color: 'COLOR',
