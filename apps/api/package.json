@@ -38,6 +38,7 @@
     "raven": "^2.6.3",
     "reflect-metadata": "^0.1.12",
     "serve-favicon": "^2.5.0",
+    "uuid4": "^1.0.0",
     "winston": "^3.0.0",
     "winston-transport-sentry": "^1.0.0"
   },
