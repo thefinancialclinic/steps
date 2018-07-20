@@ -1,6 +1,7 @@
 import TopBar from 'components/TopBar';
 import Alert from 'containers/Alert';
 import React from 'react';
+import { Flex } from 'grid-styled';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { User } from 'reducers/auth';
 import { RoutesElement } from '../index';
@@ -8,6 +9,7 @@ import Clients from './Clients/List';
 import ClientNew from './Clients/New';
 import ClientProfile from './Clients/Profile';
 import Home from './Home';
+import Flex100 from 'atoms/Flex100';
 
 type Props = {
   history: any;
@@ -16,7 +18,7 @@ type Props = {
 
 const Coach: RoutesElement = ({ user, org }) => {
   return (
-    <div>
+    <Flex100 flexDirection="column" width={1}>
       <TopBar user={user} org={org} />
       <Alert />
 
@@ -27,7 +29,7 @@ const Coach: RoutesElement = ({ user, org }) => {
         <Route exact path="/" component={Home} />
         <Route render={_props => <Redirect to="/" />} />
       </Switch>
-    </div>
+    </Flex100>
   );
 };
 

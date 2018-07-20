@@ -42,6 +42,8 @@ export const orderTasks = tasks => async dispatch => {
 export const SET_TASK_STATUS = 'SET_TASK_STATUS';
 export const setTaskStatus = (task, status): DispatchFn => async dispatch => {
   const newTask = { ...task, status };
+  if (status === 'COMPLETED') newTask.date_completed = new Date().toISOString();
+  if (status === 'ACTIVE') newTask.date_completed = null;
   delete newTask.steps;
   try {
     await api.put(`/tasks/${task.id}`, newTask);
@@ -76,17 +78,17 @@ export const deleteTask = (id): DispatchFn => async dispatch => {
 export const ADD_TASK = 'ADD_TASK';
 export const addTask = (task): DispatchFn => async dispatch => {
   try {
+    const today = new Date()
+      .toISOString()
+      .slice(0, 19)
+      .replace('T', ' ');
     const contents = {
       title: task.title,
       description: task.description || '',
       steps: task.steps || {},
       category: task.category || 'custom',
-      date_created:
-        task.date_created ||
-        new Date()
-          .toISOString()
-          .slice(0, 19)
-          .replace('T', ' '),
+      date_created: task.date_created || today,
+      date_assigned: task.date_assigned || today,
       status: task.status || 'ACTIVE',
       created_by: parseInt(task.created_by),
       user_id: parseInt(task.user_id) || null,
