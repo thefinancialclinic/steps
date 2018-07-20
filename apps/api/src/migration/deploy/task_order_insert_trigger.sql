@@ -3,12 +3,11 @@
 
 BEGIN;
 
-
 CREATE FUNCTION assign_task_order() RETURNS trigger AS $$
   DECLARE
     next_order INTEGER;
   BEGIN
-    SELECT COALESCE(MAX("order"), 0) + 1 FROM task INTO next_order; 
+    SELECT COALESCE(MAX("order"), -1) + 1 FROM task WHERE task.user_id = NEW.user_id INTO next_order;
     NEW.order := next_order;
     RETURN NEW;
   END;
