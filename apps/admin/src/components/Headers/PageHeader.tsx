@@ -16,6 +16,7 @@ const PageHeader: React.SFC<Props> = ({ children, label }) => (
 
 const StyledHeading = styled.h1`
   font-size: 60px;
+  margin: 0;
 `;
 
 export default PageHeader;
