@@ -274,7 +274,7 @@ export class UserRepository implements Repository<UserId, User> {
       `
       INSERT INTO "user" (id, first_name, last_name, email, org_id, color, status, "type", auth0_id)
       VALUES (1, 'Super', 'Admin', 'superadmin@example.com', 1, 'blue', 'WORKING', 'Superadmin', $1)
-      ON CONFLICT (id) DO NOTHING;
+      ON CONFLICT DO NOTHING;
     `,
       [idToken],
     );
