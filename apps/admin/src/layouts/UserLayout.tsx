@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { EDIT_PROFILE } from 'routes/Coach/Clients/EditProfile';
 import styled from 'styled-components';
 import { USER_TYPE, User } from '../reducers/auth';
+import Flex100 from 'atoms/Flex100';
 
 interface Props {
   actions?: { showModal };
@@ -36,9 +37,9 @@ class UserLayout extends React.Component<Props, {}> {
     if (!user) return null;
 
     return (
-      <StyledClient>
-        <Flex>
-          <Box width={[1, 1 / 3]}>
+      <Flex100>
+        <Flex100>
+          <Box width={[1, 1 / 3, 1 / 5]}>
             <Sidebar links={links}>
               {role !== USER_TYPE.CLIENT && (
                 <EditButton onClick={this.editClientProfile} />
@@ -48,15 +49,14 @@ class UserLayout extends React.Component<Props, {}> {
               </h2>
             </Sidebar>
           </Box>
-          <Box width={[1, 2 / 3]} m={4} className="content">
+          <Box width={[1, 2 / 3, 4 / 5]} m={4} className="content">
             <Component user={user} {...rest} />
           </Box>
-        </Flex>
-      </StyledClient>
+        </Flex100>
+      </Flex100>
     );
   }
 }
-const StyledClient = styled.div``;
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ showModal }, dispatch),
