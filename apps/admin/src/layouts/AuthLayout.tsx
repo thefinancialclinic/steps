@@ -6,20 +6,23 @@ import { Box, Flex } from 'grid-styled';
 import { svgBackgroundImageUrl } from 'styles';
 import { darkBlue } from 'styles/colors';
 import Alert from 'containers/Alert';
+import Flex100 from 'atoms/Flex100';
 
 class AuthLayout extends React.Component<any, any> {
   render() {
     return (
-      <div>
+      <Flex100 height={1}>
         <Alert />
-        <Flex flexWrap="wrap">
+        <Flex100 flexWrap="wrap" height={1}>
           <Box width={[1, 3 / 4]}>
             <Header>A brighter financial future starts today</Header>
             <BackgroundImage />
           </Box>
-          <Box width={[1, 1 / 4]}>{this.props.children}</Box>
-        </Flex>
-      </div>
+          <Box width={[1, 1 / 4]} height="100%">
+            {this.props.children}
+          </Box>
+        </Flex100>
+      </Flex100>
     );
   }
 }

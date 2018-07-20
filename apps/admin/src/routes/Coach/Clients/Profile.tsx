@@ -17,6 +17,7 @@ import TaskEdit from './ProfileTaskEdit';
 import TaskShow from './ProfileTaskShow';
 import Tasks from './ProfileTasksList';
 import { ModalSize } from 'components/Modal';
+import Flex100 from 'atoms/Flex100';
 
 type Params = {
   id: number;
@@ -49,7 +50,7 @@ class Client extends React.Component<Props, {}> {
       composeUserLayout(Component, { links, user, role });
 
     return (
-      <div>
+      <Flex100>
         <Switch>
           <Route path="/clients/:id/chat" render={composeLayout(Chat)} />
           <Route path="/clients/:id/goals" render={composeLayout(Goals)} />
@@ -83,7 +84,7 @@ class Client extends React.Component<Props, {}> {
         <Modal id={EDIT_PROFILE} size={ModalSize.Medium}>
           <EditProfile client={user} />
         </Modal>
-      </div>
+      </Flex100>
     );
   }
 }
