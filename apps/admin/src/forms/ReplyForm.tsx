@@ -16,17 +16,24 @@ interface Props {
 const ReplyForm: React.SFC<Props> = ({ onSubmit }) => (
   <Form
     onSubmit={onSubmit}
-    render={({ handleSubmit }) => (
-      <StyledForm onSubmit={handleSubmit}>
-        <Panel>
-          <Status color={grey}>Reply</Status>
-          <Textarea name="reply" />
-          <Flex justifyContent="center">
-            <Button>Reply</Button>
-          </Flex>
-        </Panel>
-      </StyledForm>
-    )}
+    render={({ handleSubmit, form }) => {
+      const submit = e => {
+        handleSubmit(e);
+        form.reset();
+      };
+
+      return (
+        <StyledForm onSubmit={submit}>
+          <Panel>
+            <Status color={grey}>Reply</Status>
+            <Textarea name="reply" />
+            <Flex justifyContent="center">
+              <Button>Reply</Button>
+            </Flex>
+          </Panel>
+        </StyledForm>
+      );
+    }}
   />
 );
 

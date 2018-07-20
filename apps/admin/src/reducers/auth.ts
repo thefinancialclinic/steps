@@ -40,8 +40,8 @@ export type User = {
   platform?: string;
   status?: string;
   type: null | USER_TYPE;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 };
 
 export interface State {
