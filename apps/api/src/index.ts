@@ -66,7 +66,7 @@ export const pool = new Pool({
   host: connUrl.hostname,
   database: connUrl.pathname.slice(1), // drop leading slash
   port: parseInt(connUrl.port),
-  max: 20,
+  max: 120,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
 });
