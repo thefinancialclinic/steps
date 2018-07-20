@@ -77,14 +77,18 @@ class Clients extends React.Component<Props, {}> {
     }
     return (
       <Main className={className}>
-        <BackButtonContainer>
-          <BackButton to="/" />
-        </BackButtonContainer>
-        <PageHeader label="My Clients">
-          <Link to="/clients/new">
-            <Button>Add New Client</Button>
-          </Link>
-        </PageHeader>
+        <Box mb="20px">
+          <BackButtonContainer>
+            <BackButton to="/" />
+          </BackButtonContainer>
+        </Box>
+        <Box mb="50px">
+          <PageHeader label="My Clients">
+            <Link to="/clients/new">
+              <Button>Add New Client</Button>
+            </Link>
+          </PageHeader>
+        </Box>
         {ClientsList}
       </Main>
     );
@@ -110,6 +114,7 @@ const GroupTitle = styled.h4`
   font-size: ${remCalc(16)};
   font-weight: 500;
   margin-bottom: ${remCalc(10)};
+  margin-top: 0;
   text-transform: uppercase;
 
   .count {
