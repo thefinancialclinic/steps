@@ -8,19 +8,6 @@ const taskTitle = 'The ultra awesome task';
 const COACH_EMAIL = 'connor+steps-cypress-coach@8thlight.com';
 const COACH_AUTH0_ID = '5b3307d352e65360e5e0e13b';
 
-Cypress.Commands.add('cleanCoach', () => {
-  cy.request({
-    method: 'DELETE',
-    url: `${API_URL}/coaches/${coach}`,
-    headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
-  });
-  cy.request({
-    method: 'DELETE',
-    url: `${API_URL}/orgs/${org}`,
-    headers: { Authorization: `Bearer ${AUTH0_BEARER_TOKEN}` },
-  });
-});
-
 Cypress.Commands.add('clearJohnDoe', () => {
   cy.log('Clean up test data');
 
@@ -227,7 +214,6 @@ describe('Coach', () => {
 
   after(() => {
     cy.clearJohnDoe();
-    cy.cleanCoach();
   });
 
   describe('Login', () => {
