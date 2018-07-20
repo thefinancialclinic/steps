@@ -5,6 +5,7 @@ import {
 } from '../src/repository/MediaRepository';
 import { Org, OrgId, OrgRepository } from '../src/repository/OrgRepository';
 import { Pool } from 'pg';
+import uuid from 'uuid4';
 import {
   RequestRepository,
   RequestId,
@@ -62,7 +63,7 @@ const getTestConnectionPool = async (options?: { createFixtures: boolean }) => {
       user = await new UserRepository(pool).save({
         first_name: 'FIRST',
         last_name: 'LAST',
-        email: 'EMAIL',
+        email: `EMAIL+${uuid()}@EXAMPLE.COM`,
         phone: 'PHONE',
         org_id: org.id,
         color: 'COLOR',
