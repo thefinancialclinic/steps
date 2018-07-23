@@ -39,7 +39,7 @@ class UserLayout extends React.Component<Props, {}> {
 
     return (
       <Flex100>
-        <Flex100 flexWrap={['wrap', null, null]}>
+        <Flex100 flexWrap={['wrap', 'nowrap', 'nowrap']}>
           <Box width={[1, 1, 1 / 3, 1 / 5]}>
             <Sidebar links={links}>
               {role !== USER_TYPE.CLIENT && (
