@@ -38,7 +38,7 @@ export class OrgRepository implements Repository<OrgId, Org> {
     } catch (err) {
       throw `Could not query Orgs (${err})`;
     } finally {
-      client.release();
+      if (client) client.release();
     }
   }
 
