@@ -43,7 +43,7 @@ export class RequestRepository implements Repository<RequestId, RequestItem> {
     } catch (err) {
       throw `Could not query Tasks (${err})`;
     } finally {
-      client.release();
+      if (client) client.release();
     }
   }
 

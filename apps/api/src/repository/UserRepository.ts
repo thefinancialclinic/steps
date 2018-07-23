@@ -173,7 +173,7 @@ export class UserRepository implements Repository<UserId, User> {
     } catch (err) {
       throw `Could not query Users (${err})`;
     } finally {
-      client.release();
+      if (client) client.release();
     }
   }
 
@@ -221,7 +221,7 @@ export class UserRepository implements Repository<UserId, User> {
     } catch (err) {
       throw `Could not update User (${err})`;
     } finally {
-      client.release();
+      if (client) client.release();
     }
   }
 
