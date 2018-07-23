@@ -5,6 +5,7 @@ import { check_if_present } from '../util';
 
 const queryParams = user => {
   return {
+    Superadmin: { type: 'Coach' },
     Admin: { type: 'Coach', org_id: user.org_id },
     Coach: { type: 'Coach', id: user.id },
   }[user.type];
