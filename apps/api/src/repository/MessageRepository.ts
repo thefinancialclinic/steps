@@ -99,7 +99,7 @@ export class MessageRepository implements Repository<MessageId, Message> {
     } catch (err) {
       throw `Could not query Messages (${err})`;
     } finally {
-      client.release();
+      if (client) client.release();
     }
   }
 
