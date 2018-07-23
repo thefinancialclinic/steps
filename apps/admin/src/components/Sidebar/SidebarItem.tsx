@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { resolve } from 'path';
+import { Box, Flex } from 'grid-styled';
+import { display, textAlign } from 'styled-system';
 
 import { green, blue, white } from 'styles/colors';
 
@@ -16,23 +18,42 @@ class SidebarItem extends React.Component<Props, {}> {
     const { children, className, to } = this.props;
 
     return (
-      <NavLink to={resolve(to)} className={className} activeClassName="active">
-        <span>{children}</span>
-        <div className="bar" />
-      </NavLink>
+      <Box mb={[0, '1.5em']} ml={[0, '2em']} width={[1 / 2, 'auto']}>
+        <NavLink
+          to={resolve(to)}
+          className={className}
+          activeClassName="active"
+        >
+          <Text
+            flexDirection={['column', 'row']}
+            justifyContent={['center', 'flex-start']}
+            alignItems={['center']}
+            textAlign={['center', 'left']}
+            width={1}
+          >
+            <span className="text">{children}</span>
+            <Box className="bar" ml={[0, '20px']} mt={['0.5em', 0]} width={1} />
+          </Text>
+        </NavLink>
+      </Box>
     );
   }
 }
+
+const Text = styled(Flex)`
+  ${textAlign};
+`;
 
 const StyledSidebarItem = styled(SidebarItem)`
   color: ${blue};
   display: flex;
   font-size: 1.25em;
-  align-items: center;
   justify-content: stretch;
-  margin-bottom: 1.5em;
-  margin-left: 2em;
   text-decoration: none;
+
+  .text {
+    display: inline-block;
+  }
 
   &.active {
     color: ${green};
@@ -40,7 +61,6 @@ const StyledSidebarItem = styled(SidebarItem)`
     .bar {
       background-color: ${green};
       flex: 2;
-      margin-left: 20px;
       height: 2px;
     }
   }
