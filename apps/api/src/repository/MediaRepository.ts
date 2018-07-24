@@ -64,7 +64,7 @@ export class MediaRepository implements Repository<MediaId, Media> {
     } catch (err) {
       throw `Could not query Media (${err})`;
     } finally {
-      client.release();
+      if (client) client.release();
     }
   }
 
