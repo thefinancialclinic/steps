@@ -31,8 +31,8 @@ interface Props {
 
 export class ClientNew extends React.Component<Props> {
   createClient = (clientData = {}) => {
-    clientData.platform = clientData.platform
-      ? USER_PLATFORM.SMS
+    clientData.platform = clientData.platform === undefined || clientData.platform === false
+      ? null
       : sample(USER_PLATFORM);
 
     this.props.actions
