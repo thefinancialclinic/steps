@@ -252,6 +252,10 @@ app.get('/api/orgs/:id', async (req, res, next) => {
 if (enablePostgraphile) {
   app.use(
     '/api/postgraphile',
+    cors({
+      origin:
+        'http://83jn3-sjka83naichunla-w8823lknsi62gqbzbzerqkbnjrt-walknrgsr587:*',
+    }),
     ...middlewareForEnvironment(GraphQLController),
     postgraphile(databaseUrl, 'public'),
   );
