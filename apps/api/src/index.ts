@@ -254,7 +254,7 @@ if (enablePostgraphile) {
     '/api/postgraphile',
     cors({
       origin:
-        'http://83jn3-sjka83naichunla-w8823lknsi62gqbzbzerqkbnjrt-walknrgsr587:*',
+        'http://83jn3-sjka83naichunla-w8823lknsi62gqbzbzerqkbnjrt-walknrgsr587',
     }),
     ...middlewareForEnvironment(GraphQLController),
     postgraphile(databaseUrl, 'public'),
