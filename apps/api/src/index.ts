@@ -252,6 +252,9 @@ app.get('/api/orgs/:id', async (req, res, next) => {
 if (enablePostgraphile) {
   app.use(
     '/api/postgraphile',
+    cors({
+      origin: /helloroo\.org$/,
+    }),
     ...middlewareForEnvironment(GraphQLController),
     postgraphile(databaseUrl, 'public'),
   );
