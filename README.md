@@ -57,6 +57,14 @@ This creates three files:
 
 Then deploy the migration with `sqitch deploy`.
 
+Here is a real-world scenario:
+
+```
+sqitch add user_add_unique_email -n "[coach] Duplicate emails allowed for Coach and client objects, breaks auth." -r appschema
+```
+
+We use `-r appschema` or `--requires appschema` as a shortcut for run in the order of creation ensuring the DB exists.
+
 ### Refresh with latest build
 
 ```
