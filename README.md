@@ -82,7 +82,7 @@ Change directories to the project root (where this README is).
 Provided that you've installed everything called for in [setup](#setup), run:
 
 ```
-NODE_ENV=development npm start       # run packages in parallel
+NODE_ENV=development npm start    # run packages in parallel
 ```
 
 Now visit <http://localhost:3000>
