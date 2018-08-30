@@ -127,15 +127,23 @@ to access the API. (We issued a token valid for 100 days at launch—if you're r
 
 The machine-to-machine application for the Hello Roo bot is configured under "Applications" on the Auth0 dashboard:
 
+![Auth0 Applications dashboard](docs/applications-dashboard.png?raw=true "Auth0 Applications dashboard")
+
 Click through to the app and you can select the APIs it's authorized to access:
+
+![Hello Roo Bot application](docs/bot-application.png?raw=true "Hello Roo Bot application")
 
 To issue a new token, select the "Hello Roo API" under the "APIs" section of the Auth0 dashboard:
 
+![Auth0 APIs dashboard](docs/api-dashboard.png?raw=true "API dashboard")
+
 The "Settings" tab will allow you to configure token expiration:
+
+![Auth0 APIs dashboard settings tab](docs/settings-tab.png?raw=true "Auth0 APIs dashboard settings tab")
 
 To get a new token by hand, visit the "Test" tab. Making the HTTP request shown there using a tool like [cURL](https://curl.haxx.se/) will return a new valid API token:
 
-Note that the bot can retrieve a new token at any time by issuing the same request! The bot can automate the process of 
-retrieving a new API token: check the [`exp`](https://auth0.com/docs/tokens/access-token) date in the current access token
-on a regular schedule, send an HTTP requsest to get a new one when it's getting old, and start using the new token.
+![Auth0 APIs dashboard test tab](docs/test-tab.png?raw=true "Auth0 APIs dashboard test tab")
+
+Note that the bot can retrieve a new token at any time by issuing this request itself! That means the bot can automate the process of retrieving a new API token: check the [`exp`](https://auth0.com/docs/tokens/access-token) date in the current access token on a regular schedule, send an HTTP requsest to get a new one when it's getting old, and store and use the new token.
 
