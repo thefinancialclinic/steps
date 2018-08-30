@@ -119,3 +119,23 @@ AUTH0_ISSUER=<Auth0 Issuer>
 
 If this `.env` file is successfully loaded, you should see the message,
 _"Reading .env file..."_ on the command line when the application starts.
+
+## Issuing a new Bot token
+
+The chatbot application uses a long-lived [machine-to-machine token](https://auth0.com/blog/using-m2m-authorization/)
+to access the API. (We issued a token valid for 100 days at launch—if you're reading this before October 17 2018, you're not too late). Here's how the machine to machine application is set up, and how to issue a new token manually before it expires:
+
+The machine-to-machine application for the Hello Roo bot is configured under "Applications" on the Auth0 dashboard:
+
+Click through to the app and you can select the APIs it's authorized to access:
+
+To issue a new token, select the "Hello Roo API" under the "APIs" section of the Auth0 dashboard:
+
+The "Settings" tab will allow you to configure token expiration:
+
+To get a new token by hand, visit the "Test" tab. Making the HTTP request shown there using a tool like [cURL](https://curl.haxx.se/) will return a new valid API token:
+
+Note that the bot can retrieve a new token at any time by issuing the same request! The bot can automate the process of 
+retrieving a new API token: check the [`exp`](https://auth0.com/docs/tokens/access-token) date in the current access token
+on a regular schedule, send an HTTP requsest to get a new one when it's getting old, and start using the new token.
+
