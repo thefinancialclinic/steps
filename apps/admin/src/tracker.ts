@@ -5,6 +5,7 @@ import GoogleAnalytics from 'react-ga';
 
 const debug = process.env.NODE_ENV === 'development';
 
+const gaID = process.env.NODE_ENV === 'development' ? process.env.GA_PROPERTY_ID_DEV : process.env.GA_PROPERTY_ID;
 GoogleAnalytics.initialize(process.env.GA_PROPERTY_ID, { debug });
 
 function initKeen() {
