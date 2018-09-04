@@ -4,8 +4,8 @@
 window.zESettings = {
   webWidget: {
     launcher: {
-      chatLabel: {
-        '*': 'IDEO',
+      label: {
+        '*': 'IDEO.org',
       },
     },
     offset: {
