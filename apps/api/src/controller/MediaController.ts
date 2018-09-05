@@ -54,6 +54,16 @@ export class MediaController {
     return { deleted: num };
   }
 
+  async update(request: Request, response: Response, next: NextFunction) {
+    try {
+      const mediaId: number = parseInt(request.params.id);
+      const result = await this.repo.update(request.body, mediaId);
+      return result;
+    } catch (err) {
+      throw `Unable to update media (${err})`;
+    }
+  }
+
   async isAllowed({ user, params }): Promise<boolean> {
     try {
       let subject: User | null = null;
