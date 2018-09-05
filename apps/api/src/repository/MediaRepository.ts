@@ -139,7 +139,7 @@ export class MediaRepository implements Repository<MediaId, Media> {
     return res.rowCount;
   }
 
-  async update(media: Media): Promise<Media> {
+  async update(media: Media, mediaId: MediaId): Promise<Media> {
     const res = await this.pool.query(
       `
       UPDATE media SET (
@@ -152,7 +152,7 @@ export class MediaRepository implements Repository<MediaId, Media> {
         published_by,
         type
       ) = ($1, $2, $3, $4, $5, $6, $7, $8)
-      WHERE id = $10
+      WHERE id = $9
       RETURNING *
       `,
       [
@@ -164,7 +164,7 @@ export class MediaRepository implements Repository<MediaId, Media> {
         media.image,
         media.published_by,
         media.type,
-        media.id,
+        mediaId,
       ],
     );
     return new Media(res.rows[0]);
