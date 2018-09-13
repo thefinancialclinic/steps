@@ -108,10 +108,9 @@ integration. These are:
 * AUTH0_CLIENT_ID
 * AUTH0_ISSUER
 
-These can be set at the command line or, more conveniently can be put in an
-`.env` file:
+These can be set at the command line or, more conveniently can be put in the
+`.env` file.
 
-_/apps/api/.env_
 ```
 AUTH0_CLIENT_ID=<Auth0 Client ID>
 AUTH0_ISSUER=<Auth0 Issuer>

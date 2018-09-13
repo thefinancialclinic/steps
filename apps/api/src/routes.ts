@@ -201,6 +201,12 @@ export const Routes = [
     action: 'remove',
   },
   {
+    method: 'put',
+    route: '/api/media/:id',
+    controller: MediaController,
+    action: 'update',
+  },
+  {
     method: 'get',
     route: '/api/media',
     controller: MediaController,
