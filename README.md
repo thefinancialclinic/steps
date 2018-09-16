@@ -105,7 +105,7 @@ Provided that you've installed everything called for in [setup](#setup), run:
 NODE_ENV=development npm start    # run packages in parallel
 ```
 
-Now visit <http://localhost:3000>
+Now visit <http://localhost:3000>. This also starts the api server on port `3001`. 
 
 ## Testing
 
