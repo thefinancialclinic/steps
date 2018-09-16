@@ -76,26 +76,7 @@ $(npm bin)/lerna bootstrap
 sqitch deploy
 cp .env.example .env 
 ```
-
-The last step will create an .env file with only the key names. Here is an example of the .env file with values filled in:
-
-```
-API_URL="http://localhost:3001/api"
-AUTH0_AUDIENCE="http://steps-admin.herokuapp.com"
-AUTH0_CLIENT_ID="<removed for security>"
-AUTH0_DOMAIN="steps.auth0.com"
-AUTH0_ENABLED=true
-AUTH0_REDIRECT_URL="http://localhost:3000/authenticate"
-AUTH0_MAGIC_LINK_REDIRECT_URL="http://localhost:3000/magic-link"
-BOT_URL="https://mockbin.org/request"
-NODE_ENV="development"
-PORT="3001"
-SENDGRID_API_KEY="<removed for security>"
-SENDGRID_ENABLED=true
-BASE_URL="http://localhost:3000"
-AUTH0_SUPERADMIN_ID=<removed for security>
-CYPRESS_AUTH0_BEARER_TOKEN="<removed for security"
-```
+NOTE: If you wish to bypass auth0 for development, set the AUTHO_ENABLED value to "false" in the .env file.
 
 ### App Execute
 Change directories to the project root (where this README is).
