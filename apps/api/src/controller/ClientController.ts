@@ -12,6 +12,7 @@ import { RequestItem } from '../repository/RequestRepository';
 import { Media } from '../repository/MediaRepository';
 import { EmailService } from '../services/Email';
 import { check_if_present } from '../util';
+const CryptoJS = require("crypto-js");
 
 const queryParams = (user, query = {}) => {
   const filter = {
@@ -31,6 +32,24 @@ const ensureOwnership = (body, user) => {
   }[user.type];
   return Object.assign(body, filter);
 };
+
+const getBaseUrl = () => process.env.NODE_ENV === 'production' 
+  ? process.env.BASE_URL
+  : 'http://localhost:3000'
+
+const addPlanUrl = (client) => {
+  // encrypt the email address
+  const ciphertext = CryptoJS.AES.encrypt(client.email, process.env.CLIENT_ACCESS_SECRET);
+  // encode ciphertext so all necessary characters are escaped in the URI
+  const encodedCipher = encodeURIComponent(ciphertext);
+  // build URL string
+  const plan_url = `${getBaseUrl()}/clients/${client.id}/tasks/${encodedCipher}`;
+  const amendedBody = {
+    ...client,
+    plan_url,
+  }
+  return amendedBody;
+}
 
 export class ClientController {
   private repo = new UserRepository(pool);
@@ -61,9 +80,15 @@ export class ClientController {
 
   async save(request: Request, response: Response, next: NextFunction) {
     try {
-      const client = await this.repo.save(
+      // request.body is data about the client. request.user is about the coach.
+      let client = await this.repo.save(
         ensureOwnership(request.body, request.user),
       );
+      console.log('*&*', client);
+      // add plan_url to request.body
+      client = addPlanUrl(client);
+      client = await this.repo.update(client, { id: client.id });
+      console.log('^^^', client);
       response.status(201); // created
       await new EmailService(pool).sendClientWelcome(client);
       return client;
