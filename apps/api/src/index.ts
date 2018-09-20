@@ -83,6 +83,9 @@ const checkJwt = jwt({
     rateLimit: true,
     jwksRequestsPerMinute: 5,
     jwksUri: `${AUTH0_ISSUER}.well-known/jwks.json`,
+    handleSigningKeyError: (err, cb) => {
+      return cb(err);
+    },
   }),
 
   // Validate the audience of the issuer
@@ -92,6 +95,8 @@ const checkJwt = jwt({
   complete: true,
   requestProperty: 'token',
 });
+
+console.log('&&', `${AUTH0_ISSUER}.well-known/jwks.json`);
 
 // Redirect HTTP requests to HTTPS
 const httpsRedirect = (req, res, next) => {

@@ -12,7 +12,7 @@ import { RequestItem } from '../repository/RequestRepository';
 import { Media } from '../repository/MediaRepository';
 import { EmailService } from '../services/Email';
 import { check_if_present } from '../util';
-const CryptoJS = require("crypto-js");
+const CryptoJS = require('crypto-js');
 
 const queryParams = (user, query = {}) => {
   const filter = {
@@ -33,23 +33,29 @@ const ensureOwnership = (body, user) => {
   return Object.assign(body, filter);
 };
 
-const getBaseUrl = () => process.env.NODE_ENV === 'production' 
-  ? process.env.BASE_URL
-  : 'http://localhost:3000'
+const getBaseUrl = () =>
+  process.env.NODE_ENV === 'production'
+    ? process.env.BASE_URL
+    : 'http://localhost:3000';
 
-const addPlanUrl = (client) => {
+const addPlanUrl = client => {
   // encrypt the email address
-  const ciphertext = CryptoJS.AES.encrypt(client.email, process.env.CLIENT_ACCESS_SECRET);
+  const ciphertext = CryptoJS.AES.encrypt(
+    client.phone,
+    process.env.CLIENT_ACCESS_SECRET,
+  );
   // encode ciphertext so all necessary characters are escaped in the URI
   const encodedCipher = encodeURIComponent(ciphertext);
   // build URL string
-  const plan_url = `${getBaseUrl()}/clients/${client.id}/tasks/${encodedCipher}`;
+  const plan_url = `${getBaseUrl()}/clients/${
+    client.id
+  }/tasks/${encodedCipher}`;
   const amendedBody = {
     ...client,
     plan_url,
-  }
+  };
   return amendedBody;
-}
+};
 
 export class ClientController {
   private repo = new UserRepository(pool);
@@ -84,11 +90,9 @@ export class ClientController {
       let client = await this.repo.save(
         ensureOwnership(request.body, request.user),
       );
-      console.log('*&*', client);
       // add plan_url to request.body
       client = addPlanUrl(client);
       client = await this.repo.update(client, { id: client.id });
-      console.log('^^^', client);
       response.status(201); // created
       await new EmailService(pool).sendClientWelcome(client);
       return client;
@@ -114,6 +118,28 @@ export class ClientController {
 
   async tasks(request: Request, response: Response, next: NextFunction) {
     return this.repo.tasks(request.params.id);
+  }
+
+  async validateCipher(request: Request, response: Response, next: NextFunction) {
+    try {
+      // get the :cipher and :id values
+      const { id, ciphertext } = request.body;
+      const client = await this.repo.getOne(id);
+      if (!client.phone) throw new Error(`Unable to validate cipher - no phone number for user# ${id}`);
+      // decode the :cipher param
+      const unencodedStr = decodeURIComponent(ciphertext);
+      // decrypt the :cipher param
+      const bytes  = CryptoJS.AES.decrypt(unencodedStr, process.env.CLIENT_ACCESS_SECRET);
+      const plaintext = bytes.toString(CryptoJS.enc.Utf8);
+      // compare user phone to decrypted :cipher
+      console.log(plaintext, client.phone);
+      console.log(plaintext === client.phone);
+      
+      response.status(200);
+      return { status: 'ok' };
+    } catch (err) {
+      throw `Unable to validate cipher (${err})`;
+    }
   }
 
   async messages(request: Request, response: Response, next: NextFunction) {

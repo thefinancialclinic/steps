@@ -63,7 +63,12 @@ class Routes extends React.Component<Props, {}> {
     else if (type === USER_TYPE.CLIENT) RoleRoutes = Client;
 
     if (isAuthenticated === null) {
-      return null;
+      return (
+        <div>
+          Autehntication error. 
+          See routes/index.ts (line #65/66) or contact support (roo@ideo.org)
+        </div>
+      )
     } else {
       return (
         <Wrapper>
