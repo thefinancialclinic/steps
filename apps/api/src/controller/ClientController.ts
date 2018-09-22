@@ -81,7 +81,6 @@ export class ClientController {
       const encodedCipher = encodeURIComponent(ciphertext);
       // build URL string
       client.plan_url = `${getBaseUrl()}/plan/${encodedCipher}`;
-
       const auth0User = await rp({
         method: 'POST',
         uri: 'https://steps.auth0.com/dbconnections/signup',

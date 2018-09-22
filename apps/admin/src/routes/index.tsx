@@ -20,6 +20,7 @@ import { addAlert } from 'actions/alerts';
 import { AlertLevel } from 'components/Alert/types';
 import { withTracker } from '../tracker';
 
+
 interface Props {
   children?: any;
   user: null | User;
@@ -54,7 +55,7 @@ class Routes extends React.Component<Props, {}> {
       });
   }
 
-  attemptClientLogin = async ciphertext => {
+  attemptClientLogin = async(ciphertext) => {
     // get client email address from server
     const decrypted = await api.post('client/validate', { ciphertext });
     const pswd = decodeURIComponent(ciphertext);
