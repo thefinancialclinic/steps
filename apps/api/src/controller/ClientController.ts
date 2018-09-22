@@ -96,7 +96,8 @@ export class ClientController {
       let savedClient = await this.repo.save(
         ensureOwnership(request.body, request.user),
       );
-
+      console.log('ClientController::save - auth0User._id', auth0User._id);
+      console.log('ClientController::save - savedClient', savedClient);
       response.status(201); // created
       await new EmailService(pool).sendClientWelcome(savedClient);
       return savedClient;
