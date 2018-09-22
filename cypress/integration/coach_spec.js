@@ -241,6 +241,7 @@ describe('Coach', () => {
       cy.get('input[name=email]').type('client' + uuid() + '@example.com');
       cy.get('input[name=phone]').type('1234567890');
       cy.contains('Save').click();
+      cy.wait(3000); 
       cy.contains('Text START to (646) 798-8004 to get started.');
     });
   });
