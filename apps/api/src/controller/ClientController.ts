@@ -67,7 +67,6 @@ export class ClientController {
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
-    console.log(`${process.env.AUTH0_ISSUER}dbconnections/signup`);
     let client;
     try {
       client = request.body;
@@ -97,8 +96,6 @@ export class ClientController {
       let savedClient = await this.repo.save(
         ensureOwnership(request.body, request.user),
       );
-      console.log('ClientController::save - auth0User._id', auth0User._id);
-      console.log('ClientController::save - savedClient', savedClient);
       response.status(201); // created
       await new EmailService(pool).sendClientWelcome(savedClient);
       return savedClient;
