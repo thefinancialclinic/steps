@@ -58,7 +58,7 @@ class Routes extends React.Component<Props, {}> {
     // get client email address from server
     const decrypted = await api.post('client/validate', { ciphertext });
     const pswd = decodeURIComponent(ciphertext);
-    auth0.login(decrypted.data.email, pswd);
+    const auth0res = await auth0.login(decrypted.data.email, pswd);
   };
 
   render() {
