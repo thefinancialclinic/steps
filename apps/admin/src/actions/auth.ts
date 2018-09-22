@@ -99,7 +99,6 @@ export const authenticate = async userType => {
 
 export const LOGIN = 'LOGIN';
 export const login = (userType, userEmail) => async dispatch => {
-  console.log('at login', userType, userEmail);
   let user: User = { type: userType, email: userEmail };
   let org: any = { name: 'Steps' };
 
