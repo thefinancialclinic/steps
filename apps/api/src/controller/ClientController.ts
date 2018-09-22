@@ -67,6 +67,7 @@ export class ClientController {
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
+    console.log(`${process.env.AUTH0_ISSUER}dbconnections/signup`);
     let client;
     try {
       client = request.body;
@@ -83,7 +84,7 @@ export class ClientController {
       client.plan_url = `${getBaseUrl()}/plan/${encodedCipher}`;
       const auth0User = await rp({
         method: 'POST',
-        uri: `https://${process.env.AUTH0_ISSUER}dbconnections/signup`,
+        uri: `${process.env.AUTH0_ISSUER}dbconnections/signup`,
         body: {
           connection: 'Username-Password-Authentication',
           email: client.email,
