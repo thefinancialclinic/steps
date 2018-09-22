@@ -83,7 +83,7 @@ export class ClientController {
       client.plan_url = `${getBaseUrl()}/plan/${encodedCipher}`;
       const auth0User = await rp({
         method: 'POST',
-        uri: 'https://steps.auth0.com/dbconnections/signup',
+        uri: `https://${process.env.AUTH0_ISSUER}dbconnections/signup`,
         body: {
           connection: 'Username-Password-Authentication',
           email: client.email,
