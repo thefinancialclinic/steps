@@ -47,7 +47,7 @@ export class EmailService {
   }
 
   async sendClientWelcome(client: User) {
-    const { email, first_name, last_name, org_id, coach_id } = client;
+    const { email, first_name, last_name, org_id, coach_id, plan_url } = client;
     const org = await this.org_repo.getOne(org_id);
     const org_name = org.name;
     const coach = await this.user_repo.getOne(coach_id);
@@ -63,7 +63,7 @@ export class EmailService {
         chatbotName: 'Roo',
         orgName: org_name,
         coachName: coach_name,
-        clientPlanUrl: `${process.env.BASE_URL}/my-tasks`,
+        clientPlanUrl: `${plan_url}`,
       },
     };
     this.sendMessage(message);

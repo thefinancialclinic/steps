@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
+const CryptoJS = require('crypto-js');
+var rp = require('request-promise');
 import {
   UserRepository,
   User,
@@ -12,7 +14,6 @@ import { RequestItem } from '../repository/RequestRepository';
 import { Media } from '../repository/MediaRepository';
 import { EmailService } from '../services/Email';
 import { check_if_present } from '../util';
-const CryptoJS = require('crypto-js');
 
 const queryParams = (user, query = {}) => {
   const filter = {
@@ -37,25 +38,6 @@ const getBaseUrl = () =>
   process.env.NODE_ENV === 'production'
     ? process.env.BASE_URL
     : 'http://localhost:3000';
-
-const addPlanUrl = client => {
-  // encrypt the email address
-  const ciphertext = CryptoJS.AES.encrypt(
-    client.phone,
-    process.env.CLIENT_ACCESS_SECRET,
-  );
-  // encode ciphertext so all necessary characters are escaped in the URI
-  const encodedCipher = encodeURIComponent(ciphertext);
-  // build URL string
-  const plan_url = `${getBaseUrl()}/clients/${
-    client.id
-  }/tasks/${encodedCipher}`;
-  const amendedBody = {
-    ...client,
-    plan_url,
-  };
-  return amendedBody;
-};
 
 export class ClientController {
   private repo = new UserRepository(pool);
@@ -85,29 +67,53 @@ export class ClientController {
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
+    let client;
     try {
-      // request.body is data about the client. request.user is about the coach.
-      let client = await this.repo.save(
+      client = request.body;
+      // the cipher is used as the client's auth0 password
+      // when received via the URL, it must be decrypted to get the email
+      // so that the FE can login the user
+      const ciphertext = CryptoJS.AES.encrypt(
+        client.email,
+        process.env.CLIENT_ACCESS_SECRET,
+      );
+      // encode ciphertext so all necessary characters are escaped in the URI
+      const encodedCipher = encodeURIComponent(ciphertext);
+      // build URL string
+      client.plan_url = `${getBaseUrl()}/plan/${encodedCipher}`;
+
+      const auth0User = await rp({
+        method: 'POST',
+        uri: 'https://steps.auth0.com/dbconnections/signup',
+        body: {
+          connection: 'Username-Password-Authentication',
+          email: client.email,
+          password: ciphertext.toString(),
+        },
+        json: true, // Automatically stringifies the body to JSON
+      });
+      client.auth0_id = auth0User._id;
+      client.type = 'Client';
+      let savedClient = await this.repo.save(
         ensureOwnership(request.body, request.user),
       );
-      // add plan_url to request.body
-      client = addPlanUrl(client);
-      client = await this.repo.update(client, { id: client.id });
+
       response.status(201); // created
-      await new EmailService(pool).sendClientWelcome(client);
-      return client;
+      await new EmailService(pool).sendClientWelcome(savedClient);
+      return savedClient;
     } catch (err) {
-      throw `Could not create Client (${err})`;
+      throw `Could not create user - ${client.email} - (${err.message})`;
     }
   }
 
   async update(request: Request, response: Response, next: NextFunction) {
+    let userId: number;
     try {
-      const userId: number = parseInt(request.params.id);
+      userId = parseInt(request.params.id);
       const user = await this.repo.update(request.body, { id: userId });
       return user;
     } catch (err) {
-      throw `Unable to update user (${err})`;
+      throw `Unable to update user (${err}), ${userId}`;
     }
   }
 
@@ -120,25 +126,25 @@ export class ClientController {
     return this.repo.tasks(request.params.id);
   }
 
-  async validateCipher(request: Request, response: Response, next: NextFunction) {
+  async validateCipher(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ) {
     try {
-      // get the :cipher and :id values
-      const { id, ciphertext } = request.body;
-      const client = await this.repo.getOne(id);
-      if (!client.phone) throw new Error(`Unable to validate cipher - no phone number for user# ${id}`);
-      // decode the :cipher param
+      const { ciphertext } = request.body;
+      // decode the encrypted string
       const unencodedStr = decodeURIComponent(ciphertext);
-      // decrypt the :cipher param
-      const bytes  = CryptoJS.AES.decrypt(unencodedStr, process.env.CLIENT_ACCESS_SECRET);
+      // decrypt the encrypted string
+      const bytes = CryptoJS.AES.decrypt(
+        unencodedStr,
+        process.env.CLIENT_ACCESS_SECRET,
+      );
       const plaintext = bytes.toString(CryptoJS.enc.Utf8);
-      // compare user phone to decrypted :cipher
-      console.log(plaintext, client.phone);
-      console.log(plaintext === client.phone);
-      
       response.status(200);
-      return { status: 'ok' };
+      return { email: plaintext };
     } catch (err) {
-      throw `Unable to validate cipher (${err})`;
+      throw `Error validating cipher (${err})`;
     }
   }
 

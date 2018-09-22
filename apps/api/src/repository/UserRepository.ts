@@ -171,7 +171,7 @@ export class UserRepository implements Repository<UserId, User> {
       const res = await this.pool.query(q);
       return res.rows.map(user => new User(user));
     } catch (err) {
-      throw `Could not query Users (${err})`;
+      throw `Could not query Users (${err}), ${JSON.stringify(conditions)}`;
     } finally {
       if (client) client.release();
     }

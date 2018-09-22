@@ -33,9 +33,15 @@ class UserLayout extends React.Component<Props, {}> {
       links,
       routes,
       component: Component,
+      authUser,
       ...rest
     } = this.props;
     if (!user) return null;
+
+    const name =
+      authUser.type === 'Client'
+        ? `${user.first_name} ${user.last_name.substr(0, 1)}.`
+        : `${user.first_name} ${user.last_name}`;
 
     return (
       <Flex100>
@@ -45,9 +51,7 @@ class UserLayout extends React.Component<Props, {}> {
               {role !== USER_TYPE.CLIENT && (
                 <EditButton onClick={this.editClientProfile} />
               )}
-              <H2 textAlign={['center', 'left']}>
-                {user.first_name} {user.last_name}
-              </H2>
+              <H2 textAlign={['center', 'left']}>{name}</H2>
             </Sidebar>
           </Box>
           <Box width={[1, 1, 2 / 3, 4 / 5]} m={4} className="content">
@@ -63,11 +67,15 @@ const H2 = styled.h2`
   ${textAlign};
 `;
 
+const mapStatetoProps = ({ auth }) => ({
+  authUser: auth.user,
+});
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ showModal }, dispatch),
 });
 
 export default connect(
-  null,
+  mapStatetoProps,
   mapDispatchToProps,
 )(UserLayout);
