@@ -63,12 +63,6 @@ export const Routes = [
     action: 'save',
   },
   {
-    method: 'post',
-    route: '/api/clients/validate',
-    controller: ClientController,
-    action: 'validateCipher',
-  },
-  {
     method: 'put',
     route: '/api/clients/:id',
     controller: ClientController,

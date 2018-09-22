@@ -33,9 +33,14 @@ class UserLayout extends React.Component<Props, {}> {
       links,
       routes,
       component: Component,
+      authUser,
       ...rest
     } = this.props;
     if (!user) return null;
+
+    const name = authUser.type === 'Client' 
+    ? `${user.first_name} ${user.last_name.substr(0, 1)}.`
+    : `${user.first_name} ${user.last_name}`;
 
     return (
       <Flex100>
@@ -46,7 +51,7 @@ class UserLayout extends React.Component<Props, {}> {
                 <EditButton onClick={this.editClientProfile} />
               )}
               <H2 textAlign={['center', 'left']}>
-                {user.first_name} {user.last_name}
+                {name}
               </H2>
             </Sidebar>
           </Box>
@@ -63,11 +68,15 @@ const H2 = styled.h2`
   ${textAlign};
 `;
 
+const mapStatetoProps = ({ auth }) => ({
+    authUser: auth.user
+});
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ showModal }, dispatch),
 });
 
 export default connect(
-  null,
+  mapStatetoProps,
   mapDispatchToProps,
 )(UserLayout);

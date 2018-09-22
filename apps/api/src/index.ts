@@ -24,6 +24,7 @@ import logger from './winston';
 // Configuration
 import { AuthController } from './controller/AuthController';
 import { OrgController } from './controller/OrgController';
+import { ClientController } from './controller/ClientController';
 import { GraphQLController } from './controller/GraphQLController';
 
 const {
@@ -129,10 +130,9 @@ if (isProduction) {
 
   // when not running in production, expose an API documentation route
   // makeSwagger(Routes)
-  const swaggerUi = require('swagger-ui-express');
-  const swaggerDocument = YAML.load('./swagger.yaml');
-
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+  // const swaggerUi = require('swagger-ui-express');
+  // const swaggerDocument = YAML.load('./swagger.yaml');
+  // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 }
 
 const bearerTokenAuthMiddleware = async (req, res, next) => {
@@ -247,6 +247,16 @@ app.get('/api/orgs/:id', async (req, res, next) => {
   try {
     const controller = new OrgController();
     const result = await controller['one'](req, res, next);
+    res.send(result);
+  } catch (error) {
+    return sendStandardError(res, error);
+  }
+});
+
+app.post('/api/client/validate', async (req, res, next) => {
+  try {
+    const controller = new ClientController();
+    const result = await controller['validateCipher'](req, res, next);
     res.send(result);
   } catch (error) {
     return sendStandardError(res, error);
