@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Redirect, withRouter, Switch } from 'react-router-dom';
+import api from 'api';
 
 import { connect } from 'react-redux';
 import { User, USER_TYPE, Org } from 'reducers/auth';
@@ -12,6 +13,7 @@ import Superadmin from './Superadmin/index';
 import UserSwitcher from 'components/util/UserSwitcher';
 import AuthRoutes from './Auth/index';
 import Login from 'routes/Auth/Login';
+import auth0 from 'services/auth0';
 import { getAuthenticatedUser } from 'actions/auth';
 import { bindActionCreators } from 'redux';
 import { addAlert } from 'actions/alerts';
@@ -52,6 +54,13 @@ class Routes extends React.Component<Props, {}> {
       });
   }
 
+  attemptClientLogin = async ciphertext => {
+    // get client email address from server
+    const decrypted = await api.post('client/validate', { ciphertext });
+    const pswd = decodeURIComponent(ciphertext);
+    auth0.login(decrypted.data.email, pswd);
+  };
+
   render() {
     const { history, user, isAuthenticated, org } = this.props;
     const { type } = user;
@@ -61,6 +70,13 @@ class Routes extends React.Component<Props, {}> {
     else if (type === USER_TYPE.ADMIN) RoleRoutes = Admin;
     else if (type === USER_TYPE.COACH) RoleRoutes = Coach;
     else if (type === USER_TYPE.CLIENT) RoleRoutes = Client;
+
+    // check if this is a link sent to a client for their workplan
+    // ** this should probably be its own route somewhere, *without* auth.
+    if (this.props.location.pathname.includes('plan')) {
+      const ciphertext = this.props.location.pathname.split('/')[2];
+      this.attemptClientLogin(ciphertext);
+    }
 
     if (isAuthenticated === null) {
       return null;

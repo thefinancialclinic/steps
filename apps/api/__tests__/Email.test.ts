@@ -73,7 +73,7 @@ describe('Email service', () => {
       email: 'client@example.com',
       org_id: org.id,
       coach_id: coach.id,
-      plan_url: 'https://example.com',
+      plan_url: 'https://example.com/my-tasks',
     });
     expect(mockSendgridClient.send).toHaveBeenCalledWith({
       to: 'client@example.com',

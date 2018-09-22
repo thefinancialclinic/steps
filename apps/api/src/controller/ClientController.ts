@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
+const CryptoJS = require('crypto-js');
+var rp = require('request-promise');
 import {
   UserRepository,
   User,
@@ -32,6 +34,11 @@ const ensureOwnership = (body, user) => {
   return Object.assign(body, filter);
 };
 
+const getBaseUrl = () =>
+  process.env.NODE_ENV === 'production'
+    ? process.env.BASE_URL
+    : 'http://localhost:3000';
+
 export class ClientController {
   private repo = new UserRepository(pool);
 
@@ -60,25 +67,52 @@ export class ClientController {
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
+    let client;
     try {
-      const client = await this.repo.save(
+      client = request.body;
+      // the cipher is used as the client's auth0 password
+      // when received via the URL, it must be decrypted to get the email
+      // so that the FE can login the user
+      const ciphertext = CryptoJS.AES.encrypt(
+        client.email,
+        process.env.CLIENT_ACCESS_SECRET,
+      );
+      // encode ciphertext so all necessary characters are escaped in the URI
+      const encodedCipher = encodeURIComponent(ciphertext);
+      // build URL string
+      client.plan_url = `${getBaseUrl()}/plan/${encodedCipher}`;
+      const auth0User = await rp({
+        method: 'POST',
+        uri: 'https://steps.auth0.com/dbconnections/signup',
+        body: {
+          connection: 'Username-Password-Authentication',
+          email: client.email,
+          password: ciphertext.toString(),
+        },
+        json: true, // Automatically stringifies the body to JSON
+      });
+      client.auth0_id = auth0User._id;
+      client.type = 'Client';
+      let savedClient = await this.repo.save(
         ensureOwnership(request.body, request.user),
       );
+
       response.status(201); // created
-      await new EmailService(pool).sendClientWelcome(client);
-      return client;
+      await new EmailService(pool).sendClientWelcome(savedClient);
+      return savedClient;
     } catch (err) {
-      throw `Could not create Client (${err})`;
+      throw `Could not create user - ${client.email} - (${err.message})`;
     }
   }
 
   async update(request: Request, response: Response, next: NextFunction) {
+    let userId: number;
     try {
-      const userId: number = parseInt(request.params.id);
+      userId = parseInt(request.params.id);
       const user = await this.repo.update(request.body, { id: userId });
       return user;
     } catch (err) {
-      throw `Unable to update user (${err})`;
+      throw `Unable to update user (${err}), ${userId}`;
     }
   }
 
@@ -89,6 +123,28 @@ export class ClientController {
 
   async tasks(request: Request, response: Response, next: NextFunction) {
     return this.repo.tasks(request.params.id);
+  }
+
+  async validateCipher(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { ciphertext } = request.body;
+      // decode the encrypted string
+      const unencodedStr = decodeURIComponent(ciphertext);
+      // decrypt the encrypted string
+      const bytes = CryptoJS.AES.decrypt(
+        unencodedStr,
+        process.env.CLIENT_ACCESS_SECRET,
+      );
+      const plaintext = bytes.toString(CryptoJS.enc.Utf8);
+      response.status(200);
+      return { email: plaintext };
+    } catch (err) {
+      throw `Error validating cipher (${err})`;
+    }
   }
 
   async messages(request: Request, response: Response, next: NextFunction) {
