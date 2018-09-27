@@ -1,3 +1,17 @@
+# TFC Notes
+- To get the app working you need to create a coach
+sign up using the https://steps-tfc.herokuapp.com/signup/1
+
+- Login in
+https://steps-tfc.herokuapp.com/
+
+- create a client
+use their phone number.
+Add a task to that client
+Have client text the twilio number START
+
+- To Delete anything use the deleteuser.js file in the utilities folder
+
 # About
 
 There are two packages here for the STEPS bot:
